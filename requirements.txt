@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+openai
+pinecone
+python-dotenv
+tiktoken
+discord.py
+aiohttp
