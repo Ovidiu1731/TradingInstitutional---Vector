@@ -1,0 +1,63 @@
+**Rezumat Lecția 20 – Modalități de intrare în tranzacție și aplicarea regulilor strategiei**
+
+---
+
+### Introducere
+
+Această lecție explică în detaliu cum se realizează intrarea într-o tranzacție folosind o strategie clară și structurată. Lecția include recapitularea regulilor esențiale, aplicarea lor pe un caz real (tranzacție din 31 ianuarie) și oferă o perspectivă practică asupra deciziilor luate în timp real. Sunt introduse concepte precum „have the day”, „low of the day”, shift, displacement și gap, precum și ideea de execuție calculată și planificată.
+
+---
+
+### Reguli ale strategiei
+
+1. **Zi fără știri majore** – nu se tranzacționează în zilele cu evenimente macroeconomice importante.
+2. **Interval de timp predefinit** – stabilirea unei ferestre orare clare (ex: 10:00–12:00).
+3. **Zonă cu lichiditate luată** – poate fi high/low of the day sau locală; fără această condiție nu se continuă analiza.
+4. **Shift (schimbarea structurii)** – indică schimbarea direcției pieței.
+5. **Displacement** – mișcare bruscă de preț care confirmă schimbarea.
+6. **Gap instituțional** – spațiu creat între lumânări, indică ordine instituționale.
+7. **Execuție** – intrare de preferință la jumătatea gap-ului.
+8. **Stop Loss** – plasat la ultimul high/low major + un mic buffer.
+9. **Take Profit** – 2R sau 3R, în funcție de strategia individuală.
+10. **Răbdare și respectarea planului** – gestionarea emoțiilor și disciplină.
+
+**Notă importantă:** Ordinea regulilor 4–6 (shift, displacement, gap) poate varia, însă restul trebuie urmate strict în ordine.
+
+---
+
+### Aplicație practică – Caz real (31 ianuarie)
+
+#### Etapele execuției
+
+- **Verificare condiții inițiale:** Zi fără știri majore, interval 10:00–12:00, se lucrează pe DAX.
+- **Identificare zone:** Se trasează „high of the day” și „low of the day”.
+- **Lichiditate luată:** După atingerea high of the day, se caută un setup de vânzare.
+- **Shift detectat:** Structură clară care semnalează schimbarea direcției.
+- **Displacement + Gap:** Confirmare cu o mișcare bruscă și gap evident.
+- **Execuție:** La jumătatea gap-ului, poziție de SELL.
+- **Stop Loss:** Plasat cu spațiu deasupra ultimului high.
+- **Take Profit:** Setat la 2R. A fost atins ulterior și chiar depășit (2.94R).
+  
+#### Rezultate:
+- Trade câștigător cu risc de 1%, potențial profit de 2.94%.
+- Exemplu ipotetic: cont de 200.000 => 3% profit = 6000 EUR.
+
+---
+
+### Înțelesul structurilor instituționale
+
+- **Have the day:** Zona cu cea mai mare lichiditate până la acel moment.
+- **Displacement și Gap:** Mișcări instituționale care indică direcția reală a băncilor.
+- **Gap-ul:** Reprezintă ordine neexecutate lăsate de instituții.
+- **Off the day:** Poate fi ținta tranzacției, dar nu întotdeauna este atinsă – important este să existe logică în execuție și asumarea unor potențiale loss-uri chiar și în condiții corecte.
+
+---
+
+### Concluzii
+
+- Lecția pune accent pe **disciplină, execuție planificată și logică** în spatele fiecărui trade.
+- Este esențial să nu se forțeze tranzacții fără confirmări și să nu se ignore ordinea logică a regulilor.
+- Tranzacționarea eficientă presupune **calitate peste cantitate** – mai puține tranzacții, dar mai bine alese.
+- Se recomandă revizuirea constantă a acestor reguli până devin automate și parte din procesul personal de decizie.
+
+Această lecție este una dintre cele mai aplicate practic până acum, servind ca bază solidă pentru învățarea execuției în mod profesionist.

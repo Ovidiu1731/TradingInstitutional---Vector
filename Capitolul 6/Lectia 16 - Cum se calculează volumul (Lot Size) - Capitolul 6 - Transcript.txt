@@ -1,0 +1,55 @@
+Lectia 16
+===
+
+[00:00:00] Cum calculăm volumul sau lot size pe scurt. Ok, ce înseamnă acest volum sau lot size, știți că am mai discutat de el în trecut, practic este un calcul pe care îl faci iar rezultatul îl placezi în platforma MetaTrader pentru Ca tranzacția ta să aibă un risc predefinit. Ce înseamnă asta? Dau un exemplu Să zicem că noi am intrat aici într-o poziție de vânzare.
+
+Pardon, am pus numai de cumpărare. Într-o poziție de vânzare. Și avem stop loss-ul aici. Noi o să setăm la început, o să facem un calcul înainte să plasăm tranzacția prin care noi vom vedea Care este cifra pe care trebuie să o punem înainte de vânzare acolo o să vă arăt imediat, pentru ca acest 0.00055, distanța asta de stop loss, să însemne exact suma de bani pe care vrem să o riscăm.
+
+Spre exemplu dacă noi vrem să riscăm [00:01:00] pe tranzacția asta 100 de euro, avem un cont de 10.000 de euro, da, și vrem să riscăm 100 de euro care înseamnă 1%, Noi o să facem un calcul în așa fel încât în momentul în care executăm tranzacția și tragem stop loss-ul, punctul acesta să fie fix 100 de euro riscații.
+
+Hai să vedem cum. În primul rând vreau să notați așa. Fiecare piață are un calcul diferit pentru loturi, adică indicii se calculează într-un fel, forex-ul se calculează într-un fel, aurul se calculează într-un fel și așa mai departe Bun. Nu o să facem pentru două cele mai importante, la restul la detaliile găsiți oricum foarte ușor pe internet, eu vă arăt doar așa bazele, ce consider eu că o să aveți nevoie și ce folosesc eu.
+
+Pentru indice este destul de simplu cum calculezi volumul, este o formulă de calcul aceasta Și ea funcționează în următorul fel, să luăm un exemplu să zicem că noi, să presupunem că noi vrem să executăm o tranzacție în acest punct, în acest gap, iau un [00:02:00] exemplu, și noi vrem să facem o poziție de vânzare pe aici și vrem să punem stopul sus de tot aici, să zicem, și take profit-ul la 2 la 1, da?
+
+Ok. Și noi vrem să riscăm pe tranzacția asta 100 de euro. Cum se procedează? Foarte simplu deschidem calculatorul da? Și formula este următoarea, suma de bani pe care ne dorim să o riscăm pe această tranzacție, adică 100 de euro împărțit la dimensiunea stopului pe care l-am pus aici, 18.5 puncte adică ăsta împărțit la 18.5 și acesta este volumul, 5.40, dacă eu acum o să intru pe MetaTrader Și mergem aici sus și scriem 5.40 și apăsăm pe butonul de vânzare, da, suntem relax, după cum vedeți.
+
+Deci s-a executat tranzacția în punctul [00:03:00] acesta și dacă tragem stop loss-ul și vedem aici în stânga da, suma pe care o are stop-ul. Să facem mare ecranul, da, deci dacă mutăm aici uitați cum fix unde ne-am pus noi este 100 de euro. Uitați, 100 de euro în cap, exact unde ne-am pus noi, vedeți Da, fix unde ne-am pus noi, 100 de euro, pentru că am luat 15.40, am apăsat pe vânzare.
+
+Mi-am tras stop loss-ul, hai să ne tragem și take profit-ul, vrem la 200 de euro, fix aici este take profit-ul și uite cum avem tranzacția pregătită și pusă în rulaj Cu un risc corect da? Foarte simplu asta este efectiv tot ce trebuie să faceți. Deci asta este toată formula la indici, suma pe care vreți să o riscați, adică 100 de euro în acest caz, împărțit la numărul de puncte.
+
+V-ați făcut asta, ați intrat, ați apăsat, v-ați scris aici da? Ați apăsat pe vânzare cumpărare, ce vreți să faceți. S-a pus tranzacția ați tras stop loss, te-ai profit bun. Să zicem că acum prețul s-a mișcat în jos, în jos și suntem pe aici. [00:04:00] Și vreți să scoateți un profit parțial vreți să închideți o parte din tranzacție mulți nu știu lucrul ăsta.
+
+Cum procedați? Păi simplu apăsați de două ori click pe linia verde de intrare și vă apare asta pe ecran. Ok? Dăm click pe type aici și mergem la market execution. Și în acest moment... Noi avem aici volumul Ca să închideți jumătate de tranzacție tot ce trebuie să faceți este să închideți din acest volum deschis.
+
+Să zicem că doriți să închideți jumătate. Păi jumătate din aceasta vine 27, adică 2.7, dar avem 505.4, deci dacă noi schimb aici 2.7, adică jumătate din asta, 2.7 Și dăm close. Vom apăsa close. Am apăsat return the close. Noi am închis acum jumătate de tranzacție. Dacă eram în profit se închidea. Să zicem eram 800 de euro în profit.
+
+Am scos 400 din piață și acum risc numai 100 aici Uitați cum este 50, vedeți? S-a modificat la jumătate. Deci ăsta este un artificiu pe care puteți să-l faceți în cazul în care vreți să închideți profituri parțiale. O să vorbim pe finalul mentoratului când [00:05:00] închide aceste tipuri de profituri. În momentul acesta vă arăt doar cum se face.
+
+Nu vă grăbiți cu ele, dar v-am arătat. Acum să zicem că tranzacția rulează merge mult în profit și voi nu vreți să aveți un take profit, deci nu vreți să aveți un take profit, vreți să lăsați să se ducă mult, că simțiți voi că se va duce foarte mult în take profit. Ok. Aveți varianta de a muta stop loss-ul după voi.
+
+Aveți varianta să-l trageți în... Deci există varianta să îl mutați, vedeți e aici, stop-lost și acum este mutat în profit. Dacă o să-i dau drumul o să rămână aici. În momentul de față nu are sens pentru că prețul încă nu este în profit, dar în momentul în care se va duce în jos, puteți să-l mutați un pic.
+
+Mai scade prețul, mai mutați un pic, mai mutați un pic mai mutați un pic. Și tot așa îl mutați în favoarea voastră până când la montat o să vă fie luat dar o să fie luat într-un profit mai bun decât să-l puneți direct cu take profit. Dar aici trebuie să vă calculați, trebuie să aveți reguli pe... Partea asta.
+
+Eu nu fac genul ăsta de traduri, dar vi le-am dat să știți că există, să vă dau așa o idee cu care vă puteți construi personalitatea de trader. Nu trebuie să mă imitați perfect pe mine, ci să învățați să vedeți stilul meu și să vi-l adaptați, să vă [00:06:00] creați propria personalitate în trading. Foarte important.
+
+Bun. Hai să încheiem tranzacția asta. Am închis-o. Și acum hai să facem și pe Forex Mergem pe EURUSD. Bun, suntem pe EURUSD, hai să mergem pe trading, vreau să vă explic cum se calculează pentru EURUSD volumul, nu mai este la fel ca la DAX, nu mai este aceeași formulă de calcul pe Forex, deci noi până acum am fost pe indici pe indici pe toți funcționează la fel, deci pe DAX funcționează la fel, pe NASDAQ.
+
+PUSD și așa mai departe toate au același calcul pentru volum ok? Acum pentru Forex adică pentru parități EURUSD, GBPUSD și așa mai departe trebuie să folosiți un calculator de acest gen. Eu îl folosesc pe acesta, vi-l las aici vedeți link-ul cashbackforex.com slash tool slash position size calculator.
+
+Ăsta este link-ul. Intraţi pe nevi, îl puneţi la favorit aici îl adăugaţi, daţi click dreapta pe aici apăsaţi save şi uite cum v-a apărut aici lotsize calculator şi v-a rămas permanent şi puteţi intraţi [00:07:00] oricând, doar daţi click pe el şi vi-l deschide instant, vedeţi Bun, şi acum cum se setează Intrăm aici pe instrument, vă puneţi ce tranzacţionaţi, o să punem EURUSD în cazul ăsta Depozit carenții, în ce aveți voi contul, în euro sau dolari să zicem că avem în euro, cum e acum.
+
+Account balance, punem și noi 80.000, zicem că aveți 40.000, 10.000 etc., vi-l treceți. Riscul pe care vreți să vi-l asumați pe această tranzacție din valoarea contului, 1%, 0.5%, 0.3%, 0.1%, eu o să pun 1%, clasic. Aici nu umblăm, aici EURUSD price nu umblu, nu mă uit, ce mă interesează să mă uit aici, la Stop Loss Pips.
+
+E, aici trebuie să ne trecem cât este de mare stop loss. Eu pe indici le zic puncte nu le zic pips. Puncte zic la acestea, sunt 18.5 puncte. E aici mulți zic pips. Eu tot puncte o să le zic voi le ziceți pips. Cum vreți voi, nu are relevanță, e cam același lucru. Bun. Să zicem că vrem să executăm o poziție de cumpărare în cazul ăsta.
+
+Suntem mai hardcore, avem un downtrend, ne vrem să facem o [00:08:00] poziție cumpărare. Să zicem că vrem să intrăm aici și stop loss-ul vrem să-l avem la 10 pipsi. De ce 10 pips? 0.00100, cum vedeți mai jos aici în zona asta, înseamnă 10 pips veți scrie aici, 10.0. Astea sunt echivalentul a 10 puncte. Punem și take profit-ul a 2 și noi acum avem practic un trade care are spațiu de 10 puncte Intrăm pe ăsta, scrie aici 10 pips, 10.0.
+
+Și tocmai ne-a dat tot. Avem la risc 800 de euro, adică 1% din 80.000 și avem 8.776. Deci mergem aici, intrăm și este 8.77, da? Lăsăm așa. Vedeți, este mult mai mic volumul aici decât volumul pe indici. Indicii necesită un volum mult mai mare, dar loturi mult mai multe Așa funcționează, trebuie 40 de loturi.
+
+Aici ai mai puține loturi. Sunt multe persoane care se iau de tine, care nu cunosc indicii și zic A, ulu, faci cu [00:09:00] prea multe loturi Așa funcționează trebuie loturi multe pe ei. Am intrat pe ăsta hai să apăsăm și noi butonul de buy, da, și dacă tragem 10 pips, stai aici unde s-a executat, mutăm 10 pips, aici scos că e 100 de pânci uite, 100, stai de fapt, să trec linii ăsta, să trec linii ăsta, ok, acum se vede calma, vă dați aici în stânga da?
+
+100 de părți înseamnă 10 pips aici pe ăsta, vedeți avem fix 800 de euro, 800.99 mă rog cu comisiună, deci la fix am tras ăsta profitul după îl vrem la 1600. L-am pus la 1600, iar eu mă uit aici în stânga și ăla este 3200 este pregătit și plasat. Cam așa se calculează volumul, deci pentru Forex, recapitulăm intrăm aici vă alegeți instrumentul, mergeți pe ăsta, vă puneți vă uitați câte puncte are, aici 0.00100 înseamnă 10, pip stăiați un 0 de la final și restul 0-urilor și vă lasă cu 10, aici 10.0 vi le scrie fix în zona asta, vedeți [00:10:00] Și asta cam așa calculezi și pe indice e formula clasică care este mereu la fel, deci suma pe care vrei să o riști împărțit la numărul de puncte de stop loss și rezultatul este volumul.
+
+Cam asta ar fi, destul de simplu destul de frumos sper că a fost destul de clar și ne vedem la următoarele clipuri. Pa, pa!
+

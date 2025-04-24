@@ -1,0 +1,33 @@
+Lectia 9
+===
+
+[00:00:00] Vă salut, dragilor din însoritul Maldive. Suntem aici la o discuție Nu este greenscreen, chiar filmez un clip. Eram la un restaurant pe plajă și mi-am dat seama că nu am discutat niciodată în cadrul programului de discount rule. Este o regulă pe care eu o folosesc foarte rar Totuși vreau în acest program să fie absolut tot, orice detaliu pot să ofer și de asta vreau să discut că este momentul perfect să abordăm acest subiect și acum mi-a venit ideea și ca să nu uiți aștept până la birou, o să filmez de aici.
+
+În primul rând, ce este discount rule și cum se folosește De regulă discount rule-ul o să-l folosește mai multe scenarii și o să-l combine aici cu un exemplu de multiple gap setup. Dar acum o să stăm să ne uităm un pic. E un exemplu fix din ziua în care filmez 3 martie 2020 și filmez acest clip. După cum vedeam avem multiple gap set-up-e DAX.
+
+Este lichidat minimul zilei dar care este format în primul minut din zi care nu este neapărat cel mai calitativ scenariu dar ai și o mică lichiditate [00:01:00] luată aici ceea ce nu este rău. Ok, nisteia minimul zilei în acest punct. După care vedem un gap, două gap-uri, trei gap-uri, patru gap-uri, cinci gap-uri, vedem un shift în zona asta și de asemenea multiple gap-uri.
+
+Este practic un setup care, după cum știm, multiple gap setup, nu este un setup greșit de executat dar este recomandat Să stăm departe de el Pentru că în termen lung îți pierde Dacă nu îl filtrezi foarte bine Când prinzi experiență Și știi foarte bine ceea ce faci Poți să mai și execuți Multiple Gap Setup Lucru ăsta e notat Dar trebuie să le înțelegi foarte bine Să le ai în statistică La început vă recomand să le evitați Pentru că o să fie foarte multe Și nu o știți cum să le filtrați Acum Dacă totuși alegi să execuți un multiple gap setup, trebuie să te asiguri că ai toate confluențele foarte bine puse la punct.
+
+Aici avem o lichiditate mică luată și avem și low of day-ul, deci avem două zone decente, după care avem shift, avem un displacement foarte bun și ulterior prețul vine și întrebare cum am fi filtrat noi gap-ul ăsta, să știm să executăm fix în gap-ul în care prețul a ajuns și o faci prin acest discount rule.
+
+Cum funcționează discount-ul? În primul rând ne folosim de acel [00:02:00] Fibonacci tool pe care cred că îl știm cu toții și marchez vârful și minimul de unde a început low format în acest caz și vârful displacement-ului. Practic așa funcționează, o să marcăm acum și după ce s-a format zona asta de displacement, practic discount-ul înseamnă să execuți Doar sub 50% din acest Leg Care sunt setările mele?
+
+Să astea, uite vă dau aici pe setting Și le puteți copia în cazul în care Doriți acest lucru Cam asta ar fi Deci puteți spune pe o zi de acolo setările Pe tool-ul se numește Fibonacci Retracement Dar eu nu folosesc Fibonacci în Indicatorul în sine, ci folosesc acest tool pentru a marca discount zone-ul.
+
+Practic asta este zona scumpă iar asta este zona de discount, sub 50%. Acum ideea e că v-am zis eu nu folosesc această regulă în mod normal, foarte rar mai adaug confluența asta, în sensul în care, uite eu mai pun un caz de față ca să mă decid pe gap, am multe gap-uri unde vreau să execut, mereu regula [00:03:00] sună așa, la multiple gap setup poți să execuți în gap-ul de sub 50% discount-ul, Gheppul vizibil, dar până la acesta n-aș fi mers că este un ghepp extrem, aș fi mers în cadrul acestuia, de aceea le-am marcat pe acestea trei galbene, nu aș fi executat în ele, mergem în primul de sub 50% discount-rul.
+
+Acuma dacă mai aveai încă 4 gheppuri pe aici puteai să mergi în oricare de deasupra, dar aici că este varianta cea mai bună fix sub 50% din repet, corecția acestei zone, Poți să mergi pe o soluție gen asta dacă îți place setup-ul și este unul calitativ în rest poți să mai folosești discount rule în diferite tranzacții, spre exemplu ai un leg mare undeva, nu știu, hai să vedem vă arată o tranzacție pe o lichiditate minoră, spre exemplu aici, da și nu știi exact unde se execuție, eu n-am aplicat acest discount rule aici dar îl poți aplica mergem selectăm tool-ul de Fibonacci, marcăm practic Da, zona asta și ne uităm unde este 50% și poți să execuți în orice sub 50%, vedem ghepul trece, vedeți de 50%, este atins, merge și un pic mai jos și [00:04:00] după ne dă reacție.
+
+Deci de multe ori poți să notezi tot legul în sine și să cauți o execuție sub 50%, poți să-l marchezi de acolo sau poți să-l marchezi de aici și să cauți doar execuțiile în ghepurile de sub 50%. Asta e o variantă pe care vă pun pe masă, repet, nu execut, este ceva ce puteți să testați să vedeți dacă funcționează pentru voi, e mai rar, o să mai vedeți probabil pe lună câte unul.
+
+Două setup-uri în care mai țin cont de discount-uri și mă interesează să prind o intrare evident într-un punct cât mai jos pentru că mă avantajează dar cam asta ar fi. O să fac cu siguranță o statistică să mai detaliez această confluență pe viitor și o să mai fac clipuri în care o introduc. Momentan asta este tot ce vreau să vă menționez să știți că există puteți să vă marcați ocazional la setup-uri această zonă de 50% și să căutați gap-urile de sub sau să țineți cont de regulile clasice în care executați în funcție de numărul de gap-uri.
+
+Ambele variante sunt bune. Căutați ce este cel mai bine pentru voi. Eu vreau să vă dau mai multe variante ca să aveți de unde să alegeți să vă structurați strategia în funcție de cum doriți voi. Important este să vă strângeți statistica, să aveți rezultatele pe care vi le doriți cu... Statistica strânsă și să [00:05:00] maximizați profiturile Încă o întrebare pe care o mai aud este rareși, cum poți să înfiltrezi mai bine tranzacțiile?
+
+Simplu, strângi execuții între 100 și 200 de execuții, le-ai strâns faci demo iar acolo vezi pe ce am pierdut cel mai mult, pe ce am câștigat cel mai des, iar în funcție de asta îți filtrezi tranzacțiile, scoți, încerci să scoți ceea ce n-a funcționat bine pentru tine și încerci să păstrezi ceea a funcționat foarte bine.
+
+Pentru tine și să începi să maximizezi acel lucru. Să vezi uite funcționează mai bine execuțiile sub această zonă sau mai bine în funcție de numărul de ghieburi sau în funcție de diferite setup-uri, lichiditățile. De astea ținem statistica. Dacă nu aveți statistică nu o să știți mereu să fiți pierduți și nu o știți efectiv unde vă ghidați iar despre asta, cu siguranță, vom discuta mai multe.
+
+Vă salut cu drag, să aveți o zi minunată, vă salut din însoritul Maldivei și mă bucur că am reușit să fac un clip și de aici, mai distindem un pic atmosfera.
+

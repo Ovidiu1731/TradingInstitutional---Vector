@@ -1,0 +1,88 @@
+### **Rezumat Lecția 17 – Calculul Lot Size pe Diverse Piețe: UK100, US100, US30 și Conversii Valutare**
+
+---
+
+#### **Introducere**
+
+Aceasta este ultima lecție din miniseria dedicată calculului lot size-ului, și completează informațiile din lecțiile anterioare cu detalii specifice legate de **calculul pe diverse instrumente** precum UK100, US100, US30, dar și despre **importanța conversiei valutare** în funcție de moneda contului. Este o lecție clarificatoare, foarte practică, ce oferă soluții pentru orice combinație cont-activ.
+
+---
+
+### **1. Reamintire: lot size-ul NU are aceeași formulă peste tot**
+
+- Fiecare companie de finanțare sau broker poate avea **modul său de calcul**.
+- Exemplu:
+  - Pe FTMO, pentru DAX: 100 EUR risc la 10 puncte = 10 loturi.
+  - Pe altă platformă, aceeași situație poate însemna 1 lot, dacă unitatea de măsură este diferită.
+- Concluzie: **testați întotdeauna formula pe platforma voastră**, înainte să aplicați ce vedeți în mentorat.
+
+---
+
+### **2. Diferențe în calcul între active**
+
+- **DAX (DE40)**: ușor de calculat dacă ai contul în euro, pentru că activul este exprimat tot în euro.
+  - Ex: 200 EUR risc la 20 puncte SL → 200/20 = 10 loturi.
+- **UK100, US100, US30**: exprimate în **GBP** sau **USD** → necesită **conversie valutară** dacă ai contul în euro.
+
+---
+
+### **3. Conversia valutară – esențială pentru calculul corect**
+
+- Dacă ai contul în euro și tranzacționezi un activ în dolari (ex: US100), trebuie să convertești mai întâi suma riscată din EUR în USD.
+- La fel pentru GBP (UK100).
+- Se folosește aplicația „**Currency**” sau orice alt convertor valutar online.
+
+#### ✅ Exemplu concret:
+- Vrei să riști **100 EUR** pe US30.
+- Conversie: 100 EUR = ~111 USD.
+- Ai un stop loss de **15 puncte**.
+- 111 ÷ 15 = **7.4** → acesta este volumul (lot size).
+
+---
+
+### **4. Cazuri specifice după moneda contului**
+
+| Monedă cont | Activ tranzacționat | Conversie necesară? |
+|-------------|---------------------|----------------------|
+| EUR         | DAX                 | ❌ Nu                |
+| EUR         | US100, US30         | ✅ Da – în USD       |
+| EUR         | UK100               | ✅ Da – în GBP       |
+| USD         | US100, US30         | ❌ Nu                |
+| USD         | DAX                 | ✅ Da – în EUR       |
+
+---
+
+### **5. Recomandări pentru contul de finanțare**
+
+- Autorul preferă **conturile în euro** pentru că:
+  - Sunt mai ușor de gestionat în Europa.
+  - Retragerile în bancă sunt mai rapide și fără comisioane mari.
+- Dacă ești în UK, poți alege cont în GBP.
+- Nu contează moneda activului, ci **moneda contului tău** determină dacă trebuie să faci conversie.
+
+---
+
+### **6. Posibilități de automatizare**
+
+- Există **pluginuri și aplicații AI** pentru MetaTrader care îți calculează automat volumul în funcție de stop loss și risc.
+- Nu sunt prezentate în mentorat pentru că:
+  - **Unele firme de prop trading nu le acceptă**.
+  - Pot afecta retragerile sau încălca termeni și condiții.
+- Dacă dorești să folosești astfel de instrumente:
+  - **Scrie suportului firmei și cere aprobare** înainte.
+  - Dacă acceptă, le poți folosi fără probleme.
+
+---
+
+### **7. Mesaj final**
+
+- **Formula de calcul poate varia** între brokeri și firme de finanțare – nu presupune că e universală.
+- Ceea ce funcționează pe FTMO poate fi diferit față de altă companie.
+- Important e să înțelegi principiul și să știi să-l adaptezi:
+  - **Risc convertit în moneda activului ÷ Număr puncte SL = Lot size**
+
+---
+
+### **Concluzie**
+
+Lecția 17 încheie seria despre lot size cu o explicație completă a **calculului pe piețe internaționale** și a **rolului conversiei valutare**. Este o lecție esențială pentru aplicarea corectă a riscului în tranzacționarea multi-activ și multi-platformă. Oferă traderului siguranța că indiferent unde sau ce tranzacționează, știe exact **cât riscă** și **cum să calculeze volumul optim**. Un pas decisiv către execuție profesionistă.

@@ -1,0 +1,23 @@
+Lectia 10 mss vs bos
+===
+
+[00:00:00] Diferențe între Market Structure Shift, Break-Off Structure și Change of Character. Nu o să stăm foarte mult pe clipul ăsta, nici nu o să folosim aceste două concepte Singurul pe care îl vom folosi este Market Structure Shift, dar sunt sigur că mulți oameni ați studiat în trecut și ați dat de aceste două denumiri și vă întrebați Raiș oare este același lucru shift-ul cu astea?
+
+Iar acum o să vă răspund și o să vă explic de ce. Nu sunt aceiași lucruri și sunt diferite. Pe internet o să găsiți de foarte multe ori oameni care o să menționeze shift-ul, o să zică că este un break of structure sau o să zică change of character, dar nu este corect. Hai să discutăm diferențele între ele pe scurt.
+
+Market structure shift-ul, tocmai ce l-am învățat în lecția anterioară să știți că îl arată identic ca change of character când îl notezi dar este o diferență între ele pe care o să o vorbim. Are o probabilitate mai mare de câștig decât change of character pentru strategia noastră Și se numără candelele pentru lower și higher value.
+
+Țineți minte știți că am vorbit cu două lecții înainte că noi definim higher-le și lower-le valide, da? Țineți minte. Mergem la break-off structure. Break-off structure-ul este opusul la [00:01:00] market structure și change of character. Astea, vedeți ambele schimbă direcția în piață, dar break-off structure-ul e invers.
+
+Break-off structure-ul se întâmplă pe trend și susține trendul Asta este definiția lui, adică rup structura în sus. Acum știu că o găsiți păreri împărțite unii pe internet o să spună că nu e așa, depinde de strategia fiecarea dar eu vă zic la modul general cum am studiat de la persoane experimentate în domeniul, adică persoane care și-au dedicat viața trading-ului și Cum mă fac și eu acum la rândul meu, cu experiență foarte mare și acesta este un break-up structure, deci avem un trend, hai să luăm de aici să-l începem, este un low, este un high, este un low, este un high, le luăm și noi la mod de general, le luăm așa general și practic ce se întâmplă, la fiecare rupere de high, Asta este un break of structure, asta e un break of structure, asta aici e un break of structure, asta aici e un break of structure, deci când se rupe în sus, când rupem pe trend în continuare astea sunt break of structure-le nu le vom folosi în strategia noastră dar vi le-am dat să știți că există Și să auziți de ele e important să știți [00:02:00] diferențele astea, să aveți o cultură cât mai mare când vine vorba de trading.
+
+Change of character arată identic ca în Market Strike, shift-ele arată la fel, dar nu se numără candelele pentru low-uri și high-uri valide. Ce înseamnă asta? Poza asta o să vă și las dacă vreți să o pregătiți, să aveți pe perete, să țineți minte. Ce înseamnă acest lucru Hai să ne întoarcem la primul exemplu pe care l-am făcut împreună, pentru că de acolo o să vă explic clar.
+
+Ideea este că într-un change of character poți să iei în considerare ăsta ca un low valid. Ceea ce înseamnă că dacă noi aveam asta aici și ni se schimba direcția, pentru strategia asta nu e un shift, că noi n-am avut low valid rupt, dar pentru change of character ăsta e change of character, aici înțelegeți diferența de nuanță, chiar dacă nu are două candele, pentru că la change of character e orice low pe care îl vezi și de asta la noi contează diferența, e că la shift e o diferență e detaliu foarte mic și mulți nu știu și informația asta credeți mă costă enorm, de informații pe care vă dau, mulți nu știu chestia asta și ei se încurcă și iau tranzacții pierzătoare pentru că îi tratează orice low valid Ca o schimbare de direcție, dar algoritmul bancar nu e așa, algoritmul numără candelele.[00:03:00] 
+
+Uite în cazul de față hai să vă găsesc și un exemplu mai concret, dar nu știu dacă o reușesc chiar acum pe clip pentru că nu e ușor. Ah, perfect! Mamă cât de bun e exemplul ăsta! E excelent Uite, ăsta dacă ne uităm, ăsta de aici este un change of character, este pentru că este un low, este un market structure shift, nu este pentru că nu este un low valid, nu are două candele roșii.
+
+Și uite așa v-am definit ce înseamnă change of character-ul și ce înseamnă market structure shift-ul. Noi o să o folosim Ceva similar, dar o să vorbim mai încolo la de-asta care nu se renumără higher și lower valide pentru că avem ceva similar, dar n-am amestecat acolo. Revenind la discuție, deci astea sunt diferențele dintre Market Structure Shift Change of Character și Break of Structure.
+
+Noi vom folosi Market Structure Shift, este cel mai bun pentru strategia noastră și am vrut să clarific aceste lucruri prin intermediul unui videoclip ca să avem totul perfect pus la punct. Vă salut!
+

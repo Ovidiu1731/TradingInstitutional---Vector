@@ -1,0 +1,47 @@
+Lectia 3
+===
+
+[00:00:00] Time frame-urile, cum funcționează, cum le vom folosi în cadrul strategiei ce înseamnă hai să vorbim despre acestea în acest clip. Înainte să înceapă clipul vreau să vă fac un mic reminder. În cazul în care nu știu, până acum este ceva ce simțiți că n-ați înțeles sau de acum încolo simțiți că este vreo problemă e ceva neclar vă simțiți copleșiți de vreo informație și așa mai departe să știți că totul se va lega pe parcurs Totul Nu va rămâne nicio întrebare nărăspunsă Totul se va lega în timp Adică da, acum sunt sigur că o să auziți anumiti termeni pe care poate nu o să-i înțelegeți, dar o să mă asigur că totul este explicat pe parcurs, deci să fiți relaxați.
+
+Luați treptat totul și așa mai departe Există posibilitatea să folosesc termeni pe care poate Încă nu i-am folosit până acum, fără să-mi dau seama Dar nu e problemă că o să-i discutăm Și pe lângă asta probabil vă veți întrebare De ce pe un clip sunt candelele o culoare Pe altul sunt alte și așa mai departe Ideea e că încă o dată reamintesc faptul că acest program Este filmat în perioade diferite [00:01:00] Acum în momentul în care filmează acest clip Este 2024 Este cel mai actual clip și așa mai departe Dar sunt și clipuri din trecut care încă sunt Extrem de relevante și nu le-aș refilma pentru că e perfect ce am transmis acolo și de asta o să vedeți că aveam culorile diferite la handele, deci de asta o să vedeți un clip cumva, un clip altcumva, e acum actual în 2024 folosesc acest tip de setup și acest tip de culori.
+
+Bun. Gata cu disclaimer-urile, hai să dăm drumul la treabă Ce înseamnă time frame? Cum se schimbă un time frame? Și așa mai departe Deci în primă fază uitați-vă aici sus. Astea de aici de sus sunt time frame-urile. Momentan suntem pe time frame-ul ăsta cu nota cu D, one day. Sau se mai numește și daily chart.
+
+Daily chart înseamnă Că fiecare candelă se formează într-o zi Deci ăsta de aici, time frame-ul, ne dictează în cât timp se formează o candelă. Ne uităm jos de tot aici. Vedeți 2 noiembrie 2023, 3 noiembrie, 6 noiembrie, 7 noiembrie, 8 noiembrie, 9 [00:02:00] noiembrie, 10 noiembrie și așa mai departe Deci o candelă este o zi.
+
+Noi ne putem uita aici iar ultimele 5 candele sunt o săptămână întreagă de tranzacționare. Luni, marți, miercuri, joi și vinere. Asta e o săptămână întreagă în mișcări. Bun. Cum schimbăm timeframe-urile? Ca să schimbi timeframe-urile ai mai multe variante Prima varianta e de aici de sus. Ți le pui le adaugi, apăsi Crip Plus sau Nude în plus de aici, de aici din liniuța asta și ți le pui aici.
+
+Cu steluță înseamnă la favorite, bifezi steluța și îți va apărea timeframe-ul respectiv în această zonă. Sau puteți să scoateți cine știe unul pe care nu-l folosiți. Eu pe astea le am aici și pe astea le folosesc, dacă vreau altul nu mai intru aici vă arăt imediat cum fac. Ideea următoare Să zicem că eu vreau să mă mut de pe one day pe patru ore.
+
+Tot ce trebuie să fac e să scriu la tastatură 4H și uitați cum poți să schimbi intervalul și apeși Enter. BAM Te-a mutat pe patru ore. Poți să scrii oră 1H de la one hour. BAM Te-a mutat pe oră Sau ai varianta să muți de aici 4H. Daily, uite acum suntem [00:03:00] iar o candelă se face într-o zi acum merg 4 ore, o candelă se face acum în 4 ore, puteți vedea jos deci ora 21 a început candela asta ora 17, ora 13 ora 19 și mai departe deci astea se fac în cadrul a 4 ore se face o candelă, putem să mergem mai, știți cum sunt time frame-urile, sunt ca o lupă Cu asta compar.
+
+Când pornim de la daily vedem o imagine mare, aici vedem practic din luna decembrie hai să luăm în ce dată suntem, am fost pe aia la 19. Deci de aici, de pe 19, doar porțiunea asta mică vedem o lună întreagă. Pe când m-am dus pe 4 ore și acum hai să vedem unde e data de 19. Păi data de 19 aici uitați acum cât mare s-a făcut perioada respectivă am intrat în mai multe detalii, dacă mergem pe o oră ia să vedem unde e 19.
+
+19 aici. Ia vedeți acum cât mare e totuși Cu cât mergem mai jos cu atât intrăm mai tare în detaliu. Acum o candelă se face într-o oră. Bun să zicem că vrem să mergem pe o săptămână, care e cea mai mare pe care l-am pe OneWeek sau se mai numește Weekly Time Frame. Time Frame săptămânal. Scriu 1 și W de la OneWeek și gata am adus [00:04:00] Acum vedem o dată se face într-o săptămână.
+
+Aici aveți evoluția pe termen mai lung. Uite are indicelui cum, uite în Corona a ajunsese la 7.000$, acum este la 16.800$. Bun, și să zicem că vrem să mergem pe time frame-uri de minute, scrieam 15 atât, și vedeți este deja pe 15 minutes, și apăsați Enter. Ca să faceți direct graficul mare, să nu vă mai chinuiți să-l mișcați de aici, uite puteți să-l faceți de aici, eu ce fac e că merg aici jos de tot și apăs pe A.
+
+Am apăsat toată și am dat Deselect, deci apăs de două ori de două ori și îmi face graficul mare, deci încă o dată, îl avem așa apăs pe Auto și gata, mi l-a făcut mare. Sau puteți să-l faceți de aici și de aici de jos, să țineți apăsat să trageți. Bun, revenind, acum suntem pe 15 minute, o candelă se face în 15 minute și tot așa.
+
+Ce time frame-uri vom folosi pentru strategia de bază Deci eu voi învăța strategia de bază dar ce trebuie să știți este că aceasta este adaptabilă din mai multe puncte de vedere. O să vorbim pe viitor când devenim mai avansați, dar aceasta poate fi adaptată poți adapta time frame-ul [00:05:00] Modul de execuție în funcție de tine de preferențele tale, de personalitatea ta, pentru că e important să ai o strategie mulată pe personalitatea ta.
+
+Spre exemplu dacă tu nu poți să tranzacționezi, n-ai timp deloc, ai foarte puțin timp și așa mai departe, poți să mulți strategia pe timeframe-uri mai mari. Dar noi acum o să vă dau exemplele cum folosesc eu la acest moment și ce modalitate de timeframe-uri mi-a adus cele mai bune rezultate. Și este următorul.
+
+Analiza graficului, adică Ce înseamnă analiză? Tragi liniile, mă rog, în momentul ăsta nu vă explic ce înseamnă liniile, astăzi am zis lichidități, dar o să facem mai încolo. Tragem lichiditățile, căutăm confluențele, marcăm totul pregătim, etc. Analiza se face pe 5 și 15 minute. Da? Deci pe timeframe-uri de 5 minute și 15 minute.
+
+Vă răspund toată acest aspect, iar execuția o vom face pe timeframe de un minut. De ce facem execuția pe timeframe așa mic de un minut? Este destul de simplu pentru că băncile și algoritmii bancari execută majoritar pe timeframe-uri de 15 [00:06:00] secunde, 30 secunde, 1 minut, 2 minute și 3 minute. Astea sunt timeframe-urile pe care algoritmii bancari sunt cei mai activi.
+
+Asta nu înseamnă că sunt singure timeframe-uri pe care funcționează tipul ăsta de execuție dar Veți vedea cel mai des potențiale execuții pe aceste time frame-uri. Eu prefer one minute, le-am testat pe toate am încercat 15 secunde am încercat de-i prea hiperactiv. Aici la un minut e pleasure, adică exact cât îmi place mie.
+
+Nu-ți place combo-ul ăsta adică să faci analiză pe 5 și 15, poți să te muți. Poți să faci analiză pe 15 minute și pe o oră Și să execuți pe 5 minute, deci mereu luați 2 de mai de sus și executați pe aia de mai de jos, deci există multe variante și multe combinații pe care le puteți folosi, dar vorbim mai încolo dacă este cazul.
+
+Momentan eu folosesc, v-am zis 5 și 15 pentru analiză și 1 minut pentru execuție. Bun, acum, foarte important, trebuie să înveți să ți adaptezi, practic după cum am zis, strategia La modul tău de execuție Părerea mea este să încep cu 5-15 Pe analiză și așa mai departe execuție pe minut Dacă simți [00:07:00] că este, nu știu, prea greu pentru tine Și așa mai departe cu toate că până acum nu mi s-au plâns Oameni că ar fi prea greu adică E cam cel mai optimot Statistic, mi se pare că mergi mai sus În momentul în care e capital mai mare, în momentul în care Transacționezi cu niște sume mai mari Da, pot să merg și asta, plănesc să fac și eu anul ăsta Plănesc să combin, plănesc să fac de asta pe Practic analiza pe 5-15 și execuții pe un minut și pe lângă asta rar planuiesc să fac analize pe oră și să execut pe 5 minute, adică să fac analize pe oră și pe 15 și să execut pe 5 minute și să țin trade-uri un pic mai mult.
+
+Mă gândesc să diversific pentru că în ultimii ani capitalul meu a crescut destul de mult, adică am ajuns la niște sume considerabile și deja pentru mine rentează să fac și transacții pe termen un pic mai lung pentru că pot să Un pic mai mult ca și sume dar o să vorbim și de partea de risc de lots, de volum dar nu este momentul.
+
+Pe viitor! Bun, am acoperit tot ce voiam să discutăm despre time frame-uri. Pe scurt după cum am zis, time frame-uri e ca o lupă, le putem schimba de aici, a venit să mergem pe a trei ore. Na, astea, time frame-urile mari, le folosești pentru [00:08:00] investiții pe termen lung, adică vrei să faci niște acumulări pe termen lung.
+
+Asta, Ocandrel, de asta n-am zis și poți să faci o analiză Conform strategini, așa încât să iei pe termen mai lung o poziție. Totuși mie îmi plac time frame-urile mici îți dau ocazia să execuți mult, îți dau ocazia să practici, să înveți să testezi și momentul în care devii mai profesionist, da, cu cât devii mai bun, poți să mergi pe time frame-uri mai mari dacă îți dorești acest lucru, dar asta după ce ai sute de tranzacții, dacă nu chiar mie executate pe time frame-uri mai mici, ca să știi foarte bine ceea ce faci.
+
+Cam asta a fost cu acest clip, ne vedem la următorul.
+

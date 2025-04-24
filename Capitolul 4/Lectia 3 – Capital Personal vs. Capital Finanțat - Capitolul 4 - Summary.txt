@@ -1,0 +1,69 @@
+### **Rezumat Lecția 3 – Capital Personal vs. Capital Finanțat**
+
+---
+
+#### **Introducere**
+
+Lecția abordează diferențele, avantajele și dezavantajele dintre două moduri principale de a face trading: cu **capital personal** și cu **capital finanțat** (prin firme de tip „prop firm”). Scopul nu este alegerea unei „tabere”, ci înțelegerea ambelor opțiuni și folosirea lor în mod strategic.
+
+---
+
+#### **Trading cu capital personal**
+
+**Ce înseamnă:** Folosești propriii bani pentru a tranzacționa într-un cont deschis la un broker.
+
+**Avantaje:**
+- Ai libertate totală, fără reguli impuse de o firmă.
+- Poți alege brokeri reglementați, oferind un grad ridicat de siguranță.
+- Ai control deplin asupra execuției și strategiei.
+
+**Dezavantaje:**
+- Emoțiile sunt ridicate deoarece pierderile sunt direct din buzunarul tău.
+- Este dificil de scalat, mai ales cu un capital mic.
+- Riști mai mult în faza de învățare.
+- Trebuie să gestionezi singur disciplina – lipsa regulilor poate fi și un pericol.
+
+---
+
+#### **Trading cu capital finanțat (Prop Firms)**
+
+**Ce înseamnă:** Plătești o taxă (ex. 350€) pentru a aplica la un cont de trading mai mare (ex. 40.000€) oferit de o firmă de finanțare. Dacă treci testele, poți tranzacționa cu acel capital și împărți profiturile cu firma.
+
+**Avantaje:**
+- Scalabilitate mare. Poți începe cu conturi mici și crește treptat prin sistemul de "account merging".
+- Investiție inițială mică, dar cu potențial mare de câștig.
+- Emoțiile sunt mai reduse, pentru că pierderile nu sunt din banii tăi.
+- Poți ajunge să ai payout-uri de mii de euro lunar fără a-ți asuma riscul unui capital mare propriu.
+
+**Dezavantaje:**
+- Nu sunt reglementate la nivel global – există riscul dispariției firmei.
+- Trebuie să respecți anumite reguli (drawdown maxim, număr de tranzacții etc.), deși majoritatea sunt rezonabile.
+- Companiile „slabe” sau recente pot da faliment rapid – trebuie aleasă cu atenție firma.
+- Nu există garanții că firma îți va onora câștigurile în viitor.
+
+---
+
+#### **Perspective personale și sfaturi ale mentorului**
+
+- Autorul a folosit **exclusiv capital finanțat** până în prezent, pornind de la zero, fără capital personal mare.
+- Consideră prop firms o oportunitate imensă pentru cei care nu dispun de mulți bani la început.
+- Menționează că în viitor ar putea tranzacționa și cu capital personal, dar doar când sumele implicate nu vor afecta deloc viața personală (ex: să poată aloca 500.000€ fără stres).
+- Strategia lui actuală: capital finanțat în trading, iar banii personali investiți în imobiliare sau afaceri (diversificare și randament).
+
+---
+
+#### **Exemplu motivațional**
+
+Chiar și o persoană fără capital, dar cu o strategie bună și determinare, poate aplica pentru un cont finanțat, face profit, renunța la un job de bază și apoi își poate construi o viață mai bună. Cu răbdare, disciplină și câteva luni de muncă, scalarea devine posibilă pentru oricine.
+
+---
+
+#### **Concluzie**
+
+Fiecare variantă are rostul și locul ei, în funcție de nivelul tău, obiectivele financiare și nivelul de risc asumat. Nu este o alegere absolută – poți folosi ambele în paralel pentru a învăța și evolua. 
+
+**Mesajul cheie:** Fii deschis, testează, învață și alege în funcție de contextul tău personal. Urmează lecții dedicate regulilor prop firm-urilor și recomandărilor concrete privind alegerea companiei de finanțare.
+
+--- 
+
+Acest rezumat oferă o viziune completă și echilibrată asupra celor două metode de finanțare în trading, bazată pe experiență practică și logică strategică.

@@ -1,0 +1,73 @@
+Lectia 3
+===
+
+[00:00:00] În acest clip vom vorbi despre termeni comuni în trading. Înainte să începem, vreau să vă spun, să vă rog de fapt să vă luați un caiet și un pic și să fiți pregătiți să notați pentru că o să avem o grămadă termeni foarte, foarte importanti în acest clip. De asemenea o să trec prin câteva noțiuni elementare, dacă voi ați cochetat până acum cu trading-ul probabil.
+
+Le știți și o să vi se pară foarte ușoare, dar vreau să mă asigur că toată lumea înțelege, așa că o să o iau de la zero și o explic niște lucruri foarte de bază. Bun, să începem. În primul rând avem termenul de high și de low. Ce înseamnă high și low în analiza tehnică? Avem aici această imagine la care mă voi referi.
+
+Avem în această imagine o creștere, da? Deci un pattern de creștere, iar aici un pattern de scădere. În stânga, toată această zonă de creștere, da? Da Formează în vârful ei un high, da? Este punctul maxim, putem să le zicem și maxim și minim la high și low. Deci [00:01:00] avem punctul de high, după care vine o corecție și avem punctul de low.
+
+Deci punctul care separă o creștere de o corecție este punctul high și acesta este low-ul, deci high, low, high, low, high, da? Acest high se împarte în încă cum ar veni, două tipuri de high, este higher high și higher low. Higher high este acesta, higher low este acesta. Higher high și higher low-urile sunt specifice uptrend-urilor adică trendurilor de creștere.
+
+După cum vedeți acest high este... Practic cel mai mare pe care îl putem vedea. După care urmează un high care este mai sus decât acesta. Deci este un higher high. După aceea avem un high care este mai sus decât acesta. Deci este în continuare un higher high. Sunt notate cu HH și HL. Acesta este un higher low pentru că avem un low mai sus decât cel precedent.
+
+Acesta iar este un higher low. Iar acesta cu totul semește un uptrend. Acestea sunt caracteristicile unui uptrend. Higher highs și higher lows. Invers. Avem [00:02:00] aici un lower low Lower high, lower low, lower high, deci avem un high mai jos decât celălalt și lower în continuare, minimă în scădere și aici avem maxime în urcare.
+
+Bun, uptrend și downtrend am vorbit, acesta este un downtrend și acesta este un uptrend. Pull back sau corecție. În română corecția este aceasta. Ce generează o corecție? Poate mulți dintre voi nu știți. În momentul în care avem o creștere masivă, instituțiile băncile și persoanele care mută cu adevărat piața, adică big player-ii sau balene, aceștia sunt cei care tranzacționează instituționali.
+
+Băncile, hedge fundurile, fonduri de investiții, toate aceste entități cu foarte mulți bani, se numesc big players, așa să mă refer la ele, deci când o să zic big players să știți la ce mă refer, sau balene. Bun, acești big players cumpără în punctul ăsta, da, să zicem că acțiunea aici este 1$, cumpără la 1$, [00:03:00] ajunge până în punctul ăsta la 5$.
+
+Și ei ce fac aici? Ei vând poziția de aici profit, deci tot ce au cumpărat la un dolar foarte mult vând aici și recumpără în zona asta la discount, asta fac ei. Și în același timp manipulează piața, lumea crede că o să o ia în jos, fac un sell, iau poziție de vânzare, persoanele care fac trading în exteriorul companiilor, deci nu big player-ii Și sunt prinsi și li se iau toți banii prin aceste mișcări.
+
+În acest mentorat o să vă învăț cum să evităm aceste lucruri, nu o să vi se întâmple să fiți prinsi în așa ceva. Bun, deci acesta este un pullback, avem creștere, corecție, creștere, corecție. Pe termen lung companiile sunt profitabile în acest exemplu O să folosesc acest termen de retestare într-o singură instanță în acest mentorat în strategia mea.
+
+O să ajungem acolo [00:04:00] mai este drum lung până în acel moment, dar o retestare destul de simplu ce înseamnă. Ne uităm la acest higher high și trasăm o linie imaginară până în această zonă. Vedem cum prețul a trecut peste acest high și se întoarce exact în linia noastră imaginare unde o retestează Și pleacă în continuare în sus.
+
+Acesta este un retest a retestat o zonă care a ținut și s-a dus mai sus. Setup. Eu când zic setup mă refer practic la un potențial trade. Un setup poate fi, nu știu, marketul a ajuns într-o anumită instanță în care îmi oferă confluențele și lucrurile la care mă uit eu Pentru a intra într-o tranzacție.
+
+Acesta este un potențial setup. Deci când o să vă zic ne pregătim să luăm un setup, înseamnă că ne pregătim de un trade, să luăm o tranzacție. Pattern-ul este structură. Pattern-ul foarte simplu este acesta. Un uptrend este un pattern, un downtrend este un pattern, double top, double bottom sunt pattern-uri.
+
+[00:05:00] Puteți să căutați pe Google, dați un search și... Candle Patterns sau Trading Candle Patterns și o să vedeți acolo toate pattern-urile, eu nu le folosesc dacă sunteți curioși puteți să le căutați acolo, eu nu folosesc pattern-uri, dar vreau să știți ce înseamnă. De ce vă învăț acești termeni? Pentru că niciodată nu știi, chiar dacă noi nu o folosim mare parte din termeni ăștia, deci ce vă arăt aici nu o să fie folosit în strategie, vi arăt pentru că o să vă întâlniți la un moment dat cu persoane care fac și ei trading și folosesc alte strategii față de voi și vorbesc despre acești termeni și trebuie să înțelegeți despre ce vorbește lumea din jurul vostru, ba chiar poate să-i învățați voi pe ei ce înseamnă, pentru că multă lume știe greșit acești termeni și voi o să le explicați ce înseamnă ei cu adevărat Bun, volumul.
+
+Prin volum înțelegem cantitatea unui bun. În trading înseamnă cantitatea de bani, adică când o să spun că în acest trade a fost un volum foarte mare, înseamnă că a fost un număr foarte mare de bani sau când o să zic că această candelă a avut un volum mare, înseamnă că [00:06:00] a fost un volum mare de bani acea candelă.
+
+Deci asta înseamnă volum. Leverage aici este foarte important, fiți atenți. Leverage sau levier. Este o modalitate pentru un trader de a tranzacționa volume mult mai mari decât ar putea acesta să acceseze folosind doar propriul capital de tranzacționare. Ca urmare este posibil să accesați piețe care sunt adesea inaccesibile.
+
+Noi facem trading, eu personal folosesc levier, folosesc leverage. Dacă nu știți ce face, poate fi foarte periculos dar eu o să vă învăț... O să vă pun niște reguli clare cu care nu o să avem niciodată probleme cu leverage-ul, o să vedeți e foarte simplu de gestionat dacă respecti niște reguli de bază. Și acum o să vă explic concret, că sunt sigur că n-ați înțeles exact ce este leverage-ul, o să vă explic în această imagine.
+
+Spre exemplu ne imaginăm că... În punctul acesta avem o acțiune aici, deci acesta [00:07:00] este graficul unei companii. Aici compania era 0 dolari iar în punctul acesta al doilea era 100 de dolari o acțiune. Noi am cumpărat aici cu levier 1. Cum se pune acest levier? În platforma de tranzacționare o să vedeți în partea stângă când o să o facem și o să vă explic.
+
+În partea stângă a ecranului aici o să fie zona unde putem să scriem levierul pe care îl dorim. Noi acum... Asta înainte să intri într-o tranzacție, să-ți execute tranzacția În momentul de față noi avem levier 1, deci stoc. Ce înseamnă Că dacă noi aici de la 100 de dolari acțiunea s-a dus la 0 dolari noi am pierdut doar 100.
+
+Deci am pierdut practic cât era acțiunea. Dacă scriem levierul 2, X2, în loc să pierdem 100 aici când se duce la 0, pierdem 200. Dacă avem levier 3, dacă acțiunea s-a dus de aici de la 0 la 100 de dolari, noi pierdem 300. Deci practic noi multiplicăm banii pe care îi riscăm pe o anumită Și la fel și la profit, dacă noi aici la 100 de dolari am făcut [00:08:00] cu levier X5, în loc să facem doar 100 de dolari profit aici de la 100 la 200, facem 500 de fapt pentru că se mulțește profitul de 5 ori.
+
+Deci levierul practic tu poți să-ți crești de foarte multe ori riscul, dar și de foarte multe ori profitul. Acest levier este foarte periculos Repet, cunosc trader care își pierd conturile din cauza levierului dar noi o să-l tranzacționăm într-un rău foarte simplu, nu trebuie să vă fie frică de el absolut deloc, o să vedeți o să ajungem acolo e foarte simplu.
+
+Bun, margin call. Margin call este un termen prin care știi că contul tău a fost falimentat. Ce înseamnă asta? Există trader care nu sunt experimentați și nu scriu levierul corect și intră într-o tranzacție. Să zicem, ei au... 25 de mii de dolari toți banilor investiți și vor să intre în Bitcoin și Bitcoin are toată valoarea lui 20 de mii dar ei fac un levier foarte mare și în realitate își permit de fapt să pierdă [00:09:00] cum ar veni dacă Bitcoin ajunge la 15 mii de la 20 de mii pierd toți acei 25 de mii pentru că au făcut over leveraging și au făcut și au pus foarte multe x-uri risc și să zicem că Bitcoin scade de la 20 de mii la 15 mii Da, deci a scăzut acel 5.000.
+
+Ei, din cauza levierului pe care l-au folosit și-au pierdut toți acei 25.000 și-au intrat în margini acolo adică contul lor nu mai are bani în el, faliment. Asta înseamnă. Bun, am zis să vă explic doar așa, nu o să vă folosesc că nu o să se întâmple așa ceva, o să am grijă să vă explic totul ca la carte, eu n-am pățit în viața mea un margin call, nu am dat, mai există termenul de, în engleză e blue account, să n-am pățit în viața mea, nu am pierdut niciodată și jur chiar este adevărat, știu că mulți traderi pierd foarte mulți bani la început eu chiar nu am pierdut, nu am de ce să mint, nu am pierdut niciodată un cont.
+
+Nu am pierdut bani niciodată în trading. Jur, chiar e adevărul, n-am ce să zic. Și chiar sunt foarte mândru de chestia asta, sunt foarte [00:10:00] fericit și sper să nu se întâmple niciodată niciodată nu știi dar eu sper să nu fac niciodată vorba greșeală de genul ăsta. Bun, spread. Spreadul. În piețele financiare, spreadul reprezintă diferența dintre prețul de cumpărare și prețul de vânzare al unui instrument.
+
+Atunci când placezi o tranzacție, spreadul reprezintă principalul cost al tranzacției. Dacă spreadul este mic... Atunci costul este mic, dacă spread-ul este mare, atunci costul este mare. La fel. Să ați gândiți că vă explic ce e. Știu, definiția asta stupidea trebuie să fie aici, dar o să vă explic eu exact ce înseamnă.
+
+Reluăm exemplul cu graficul Aici e 0 dolari aici e 100 dolari, da? Noi în punctul ăsta vrem să facem un buy, să intrăm într-o poziție de cumpărare, da, în acest loc. Și în momentul în care noi cumpărăm ceva ca să cumpărăm, trebuie să fie și un vânzător Care ne vinde acel lucru, adică dacă eu vreau să cumpăr aici acțiunea asta trebuie să fie cineva care mi-o vinde.
+
+Prin urmare, eu am pus aici, vreau să cumpăr la 100 de dolari doar că suntem [00:11:00] mai multe persoane care dorim la 100 de dolari avem order-uri pregătiți, sunt și eu, e și Dani, e și Alin e și ăla e și ăla, e și ăla și toți vrem să intrăm la 100$. Unuia ei se vei executa tranzacția la 100, unuia la 101, unuia la 102, unuia la 103, unuia la 105.
+
+Deci încă eu sunt acela ce mai ghinonist mi s-a executat la 105. Spread-ul este practic comisiunea la acela pe care îl plătești. În loc să tu ai vrut să cumperi la 100, dar pentru că au fost prea multe persoane care au intrat în tranzacție ți s-a executat tranzacția la 105. Deci ai pierdut acei 5 dolari este un comision pentru spread.
+
+Nu ai cum să eviți spread-ul Se întâmplă toată lumea îl pățește dar este neglijabil, la fel în strategia mea, nici nu o simțiți spread-ul, o să vi se întâmple, dar nu-l simțiți, nu o să vă deranjeze. Gen, spread-ul este pe tranzacție, nu știu, 15$ o să pierdeți pe tranzacție, nu înseamnă nimic, stați liniștiți, o să vedeți, e nou stres.
+
+Bun, vreau să mă ating de aici încă Încă două [00:12:00] bulinuțe de-astea trei și închidem clipul ăsta și trecem la următorul pentru că simt că e deja multă informație. Retail trader vs. trader instituțional. Diferențe dintre ele, dintre ei. Retail trader-ul, practic noi suntem retail trader și eu sunt retail trader și tu ești retail trader și...
+
+Toți traderii care fac trading de acasă fără algoritmii băncilor și fără insider information. Traderi instituționali fac trading pe bază de algoritme, au informații, au putere, dau un telefon și schimbă orice în piață. Asta este diferența între retail și traderii instituționali. Retailul de regulă este un pierdere, adică din știință statisticile sunt între 80 și 90% din retail traderii pierd nou profit.
+
+Voi să fiți dintre alții ceilalți sută. Dacă chiar doriți asta și o să munciți pentru așa ceva, vă garantez că nu e așa de greu pe câpare. Chiar nu este absolut deloc greu. Bun. Forex. O să vorbim în clipurile următoare concret [00:13:00] despre ce este Forex-ul, despre diferențele între Forex și indice și așa mai departe Aici doar m-am scris, Forex înseamnă Foreign Exchange Market și este un market bazat pe parități dintre carensiuri.
+
+O să vorbim. Indice bursier. Este un instrument care măsoară o secțiune a pieții bursiere, o metodă de urmărire a performanței unui grup de active într-un mod standardizat. Adică este un instrument care ne arată ceva, este un indice pentru ceva, este... Înțelegeți, e pur și simplu definiția de aici. Exemple de indice ar fi Nise, New York Stock Exchange, LSE care este London Stock Exchange și Euronext.
+
+Bun, după care un indice nu poate fi cumpărat, nici vândut direct, deoarece indicii bursieri sunt doar indicatori. Deci nu putem să cumpărăm Nise, New York Stock Exchange sau London Stock Exchange, ci Putem să îi tranzacționăm prin intermediul contractelor features, CFD-urilor, ATF-urilor și opțiunilor. [00:14:00] Iar în următorul clip o să vorbim despre ce este acela contract feature, ce este un CFD, ce este un ATF și etc.
+
+Ne auzim în partea a doua acestui clip.
+

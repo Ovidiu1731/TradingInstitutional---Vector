@@ -1,0 +1,78 @@
+### **Rezumat Lecția 3 – Timeframe-uri: Utilizare și Adaptare în Strategie**
+
+---
+
+#### **Introducere**
+
+Această lecție detaliază conceptul de **timeframe-uri** (intervale de timp) în analiza tehnică și modul în care acestea sunt utilizate și adaptate în cadrul strategiei prezentate. Autorul oferă exemple practice din platforma TradingView și subliniază importanța personalizării strategiei în funcție de stilul și timpul disponibil fiecărui trader.
+
+---
+
+#### **Concepte Cheie**
+
+- **Ce este un timeframe?**  
+  Timeframe-ul definește **cât timp este necesar pentru formarea unei singure candele** într-un grafic.
+  - Exemplu: pe **daily (1D)** o candelă se formează într-o zi, pe **1H** într-o oră, etc.
+
+- **Timeframe-urile sunt comparate cu o lupă:**  
+  - **Timeframe-uri mari (ex: 1D, 1W)** = imagine generală, viziune macro.  
+  - **Timeframe-uri mici (ex: 1H, 15m, 1m)** = detalii fine, viziune micro.
+
+---
+
+#### **Navigarea și Setarea Timeframe-urilor în TradingView**
+
+- **Metode de schimbare:**
+  - Din bara de sus a platformei (ex: selectarea 1D, 4H, 15m etc.).
+  - Prin tastare directă (ex: „4H” pentru 4 ore, „1W” pentru o săptămână).
+  - Salvarea ca favorite cu steluțe pentru acces rapid.
+
+- **Vizualizarea graficului:**
+  - Comanda „Auto” din platformă ajustează automat afișajul graficului pentru a-l vizualiza complet.
+  - Se poate ajusta manual și din colțurile graficului.
+
+---
+
+#### **Strategia de Bază – Timeframe-uri Recomandate**
+
+- **Analiză tehnică:**
+  - Se face pe **5 minute (5M)** și **15 minute (15M)**.
+  - Se trasează **lichidități**, se caută **confluențe** (detalii vor fi oferite în lecțiile viitoare).
+
+- **Execuția tranzacțiilor:**
+  - Se face pe **1 minut (1M)**.
+  - Motiv: **algoritmii bancari** acționează frecvent pe timeframe-uri mici – 15s, 30s, 1m, 2m, 3m.
+
+- **Exemplu de execuție:**  
+  - Analiză pe 5M și 15M → Executare pe 1M.
+
+---
+
+#### **Adaptabilitatea Strategiei**
+
+- **Personalizare după timp și stil personal:**
+  - Dacă ai timp limitat: poți folosi timeframe-uri mai mari (ex: analiză pe 1H și 15M, execuție pe 5M).
+  - Dacă ai capital mare și vrei poziții mai lungi: analiză pe **1H**, execuție pe **5M**, menținerea pozițiilor mai mult timp.
+
+- **Timpframe-uri pentru investiții pe termen lung:**
+  - Ex: **1W (weekly)** – pentru acumulări și decizii strategice de durată.
+
+---
+
+#### **Sfaturi Practice**
+
+- **Timeframe-uri mici = practică intensă**, execuții frecvente, învățare rapidă.
+- **Timeframe-uri mari = stabilitate, potrivit pentru capital mare și experiență avansată.**
+- Se recomandă începerea pe timeframe-uri mici și acumularea a sute de tranzacții înainte de a trece pe intervale mai lungi.
+
+---
+
+#### **Gânduri Finale**
+
+- Lecția oferă o bază esențială pentru structurarea analizei și execuției în funcție de **timeframe**.
+- Timeframe-urile sunt **instrumente de perspectivă** și trebuie utilizate inteligent pentru a adapta strategia la stilul personal.
+- **Strategia rămâne flexibilă și scalabilă**, atât pentru începători, cât și pentru traderi avansați.
+
+---
+
+Acest rezumat concentrează tot ce este important legat de timeframe-uri pentru a fi folosit ca referință în construirea și personalizarea strategiei de tranzacționare.

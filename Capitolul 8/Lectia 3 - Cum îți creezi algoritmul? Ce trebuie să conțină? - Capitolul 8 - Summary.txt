@@ -1,0 +1,86 @@
+**Rezumat Detaliat – Lecția 3: Construcția și Rolul Algoritmului în Trading**
+
+---
+
+### Introducere
+
+Această lecție este dedicată construcției unui **algoritm de trading personalizat**, o unealtă esențială pentru orice trader serios. Autorul oferă atât o perspectivă practică, cât și una psihologică asupra modului în care un algoritm bine structurat contribuie decisiv la disciplină, consistență și performanță. Lecția include exemple personale, sugestii tehnice și principii motivaționale.
+
+---
+
+### Structura Recomandată a Algoritmului
+
+#### 1. **Design-ul Vizual**
+- Realizat în **Microsoft Word**, cu o **ramă decorativă** simplă descărcată de pe internet.
+- Poate fi printat și lipit lângă biroul de trading sau folosit ca fundal pe desktop.
+- Se recomandă **citirea zilnică** a algoritmului, mai ales în primele 4 luni de trading.
+
+#### 2. **Conținutul Algoritmului**
+
+##### a. **Reguli de intrare într-o tranzacție**
+- Toate condițiile tehnice predefinite:
+  - Timeframe: 1 minut.
+  - Interval orar: 10:00–12:00.
+  - Lichidare a high of the day / low of the day.
+  - Market structure shift și displacement.
+  - Setup clar, confirmări, SL și TP.
+
+> Acestea trebuie deja să fie cunoscute din lecțiile anterioare și notate în caiet.
+
+##### b. **Reguli psihologice și emoționale**
+- Nu face trading când ești:
+  - Nervos
+  - Obosit
+  - Stresat
+  - Afectat emoțional (ex: ceartă cu partenerul)
+
+- Reamintește-ți să:
+  - Ții statistica
+  - Respecți procesul
+  - Eviți impulsurile și supraîncrederea
+
+##### c. **Reguli tehnice complementare**
+- Evitarea tranzacționării în timpul știrilor importante (dacă este parte din plan).
+- Condiții suplimentare pentru intrare/ieșire în funcție de evoluția pieței.
+
+##### d. **Citate motivaționale personale (Quotes)**
+Exemple:
+- *"Money is just a tool."*
+- *"Take only the best opportunities. The garbage is for others."*
+- *"If you break your system, you deserve to suffer."*
+
+> Scopul citatelor este de a întări disciplina și filosofia de trading.
+
+---
+
+### Reflecții Personale și Lecții din Experiență
+
+- La început, autorul era entuziasmat emoțional de bani, cheltuind impulsiv primele câștiguri.
+- Evoluția sa l-a învățat să trateze banii **ca o unealtă**, nu ca o sursă de validare.
+- A învățat prin experiență că **respectarea sistemului** este singura cale spre profitabilitate sustenabilă.
+- *Încălcarea regulilor personale duce inevitabil la pierderi – „și le meriți”*.
+
+> Trading-ul este un proces de autocontrol, iar greșelile trebuie acceptate ca lecții.
+
+---
+
+### Sfaturi și Recomandări Practice
+
+- Scrie-ți toate regulile clar și concis.
+- Revizuiește toate notițele anterioare și integrează-le în algoritm.
+- Păstrează-l simplu și personalizat.
+- Folosește-l zilnic pentru **automatisme mentale**.
+- Nu căuta scurtături: orice pas sărit sau ignorat duce la regres.
+
+---
+
+### Final Thoughts
+
+- Algoritmul este „busola” ta zilnică în trading.
+- Nu este suficient să știi strategia – **trebuie să o aplici în mod disciplinat și consecvent**.
+- Respectarea fiecărei piese din puzzle-ul trading-ului este vitală – chiar și cele care par neimportante.
+- Această lecție încheie seria introductivă și deschide drumul către materiale avansate despre **algoritmi, statistici și management**.
+
+---
+
+Documentul servește ca ghid pentru construirea unui algoritm personal și ar trebui revizitat periodic pentru adaptare și perfecționare în funcție de experiență.

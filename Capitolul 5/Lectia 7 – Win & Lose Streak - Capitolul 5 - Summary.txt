@@ -1,0 +1,103 @@
+### **Rezumat Lecția 7 – Losing Streaks, Winning Streaks și Greșeli Comune în Execuție**
+
+---
+
+#### **Introducere**
+
+Lecția 7 este una dintre cele mai sincere și valoroase lecții de psihologie aplicată în trading. Autorul împărtășește din propria experiență cum a trecut prin perioade de **pierderi consecutive (losing streaks)** și **câștiguri consecutive (winning streaks)** și cum le-a gestionat. Este o lecție plină de exemple reale, greșeli personale și soluții practice pentru traderii care se confruntă cu instabilitate emoțională și lipsă de consistență.
+
+---
+
+#### **Partea 1 – Losing Streaks: cum le recunoști și cum le gestionezi**
+
+- Cel mai lung losing streak avut de autor: **6 tranzacții pierdute la rând**, și doar o singură dată.
+- De regulă, pierderile consecutive sunt de **2–3** maximum, în special după ce s-a ajuns la consistență.
+- Începătorii se confruntă mai des cu **4–5 pierderi consecutive**, ceea ce duce la **frica de execuție** și **pierderea încrederii**.
+
+---
+
+#### **Două tipuri de pierderi:**
+
+1. **Pierdere planificată (bună)**:
+   - Toate regulile strategiei au fost respectate.
+   - Pierderea este parte a algoritmului.
+   - Nu este un motiv de supărare sau analiză excesivă.
+
+2. **Pierdere neplanificată (rea)**:
+   - Nu au fost respectate toate regulile.
+   - Ai intrat prea devreme, prea târziu sau ai omis o confluență.
+   - În acest caz, vina este exclusiv a traderului.
+
+**Soluția:** Conștientizează tipul pierderii și îmbunătățește disciplina.
+
+---
+
+#### **Fenomenul: „a pierde în timp ce câștigi”**
+
+- Se întâmplă când traderul închide tranzacția **înainte de a fi atins stop loss-ul** din frică.
+- Exemplu:
+  - Trade-ul ajunge în profit parțial, apoi revine spre stop.
+  - Traderul închide manual pe mică pierdere sau pe 0, **deși prețul ar fi ajuns în final în take profit**.
+- Este o **autosabotare**, un obicei mental dăunător care poate fi corectat doar prin încredere în planul de tranzacționare.
+
+---
+
+#### **Cum acționează instituțiile în aceste momente**
+
+- Instituțiile adesea „simulează” mișcări spre stop loss pentru a **scoate retail-ul din poziție**.
+- După ce retail-ul a ieșit, prețul revine pe direcția corectă.
+- **Concluzie:** Respectă planul inițial, nu închide tranzacțiile impulsiv.
+
+---
+
+#### **Ce faci în losing streaks?**
+
+- Nu mărești riscul.
+- Dacă te simți afectat emoțional, **scade riscul până când revii în control**.
+- Dacă simți că ești stabil emoțional, poți păstra riscul constant.
+- **NICIODATĂ să nu mărești riscul într-o perioadă de pierderi!**
+
+---
+
+#### **Cele două mari greșeli în trading:**
+
+1. **Overtrading-ul**
+   - Execuți prea multe tranzacții din impuls, fără setup-uri clare.
+   - Soluția: calitate în loc de cantitate. Mai puține tranzacții, dar mai bine selectate.
+
+2. **Creșterea riscului în momente nepotrivite**
+   - Nu mărești riscul într-un losing streak.
+   - Dacă vrei să mărești riscul, o faci constant, pe toate trade-urile, nu selectiv.
+
+---
+
+#### **Partea 2 – Winning Streaks: pericolul ascuns al câștigurilor**
+
+- Winning streak = perioadă cu mai multe tranzacții câștigătoare la rând.
+- Cel mai lung streak al autorului: **7 câștiguri consecutive**.
+
+**Greșeală frecventă:** apare frica că „urmează sigur un losing trade” → se evită următoarele execuții.
+
+- Mintea îți spune: „Prea bine a mers până acum, sigur urmează o pierdere.”
+- Această frică te face să **ratezi setup-uri bune**.
+- Chiar și autorul recunoaște că a pierdut 3-4 tranzacții câștigătoare dintr-un streak de 8, doar din acest motiv.
+
+---
+
+#### **Soluția pentru ambele situații: execuție sistematică**
+
+- Nu contează ce a fost anterior – win sau loss.
+- **Fiecare tranzacție este unică și independentă**.
+- Execută algoritmul indiferent de rezultatele anterioare.
+
+---
+
+#### **Mesaj final**
+
+- În trading vei trece prin ambele tipuri de streak-uri.
+- Important este **cum reacționezi** și **cum îți menții disciplina**.
+- Revin-o asupra acestei lecții ori de câte ori simți instabilitate sau frustrare.
+
+---
+
+O lecție intensă și esențială despre **maturitate emoțională și autocontrol** în fața fluctuațiilor inevitabile din trading. Dacă o înțelegi și o aplici, îți vei salva nu doar contul, ci și încrederea în propriul proces.

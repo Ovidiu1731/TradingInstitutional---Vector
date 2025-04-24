@@ -1,0 +1,77 @@
+Lectia 21mp4
+===
+
+[00:00:00] Bun venit la partea a doua a lecției cu execuție pe reguli să zic așa. În lecția trecută am vorbit de half the day, love the day. Acum discutăm despre lichidități și despre cum se execută pe bază a lichidităților și pe toată ziua. Ok. Ok Hai să ne uităm pe domnul Nasdaq. Să mă asigur că e tot un regulă e tot un regulă bun.
+
+Am marcat aici două lichidități majore. Știți am învățat împreună mergem pe 5 minute sau 15 minute, avem diferite lichidități Pe exemplu zona asta este o lichiditate majoră Zona asta este clar o lichiditate majoră. Avem zonele astea două Eu fac analiza pe piaţă, marchez cele mai clare lichidităţi, am pus alerte şi ne vedem de treabă.
+
+Prin intermediul lichidităţilor puteţi tranzacţiona la orice oră. De ce? Pentru că asta poate să fie luată la ora, nu ştiu, la orice oră efectiv. Hai să mergem acum pe un minut şi o să întâlnesc ce mai refer. Spre exemplu noi suntem acum la ora 5 după amiază. Ok, şi zicem că tu tranzacţionai intervalul nici nu ştiu [00:01:00] De la 1 până la 5, de la până la 4.
+
+În ziua asta n-aveai niciun trade, efectiv s-a ținut doar într-o direcție n-aveam lichidități vezi, lichidități pe aici pe aici n-aveai trade-uri, se întâmplă. Dar uite pentru cei care intrau pe exemplu pe sesiunea un pic mai de seară aveai lichidități următoare și vreau să facem împreună o simulare pentru lichiditate majoră lichiditate majoră.
+
+Hai să punem și regulile aici. Ok. În continuare intervalul de timp predefinit, să zicem că tu tranzacționezi... De la 10 până la, nu știu cât momentan e ora 5, hai să zicem că tranzacția e sesiunea de după amiază știi Adică vreau să vă arăt mai multe exemple din toate, voi le adaptați pe orarul vostru, dar vreau să vă arăt pentru toate orarele să știți cum să vă organizați.
+
+Noi acum ce așteptăm? Zona lichidată pentru că 1 și 2 avem bifat Așteptăm zona cu lichiditatea luată, astea două mari. Acum așteptăm avem alerte timpul trece, bam. Deci să zicem că am început sesiunea de tranzacțioare la 17.20. La 17.50, după jumătate [00:02:00] de oră deja avem prima lichiditate majoră luată. S-a întâmplat bun.
+
+Ce urmează Să așteptăm shift-ul. Hai să vedem. Ia tragem și regulile. Să vedem dacă avem sau nu avem shift. Bineînțeles că nu am pregătit aceste trade-uri de dinainte, deci nu știu exact dacă o să avem sau nu o să avem. Ok, avem un shift aici, da, două candele cu minim două ăsta e low, în rest nu mai avem nicăieri în low valid.
+
+S-a întâmplat shift-ul, avem gap? Da, avem gap.
+
+Pac! De asemenea o să vedem acum cazuri reale poate să veni și lose, poate să veni și win, eu vă arăt un trade executat corect. Cam ăsta este trade-ul, da? Deci am pus execuția în gap, puteai să-l pui la începutul gap-ului la jumate eu aici îl pun la jumate pentru că e gap destul de voluminos să zic așa și e ok.
+
+Stop [00:03:00] loss cu un punct în plus, take profit 1 la 2. Uitându-mă la acest grafic și văd că e un uptrend, totuși cred că la cum mi arată prețul se va targeta ori zona de aici, de sus. Noi trebuie să ne gândim unde sunt banii. Banii sunt la lichiditatea asta și aici Doar că aici sunt mai mulți bani decât aici, că asta e o lichiditate locală aș numi eu pe asta, pentru că este o locală, nu este așa de vizibilă Uite majora cât de bine se vede asta, vedeți aici e o lichiditate internă nu e cea mai frumoasă, uite-o pe asta, externă mare, din punct de vedere statistic, astea au o probabilitate mult mai mare de câștig decât astea Prin urmare, locală, majoră asta majoră luată ne întoarcem înapoi la trade-ul nostru.
+
+Deci cred că în această variantă, în această posibilitate vă zic exact cum gândești scenariul, ori se poate să continuăm mai sus și nu este niciun fel de problemă în cazul în care am avut un lose aici, ne uităm pentru următoarea zonă pentru că nu o să ne medim mereu toate zonele, iar în cazul în care avem aici [00:04:00] un win ar fi perfect pentru că după targetăm zona asta și ne uităm pentru tranzacții de acolo.
+
+Eu pe acest trade vreau 1-1 la 2, Este perfect pentru mine. Ok, hai să vedem cum se joacă. Momentan o luăm spre stop plus. Îmi se pare că vedem o reacție în favoarea noastră. Momentan mers în lateral și indecizie. Încerc să vă comentez ce e în mintea mea când tranzacționez și când mă uit la grafic pentru că exact chestia asta le gândesc.
+
+În continuare indecizie. Probabilitatea e mai mare în momentul ăsta să pierdem trad-ul decât să-l câștigăm pentru că s-a rupt în sus structură. Avem și o formațiune cumva de trend, dar totuși asta nu este un motiv să ieșim din tranzacție pentru că în cazul în care tu acum te-a pus să ieși poate trade-ul ăsta face fix asta.
+
+Și nu este o metodă bună. La fel, dacă ai ales să ieși acum, să închizi pe 0, ai salvat un lust, dar de ce ai mai executat în primă fază dacă nu? Adică nu ai niciun motiv real să ieși de aici. Trebuie să lăși teritul să se joace, nu ai niciun fel de [00:05:00] motiv. Îl lăsăm în continuare. Na, băi fix ce ziceam. Ok. Și asta este.
+
+Capcana, exact, deci am gândit exact ce ar fi gândit un om de retail aici Am văzut formațiunea care ne arăta că prețul urmează să explodeze în sus. Formațiunea asta te-a ținut de la 18.14 până la 18.35, te-a ținut 21 de minute în care te s-a jucat cu mintea ta și ai zis băi, vezi că ai fost în profit aici tu erai deja în profit, erai în profit 1%, s-a jucat cu mintea ta și ai zis, băi vezi că...
+
+Urmea nu e bine prețul crește ieși din tranzacția asta, abandonează-o, nu știu ce, nu știu ce, nu știu ce tu până la urmă ieșai că vedeai chestia asta și după se întâmpla fix asta și uite așa aratai o tranzacție foarte importantă Ok, foarte frumos jucat. Foarte interesant da, eu n-aș fi targetat mai mult și hai să vă zic de ce nu m-aș fi dus mai mult, scurios că tot să mai meargă în RR dar nu m-aș fi dus mai mult pentru că dacă vă uitați aici în tot acest drum avem mai multe gap-uri și gap-urile [00:06:00] astea ne pot da reacții, este unul aici a, ăla e singurul important, că restul nu prea mă interesează niciunul da, ăsta e singurul gap important nu știu, aș fi ieșit aici mai eventualitatea în care Să iei și 80% și te lași restul să releze până lichiditatea majoră poți să faci asta.
+
+Dar aici cu ghepul ăsta jos e riscant. Hai să vedem cum se joacă.
+
+Uitați-vă un pic. Deci 2 RR la țanc exact cine am dorit Am mai mers un pic sub. Nu a atins ghepul ăsta de care am vorbit. Se pare că a venit un reverse direct. A luat stop loss. Noi deja oricum ne-am închis targetul. Trade-ul nostru era complet. Aia profitabilă asta este exact o pedapsă pentru cei care, cum să zic nu au fost greedy și au vrut să prinde toată mișcarea până jos.
+
+Asta s-a întâmplat. Hai să lăsăm trade-ul cum e. Aici avem posibilitatea de nou trade. De un trade nou. Punem această lichiditate [00:07:00] Locală, a fost luată stopurile lor au fost luate frumos de tot, îmi place rău ce s-a întâmplat aici, păcat că n-avem shift, aici erau execuții, gap-urile astea perfecte n-avem shift, avem aici shift și avem și gap-uri.
+
+Execuția în acest caz aș face-o la jumătatea primului gap. Ceva de genul acesta, cu un stop loss, poți merge ori sus de tot dacă vrei să fii safe, ori aici. O să merg cu el aici la 20 de puncte cap și cu un do error. Hai să vedem dacă avem o execuție Deja când vedeți o mișcare de genul ăsta nu știu cât favorabil mai este să rămâneți cu trade-ul.
+
+Mie nu îmi place, mai au, se întâmplă când mai au entry-uri în last gaps, de-astea rămase nedeschise în cazul în care se întoarce. Dar în cazul de față consider că este un nou trade. Hai să vedem cum se joacă. Se pare că s-a plecat hunt-ul pentru [00:08:00] lichiditatea de jos despre care am vorbit. În primă fază cred că target-ul va fi lichiditatea asta de aici Și rămâne de văzut dacă o vom atinge pe cea de jos sau nu sau dacă o vom atinge și pe asta poate nu atingem nici pe asta dar nu cred la cum îmi arată cred că va fi atinsă ok cred că a fost acum luată Da a fost luată ia vedeți.
+
+Ia uite Bam, trecut fix sub, luat și reacție. Aici se putea găsi un trade, îmi pare rău că am sărit prea repede peste, trade-ul este următorul, wow cât de frumos. Gap, displacement, îl vedeți, shift aici, execuție clasic, stop, take profit aș pune în acest high. Care e oricum 1 la 2. De ce vine până la acest high?
+
+Hai să vedem [00:09:00] dacă l-a atinge.
+
+Se pare că momentan nu. Se pare că abia acum l-a atins. Aici Iar execuție frumoasă, ai varianta de execuția jumate sau execuție directă așa sănătate ar fi atins ar fi atins și așa te cură fii tu de ce, este în regulă orice fel de execuție ai fi avut. Bun, de ce am presupus așa Iar lichiditate locală marcată aici, da, s-a văzut Prețul a venit în jos, ne-a luat lichiditatea asta mai mare de aici, a plecat până în locala de sus să ia banii da, iar s-au luat banii din această zonă, știți cum puteți să mai notați, mulți fac chestia asta și și eu o făceam într-o perioadă, notam cu semnul de la dolar, puneam deasupra, stai că nu m-am știut pe ce buton apăs pe shift F, așa, uite genul ăsta și îl faceți mic și puteți să vă marcați zonele de interes cu acest dolar el, ce culoare vreți voi, nu știu, Facem rosu ok, si asta [00:10:00] era target-ul vostru, pe exemplu mai am archescut dolarile, asta imi place, e simpatic, ok, in continuare la cum arata graficul, probabilitatea de 60% sau 65% e sa o luam in jos, probabilitatea cealalta este sa o liquidam zona de sus, hai sa vedem, se pare ca plecam in sus, ok, Deja este foarte tarziu si e in timpul unui optie o sa fie miscari incete, slente bun.
+
+Aici ni s-a luat zona cu liquiditate, iar shift, clar, in acest punct, gap, avem unul aici si unul mai jos, executia la jumatatea primului inca iesi un gap mare.[00:11:00] 
+
+Și doi rare. Hai să vedem ce rezultat are acest trade.
+
+Momentan indecisie Fiind și noapte probabil nu vedem momentan reacție. Ok, slow, slow de tot market-ul, deci executată tranzacția la 1.21 este deja 3.11, 2 ore. Pare că merge spre take profit și da, a fost take profit. Ok, în aceste exemple ne-am folosit de lichiditate majoră, de lichiditate locală V-am arătat mai multe moduri de gândit cum targetăm, cum gândesc băncile, aici v-am dat exemplul perfect de exact ce se mișcă cum mișcă băncile prețul, v-am explicat exact gândirea din spate pe care o să vedeți că o să o dezvoltați și voi în ceva timp.
+
+Implicați logică ceea ce faceți pentru că cu logica o duceți foarte departe și puteți avea rezultate foarte frumoase. Aici ați văzut, logică clar, major, bam, oricate majoră, am plecat, am luat au schimbat direcția. Dar după care au mers, au targetat următoarea, au schimbat iar [00:12:00] direcția, au luat altă lichiditate, iar au schimbat direcția, au luat lichiditate de aici iar au schimbat direcția.
+
+Probabil următorul target cred că este acest.
+
+Asta este următorul target al băncilor cel mai probabil. Deci eu mereu fac așa, împlin targeturile dintr-una într-alta. Cam asta ar fi pe scurt și ceva am dat exemplu așa se transacționează la orice oră pe bază de lichidități. Intri la ora la care vrei tu, la ora 12 după amiază, 13 după amiază, da? Și în momentul ăsta marchezi lichidățile în funcție de ce vezi pe grafic și te pui și aștepți să fie luate.
+
+Așa tranzacționezi practic la orice oră dorești. Spre exemplu am avut un trade aici potențial la ora 18.01, aici un trade la ora 20.56, aici un trade la ora 01.23 noaptea, deci indiferent de ce oră tranzacționai, Aveai, uite, cât un trade aici din interval în interval. Dacă e 24 de ore, la fiecare 24 de ore, eu zic că găsești în genul ăsta cam 5 tranzacții.
+
+Scopul tău este să încerci să le găsești pe ala bună și da, nu-ți fie așa mereu. S-a nimerit acum, sunt niște [00:13:00] exemple foarte bune, dar o să fie un moment de când efectiv o să fie traduri jalnici o să fie luzuri, o să fie probleme dar din astea învățăm, învățăm să ne perfecționăm și așa mai departe. Deci cam asta este cu execuția pe toată ziua, cam asta este cu lichiditățile.
+
+Cu execuția pe bază a echităților ca să înțelegeți cum funcționează, deci aveți variante și vă dau lucrurile astea aici ca să fiți liberi să tranzacționați cum vreți. Dacă vreți să faceți high of the day și low of the day, o puteți face. Pentru mine cea mai puternică modalitate pentru această strategie din perspectiva mea sunt liquidățile majore.
+
+Sunt cele mai puternice au cel mai mare win rate, sunt cele mai importante, da, sunt atinsi un pic mai rar Dar sunt cele mai bune de departe mult mai bun decât orice ar genera altă confluență, să zic așa, sau altă lichiditate în această strategie. High of the day și low of the day sunt făcuți pentru cei care vor să aibă un rezultat probabilistic sigur adică la final de lună dacă execuți tot rezultatele Ai profit, dar nu vei avea 50%, nu știu, haos mult, nu știu ce.
+
+O să ai lose, win, lose, win, lose, lose, win, win lose. Și [00:14:00] la final tragești ea și faci profit dacă execuți corect pe toate, pe când la lichidez major e pus să ai mult mai multe rezultate Mult mai multe cu ele. Dar aici depinde de tine și de dorința ta, că ești genul de trader care te mulțumește cu mai puțin, mai slow sau vrei să faci un pic mai detaliat, aici depinde de tine și de dorințele tale.
+
+Eu personal le combin pe ambele Îmi place să încep ziua cu analiza dimineții cu primul trade cu I have the day and I love the day pe DAX, să urmăresc să văd măi îmi place ce se formează dacă văd un setup frumos cu o probabilitate mare execut, dacă nu, nu. De asemenea merg la ulterior, merg pe sesiunea de la 12.30 încolo și aștept lichidități majori lichidități locale, vedem ce trade-uri, le urmăresc pe toate, văd ce trade-uri informează, cum arată, îmi plac, nu-mi plac și cam asta este.
+
+Vă mulțumesc mult pentru atenția acordată și ne vedem la lecțiile următoare.
+

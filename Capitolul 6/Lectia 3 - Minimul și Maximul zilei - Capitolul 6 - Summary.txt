@@ -1,0 +1,91 @@
+### **Rezumat Lecția 3 – High of the Day (HOD) și Low of the Day (LOD): Primul Tip de Lichiditate**
+
+---
+
+#### **Introducere**
+
+Această lecție face parte din seria tehnică despre lichiditate și se axează pe **primul tip de lichiditate specific: High of the Day (HOD) și Low of the Day (LOD)**. Aceste zone sunt printre cele mai importante în analiza de tip institutional, deoarece reprezintă punctele în care se acumulează cele mai multe ordine și stop loss-uri în cursul unei zile.
+
+---
+
+### **1. Ce sunt HOD și LOD și cum le identifici**
+
+- **High of the Day** = maximul zilei curente (HOD).
+- **Low of the Day** = minimul zilei curente (LOD).
+- Sunt considerate **zone de lichiditate** prestabilite – adică **toți traderii le au marcate la fel**, indiferent de stil sau strategie.
+
+---
+
+### **2. Cum marchezi corect ziua de tranzacționare**
+
+- Se folosește **timeframe-ul de 1 minut** pentru a marca începutul și sfârșitul zilei.
+- În funcție de ora României:
+  - **Ultima candelă a zilei precedente**: ora 22:59.
+  - **Ziua curentă începe la 23:00 și se încheie la 22:59 în ziua următoare**.
+- Se marchează intervalul 10:00 – 12:00 (ora României) – **fereastra de validare HOD/LOD**.
+
+---
+
+### **3. Reguli importante pentru HOD și LOD**
+
+#### ✅ HOD/LOD sunt valide doar între orele 10:00 – 12:00
+- După ora 12:00, nu mai sunt relevante ca HOD/LOD.
+- Pot deveni alte tipuri de lichiditate: **majoră, locală sau minoră**.
+
+#### ✅ Se folosesc doar în zile **fără știri majore**
+- Prezența știrilor poate influența semnificativ piața și invalida comportamentul clasic al lichidităților.
+
+#### ✅ După ce este „lichidat” HOD sau LOD:
+- Dacă **HOD este lichidat** → ne uităm pentru **poziții de sell** (vânzare).
+- Dacă **LOD este lichidat** → ne uităm pentru **poziții de buy** (cumpărare).
+
+---
+
+### **4. Cum marchezi HOD și LOD pe grafic**
+
+- Identifici primul maxim și minim format între **ora 00:00 și ora 10:00**.
+- Le marchezi cu linii denumite **HOD** și **LOD**.
+- Folosești taste rapide:
+  - ALT + T pentru trasare linie.
+  - SHIFT pentru trasare perfect orizontală.
+  - ALT + V pentru linie verticală.
+  - Style pentru a le face punctate sau colorate diferit.
+
+---
+
+### **5. De ce sunt importante HOD și LOD**
+
+- Sunt **zone cu acumulare mare de bani** – adică:
+  - Locuri unde sunt plasate ordine în așteptare sau stop loss-uri.
+  - Targeturi preferate de instituții.
+- Se pot transforma în **puncte de inversare a trendului** sau **declanșatori de continuare**.
+- Reprezintă **prima confluență clară** pe baza căreia se pot planifica intrări în piață.
+
+---
+
+### **6. Piețele unde funcționează cel mai bine HOD/LOD**
+
+- **DAX (DE30)** – este piața preferată de autor pentru aplicarea HOD/LOD.
+- Alte piețe testate:
+  - **US30** – poate fi folosit, dar mai slab ca rezultate.
+  - **NASDAQ** – viabil, dar nu la fel de curat.
+  - **UK100** – în testare.
+- Recomandare: **testați și voi** – unele piețe s-ar putea potrivi mai bine stilului personal.
+
+---
+
+### **7. Exemple practice**
+
+- Lecția oferă mai multe exemple de zile în care:
+  - Prețul atinge HOD/LOD → reacționează și se întoarce.
+  - Alte zile în care HOD/LOD sunt ignorate complet – piața le lasă intacte.
+
+**Mesajul cheie:** **Nu în fiecare zi vor funcționa ca zone de reacție.** Important este **contextul și confirmarea**.
+
+---
+
+### **Concluzie**
+
+High of the Day și Low of the Day sunt **instrumente puternice și ușor de aplicat**, ideale pentru traderii la început de drum. Ele oferă un cadru obiectiv, vizual și repetitiv de observare a pieței. Lecția reprezintă o etapă esențială în învățarea strategiei instituționale și va fi fundament pentru lecțiile următoare legate de alte tipuri de lichiditate.
+
+Este o confluență cheie a sistemului de tranzacționare. Aplicarea corectă a regulilor prezentate aici poate crește semnificativ probabilitatea unor execuții profitabile.

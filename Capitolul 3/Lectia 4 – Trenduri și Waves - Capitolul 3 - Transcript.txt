@@ -1,0 +1,65 @@
+Lectia 4
+===
+
+[00:00:00] Salutări! Revenim la lecția a patra. Azi o să vorbim de două concepte foarte importante care ar cătorește marketul. Trenduri și waves. Și o să începem cu waves sau putem să zicem valuri sau putem să le mai zicem cum ar veni vârfuri de munte ca niște peaks. Și în principiu le numesc valuri și hai să vă dau o Câteva exemple.
+
+În primul rând, am schimbat, dacă observați culoarele la candele, le-am schimbat pentru că mi se pare un pic mai ușor de înțeles pentru voi, mai ales dacă sunteți la început. Poate e mai ușor pentru voi să distingeți ce se întâmplă în piață adică când avem roșu, să vedeți roșul ăsta puternic, adică scăderea și creșterea cu verde, așa că o să las pentru o perioadă de timp așa graficul și o să-l schimbăm Spre final, când o să fiți deja avansați și o să fiți familiarizați cu [00:01:00] conceptul de candele și așa mai departe și nu o mai aveți nevoie de culori, dar cred că vă ajută momentan.
+
+Bun. Și acum, la ce vreau să ne uităm? Avem două tipuri de wave-uri. Spike wave și round wave. Te notați foarte important. Round wave și spike wave. Round wave-ul este aici. Aici vedem un round wave, am și notat, vedeți este ca un nu știu ca un val, ca un vârf munte, e rotund așa da? Ăsta este un round wave. Și, de asemenea ăsta de aici este un spike wave, da?
+
+Este ca un țep, să-i zicem, este așa scuțit și cum se caracterizează ele? În primul rând, trebuie să mai notați că wave-urile... Pe lângă faptul că sunt Round Waves și Spike Waves, ele mai sunt de două tipuri. Există Top Wave și Bottom Wave. Top Wave-ul este acesta, pentru că avem un wave în [00:02:00] sus, și Bottom-ul este acesta, deoarece avem un wave în jos.
+
+Toată piața este alcătuită numai și numai din wave-uri, deci o să vedem numai wave-uri În continuu deci piața este arhătuită din aceste wave-uri, sunt foarte importante și trebuie să le identificăm, deci încă o dată round wave-ul este foarte simplu acesta este un top wave, top round wave mai exact, pentru că este încoată în sus, uite aici avem un bottom wave, după aceea încă un top wave bottom wave, dar haideți să luăm pe cele mai clare pentru că vă zic o regulă Dacă ceva este neclar și vă chioriți aici, vă zici, băi, nu văd, nu-mi dau seama, ăsta e un wave, e un wave, lasă-o balt nu-și mai contează.
+
+Dacă nu ești sigur că acel lucru este un wave, nici nu-l mai băga în seamă că înseamnă că nu e relevant, nici alți trader nu o să observe, deci nu e relevant. Prin urmare, luați... Cele mai clare [00:03:00] exemple. Aici, uite, clar, un wave, da? Deci am venit de sus și am făcut acest vârf Asta este un round wave, pentru că aveam multe candele, nu este un spike wave.
+
+Un spike wave este format, de regulă din două candele O candelă tare în jos, urmată de una tare în sus. Acesta este un spike wave. Aici avem încă un spike wave, o candelă tare în jos și o candelă tare în sus. Bun. Cam astea sunt wave-urile. Tot market-ul ăsta al cătuii din ele sunt foarte multe noi le-am luat pe cele mai de bază, dacă stai să te uiți și să te curiști aici poți să ai un wave, aici să ai vârful jos, deci ăsta e un top wave, bottom wave, după aceea top wave.
+
+Bottom wave. Încă o dată repet, nu vă grăbiți să intrați pe TradingView să le luați pe aplicație, să le marcați o să facem partea asta împreună, o să intrăm în aplicație, o ne uităm peste ea și o să aveți ca un fel de temă în capitolul următor să notați wave-urile astea și exact ce fac eu acum. Deci nu vă grăbiți, v-am [00:04:00] calculat tot, e ok, momentan doar ne uităm peste ele, să aveți așa o idee despre ce e urmează să vorbim.
+
+Și cam astea sunt wave-urile. Deci recapitoare, Avem top wave și bottom wave și ele sunt de două tipuri, round și spike. Round este acest rotunj cu mai multe candele, spike este doar cu două candele în principiu poate cu trei. Uite aici avem un spike wave masiv deci vedeți m-am coborât foarte tare, foarte puternic ca un țep și nu e doar din două, vedeți sunt trei aici.
+
+Deci avem candela roșie, una mică verde și încă una tare în jos și apoi în sus asta este un spike wave format din trei candele. Regula aici este să arate ca un țep, dacă arată ca un țep nu înseamnă că e spike wave, dacă e așa rotunjor ca aici este un round wave, uite rotunjor, rotunjor, round wave aici iar.
+
+Bun, cu ce ne ajută pe noi aceste wave-uri? Faptul că noi vedem avem aici un low, avem un bottom wave, după aceea un up [00:05:00] wave, după aceea un wave, bottom mai jos ca cel precedent, după Acesta care este sus este tot mai jos ca asta precedent. Deci noi ce avem aicea Un trend descendent. Exact despre ce urmeaza sa vorbim, al doilea capitol al acestui clip sunt trendurile si avem trenduri de doua tipuri, slow trend si fast trend.
+
+Si in cazul acesta Aș zice că nu este foarte relevant. Apropo tot ce învățăm este subiectiv adică o persoană poate să zică că ăsta e un wave, ăsta de aici, alta poate să zică că nu e un wave, că nu e important, că avem doar pe ăsta și pe ăsta, nu contează, e totul subiectiv. Ideea este să știți conceptul, noi oricum nu o să folosim în strategia pe care o am eu, folosim wave-urile într-un singur mod foarte simplu și nici nu trebuie știți dacă e spike wave sau round wave.
+
+Dar vă învăț ca să auziți de conceptele astea să vă familiarizați ușor ușor cu ele. Noi o să le folosim ca o confluență [00:06:00] o să fie una din confluențele strategiei și o să vedeți sunt foarte de folos dar simplu de identificat nu o să aveți nicio problemă cu wave-urile, sunt foarte ușoare și să fie foarte clară o să vedeți.
+
+Bun, revenind aici, trendurile. Bun, deci avem două tipuri de trenduri, slow-fast și de asemenea avem uptrend și downtrend. Noi aici Avem un downtrend, putem să marcăm cu o linie de genul ăsta da? Asta este clar un downtrend. Prețul pe o anumită perioadă de timp se mișcă în jos, deci noi suntem acum pe 5 minute, dar uite în ultimele, suntem pe 27 octombrie.
+
+De la ora 4.40 după miaza până la 11 noaptea prețul s-a mișcat în principiu doar în jos. Deci este un downtrend și prețul nu se mișcă direct, el o ia treptat, coboară după mai urcă mai redistribuie prețul. Iar coboară, iar se face o redistribuție, iar coboară și așa mai departe [00:07:00] Deci prețul niciodată nu o să coboare în modul asta, o să coboare direct, nu, prețul o să coboare așa mereu așa arată prețul.
+
+De ce? Instituțiile vând, în punctul ăsta închid din poziții deci închid ce au vândut aici, iar în punctul ăsta iar vând, De ce? Pentru că au un preț foarte bun, au un preț mai mic, ce să țină de aici în continuare tranzacția când poate să vândă aici la un preț și, pardon, poate să cumpere aici la un preț și să revândă în punctul ăsta iar țin până aici și au profitul, da, au ieșit din poziție aici, iar reintră în sel, iar profită, deci de-aia...
+
+Ca să facă o redistribuire, asta este un pullback, așa se numește, după ce prețul cade tare și se ridică un pic, ăsta este un pullback. Ca să știți puteți să vă notați, să faceți următorul desen, o să vă arăt aici un exemplu de pullback. [00:08:00] Un pullback este... Asta să marcăm să fie clar, deci avem aici un urf am coborat până în punctul ăsta, acesta este pullback-ul și o continuăm în jos.
+
+Eh, pullback-ul este acesta. Deci partea aceasta, linia aceasta neagră pe care am făcut-o, este pullback-ul, am scăzut tare, am redistribuit un pic prețul și acum coborăm în continuare. Bun. Acum Chiar vreau să șterg acest wave. Vedeți că v-am marcat aici cu niște cutiuțe colorate acest downtrend. Cu roșu avem bottom wave-urile importante majore și aici avem top wave-urile.
+
+Vedem că este un downtrend de ce? Low-urile se duc din ce în ce mai jos deci ăsta S-a dus mai jos decât cel precedent, următorul s-a dus mai jos decât acesta, deci ne arată [00:09:00] scădere și, de asemenea vedeți, vârfule sunt mai jos decât precedentele. Prin urmare, aici avem un downtrend. Se vede clar, prețul tinde să scadă.
+
+Vreau să notați lucrul ăsta, în momentul în care suntem într-un downtrend, pe un anumit time frame să zicem, uite pe 5 minute, nu are rost să iei o poziție de cumpărare, să intri într-un buy, De ce? Pentru că dacă prețul continuă să scadă, probabilitatea este mai mare pentru scădere decât pentru urcare.
+
+Trading-ul este un joc de probabilități, mereu trebuie să pui probabilitatea înaintea a orice în trading. Prin urmare, dacă probabilitatea este mai mare pentru scădere într-un downtrend, când suntem în downtrend, urmărim doar să luăm tranzacții de vânzare. Și cum puteam să valorificăm acest lucru? Uite, eram în momentul ăsta de piață, observam că e un downtrend.
+
+Un downtrend este confirmat în momentul pentru mine cel puțin în momentul în care am [00:10:00] făcut un lower low, acesta este un lower low, deci avem un wave mai jos decât cel precedent și de asemenea un top mai jos decât cel precedent. Deci deja pentru mine aici este un downtrend confirmat. E, în punctul acesta...
+
+Deja putem să ne uităm pentru un sell. Spre exemplu repet, asta nu face partea de genul meu, eu vă dau un exemplu de tranzacție ca să vedeți cum se folosesc aceste trenduri. Și în zona aceasta luăm o tranzacție, executăm aici ne punem un stop deasupra wave-ului acesta În caz că am greșit și wave-ul este...
+
+Rupt, se ia în sus prețul înseamnă că am greșit și că acesta nu este un downtrend valid. Așa și ne punem un profit, nu știu undeva, random, aici să zicem, doar pentru exemplu Și uite cum în punctul ăsta noi am dat [00:11:00] call la faptul că urmează o mișcare majoră doar prin faptul că am identificat un downtrend înainte.
+
+Asta este un exemplu relativ simplu. Ok, o să ștergem aceste Adnotări și vreau să vă arăt încă un lucru. Cum îți dai seama că un trend urmează să se termine? Destul de simplu În momentul în care vedem am avut mișcarea asta foarte puternică da? Deci am avut acest bottom wave, urmează pullback-ul despre care am vorbit acesta și în momente față n-am putut să continuăm în jos Cum ar fi fost teoretic normal acest downtrend, ci a început o mișcare laterală Mișcare laterală care ce ne indică?
+
+Ne indică faptul că nu mai este putere de scădere. Și uite cum în punctul ăsta trendul din down începe să se transforme într-un uptrend. [00:12:00] Deci de aici, aici, aici, aici, aici, aici, Aici chiar dacă a rupt, asta e irrelevantă candela asta într-o față Ideea este că s-a schimbat trendul complet și nici măcar nu m-am uitat de la ce se va întâmpla în viitor, dar am suficientă experiență cât să-mi dau seama că e o probabilitate foarte mare să formeze un uptrend după asemenea mișcare.
+
+Deci cam așa identifici că un trend e pe final. Așa Și observi faptul că nu mai este putere de continuare. V-am arătat care este treaba cu trendurile ca să aveți o idee despre trenduri. Tot marketul funcționează pe bază de trenduri și waveri. Ce am învățat în lecția asta, foarte importante, el este, vedeți tot marketul, dacă stai să te uiți, e al cătui din waveri waveri waveri waveri waveri și trenduri.
+
+Uite, dacă te uiți aici pe termen mai lung un [00:13:00] pic, suntem într-un uptrend, da? Prețul tinde să crească
+
+Iată cum prețul continuă să crească este într-o continuă creștere.
+
+Repet, nu le vom folosi în strategia noastră aceste concepte, dar vreau să le știți pentru a înțelege piața sunt niște concepte importante, sunt de bază doar Waves v-am zis o să folosim și o să vedeți în ce mod, dar foarte simplu Cam asta e cu clipul de astăzi, sper că ați luat notițele cum trebuie, v-ați notat tot ce am vorbit aici măcar părțile importante pe care le considerați voi importante și relevante și repet, în capitolul următor o să începem să aplicăm, deci în momentul ăsta doar vă arăt anumite lucruri, de capitolul viitor începem să le aplicăm, o să vă arăt concret tot ce folosesc aici cum fac eu, colorez, fac, mișc [00:14:00] În linii etc.
+
+O să vă arăt tot, stați calmi, o să puteți să faceți tot ce fac și eu. Ne vedem în clipul următor.
+

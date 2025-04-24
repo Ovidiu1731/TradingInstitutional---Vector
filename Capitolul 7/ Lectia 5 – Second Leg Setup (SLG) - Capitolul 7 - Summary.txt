@@ -1,0 +1,76 @@
+**Rezumat Lecția 5 – Second Leg Setup (SLG)**
+
+---
+
+### Introducere
+
+Această lecție este dedicată unuia dintre cele mai importante, dar și mai complexe setup-uri din strategie: **Second Leg Setup (SLG)**. Deși este mai dificil de înțeles la început, SLG este **cel mai frecvent întâlnit** setup în practică și, prin urmare, esențial de stăpânit.
+
+---
+
+### Ce este un Second Leg Setup?
+
+SLG apare atunci când prețul nu formează gap-ul imediat după lichiditate și shift, ci dezvoltă o **a doua structură (al doilea picior)** înainte de a crea un gap valid. Practic, setup-ul clasic cu un singur picior este înlocuit cu o structură formată din două picioare.
+
+- Primul leg: prețul reacționează după lichiditate dar nu formează gap-ul.
+- Al doilea leg: apare un nou shift, displacement și gap – **acesta este momentul execuției**.
+
+SLG este aplicabil atât pentru poziții de **buy**, cât și pentru **sell**, în funcție de direcția lichidității și a structurii.
+
+---
+
+### Variante de plasare a Stop Loss-ului
+
+SLG oferă două opțiuni valide pentru plasarea SL:
+
+1. **Clasic** – la ultimul high/low major.
+2. **Ajustat** – la noul high/low format în al doilea leg (pentru un raport R:R mai bun).
+
+Alegerea între cele două depinde de apetitul pentru risc al traderului și de claritatea structurii.
+
+---
+
+### Subtipuri ale setup-ului SLG
+
+SLG poate apărea în combinație cu unul sau mai multe gap-uri:
+
+- **SLG + One Gap** – cel mai simplu și des întâlnit
+- **SLG + Two Gaps**
+- **SLG + Three Gaps** – setup cu probabilitate mai scăzută, se recomandă prudență
+- **SLG + Multiple Gaps** – foarte rar și neprofitabil, nu se recomandă execuția
+- **SLG + Small Gap** – tratat ca SLG + One Gap, chiar dacă gap-ul este foarte mic
+
+---
+
+### Notarea setup-ului
+
+Se recomandă utilizarea prescurtării **SLG** pentru a evita confuzia cu "SL" (Stop Loss). În unele cazuri, în materiale apare și ca "SL", dar trebuie înțeles din context că este vorba despre setup.
+
+---
+
+### Exemple practice
+
+1. **SLG + One Gap** – execuție după al doilea leg, TP atins, SL plasat pe noul high
+2. **SLG + Two Gaps** – exemplu de tranzacție pierdută, prețul ia SL-ul și apoi merge în TP
+3. **SLG + Three Gaps** – setup cu win rate mic, din nou exemplu cu pierdere
+   - Se execută în gap-ul din mijloc, dar nu este un setup recomandat
+
+---
+
+### Statistici
+
+Pe un eșantion de **500 de tranzacții**, SLG a fost cel mai frecvent setup:
+
+- **318 tranzacții (64%)** au fost SLG
+- **178 câștiguri**, **140 pierderi**
+- **Win rate: 56%**
+
+Este pe locul 3 ca eficiență, după setup-urile TG/TCG și OSG.
+
+---
+
+### Concluzie
+
+Second Leg Setup este un **setup complex, dar crucial**, deoarece apare cel mai des. Deși implică mai multe variabile și poate genera confuzie la început, cu practică și backtesting devine o unealtă extrem de valoroasă. Este recomandat să fie testat, analizat și adaptat la stilul propriu de tranzacționare.
+
+Traderii care înțeleg și aplică corect SLG vor avea un avantaj major în interpretarea și executarea tranzacțiilor în cele mai frecvente structuri de piață.

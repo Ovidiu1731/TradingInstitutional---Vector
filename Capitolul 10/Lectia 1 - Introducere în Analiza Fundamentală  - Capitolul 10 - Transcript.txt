@@ -1,0 +1,73 @@
+Lectia 1 - introducere
+===
+
+[00:00:00] Salutare comunitate! Bine v-am găsit la un nou capitol! Un capitol poate un pic complicat dar în aparență cel puțin. Dar incredibil de frumos și care aduce o valoare pe care multe persoane nu o conștientizează. Analiza fundamentală. Multe persoane fac trading bazat doar pe tehnic. Li se fură ochii cu ideea că avem niște indicatori magici pe care îi folosim.
+
+Și aceștia ne aduc rezultate sau urmărim 3-4 linii executăm la infinit alea 3-4 linii și ajungem la rezultate constante. Nu zic că nu e posibil, dar analiza fundamentală este extrem de importantă Se referă la analiza pe știri, iar știrile ne dau indicii. Cu cât mai multe indicii cu atât mai bine. Noi avem o componentă profitabilității.
+
+Aia este analiza tehnică Și o combinăm cu analiza fundamentală și ajungem aici. Vreau să dau mai mare camera pentru această lecție, ca să te vedem un pic mai bine. Practic în momentul în care combinăm aceste [00:01:00] două tipuri de analiză, ajungem în punctul perfect, în care ne folosim și de tehnic și de fundamental.
+
+Știți că am avut o lecție în capitolul 2, dacă nu mă înșel o lecție în care v-am prezentat știrile, tot ce trebuie să știți despre așa mare. Ei bine în acest capitol e momentul să detaliem Totul De ce nu am făcut-o de la început Pentru că am vrut să mă asigur în prima fază că înțelegeți partea tehnică, înțelegeți cum funcționează partea de strategie, partea statistică și așa mai departe.
+
+Dacă încă nu simțiți că stăpâniți partea tehnică puteți să revedeți capitolele respective și după să reveniți la acesta dar acesta este foarte important. Vreau încă de la început să vă rog să vă luați elemente de la notițe Pentru acestea să notați foarte bine fiecare știe în parte detalii despre aia cum se tratează Nu o să le înțelegeți din prima, poate o să apară multe informații, multe denumiri de care n-ați auzit.
+
+Stați liniștiți și eu am simțit aceeași lucru, cu timpul le înveți, prima oară le vei studia pe toate vei înțelege două după în timp vei înțelege una, după mai trece timpul și o mai înveți pe încă una și ușor ușor începi [00:02:00] să le înțelegi pe toate Nimeni nu se naște perfect sau învățat, le dobândim pe parcurs.
+
+De asemenea vă spun, la mine analiza tehnică a fost cea mai grea de învățată ce avem aici. Adică să înțeleg interpretările, să facă sens, să le corelez, să înțeleg sistemul cum toate știrile se leagă între ele și toți indicatorii economici au legătură unul cu celălalt, a fost complicat și mi luat 2 ani de zile.
+
+Nu v-așteptați să învățați direct, dar având informațiile aici deja pregătite, pentru că mie mi-a luat foarte mult să găsesc informațiile să le înțeleg, eu vi le dau direct. Pregătite, scopul vostru este să le înțelegeți și tema e să le înțelegeți, să le aplicați să le testați, să le urmăriți. Nu doar să le înțelegeți din prima dată, dar siguranță le veți înțelege mai repede decât le-am înțeles eu.
+
+Iar atunci când înțelegeți partea fundamentală, vă va ajuta în multe zone, în partea de investiții pe termen lung, în partea de tranzacții și așa mai departe. Cum folosesc analiza fundamentală? Nu execut tranzacții pe baza ei. Foarte rar se întâmplă asta, ci mă folosesc de zilele cu știri pentru a evita tranzacții.
+
+Eu mă uit la știri și văd ce se întâmplă în zilele în care am CPI ce se întâmplă în zilele în care am NFP. Păi uite statistic, mai mult [00:03:00] pierd în zilele respective, deci hai să le evit sau mai mult câștig ok, hai să ne focusăm pe ziua respectivă. Mai am tranzacții într-adevăr pe care le execut că uite am urmărit patru indicatori mi-au dat un rezultat și știu că ăștia sunt strânși legat de un al cincilea Și uite de asta o să iau decizii.
+
+Spre exemplu cifrele pe inflație combinat cu NFP și cu rata șomajului, de regulă ne pot indica ce se va întâmpla la FOMC meeting când vedem deciziile pe politică monetară, adică ce se întâmplă cu rata dobândi de referință și rata dobândi de referință în funcție de rezultat știi cum să tratezi piața pentru următoarea perioadă.
+
+Deci te poți poziționa așa pe termen un pic mai lung, dar nu vă recomand să faceți trading păștiri în primul an de zile. Primul an luați-o treptat Studiați celelalte detalii iar în momentul în care ați prins experiență ok, mai faceți câte o tranzacție și bazată pe știri. Rar fac asta, o mai fac, deci nu ceva să nu existe, dar rar.
+
+În general mă folosesc de știri pentru a evita zile periculoase. Știrile ne afectează Și după cum știm, care este cea mai importantă paritate la care ne uităm? Practic moneda cea mai importantă, [00:04:00] statul, continentul pentru care ne axăm. Este oare Europa? Este oare Africa? Este oare, nu știu hai să zicem Asia?
+
+Nu. Statele Unite ale Americii ei sunt principali. Deci asta este zona principală, e momentul de față momentul în care filmez acest clip, dacă asta se va schimba vreodată Voi fi aici să vă anunț, dar pe noi ne interesează foarte mult știrile pe dolar, spre exemplu CPI-ul pe dolar, bank holiday-ul pe dolar și așa mai departe ne interesează și pe altele, dar vă dau un exemplu, în clipul de azi doar le prezentăm ușor, vă zic despre ce o fie capitolul.
+
+Vă fac o scurtă introducere dar în lecția viitoare intrăm în fiecare detaliu în parte. Astăzi discutăm așa un pic despre bank holidays. Ce sunt bank holidays? Practic sunt vacanțele băncior Sunt zile în care băncii ieși o vacanță. Eu prefer să evit US bank holiday complet. Evit toată ziua pentru că stai atent, sunt cei mai mari jucători pe piață.
+
+Dacă îți lipsesc cei din state nu ai volum în piață. Asta nu înseamnă că nu poți găsi tranzacții profitabile Vei găsi și în zilele cu bank holidays, [00:05:00] dar sunt zile în care te poziționezi pe tranzacții mai Cu un potențial mai slab decât în mod normal. Întrebare rară, dar dacă avem bank holiday pe Asia sau pe Noa Zelandă nu avem neapărat treabă acelea decât dacă tranzacționați indicele din Noa Zelandă sau tranzacționați piața din Asia, atunci contează, dar dacă tranzacționăm nu știu, DAX, ce relevanță are că este un bank holiday pe Noa Zelandă Bun, hai să ținem cont de aceste mici aspecte, bank holiday-ul eu le evit complet, repet, pe cele pe dolar, mai evit și pe zona, da, dacă uite, e Transatunesc DAX, da, care este în Germania și văd bank holiday-ul pe Germania, evident mă voi reîntra către alte zone.
+
+Cam asta ar fi cu bank holiday-urile, nimic mai complicat este mai mult de evitat. De ce? Pentru că e vacanța a băncii nu este volumul în piață, algoritmii nu sunt porniți în mare parte din timp când vine vorba de bank holiday-uri dar asta e mai bine să ne luăm și noi pauză în zile respective. Ce facem în zile cu bank holiday-uri?
+
+Ne ducem cu burta la soare? De principiu nu ar fi de preferat asta, ar fi de preferat să facem statistică. [00:06:00] Poate să ne relaxăm să mergem o plimbare în parc, să mergem să facem sport, să petrecem timp cu familia, cu cei dragi sau petrecem citind pentru evoluție sau te duci la plajă ce vrei tu, să te relaxezi dar asta.
+
+Mai bine decât să stăm pe grafice să forțăm tranzacții care nu merită după să ne pară rău că am pierdut. O să intrăm în următoarele clipuri, o să discutăm despre CPI FOMC Meeting NFP, Unemployment, GDP, PCE, după care o să avem elecții în care acoperim și PMI și Retail Sales și așa mai departe. În acest capitol nu voi puncta absolut toate știrile posibile Sau toate evenimentele macroeconomice geopolitice etc.
+
+E foarte complicat și sunt foarte multe Vom pune aici bazele. Nu complicați trading-ul. Multe persoane ce fac, și am văzut greșeala asta, tind să complice mult trading-ul să găsească un milion de lucruri. Lucrurile trebuie fie simple. Strategia trebuie fie clară și simplă, răbdarea trebuie să existe, analiza fundamentală să existe acolo și le punem pe toate la loc.
+
+Și răbdarea asta, conștientizarea că nu vei avea profit în fiecare zi Nu vei avea nici pierderi în fiecare zi va fi un echilibru Scopul este să ne poziționăm mai [00:07:00] mult pe tranzacții câștigătoare decât pe tranzacții pierzătoare. That's all. Nu câștiguri în fiecare zi, nu pierderi în fiecare zi Treptat pas cu pas, încet.
+
+Astea sunt câteva mici aspecte asta este drumul și mindset-ul care te va duce spre rezultate. Acuma cam asta ar fi ce am vrut să discut. Urmează să intrăm capitol, urmează o lecție pe partea asta și începem să le luăm pe rând pe fiecare în parte. Vă rog să luați notiția, vă rog să le tratați ca atare, vă rog să studiați mai departe pe lângă ceea vă dau eu, că vă dau cam tot ceva trebuie, Pe termen lung să studiați mai mult partea de știri, eu ca și rutină petrec în fiecare zi câte 10-15 minute maxim pe partea de știri.
+
+Dimineața înainte de a începe sesiunea citesc ce se întâmplă, văd urmăresc. Hai vreau să vă arăt de fapt un pic și cum urmăresc știrile pe scurt. Eu folosesc investing.com, e un site gratuit, puteți folosiți ce doriți. Intru la ei pe Economic Calendar și pe site-ul nostru, știți că avem un calendar economic.
+
+Pe care îl folosesc și pe acela ocazional, deci direct pe site-ul tradinginstitutional.ro, la zona resurse știți că avem [00:08:00] calendarul economic. Acuma dacă ne uităm un pic pe acesta cum procedez? Îmi setez ora corectă acum în momentul filmării acestui vlog suntem la GMT plus 2, poate să fie și GMT plus 3 în funcție de ora de vară sau de iarnă.
+
+Ne setăm ora România aici sau ora țării în care vă aflați, mergem la Filtre și la Filtre selectăm aici trei steluțe și dăm Aplicare Da, stai pe calendar economic. Poate te întreb cum găsești calendar economic, mergi și îl găsești aici sus. Da, dai click fix aici în zona asta de sus. Bun. Repet venim aici la ne-a dat datele și merg la această săptămână this week, și acum văd toate evenimentele din această săptămână cu trei steluțe, astea mă interesează în general, uiteți, pe exemplu am avut luni un bank holiday pe Japonia, am ținut cont că există, știam că e posibil să ai un volum un pic mai redus pe sesiunea Londra, dar nu am evitat tranzacționarea și ca fapt divers am avut două tranzacții Una profitabilă una pierzătoare, una de minus 900 de euro, una de plus 1.870 și am finalizat ziua undeva cu 900 și un pic de euro profit.
+
+[00:09:00] Am avut Mars PPI care nu este un indicator de care eu o să țin cont personal, cu toate că a avut piața reacție când a ieșit, dar în general pentru strategia mea și pentru statistica mea nu m-a afectat mai niciodată Iar Mielcuri chiar astăzi în momentul în care filmez această lecție avem așa avem CPI deci avem cifrele pe inflație pe Marea Britanie, aici vedem zona în care se desfășoară și avem CPI pe dolar.
+
+Ce înseamnă asta? Eu astăzi nu. Tranzacționezi, nu sunt pe grafici mai avem și crudele inventories eu nu țin cont de crudele inventories, nu tranzacționez nimic ce are legătură cu zona respectivă, deci nu țin cont de ele, dacă tranzacționez ulei sau alte zone sau petrol sau chestii genul ăsta, da, dar eu nu-l tranzacționez.
+
+În schimb vedem aici 3 secțiuni, actual, forecast și previous. Previous se referă la ultimele date ieșite pe exemplu pe cifrele de inflație în zona de Marea Britanie ultima lună au ieșit 2.6% Forecast-ul, adică așteptările pieței, așteptările investitorilor este 2.6, adică să menținem inflația. [00:10:00] Actual înseamnă rezultatul, am văzut 2.5%, deci am văzut inflația din Marea Britanie în scădere.
+
+Acum o să mergem la cifre la inflație de pe Statele Unite ale Americii Erau la 2.7% în decembrie, se aștepta o creștere la 2.9%, a ieșit o creștere până la 2.9%. Core CPI-ul, inflația core, se aștepta o creștere cu 0.3%, nu, pardon, în trecut a fost o creștere 0.3% ultimul core CPI, se aștepta 0.3%, dar a venit doar 0.2%, ceea ce în rezultat pozitiv chiar dacă aici este colacul roșu, în rezultat pozitiv că inflația e și mai mică, core CPI-ul, adică a fost o creștere mai mică decât se așteptau ei, ceea ce este un lucru pozitiv Da, deci cam asta ar fi așa câteva interpretări de cum au uitat la știri.
+
+Uite mâine nu avem datele vedeți la actual nu au ieșit datele aici, avem doar forecast, uite. Spre exemplu produsul intern brut pe Marea Britanie se așteaptă ultima oară a fost o scădere de minus 0.1%, iar se așteaptă o creștere cu 0.2% la PIB. Rămâne de văzut GDP, gross domestic product. Le vorbim în lecțiile următoare.
+
+Initial jobless [00:11:00] claims, iar. Mai am un lucru important, există anumite știri și ați văd dacă reușesc să vă găsesc cu... Hai să mergem la săptămâna trecută să vă arăt la ce mă refer eu exact. Mergem de aici de luni până vineri V-am văzut ceva ce foarte multe persoane nu știu. Avem anumite evenimente care au acest p în dreptul lor Acest p mic.
+
+Ăsta înseamnă preliminary release. Multe persoane habar n-au lucrul ăsta faptul că Dacă CPI-ul pe euro aici este preliminării, release nu are aceeași valoare ca CPI-ul de bază, adică cel care nu apare nimic aici, este doar un rezultat așa preliminării nu este cel oficial, sunt estimările cum ar veni, ok?
+
+Țineți minte lucrul ăsta? Da, în general poate să afecteze și asta. De ce? Pentru că atunci când e pe preliminării, dacă iese 2.4, e posibil ca și cel oficial să fie la fel dacă nu se schimbă nimic până atunci. Dar să știți că există și aceste preliminării, release-uri nu sunt cele oficiale dar au acest P mic în dreptul lor Și ca asta ar fi uite și cum e la FOMC Meeting Minutes cum avem aici mic report în dreptul lor.
+
+Bun, sper că [00:12:00] acest capitol să fie unul de folos sper că acest capitol să vă ajute să vă creeze o viziune mai bună. Cu siguranță sunt niște informații nu neapărat ușor de găsit, eu nu am avut pe nimeni să mă învețe aceste lucruri, le-am învățat absolut singur prin studiu prin practică și prin statistică am învățat tot ce prezint aici.
+
+Deci sper să fie de folos Am fost un capitol care a muncit enorm, prezentările sunt toate făcute de mine integral, totul a fost construit așa cu cel mai mare drag și cu inimă și cu suflet pus special pentru această comunitate. Vă salut cu drag și hai să dăm drumul la capitolul de analiză fundamentală.
+

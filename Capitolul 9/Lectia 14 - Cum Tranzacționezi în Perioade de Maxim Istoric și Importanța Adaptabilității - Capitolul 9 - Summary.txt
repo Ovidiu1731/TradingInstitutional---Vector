@@ -1,0 +1,91 @@
+**Rezumat lectie 14 - Cum Tranzacționezi în Perioade de Maxim Istoric și Importanța Adaptabilității**
+
+---
+
+### **Introducere**
+
+Lecția 14 explorează una dintre cele mai dificile și neprevăzute situații din activitatea unui trader: momentul în care piețele preferate ating un **maxim istoric (All Time High)**. Se discută atât limitările tehnice ale execuțiilor într-un astfel de context, cât și soluțiile practice pentru adaptarea eficientă la condițiile pieței.
+
+---
+
+### **De ce All Time High-ul este o problemă majoră**
+
+- **Lipsă de istoric:** nu există date anterioare care să poată fi folosite pentru analiză.
+- **Statistica devine inutilizabilă:** nu se poate calcula probabilitatea unei reacții în lipsa punctelor de referință.
+- **Niciun suport deasupra:** nu există rezistențe istorice sau lichidități în care să se bazeze strategia.
+- Chiar dacă un trader are o strategie solidă, aceasta devine ineficientă fără un cadru istoric de referință.
+
+---
+
+### **Reacția practică în fața unui All Time High**
+
+Rares exemplifică modul în care se adaptează:
+
+1. **Piețele preferate (DAX și UK100) au intrat simultan în maxim istoric.**
+2. În absența oportunităților, inițial a ales să stea deoparte.
+3. După o săptămână cu doar două execuții, decide că este nevoie de **acțiune controlată, nu pasivitate.**
+
+---
+
+### **Strategia de adaptare**
+
+#### **1. Prioritizarea piețelor:**
+Ordinea personală de analiză:  
+**DAX → UK100 → US30 → NASDAQ**
+
+#### **2. Trecerea temporară pe Forex:**
+- A selectat **4 perechi valutare:**
+  - **Două cunoscute și testate:** GBPUSD și EURUSD.
+  - **Două noi, pentru explorare:** EURAUD și EURCHF.
+
+> Important: nu execută direct pe piețele noi → întâi face **backtesting**.
+
+#### **3. Gestionarea riscului:**
+- Pe Forex, riscul per trade este redus la **0.3%**, în comparație cu execuțiile obișnuite pe indici.
+
+---
+
+### **Exemple de execuții în contextul actual**
+
+- **GBPUSD:** a apărut o oportunitate, dar nu a fost luată din cauza unui shift agresiv și a calității slabe.
+- **EURUSD:** a oferit un setup valid cu lichiditate locală și un gap simplu.
+  - Rares a executat cu 0.3% risc.
+  - Rezultatul: +1.601 euro profit.
+  - Setup-ul nu a fost perfect, dar a fost solid în lipsa altor opțiuni.
+
+---
+
+### **Explorare și testare activă în paralel**
+
+- A început **backtesting** pentru:
+  - **EURAUD** – 59 de tranzacții testate până în prezent.
+  - **EURCHF** – 38 de tranzacții.
+
+> Obiectiv: să aibă piețe alternative **gata de utilizare** în perioade neproductive pe piețele principale.
+
+---
+
+### **Mesaje cheie și recomandări**
+
+1. **Fii flexibil, nu rigid.**  
+   Piața nu îți oferă mereu condițiile ideale – tu trebuie să te adaptezi.
+
+2. **Nu abandona activitatea.**  
+   Dacă piața ta principală nu oferă oportunități, caută altele fără a-ți compromite standardele.
+
+3. **Nu executa pe piețe netestate.**  
+   Folosește **cont demo** și **backtesting** pentru a cunoaște înainte de a risca bani reali.
+
+4. **Ai un portofoliu de piețe structurat:**
+   - 2 piețe principale (testate și performante).
+   - 2 piețe de backup (pentru situații excepționale).
+
+5. **Riscul se ajustează în funcție de încredere și expertiză.**
+
+---
+
+### **Final Thoughts**
+
+Această lecție este un manual practic de **maturitate în trading**: cum să-ți păstrezi disciplina, să eviți excesele și să rămâi productiv chiar și în cele mai dificile contexte de piață. Rares demonstrează cum să abordezi trading-ul ca pe o activitate profesionistă, indiferent de condițiile externe.
+
+Adaptarea este cheia – nu scuzele.

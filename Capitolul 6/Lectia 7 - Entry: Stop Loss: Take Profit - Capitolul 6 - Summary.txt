@@ -1,0 +1,107 @@
+### **Rezumat Lecția 7 – Execuția Tranzacțiilor: Entry, Stop Loss și Take Profit în TradingView și MetaTrader**
+
+---
+
+#### **Introducere**
+
+Această lecție este prima lecție practică de execuție și explică **cum plasăm o tranzacție completă**: de la **entry point**, la **stop loss** și **take profit**, folosind platformele **TradingView** (pentru analiză) și **MetaTrader** (pentru execuție). Este o lecție fundamentală pentru toți începătorii care vor să înțeleagă în mod clar și vizual cum funcționează procesul de tranzacționare.
+
+---
+
+### **1. Unelte de marcare a tranzacțiilor în TradingView**
+
+- Se folosesc:
+  - **Long Position** – pentru poziții de cumpărare.
+  - **Short Position** – pentru poziții de vânzare.
+- Dacă nu apar în zona de favorite, se pot adăuga din meniul lateral și marcate cu steluță.
+- Fiecare instrument are 3 componente:
+  - **Linia albă** = punctul de intrare (**entry point**).
+  - **Zona roșie/gri** = zona de pierdere (**stop loss**).
+  - **Zona verde** = zona de profit (**take profit**).
+
+---
+
+### **2. Definirea și poziționarea corectă a elementelor**
+
+#### **Entry Point**
+- Este punctul din care se pleacă în tranzacție, acolo unde prețul a fost considerat optim pentru a intra în poziție, în baza unei analize.
+
+#### **Stop Loss**
+- Reprezintă nivelul la care **închidem tranzacția automat dacă am greșit direcția**.
+- Este poziționat acolo unde, dacă prețul ajunge, **ipoteza inițială nu mai este validă**.
+- Este **obligatoriu** să fie setat – regula de aur: **niciodată fără stop loss!**
+- Se recomandă plasarea lui **cu puțin spațiu peste/ sub zona aleasă**, pentru a evita activarea prematură (ex: +1 punct pe DAX).
+
+#### **Take Profit**
+- Nivelul unde **tranzacția se închide automat în profit**.
+- Se setează în funcție de raportul risc-recompensă, ex. **RR 1:2** – dacă riscul este 100 EUR, TP este la 200 EUR.
+
+---
+
+### **3. Exemple explicate vizual**
+
+- Poziție de **cumpărare**:
+  - Stop loss sub zona de suport (ex. un low).
+  - Take profit deasupra, în zona de rezistență/target.
+
+- Poziție de **vânzare**:
+  - Stop loss deasupra unui high vizibil.
+  - Take profit mai jos, în direcția trendului.
+
+- Exemplu specific: dacă setezi SL fix pe un high, riști să fii „scos” din tranzacție. Dacă lași puțin spațiu, ai șanse mai mari ca prețul să meargă în direcția dorită.
+
+---
+
+### **4. Executarea tranzacției în MetaTrader**
+
+#### **Deschiderea unei tranzacții**
+
+- Se folosesc butoanele:
+  - **Buy** – cumpărare (long).
+  - **Sell** – vânzare (short).
+- Tip preferat de execuție: **Market Order** (executare instantanee).
+
+#### **Setarea stop loss-ului și take profit-ului**
+
+- Se face prin **tragerea liniilor direct pe grafic**.
+  - Tragi linia roșie (SL) în sus/jos, în funcție de direcție.
+  - Tragi linia verde (TP) în direcția opusă SL.
+- Alternativ: **dublu click pe poziție** și introduci manual valorile numerice.
+
+#### **Exemplu de calculare a riscului**
+- Pe grafic apare valoarea riscului: ex. -314 EUR.
+- MetaTrader afișează punctele fără virgulă – adaugă manual „.” între cele 4 cifre pentru a înțelege câți puncte reali ai (ex: 1400 = 14.00 puncte).
+
+---
+
+### **5. Închiderea tranzacțiilor**
+
+- Poți închide:
+  - **Manual** – apăsând pe X de lângă tranzacție.
+  - **Parțial** – introducând un volum mai mic decât cel total (ex: închizi 10% dintr-o poziție mare).
+  - **Automat** – prin atingerea SL sau TP.
+
+---
+
+### **6. Reguli importante de mindset și execuție**
+
+- **Niciodată nu executa o tranzacție fără motiv clar** – nu intra la întâmplare.
+- Execută doar pe baza **unui raționament logic/statistic**.
+- **Nu urmări profitul în timp real** – poate crea emoții inutile:
+  - Autorul recomandă să ascunzi bara de profit (o tragi în jos) și să execuți pe baza planului, nu a emoțiilor.
+
+---
+
+### **7. Recapitulare vizuală și practică**
+
+- Lecția include două tranzacții live (una de sell, una de buy).
+- Se închid cu:
+  - Una pe pierdere: -179 EUR.
+  - Una pe profit: +253 EUR.
+  - Total: +74 EUR – **rezultat pozitiv obținut prin disciplină** și aplicare corectă a regulilor.
+
+---
+
+### **Concluzie**
+
+Această lecție oferă **fundația practică pentru execuția corectă a oricărei tranzacții**. Este ideală pentru începători și esențială pentru fixarea unui comportament sănătos în fața pieței. Învață-te să lucrezi organizat, fără impuls, și să folosești platformele ca un profesionist. Este un prim pas către tranzacționare disciplinată și performantă.

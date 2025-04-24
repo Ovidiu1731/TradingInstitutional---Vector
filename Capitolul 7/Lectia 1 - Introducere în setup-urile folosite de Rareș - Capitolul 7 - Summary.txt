@@ -1,0 +1,40 @@
+**Rezumat Lecția 1 – Introducere în Setup-uri**
+
+---
+
+### Introducere
+
+Această primă lecție din Capitolul 7 marchează începutul unui segment dedicat setup-urilor în trading. Este o lecție introductivă care stabilește contextul, scopul și utilitatea diverselor tipuri de setup-uri utilizate în strategia prezentată de autor. Deși nu este obligatorie utilizarea acestor setup-uri, ele sunt recomandate ca un instrument valoros pentru organizarea și eficientizarea procesului de tranzacționare.
+
+---
+
+### Ce sunt setup-urile și de ce sunt importante?
+
+Setup-urile sunt tipare de tranzacții recurente, deja executate de autor, care au fost denumite și structurate pentru a ajuta la crearea unei statistici clare, la organizarea eficientă a jurnalului de tranzacții și la o mai bună înțelegere și repetabilitate a execuțiilor.
+
+Aceste denumiri nu sunt obligatorii, iar traderii pot alege să le ignore, însă ele constituie o armă valoroasă în arsenalul unui trader disciplinat. Ele oferă claritate și sistematizare în procesul de tranzacționare.
+
+---
+
+### Utilizare practică
+
+Se recomandă organizarea tranzacțiilor în foldere separate pentru fiecare tip de setup. De exemplu, tranzacțiile realizate într-o zi pot fi analizate și etichetate conform setup-ului corespunzător. Acest proces ajută la evaluarea performanței fiecărui tip și permite luarea unor decizii mai bine fundamentate în viitor.
+
+---
+
+### Tipuri de setup-uri prezentate
+
+1. **One Simple Gap Setup** – prescurtat OSG  
+2. **Two Gap Setup** – prescurtat TG  
+3. **Two Consecutive Gaps Setup** – prescurtat TCG  
+4. **Three Gaps Setup** – prescurtat 3G  
+5. **Second Leg Setup** – prescurtat SLG  
+6. **Multiple Gap Setup** – prescurtat MG (nu este tranzacționat activ, va fi menționat în lecția finală despre cele neclasificate)
+
+---
+
+### Concluzii
+
+Lecția pune bazele unui sistem de analiză și execuție standardizat și repetabil. Scopul principal al acestor setup-uri este să faciliteze procesul decizional și să ofere un cadru profesionist de lucru. În lecțiile următoare, fiecare setup va fi analizat individual, începând cu One Simple Gap Setup (OSG).
+
+Această introducere oferă contextul necesar pentru înțelegerea modului în care setup-urile pot aduce ordine, claritate și consistență în activitatea zilnică de tranzacționare.

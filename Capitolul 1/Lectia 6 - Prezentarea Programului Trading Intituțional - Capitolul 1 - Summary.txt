@@ -1,0 +1,109 @@
+### Rezumat Lecția 6 – Prezentarea Programului de Trading
+
+---
+
+#### Introducere
+
+Această lecție detaliază structura completă a programului educațional, explicând conținutul fiecărui modul și scopul acestuia. Este un ghid esențial pentru cursanți, oferind o privire de ansamblu asupra resurselor disponibile, metodelor de învățare și modului de organizare a parcursului educațional.
+
+---
+
+#### Structura Generală a Programului
+
+- **Platformă digitală organizată** cu acces prin autentificare personală.
+- **Peste 120 de materiale video**, actualizate constant + 48 materiale bonus.
+- **Bara de progres** vizibilă pe platformă pentru monitorizarea evoluției.
+- Conținut structurat atât pentru **începători**, cât și pentru **avansați**.
+- Recomandare: parcurgerea tuturor lecțiilor în ordine, chiar și pentru cei cu experiență.
+
+---
+
+#### Modulele Programului
+
+##### Modulul 1: Introducere
+- Bun venit, poveste personală, stil de tranzacționare.
+- Trading vs. investiții.
+- Primii pași în trading.
+
+##### Modulul 2: Bazele trading-ului
+- Trading vs. investiții pe termen lung/scurt.
+- Termeni comuni în trading.
+- Aparatura necesară.
+- Diferența dintre jocuri de noroc și trading.
+- Sesiuni de tranzacționare, știri financiare.
+- Indici bursieri, trading instituțional, algoritmi.
+
+##### Modulul 3: Introducere în analiză tehnică
+- Tipuri de grafice, lumânări, time-frame-uri, trenduri.
+- Analiză tehnică vs. fundamentală.
+- Discuție despre „strategii 100% matematice”.
+
+##### Modulul 4: Platforme de tranzacționare
+- TradingView (setări, scurtături).
+- MetaTrader 5 (desktop și mobil, cont demo).
+- Brokeri, ask vs bid price.
+- Capital personal vs. finanțat.
+- Cea mai bună piață de tranzacționare.
+
+##### Modulul 5: Psihologie și Mindset
+- Așteptări realiste, risc/recompensă, probabilități.
+- Etapele psihologice în trading.
+- Cum tratăm pierderile și câștigurile în serie.
+- Trading vs job.
+- Personalitate în trading, greșeli frecvente.
+
+##### Modulul 6: Strategia de tranzacționare (nivel avansat)
+- Lichidități, minime/maxime, market structure shift.
+- Diferențe între BOS, shift, CHoCH.
+- Gap-uri instituționale, reguli complete.
+- Levier, calcul loturi, execuții multiple.
+- Tranzacționare High/Low of the Day.
+
+##### Modulul 7: Trading Setup-uri
+- OSG, TG, TCG, SLG, 3G etc.
+- Multiple Gap Setup.
+- Reacția din ultimul gap.
+
+##### Modulul 8: Algoritmul de Trading
+- Statistici, construire algoritm propriu.
+
+##### Modulul 9: Exemple și aplicații
+- Backtesting, tranzacții reale.
+- Gestionare break-even, parțial profit.
+- Tranzacții cu diverse tipuri de lichiditate.
+- Tranzacționare în all-time highs, zile trendy.
+- Swing trading, re-entry, gap-uri.
+
+##### Modulul 10: Analiză Fundamentală
+- Explicarea știrilor economice majore:
+  - CPI, NFP, FOMC, șomaj, PIB, Retail Sales, etc.
+- Impactul crizelor economice, războaielor și cum să profiți de ele.
+
+##### Modulul 11: Încheiere și Recomandări
+- Plan de început în trading.
+- Cărți recomandate.
+- Sezoane în trading, adaptabilitate, taxe.
+- Zgomotul exterior, mindset pe termen lung.
+- **Certificat de absolvire** (neacreditat).
+
+---
+
+#### Suport și Resurse Extra
+
+- **Sesiuni live cu comunitatea** (1–2 ore/sesiune).
+- **Sesiuni de backtesting live**.
+- Acces la **asistent personal** pentru întrebări și clarificări.
+- Implicare directă din partea mentorului.
+
+---
+
+#### Concluzii
+
+- Programul este **complet, complex și adaptat tuturor nivelurilor**.
+- Se pune accent pe **consistență, structură și suport continuu**.
+- Include tot ce mentorul a învățat în 5–6 ani de experiență.
+- Obiectivul este ca fiecare cursant să ajungă **autonom, educat și performant** în trading.
+
+---
+
+Această lecție este o hartă detaliată a programului, oferind claritate completă asupra pașilor de parcurs, metodologiei folosite și resurselor disponibile pentru a construi o carieră solidă în trading.

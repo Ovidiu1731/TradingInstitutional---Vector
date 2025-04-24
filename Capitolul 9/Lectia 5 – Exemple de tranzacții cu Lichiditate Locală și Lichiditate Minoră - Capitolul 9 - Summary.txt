@@ -1,0 +1,84 @@
+**Lecția 5 – Lichiditate Locală și Lichiditate Minoră**  
+*Format simplificat, text clar și structurat*
+
+---
+
+### 1. **Obiectivul Lecției**
+- Exersare pe exemple reale de **lichiditate locală** și **lichiditate minoră**.
+- Înțelegerea diferențelor, aplicarea setup-urilor și luarea deciziilor în funcție de context.
+
+---
+
+### 2. **Lichiditate Locală**
+
+**Definiție:**
+- Zone vizibile pe M1 (uneori M5), similare cu cele majore, dar **mai mici și mai frecvente**.
+- Atrag SL-uri și sunt locuri bune pentru posibile reacții.
+
+**Execuție:**
+- Se aplică **shift + gap** → intrare.
+- Se preferă **risc redus** (0.3–0.5%) din cauza incertitudinii mai mari.
+- Uneori apare **shift agresiv**.
+
+**Observații:**
+- Poți face mai multe execuții în zi dacă ai lichidități locale multiple.
+- Se țintește următoarea zonă de lichiditate pentru TP.
+- Dacă ai profit mare într-un trade, poți opri ziua.
+
+**Exemplu:**
+- GBPUSD: Lichiditate locală luată → shift agresiv → gap → execuție la intrare → RR 2 atins → profit parțial + break-even → TP final atins.
+
+---
+
+### 3. **Managementul Execuției**
+- Dacă ai **mai multe lichidități locale apropiate**, poți împărți riscul în două.
+  - Ex: 0.25% pe prima execuție, 0.25% pe a doua.
+- Dacă pierzi una, mai ai șansa a doua.
+
+**Exemplu pe US30:**
+- Două lichidități apropiate → execuție cu risc divizat.
+- Primul trade: setup slab → posibil loss.
+- Al doilea trade: gap mai bun → RR 1:7 atins.
+
+---
+
+### 4. **Lichiditate Minoră**
+
+**Definiție:**
+- Zone care susțin trendul (în trend ascendent → SL-uri sub consolidări mici).
+- Sunt **pentru tranzacții în direcția trendului**.
+
+**Execuție:**
+- Aștepți ca zona minoră să fie luată.
+- Cauți **shift + gap**.
+- Intri în direcția trendului.
+- Se oferă spațiu de respirație (stop loss nu foarte strâns).
+
+**Exemplu:**
+- Trend ascendent → lichiditate minoră lichidată → setup valid → execuție.
+- Posibil trade: RR 4 (cu parțiale) sau RR 2.36 la re-entry.
+
+**Re-entry:**
+- Dacă primul trade e pierdut, se poate re-executa după **relichidare și nou setup**.
+
+---
+
+### 5. **Observații Finale**
+
+- **Lichiditățile locale**: ușor de identificat, dar necesită atenție la oră și context.
+- **Lichiditățile minore**: mai avansate, recomandate după ce ai experiență.
+- Trade-urile bune apar și în sesiuni atipice (ex: noaptea), dar trebuie evitate dacă nu ești activ atunci.
+- **Răbdarea și backtesting-ul** sunt cheia pentru a învăța să identifici aceste zone corect.
+
+---
+
+### 6. **Recomandări**
+
+- Fă-ți backtesting constant.
+- Notează-ți trade-urile și învață din ele.
+- Revizuiește clipul de mai multe ori pentru înțelegere mai profundă.
+- Aplică setup-urile doar când ai condiții clare (lichiditate + shift + gap).
+
+---
+
+Această lecție oferă o aplicație practică detaliată pentru două tipuri de lichiditate esențiale în strategia ta: locală și minoră. Ideală pentru exersare, testare și rafinarea stilului personal de execuție.

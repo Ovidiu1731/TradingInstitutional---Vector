@@ -1,0 +1,59 @@
+Lectia 2
+===
+
+[00:00:00] Salutare tuturor salutare! Hai să vorbim despre două concepte super importante care o să vă ajute un pic la partea asta de tranzacționat pe toată ziua. Acum că știți strategia pe full day, vă recomand să nu vă limitați doar între ora 10 și 12, ci să vă întindeți pe mai multe ore, să tranzacționați în funcție de cum vreți voi, să luați, să testați mai multe piețe.
+
+Deci vă rog nu vă limitați testați cât mai mult. Și acum o să vorbim despre două concepte, lichiditatea majoră și lichiditatea minoră. Sunt două concepte diferite. După cum observați această strategie în principiu este una de schimbare de trend și o să dăm un exemplu Spre exemplu hai să văd uite, un exemplu random.
+
+Avem această zonă cu lichiditate majoră prețul vine, o lichidează și schimbă direcția și tu aici prindeai un trade winner. Dau un exemplu pentru că a schimbat direcția. Deci noi cu lichiditatea pe care v-am învățat acum lichiditatea majoră, noi mergem counter trend, da? [00:01:00] Mereu facem trend reversal-uri. De ce?
+
+Pentru că o iau stopuri din zona asta de lichiditate și băncile împing prețul după în sus pentru a-și face profitul. Deci ăsta a fost profitul băncilor aici. Ok. Acum, cum se folosește lichiditatea majoră și ce ai lichiditate minoră? Că n-am vorbit de ea până acum. Și lichiditatea majoră adică aceasta, sunt zonele cu cea mai multă lichiditate posibilă.
+
+Când te uiți pe un grafic te duci pe 5 minute și pe 5 minute se vede clar care sunt punctele cu lichiditatea majoră Păi ai odată punctul ăsta de aici mereu trebuie să știi direct, dacă te întrebi vreodată, bă ăsta-i punct cu lichiditate majoră, nu e, înseamnă că nu e, ăsta-i răspunsul, nu e, adică dacă tu dai zoom în graficul ăsta și te uiți pe aici și vezi zonuța asta mică de aici și zici bă asta o fi lichiditate majoră și ești confuz zic eu că nu e, deci trebuie să fii sigur bă, asta dai o zonă cu lichiditate, uite aici zonă cu lichiditate majoră bam.
+
+Și practic această lichiditate majoră este [00:02:00] lichiditatea clasică pe care am învățat-o noi în capitole trecute doar că în locurile cele mai importante. Mie îmi place să marchez aceste zone ca puncte de reper, să aștept prețul să le atingă, mie îmi face prima confluență de lichiditate luată după care mă uit, march, extract, share, shift, gap instituțional lăsat în urmă, execuție stop loss.
+
+Și da, pleacă spre take profit. Deci asta le tratez cum tratăm noi high of the day și low of the day în sesiunea de 10-12. Țineți minte, high of the day și low of the day îl folosim doar între intervalul 10 și 12. Dacă trece acest interval ne mutăm pe zone de lichiditate. Foarte important de reținut vă rog să vă notați.
+
+Și acum că suntem pe zonele de lichiditate, asta e lichiditatea majoră asta de aici nu e lichiditate majoră neapărat să spunem, cu toate că e de fapt că am arcat-o mai devreme, e de fapt e o zonă cu lichiditate majoră dar astea de aici sunt lichiditate simplă nu majoră, diferența între lichiditatea simplă Și echiditatea majoră?
+
+E că echiditatea majoră are un rate mai mare. În loc de să [00:03:00] zicem 50% cât are cealaltă asta are un 54. Adică e o diferență mică între ele dar este și noi vrem probabilitățile în favoarea noastră. Ok, deci avem acest exemplu Cu lichiditatea majoră e destul de simplu asta am să vă zic despre aia, deci counter trend, țineți minte, prețul ia lichiditatea majoră așteptăm, puteți să marcați pe trei piețe deodată spre exemplu această lichiditate majoră, să le țineți și vă puneți alarme și în momentul în care vă atinge intrați și vă uitați după o potențială tranzacție în zona aia.
+
+Cum tratezi în momentul în care, să zicem că prețul îți ia zona asta de lichiditate? Și tu intri într-un trade și trade-ul tău nu funcționează așa în stop loss și probabil băncile au vrut următoarea lichiditate, nicio problemă. Ceea ce faci este că aștepți următoarea zonă de lichiditate, îți este luată da, tu ai deja un luz aici făcut, e ok.
+
+Și aici îți vine iar semnalul, ceea ce faci execuți iar cu același risc dar în loc să ții 1 la 2 risk reward, poți să ții 1 la 3, 1 la 4 pentru a-ți recupera pierderea [00:04:00] aici și de a-ți face în continuare profitul. Deci reexecutați în următoarea zonă majoră de lichiditate pentru că de regulă băncii niciodată nu se fac explozie să vă se ducă până în cer.
+
+Se poate întâmpla, dar foarte puțin probabil. Adică de regulă o oprească ori în zona asta, ori în zona asta, maxim de regulă 90% din cazuri. Așa Și acum hai să ne uităm pe lichiditatea minoră, că sunt sigur că sunteți foarte curioși ce este aceasta. O să mergem... Ia să vedem... Miercuri? Marți... Miercuri... Ok, alright.
+
+Miercuri a fost. De ce mi-am mintesc această tranzacție?
+
+Miercuri a fost oare? Mamă nu-mi mai amintesc. Aveam un exemplu perfect de trade cu lichiditatea minunată. A, luni a fost mă, scuzați. Luni luni, luni luni luni luni Nu mai vreau să fac cut pe clipul ăsta, că nu vreau să-l strig. Luni, ora 3. A, aici a fost [00:05:00] Asta e interesant, ci uitați-vă că e interesant. Eu n-am mai folosit lichiditatea minoră de ceva timp, am fost învățat de către menterul meu la început dar nu pot să zic am aplicat-o foarte mult, dar în ultima perioadă am început să văd că iar începe să funcționeze.
+
+Diferența între lichiditatea minoră și lichiditatea majoră este că lichiditatea minoră se folosește în momentul în care vrei să iei un trade în direcția trendului, deci nu counter trend. Și, spre exemplu Există zile în care totul va fi foarte bullish, cum a fost ziua asta, vedeţi creşte în constant, constant preţul, non-stop, non-stop, preţul creşte, ok, cum se vede aici a crescut foarte, foarte foarte mult.
+
+Şi acum, stai şi te gândeşti, ok, a crescut preţul na na, na na na na, dar, mamă stai că mi-a dat seama după un minut şi strică tot, nu? Da, mamă, urăsc trading-ul la chestia asta, că pe One Mini trebuie să vă arăt tranzacţia.[00:06:00] 
+
+Aoleu ce haos e, trading-ului. Nu vrem miercuri, vrem luni aici.
+
+Așa ok. Hai să marcăm zona asta cu lichiditate de aici. Să discutăm despre ea Deci.
+
+După cum vă uitați, aveam o zi super puternică de creștere. Și în momentul în care vezi că ai o zi super trendy, prețul merge într-o singură direcție, îți recomand să folosești lichiditatea minoră. E o recomandare, poți să nu o folosești niciodată, eu ți-o zic să o știi Că niciodată nu strică să știi Lichiditatea minoră cum se folosește?
+
+În zilele alea rare în care prețul mișcă într-o singură direcție Și vezi că se formează uite Prețul crește crește crește crește Și îți lasă urmă cam două zone cu lichiditate Îți lasă aici unde sunt practic stop loss-urile celor care sunt în buy Și îți lasă zona asta Pe care probabil când prețul a dat-o în sus Lumea [00:07:00] și-a mutat stop loss-urile sub acest low Ceea ce faci tu cu lichiditatea minoră E că prețul se întoarce Și vedeți ia lichiditatea de aici A Și își continuă trendul și dacă voi vreți să intrați odată cu trendul într-un trade, o să vedeți că o mai fie ocazia de genul ăsta când vedeți un super uptrend, super masiv de genul ăsta, nu se mai prește toată ziua trading în sus și se face o consolidare de genul, îți ia lichiditatea și pleacă în sus.
+
+Entriul tău trebuie să fie în zona asta de aici, care este respectiv zona noastră asta de aici. Și cum se face intrarea? Aștept marcăm zona majoră cu lichiditate, așteptăm să fie luată, este luată clar și noi aici așteptăm un shift. Da, și aia vedeți, bam, shift, aici, căutăm displacement-ul, ia uite displacement-ul, bam, așa gap-ul, bam, aici poți să mai faci asta în caz că mai ai unul aici un 2 consecutive gap, să spunem da, pe noi ăsta ne interesează, primul gap, prețul intră în el, stop loss-ul [00:08:00] vine aici Aici nu te intereseaza un gap mai jos ca dupa stop loss era mult prea mic si nu vrem un stop loss mult prea mic, vrem niste spatiu la 3.
+
+Asa si take profit-ul 1 la 2. Pe care l-am executat personal lunea asta, doar 1 la 2 l-am ținut în păcate o să vedeți că a mers un pic mai sus și ce s-a întâmplat de fapt și care este explicația. Dacă ne uităm pe higher time frame, o să ne uităm că avem această zonă cu lichiditate majoră. Despre care am vorbit mai devreme, se pare că bănce tot ce au vrut să facă zilele astea, ultimele câteva, de fapt ziua de luni e să împingă prețul în continuu sus într-un uptrend ca să lichideze zona asta de aici și după să schimbe practic toată direcția.
+
+Și ce s-a întâmplat? Asta a fost un uptrend constant, dacă erai un pic experimentat îți dădeai seama că vrea să fie lichidată acea zonă, pentru că te uiți în spate și vezi că nu e nicio zonă cu lichiditate majoră când ești în punctul ăsta care mai este de lichidat, că a fost asta de aici și a fost luată.
+
+Prin urmare e clar că targetul băncilor este următoarea zonă majoră care era pe aici zona asta, zona asta, potențial maxim zona asta. Se pare că [00:09:00] zona asta a fost interesul lor au venit, au luat toate stopurile, au schimbat direcția. Și în acest caz, dacă ne uităm, a fost dată zona cu lichiditate, am avut shift, am avut gap, entry fix în gap, stop loss aici și am avut 1 la 2.
+
+Dar prețul, dacă țineai ca target următoarea zonă cu lichiditate majoră. Puteai să ai un potențial 1 la 12 RR, de la 15 până la 17, în 3 ore. Deci asta este lichiditatea minoră, vreau să știți că există, se aplică odată cu trendul, deci majora este counter trend, minora este lichiditate cu trendul. Dacă tu ai un uptrend, tu ești de lichiditate de jos, pentru a fi luată și pentru a continua trendul.
+
+Dacă trebuie să ai lichiditate majoră ești counter trend. Dacă ai un uptrend, aștepți să fie luată lichiditatea de sus și să schimbe direcția. Sper că ați înțeles ce am vrut eu să zic nu vreau să intru în super multe detalii că nu e cine știe ce filozofie, aceea strategie, doar că dacă vrei să iei cu trendul poți să folosești această lichiditate minoră, să luați exemplu aici și să-l căutați pe grafice să-l mai dezvoltați.[00:10:00] 
+
+Eu personal nu prea folosesc conceptul ăsta, doar în zilele super trendy care sunt rare, nu pot să zic că sunt o grămadă de zile în care prețul se mișcă doar într-o direcție și atât, sunt, nu știu, câteva pe lună maxim și în cazul ăla mai caut, dar eu iau low risk aceste trade-uri în loc de 1%, le iau cu 0.5 în gogesc pe care o fac.
+
+Cam asta este, mulțumesc de atenție acordată la acest clip, spor la învățat în continuare, vă salut, pa pa!
+

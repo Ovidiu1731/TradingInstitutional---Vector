@@ -1,0 +1,31 @@
+Lectia 10
+===
+
+[00:00:00] Vom aborda subiectul cum tranzacționez la orice oră și cum îmi fac programul. Pe partea de tranzacționat, aveți diferite ore între care se poate tranzacționa. Hai să vi le pun pe ale mele. Avem între ora 10 și 11 dimineața și 12.00. O primă variantă în care facem high of the day slash low of the day, opa nu știu ce am făcut, slash Love the day.
+
+Asta este o primă variantă După care ai de la 12.00 până la 16.15 o variantă cu lichidități. După ai de la 16.45 până la 22.00 iar cu lichidități N-am mai introdus aici intervalul 19, liniuță 20, ora României pentru că [00:01:00] atunci este lancea oriului Eu nu-l tranzacționez în mare parte, dar ăla opțional.
+
+Dacă vreți să-l treceți, dacă nu, nu Hai, totuși îl pun aici și îl pun în paranteză cu opțional, dacă vreți să-l evitați sau nu. Punem la final.
+
+Fi evitat. Ok, aici depinde de voi și dorința voastră. Deci astea sunt intervalele care se poate tranzacționa, clar și în timpul nopții se poate, dar n-aș recomanda lucrul ăsta pentru că o să aveți probleme de taxe, o să intrați într-o tranzacție, o fiți execute foarte slab, o să aveți spread mare, slippage mare, nu m-aș spune sincer să execut în acel fel, prin urmare aveți aici orele între care vă puteți face programul.
+
+În cazul în care doriți să tranzacționați dimineața aveți această sesiune, spre exemplu să zicem că aici aveți timp și după aceea aveți 6 ore de muncă și după aceea aveți timp seara, [00:02:00] vă puteți ajunge și între intervalul ăsta. Acum nu exagerați să faceți trading 8, 10 12 ore pe zi pentru că așa am făcut la început și chestia asta îți dă la un moment dat într-un mic burnout.
+
+Cumva să vă echilibrați în așa fel încât să fie plăcut, să vă placă mult ceea ce faceți și să vă structurați un program... Bine definit, în care să nu lăsați toată viața voastră pentru asta. E că trebuie să faceți tranzacționare, da, trebuie să faci și un pic de sport, trebuie să măiți sănătos, trebuie să ai și altă activitate.
+
+Și pe lângă asta, da, să integrezi trading-ul și să o faci într-un mod foarte calculat. Acum tu știi cel mai bine cum înțelegi programul programul meu de regulă arată în următorul fel, la momentul filmării el o să se tot schimbe pentru că eu mă tot schimb, dar fac primă oară intru pe 10 și un sfert 12.00 pe sesiunea dimineața și analizez și decid dacă vreau să am o execuție, nu vreau să am o execuție.
+
+Nu execut chiar orice tranzacție, v-am zis să aveți varianta pe have the day și love the day, să executați și tot și tot poate să fie o varianta bună dar eu unul asta fac. [00:03:00] Așa după care fac o pauză de, eu mănânc prima masă zilei dimineața, pe la 7-8 dimineața sau 6.30, depinde cum mă trezesc și ulterior mănânc a doua masă între 12 și 12.30.
+
+Deci fac pauză după care intru la 12.30 și mai stau pe grafice până la 16 și un sfert și cam aici se termină ziua mea. Acum dacă încep ziua cu un câștig De regulă eu aleg să închid ziua de tranzacționare, pentru că am observat că eu tind mai mult să pierd decât să câștig după primul câștig Adică efectiv să-mi pierd câștigul și de asta e o variantă mult la bună și asta mi-a crescut un eretul foarte mult.
+
+Dacă încep cu un câștig, am închis ziua. În cazul în care n-am avut niciun trade, merg mai departe În cazul în am avut o pierdere, iar merg mai departe. Am ajuns în sesiunea asta. Dacă ajung aici înseamnă că ori n-am avut niciun trade, ori am pierdut în prima sesiune Am ajuns aici și să zicem că Alex a mai executat un trade și este win, am închis ziua și dacă poate trade-ul se trebuie executat 12.30 și la 13.30 e închis gata, s-a închis ziua și la fel la două luzuri prefer să închizi ziua Deci eu am următoarele variante, am executat aici, am [00:04:00] făcut win, s-a închis ziua, am executat aici, am făcut luz, mai fac aici un trade dacă e win.
+
+Am închis ziua. Dacă e luz, am închis ziua. Ok. Sau am varianta să nu găsesc nimic aici să execut aici să fie direct cuință închis ziua sau să fie luz și să continui mai departe Se mai întâmplă să nu găsesc niciun trade pe intervalele astea sau să fiu plecat sau să am treabă să trească să merg să iau niște acte sau să fac anumite lucruri.
+
+Poate tranzacționez pe sesiunea de seară de la 17 în sus Ok, de la 17 încolo am mai luat și trade-uri seara, uite pe exemplu ultima perioadă mi se pare că a mers super bine seara, deci luna asta a fost super bună pe sesiunea de 17-22, în alte luni e mult mai bună sesiunea de dimineață, deci aici depinde asta și o să le variați voi oricum indiferent de ce ori alegeți să tranzacționezi, nu există mulți mă întreba care e cea bună oră de trading, nu există așa ceva, cea mai bună oră de trading e aia care e cea mai bună pentru tine În aceste intervale orice oră e bună, dar trebuie să ți alegi bine să ți alegi cu cap și să o testezi foarte, foarte bine înainte.
+
+Deci cam așa îți structurezi programul când vine vorba de transacționare și [00:05:00] cam așa transacționezi la orice oră vrei tu. Adică na, la modul nu știu, poți să transacționezi oricând, decizi, oricând. Pur și simplu trebuie să-ți dorești să-ți faci programul. Cam asta ar fi cu acest clip. Am atins tot. Am impresia mântuitorii față că am uitat să vă zic ceva, dar nu cred că am uitat să vă zic nimic Ia să pun o pauză să verific.
+
+Da, am verificat E tot în regulă. Am atins tot. Ne vedem la clipul următor.
+

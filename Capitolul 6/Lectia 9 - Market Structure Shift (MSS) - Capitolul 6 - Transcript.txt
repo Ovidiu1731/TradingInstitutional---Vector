@@ -1,0 +1,49 @@
+Lectia 9 mss
+===
+
+[00:00:00] Salutare tuturor În acest clip vom discuta despre market structure shift, o confluență. Băi, ai zice că din feedbackul oamenilor mi s-a părut în trecut una dintre cele mai complicate confluențe de înțeles pentru oameni. Mie nu mi se pare așa de greu și o să încerc să vi le explic în cel mai simplu mod posibil și în cel mai logic.
+
+În cazul în care vi se pare ceva greu o să vedeți că în timp o să vi se pară ușoare. Poate la început să zic par așa când auziți prima oară mai grele, dar după ce le practicați totul o devină foarte ușor bun. Market structure shift. Haideți să vă și scriu aici să avem vizual frumos. Market structure shift.
+
+Prescurtat MSS. Așa se prescurtează acest. MSS, Market Structure Shift. Confluența asta, toată lumea e de un alt nume este foarte dezbotezată. Unii zic structure, structure, mift, structure, after, mift Market Structure Shift MIFT MMS, deci se încurcă lumea deja, oatea variante am auzit-o, se încurcă toată lumea, e [00:01:00] greu la început până în vezi dar da, ăsta e, mă rog în fine.
+
+Market Structure Shift, hai să discutăm despre el. Ce înseamnă asta în română Schimbare de structură în piață Piața are două structuri în principal, bine, trei structuri dar ar fi așa. Creștere, scădere și consolidare. Dar noi nu o mai punem consolidarea ca o structură, avem doar creștere și scădere. Astea sunt cele două structuri din piață.
+
+Practic market structure shift-ul reprezintă schimbarea de structură din creștere în scădere. Ăsta este un market structure shift sau invers. Din scădere în creștere. Este cea mai simplă explicație, dar acum vom intra în detaliu Deci asta e o schimbare de direcție de jos în sus, de sus în jos. Avem aici un desen pe care o să vi-l las ca și material, puteți să-l pozați de aici sau să-l dați, o să-l las undeva.
+
+Avem aici cele două variante generale de Market Structure Shift, pentru că el intră un pic mai în detaliu dar ca să înțelegeți conceptul. Primul este în cazul unui uptrend. În cazul unui uptrend [00:02:00] avem uptrend-ul, dar este desenat cu verde, higher high, higher low, higher high, higher low higher high Acestea trebuie să fie valide.
+
+Țineți minte am făcut în lecția trecută două minim candele verzi aici două roșii, două verzi două roșii minim și nu trebuie să fie consecutia. Poate să fie 10 cu 4, cu 15, cu 21, în fine. Higher high, higher low, higher high, higher low, higher high Market structure shift-ul se produce în momentul în care, în aptere vorbim aici când ultimul higher low este rupt, ultimul higher low valid.
+
+Asta este tot. Asta este market structure shift-ul. În punctul ăla îl notăm de la zona ruptă, se notează, se trage cu o linie, se presupunează MSS. Și acolo s-a produs market structure shift-ul. Practic ce ne indică market structure shift-ul? Ne indică faptul că probabilitatea în momentul în care ne s-a întâmplat, deci a fost o zonă lichidată că noi acum începem cu regulile, deci avem no news day, avem lichiditate luată a doua regulă și acum vine market structure shift-ul a treia regulă Da, bine o să le mai structurăm noi, le mai șlefuim mai încolo un pic, dar revenind, deci Market Structure Shift e următoarea regulă pentru care ne uităm în ordinea despre care am discutat.
+
+E chiar a patra mai e o regulă de care nu v-am zis [00:03:00] dar o facem acum. Așa și vine Market Structure Shift, deci după ce vezi o zonă lichidată și îți apare shift-ul, este o indicare, este un semnal Un semnal statistic că urmează mai probabil să vedem o scădere decât o creștere. Adică vorbim de 55% să vedem scădere, 45% să continue creșterea.
+
+Noi mereu vrem să pariem pe probabilitatea în favoarea noastră. Știți regulau cazinou, noi vrem să fim cazinou, nu vrem să fim jucătorul la cazinou. Deci noi vrem să avem probabilitățile mereu în favoarea noastră la un trade. De asta este un gen de setup care e în favoarea ta când pui confluențele despre care am discutat până în acest punct.
+
+Revenind avem și variante de downtrend, avem lower, low, lower, high, lower, low, lower high și primul lower, high care este rupt acolo s-a produs shift-ul, aici s-a schimbat direcția pieței și am luat-o în sus. Sunt foarte multe variante, unei zic break of structure, alții zic change of character, alții zic market structure shift, despre acestea trebuie să vorbim în următorul clip în care vom discuta diferențele și de ce market structure shift-ul e diferit de [00:04:00] celelalte, dar până acolo Ne vom întoarce un pic pe grafic și vom identifica împreună niște March Extractor Shift-uri.
+
+Ok Hai să luăm cazul de față de aici. Pe care l-am avut și în clipul trecut. Avem Low Valid, High Valid Pardon, High Valid aici Asta nu e High Valid, știți că nu avea două cu două. Low Valid High Valid, Low Valid. High valid, opa stai să mergem un pic mai sus, high valid, low valid. Unde s-a produs schimbarea de direcție?
+
+Aveam un uptrend, sunteți de acord cu mine, aveam un uptrend și în timpul uptrendului, adică vă-l și desenez să fie și mai evident, vă pun și linii pe grafic, ăsta era uptrendul. Așa S-a transformat în downtrend. Da? Nu imagineam că s-a întâmplat așa. Ok. Unde fost punctul în care s-a făcut shift-ul? Păi destul de simplu Shift-ul s-a produs aici.
+
+[00:05:00] Pac, pac și pac. Deci este ultimul high-low rupt. Vedeți cu cercule țin la un circuit, în circuit, în circuit, așa frumos Uite putem să-și ștergem ăsta. High-low, high-low high, ultimul low rupt bam, shift. Simplu. Nu trebuie să ne complicăm, da? P-invers la... La scădere, hai să găsim unul și pe scădere Suna că găsim un shift Ia uite, perfect Deci pornim de aici, da?
+
+Luăm imaginea de față Avem downtrend Avem așa High Hai să le și desenăm într-o manieră mai vizibilă Uite, portocaliu Low High Low High Low High High Low Hai, hello, hai! Destul de simplu, vedem numărătăm low-urile, e simplu hai, pardon, high-urile, 1, 2, 3, 4, vedeți cum scade ele de încet, încet mai mult, se pierde puterea de scădere până [00:06:00] când bam, este rupt și se schimbă direcția.
+
+Ăsta este Marches Traction Shift-ul, high-ul acesta mă rog, l-am pus, circulez dar e aici. Ăsta este punctul în care s-a întâmplat Marches Traction Shift-ul și vedeți cum chiar s-a schimbat direcția pentru o perioadă de timp, vedeți, bam, așa nu ne trebuie schimbări totale, nu, Schimbări mici pentru că noi aici intrăm în tranzacție pentru un buy scurt și ieșim aici Ne facem mișcări rapide.
+
+Noi vrem să intrăm o dată cu algoritmul, să ieșim. Asta e scopul nostru. V-ați văzut să venim in and out. Pam, pam. Și, practic aici. Asta e semnalul tău Asta e semnul. Marche este accesibil dintr-aici și l-am salvat. That's safe Da, știți ca Market Tracker Shift v-am arătat, dacă vreți să-l puneți dați la setări și scrieți aici MSS, dați Template Save și vă rămâne și puteți să-l accesați mereu să-i dați de aici.
+
+Sau scrieți manualul cum vreți voi. Așa, ăsta e Market Tracker Shift-ul, practic eram din Downside în Upside, s-a schimbat. Ok, deci ăsta este Market Tracker Shift, următoarea confluență, să zic așa, pentru care ne uităm și hai să scriem împreună confluențele pe care le avem până la acest punct. Deci le zicem reguli Avem [00:07:00] așa, o să le mai tot scriem pe parcursul clipului că nu-i bine, cu cât mai mult, cu atât mai bine să le tot repetăm.
+
+Prima chestie, zi fără știri majore știți, am vorbit e subiectiv da, în fiebunțe fiecare. Doi inter... Intervalul de timp corect. Fiecare dintre voi stătească la un moment dat să-și impună un interval de timp în care să tranzacționeze și să nu tranzacționeze în afară acestea Noi o să punem 10 și un sfert și 12, știți execuția dimineții.
+
+Și, mamă, stai că am pus astea... Prost rău de tot, o să le tragem mai așa, ok, 10 și un sfert și 12, ce punem și noi așa orientativ pentru execuția dimineții cu update și low of day, da, după care 3, vrem high of the day sau low of the day lichidat, da, și după care regula numărul 4, MSS, Market Structure Shift.
+
+Astea sunt momentan cele patru reguli pe care le-am învățat până la acest punct zi fără știri majore, interval de timp corect, have to do, o [00:08:00] să avem 10 reguli Când se întâmplă e simplu luăm în ordine, când momentul în care ni s-au întâmplat confluențele și le avem complete, ăla este momentul să execuți.
+
+Așa o să funcționeze logica pe care o să mergem și de asta o să avem mereu regulile și nu o să trească să existe emoții. Dacă ai regulile clare, hop, o să fac acum facecam un pic îndrept așa, dacă ai regulile clare și... Și totul bine organizat nu ar trebui să existe emoții sau stres în acest sens. Ok, păi cam asta e cum ar chestia acel shift-ul.
+
+Nu e nimic mai mult de discutat acum cât să vă induc în eroare. V-am arătat un exemplu din ambele. Vă recomand să mergeți să-l practicați și în cazul în care nu înțelegeți să vă uitați la acest clip de mai multe ori aveți și exemplul dat de mine. Cam asta este, ne vedem la clipurile următoare.
+

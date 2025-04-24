@@ -1,0 +1,29 @@
+Lectia 11
+===
+
+[00:00:00] Market structure shift agresiv. Ce înseamnă cum funcționează? Ideea este următoarea, dacă era după mine nu v-aș fi zis niciodată de acest market structure shift pentru că de regulă tinde să afecteze foarte mult tranzacție la început pentru oamenii care învață și care sunt începători în partea de tranzacție.
+
+Eu nu am folosit deloc shift-ul în primul meu an de folosit strategia asta, ok? Shift-ul agresiv da? Dar vi-l dau pentru că eu acum cu experiența de acolo mai folosesc și mulți oameni întreabă, Roșie, dar ce ai făcut aia? De ce l-ai luat așa Și toată lumea e curioasă. Și n-am cum să stau să explic la fiecare om în parte, așa că prefer să vi-l explic aici, dar cu mențiunea că este foarte riscant de folosit și primul an, credeți că ea acolo recomand să-l cam ignori sau să nu-l folosești sau până prizi experiență bună.
+
+Shift-ul agresiv este shift-ul pe care ți-l asumi fără să fie unul valid. Ce înseamnă asta? O să presupunem că aveam aici în zona asta o lichiditate extrem de puternică știți că am vorbit de lichidă și e una pe care o așteptați de mult și este luată da, [00:01:00] în punctul ăsta aici. Deci ai o confluență bună, n-ai nici zi cu știri, toate regulile strategiei sunt perfecte, tot ce o să învățăm totul e aliniat perfect.
+
+Păi da, shift-ul nu-l avem vedeți aici shift-ul jos de tot aici E jos de tot și noi să zicem că intrarea posibilă era în zona asta, dar un exemplu încă nu ați învățat intrarile, dar ipotetic vorbim și practic nu aveați shift-ul nu puteați faceți intrarea că vă lipsea. Ei bine ce îți permite shift-ul agresiv este să iei un low care nu e valid, cum e acesta și să-l consideri shift agresiv.
+
+Asta face Este un fel de change of character Pentru că seamănă seamănă foarte mult Sunt niște mici diferențe, dar seamănă cu un change of character Dar vreau să-l numim în continuare shift agresiv Pentru că el are directă corelare cu shift-ul nostru Dacă punem și change of character și de la încurcam strategia N-are sens O lăsăm așa deci ăsta este un shift agresiv În acest punct fix aici și poți să-l iei doar cazul în care totul confluențează perfect și vrei neapărat să execuți acea tranzacție, dar nu ți-a fost oferit shift-ul, practic este o abatere pe care o poți să o folosești.
+
+Eu execut foarte rar baza pe shift [00:02:00] agresiv aș zice între 1 și 2 tranzacții pe lună pe care le-am cu shift agresiv deci nu are o relevanță așa mare și oricum fac riscuri un pic mai mici pe ele când îl văd Acum o să vină multe discuții pe bază o să vedeți că e interpretabil, sunt tot felul de scenarii tot felul de pattern-uri, o să mai aveți întrebări de următoare.
+
+Dacă nu ești sigur de un low că e valid sau un high, nu-l executa. E simplu dacă nu ești sigur de ceva. O să ai momente în care nu o să fii sigur zici, bă ăsta e un high valid, ăsta e un low. Cu toate că avem regulile clare și se știu regulile, dar pot să fie momente în care nu o fii sigur. Cel mai simplu când nu știi ceva sau nu înțelegi Relax, mai bine îl ratezi Este o vorbă.
+
+Do what you see, not what you think. Fă ceea vezi, nu ceea ce crezi. Deci dacă tu vezi ceva și nu îl înțelegi nu executa. Vezi ceva clar, înțelegi lucrul ăla bun, bagă-te pe el. Atât am vrut să vă zic în lecția cu Shift agresiv nu o intrăm în mai multe detalii nu vreau să vă încurajez să-l folosiți foarte mult.
+
+Asta e o chestie pe care o să o folosiți în momentul în care o să vezi mai multă [00:03:00] experiență când o să învățați foarte bine lichiditățile la un moment dat o să vedeți că o să înțelegeți totul la un nivel foarte diferit de început. O să știți, o să aveți un feeling pe care îl dezvoltați în timp o să vă vorbesc despre el.
+
+Este un anumit feeling pe care se dezvoltă în momentul în care vezi foarte multe astea de tranzacții și efectiv o să vedeți O să-mi dați dreptate, ai momente în care vezi o lichiditate, nici măcar nu știi ce se întâmplă mai departe bă și știi deja că o să-ți dea reacție din ea, știi deja ce se întâmplă mintea ta îți proiectează pe ecran imaginea cu ce se întâmplă pentru că creierul tău are o funcție să-și amintească din trecut ce a văzut de foarte multe ori și tu executând mult, mult mult, mult, mult, creierul tău când va vedea ceva ce a mai văzut în trecut o să-ți zică băi vezi că ai mai văzut asta și s-a jucat în următorul fel.
+
+Și tu practic o să știi de dinainte că mulți mă întrebărești dar cum ai știut exact cum s-a întâmplat tranzacția? Eu nu am știut pur și simplu creierul meu mi-a spus pentru că am văzut asta în trecut și de asta nu mereu o să funcționeze, o ai momente în care îți dă și eroare intuiția asta, clar, e un feeling pe care îl simți și mai dă și erori.
+
+Dar marea majoritate a timpului produce rezultatele astea destul de tardaia, mulţi traderi foarte experimentaţi poate să dea call, [00:04:00] predict la nişte chestii incredibile Pentru că au văzut în trecut asta deja, asta e realitatea ei, nu le vine din cer un gând nimeni, asta este o chestie bazată pe experienţă Şi în acest caz o să vedeţi că o să aveţi multe momente când o să ştiţi exact ce urmează să se întâmple şi o să ştiţi că băi Set-up-ul ăsta arată perfect, e totul bine bă, dar n-am shift-ul, dar știu că o să fie un min pentru că asta îmi zice intuiția sau nu știu, că niciodată nu știu asta, dar simt că o să fie un min, așa că aleg să fac un shift agresiv și să-l execut.
+
+Asta e cam singura instanță în care eu mai aleg să mai execut shift-uri agresive, dar rămâne la decizia voastră. Cam asta ar fi. Vă mulțumesc mult pentru atenția acordată și ne vedem la clipurile următoare.
+

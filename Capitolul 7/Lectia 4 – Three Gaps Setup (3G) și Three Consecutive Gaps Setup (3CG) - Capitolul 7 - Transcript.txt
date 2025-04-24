@@ -1,0 +1,15 @@
+Lectia 4
+===
+
+[00:00:00] Trecem mai departe. Avem 3 Gaps Setup și 3 Consecutive Gaps Setup. Bun. Nu avem multe de vorbit, pentru că deja știți cum funcționează aceste setup-uri, v-am explicat pe scurt. Vă arăt un singur exemplu cu un 3 Consecutive Gaps Setup. Am avut High Up Day-ul lichidat, am avut un mare extraction shift-ul aici, îl vedeți două candele, dar asta este low valid.
+
+Este rub low valid și aici avem așa un gap, două gap-uri, Și trei gap-uri consecutive. Regula pe care o folosesc la 3 consecutive gaps este că execuția se face în gap-ul din mijloc. Așa îmi place, țineți minte? Deci la un gap avem un singur gap unul îl executăm. La două recomand pe al doilea format, nu primul al doilea.
+
+La 3 consecutive gaps recomand pe cel din mijloc. Mereu o să executăm așa? Nu, evident. O să fie un moment în care o să executăm diferit, cel mai probabil, dar vă recomand execuția în gap-ul din mijloc În cazul ăsta, chiar la jumătatea ghepului mare. Știți regula, când [00:01:00] avem ghepuri mari, vă recomand execuția spre jumătatea acestora.
+
+Nu o să funcționeze mereu dar tot așa este o recomandare. Bun. Asta e atât de simplu da? Ne intrăm jumătate, executăm tranzacția, stop plus ultimul high și take profit atinsă ăsta este chiar un trade pe care l-am avut astăzi și foarte frumos trade, excepțional, excepțional. Diferența dintre 3 consecutive gaps setup și 3 gaps setup este că aici le avem consecutive, vedeți 1, 2, 3, una după alta, la 3 gaps o să fie un gap aici, un gap aici și un gap aici și o să fie Nu o să fie consecutive.
+
+Ok, n-am mai stat să selectez o poză pentru că este exact același lucru doar că nu sunt consecutive. Hai să ne uităm și pe statistică. 5 din cele 500 trade-uri sunt doar 5% cu aceste două setup-uri, deci sunt destul de rare, o să le vedeți destul de rare setup-urile astea Am avut 26 de transacții din 500, 13 win-uri cu 13 lose-uri, deci are un 50% unirate.
+
+Este setup-ul cu cel mai mic unirate dintre toate, deci 3 consecutiv gap și 3 gap sunt setup-urile cu [00:02:00] cele mai mici Din setup-urile pe care le execut, pentru că sunt setup-uri pe care nu le execut, care au un rate mai mic și o să vă vorbesc despre ele, dar cam asta este cu 3 consecutive gaps și cu 3 gaps setup, destul de simplu nu le complicăm, cam asta a fost clipul, ne vedem la următor.
+

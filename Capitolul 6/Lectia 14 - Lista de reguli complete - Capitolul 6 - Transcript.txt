@@ -1,0 +1,33 @@
+Lectia 14
+===
+
+[00:00:00] În regulă în acest clip vom discuta despre Stop Loss, Take Profit și regulile pentru a executa o tranzacție toate puse în ordine. Începem cu Stop Loss-ul. Stop Loss-ul se poate plasa în mai multe moduri aveți mai multe variante. O să vă zic cum o fac eu, puteți să adaptați în funcție de dorințele voastre.
+
+Pe partea Stop Loss... Eu mă orientez dacă am poziție de vânzare, mă orientez către ultimul high relevant, în cazul de față aici l-aș considera ultimul high relevant, dacă vrem să fim cărcotași putem să spunem că este aici, să fim cei mai siguri mergem pe varianta asta, hai, cu toate că văd că aici e o linie un pic mai sus, dar hai să presupunem că este aici.
+
+Eu ce fac? Merg cu... Cum să vă zic cu stop loss-ul până la limită vedeți până în linie, 32.6 și mai pun de regulă un punct în plus. Poate chiar două depinde dacă vrei să fii mai conservativ sau vrei să-i dai mai mult spațiu să fii sigur Deci mereu recomand [00:01:00] să aveți un pic de spațiu să-i dați să respire.
+
+O să vedeți că chestia asta o să vă salveze tranzacții. De multe ori, adică pe tine nu te afectează cu nimic să-i pui un pic de spațiu aici decât să-l pui tu la fix și totuși chestia asta îți va salva de multe ori să vezi că o să vă vină stop loss-ul fix în zona asta și după pardon, prețul o vină fix lângă stop loss, nu o să vi-l ia și după merge direct mai jos.
+
+Deci vă recomand mereu să dați spațiu la stop loss, cu un punct sau cu două cum decideți voi, eu de regulă îi pun un punct în plus, dar depinde de market, că la unele la astea depinde. Îi dați un pic de spațiu vizual, cel mai simplu în loc să vă orientați după punct, îi dați un pic vizual. Ok, aveți varianta asta.
+
+Cum alegi Că de multe ori o să vezi că o să decideți între high-ul ăsta sau high-ul ăsta să zici băi să-l pun aici sau să-l pun aici. Ideea e în funcție de decizia voastră Eu de multe ori o să merg cu high-ul precedent, dar să fie clar, uite aici nu e foarte clar, vedeți că asta e o candere de indecizie, deci ăsta nu e chiar un high valid, de asta putem să mergem și aici dar nici aici nu este rău, adică poți să mergi și pe varianta aceasta și pe varianta aceasta.
+
+Asta e tot ce trebuie sa stiti [00:02:00] despre stop loss. La buy e fix invers. Daca facem, spre exemplu un buy in acest punct, random sa zicem, fix in ghepul asta de aici, stopul venea la ultimul low, adica aici si mai puneam un plus, un punct. Zic cam așa ceva de genul ar fi arătat stop-loss-ul,? Take profit-ul e foarte simplu puneți la cât aveți voi risk-reward-ul cât vă doriți.
+
+Dacă vreți puteți să mergeți la 1 la 2, cum merg eu în momentul de față merg cu 1 la 2 risk-reward pe tranzacțiile mele și e o variantă foarte bună. În trecut am mers și pe 1 la 3, mi-a plăcut foarte mult. Ce trebuie să știți despre risk-reward, dar deja am discutat în clipul respectiv dar încă o dată E important să vă gândiți că cu cât scaze risk-reward-ul, cu atât vă crește win-rate-ul, cu cât vă scade win-rate-ul, cu atât vă crește risk-reward-ul.
+
+Deci depinde de cum doriți voi. Mie îmi place la 2 pentru că am un win-rate mai mare, o dată de câștig mai mare. Uite ăsta chiar e un 3 destul de frumos Bine nu aveam shift în cazul ăsta, am executat baza de gap dar nu aveam shift, dar scopul e doar să vă explic cum puneți take profit-ul. îl pun la 1, la 2.
+
+Și cam asta este, dacă vreți unul la trei puteți unul la trei aveți mai multe variante și o să vorbim și de [00:03:00] acestea pe viitor. Momentan cam asta este cu stop loss-ul și take profit, cam asta trebuie să știți eu atâta folosesc ca și reguli despre ele. Hai să ne uităm pe regulile strategiei încă o dată.
+
+Zi fără știri majore, bifăm. Intervalul cum am pus înca aici, bifăm. High of the day și low of the day luat, avem high of the day, bifăm. Market structure shift avem avem aici low valid, dar avem 2 cu 2 corect. Pardon, 2 cu 2 minim. Avem 2 cu chiar 5-6 cât este acolo. Bifăm. Displacement, avem displacement. Hai să vedem Avem displacement, se vede mișcarea ok.
+
+Avem gap în cadrul displacement-ului ca să fie valid, avem. Ce urmează Execuție în gap. Asta urmează execuție v-am zis că o să o pun la jumătate puteți să o puneți la intrare, depinde de decizia voastră iar mai sus urmează stop loss-ul la ultimul high slash low relevant, depinde dacă e buy low, dacă e cea high și se pune cu un punct sau două peste, avem distanța corectă, take profit-ul se trage la 2.
+
+Vedeți se vede aici, doi dacă scopăm la [00:04:00] doi și ultimul punct, răbdarea. Nu ieșim stupi din tranzacții nu ne apucăm să umblăm, lăsăm să-și facă treaba. O să fie instanțe în care trade-ul o să vă ia fix așa vă merge pe aici stă așa și abia după vă vine rezultatul. Nu vă apucați să închideți tranzacțiile fără motiv doar așa că ți-a început ție în minus tranzacția și nu-ți place sau că face asta.
+
+Ideea e să-l lași să-și termine treaba. Cam asta ar fi pe partea de reguli le aveți aici, puteți să vi le notați, clar, o să mai vedeți că mai sunt mici detalii adiacente, dar astea sunt regulile principale după astea ne ghidăm, astea sunt importante, o să mai fie mici lucruri pe lângă pe care o să oricum le discutăm și le acoperim pe toate împreună și o să vedeți că o să vă mai completați o să vă mai adaugați, o să vă scoateți, este ca un schelet ce v-am dat aici este.
+
+Baza pe care o să construim Poate pentru tine nu știu nu-ți place stop loss La ultimul high stretch low cu două puncte Vrei cu trei puncte sau vrei să schimbi ceva Este în regulă o poți face Dar recomand la început să pornești de-a reguli astea Și în timp o să-ți dai seama exact ce funcționează cel mai bine pentru tine Și ce nu Bun, cam asta ar fi cu partea de stop loss Take profit și reguli În cazul în care am omisit ceva, oricum o să fie menționat [00:05:00] pe viitor Vă salut!
+

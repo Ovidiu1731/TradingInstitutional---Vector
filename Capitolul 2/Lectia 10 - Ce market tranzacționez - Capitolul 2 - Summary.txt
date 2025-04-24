@@ -1,0 +1,90 @@
+### Rezumat Lecția 10 – Indici vs. Forex vs. Crypto: Comparație Detaliată
+
+---
+
+#### Introducere
+
+Lecția 10 aduce o **comparație clară și sinceră între cele mai populare piețe de tranzacționare**: **indici bursieri**, **Forex** și **crypto**. Se discută avantajele și dezavantajele fiecărei piețe, din perspectiva unui trader experimentat, cu focus pe siguranță, profitabilitate și aplicabilitatea strategiei instituționale.
+
+---
+
+### Indicii Bursieri – Preferatul Mentorului
+
+#### Ce sunt?
+- Instrumente financiare care includ un coș de companii (ex: S&P 500 – top 500 companii din SUA).
+- Reprezintă o metodă **low cost de investiție pe termen lung**, dar și **excelentă pentru trading activ**.
+
+#### Cei 3 indici principali folosiți în program:
+1. **S&P 500 (SPX500USD)** – top 500 companii americane (fondat în 1957, market cap ~35 trilioane USD).
+2. **NASDAQ 100 (NAS100USD)** – 100 companii tech (fondat în 1985, market cap ~17 trilioane USD).
+3. **DAX 40 (DAXEUR)** – indicele preferat al mentorului, din Germania.
+
+#### Alte recomandări:
+- **US30USD (Dow Jones)** – top 30 companii industriale americane.
+- **UK100GBP (FTSE 100)** – top 100 companii britanice.
+
+---
+
+### Avantajele Indicilor
+
+- **Volatilitate controlată** – mișcări mai previzibile.
+- **Dificil de manipulat** – volume uriașe, intervenția băncilor e vizibilă.
+- **Spread mic și comisioane zero**.
+- **Vizibilitate excelentă a strategiei instituționale**.
+- Pot fi tranzacționați **cu siguranță și consistență**.
+
+---
+
+### Forex – Piața Valutară
+
+#### Ce este?
+- Tranzacționarea parităților valutare (ex: EUR/USD, GBP/USD).
+- Piață **descentralizată**, cu volum mare și volatilitate ridicată.
+
+#### Caracteristici:
+- Ușor de manipulat la știri.
+- Spread și comisioane mai mari decât pe indici.
+- Mișcări uneori imprevizibile.
+- Comisioanele cresc odată cu volumul executat.
+
+#### Strategia mentorului:
+- Rareori tranzacționează Forex (~3 execuții/lună).
+- Doar când **nu există oportunități pe indici**.
+
+---
+
+### Crypto – Piața Criptomonedelor
+
+#### Situația actuală:
+- Foarte volatilă.
+- Nereglementată.
+- Puternic afectată de știri și manipulări (pump & dump).
+
+#### Poziția mentorului:
+- Nu tranzacționează crypto în prezent.
+- Crede că **în 2–3 ani va deveni viabilă** pentru strategia instituțională, odată cu intrarea băncilor și reglementarea pieței.
+
+---
+
+### Aurul și Metalele
+
+- Aurul poate aduce profituri mari prin mișcări rapide și violente.
+- **Foarte volatil**, greu de prezis pentru începători.
+- Mentorul **nu se înțelege cu aurul**, dar recunoaște că unii prieteni au rezultate excelente cu el.
+
+---
+
+### Concluzii Finale
+
+- **Testarea este cheia**: fiecare trebuie să-și găsească piața unde se simte confortabil.
+- **Nu copia 100%** – adaptează strategia la stilul tău.
+- Indicii rămân preferați pentru:
+  - Claritate
+  - Siguranță
+  - Randament scalabil
+- Forex și crypto pot fi explorate, dar **cu prudență și experiență**.
+- Trading-ul nu este despre rapiditate, ci despre **construcție calculată și disciplină**.
+
+---
+
+Această lecție oferă o perspectivă completă și echilibrată asupra principalelor piețe de tranzacționare, ajutând cursantul să ia o decizie informată privind direcția în care să-și dezvolte cariera de trader.

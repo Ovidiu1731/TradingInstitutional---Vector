@@ -1,0 +1,94 @@
+**Rezumat detaliat – Lecția 8 Zile Trendy and Stop Loss Size**
+
+---
+
+### **Introducere**
+
+Această lecție este un episod complex, abordând o serie de subiecte esențiale pentru traderii aflați în diverse etape ale dezvoltării. Este o reflecție post-lansare a programului de mentorat, după șase luni de observații și experiențe acumulate. Se discută despre zilele "trendy", utilizarea stop loss-urilor, aspecte psihologice și importanța experienței în deciziile de tranzacționare.
+
+---
+
+### **Concepte Cheie**
+
+#### **Zilele "trendy"**
+- Sunt zile în care piața se mișcă într-o singură direcție aproape toată ziua.
+- În medie, apar 4-5 astfel de zile pe lună, dar frecvența poate varia (de ex. uneori 2, alteori 8 zile).
+- Două tipuri:
+  1. Direcție unică toată ziua.
+  2. Mișcare inițială într-o direcție urmată de întoarcere (V-shape).
+
+#### **Lichiditatea minoră**
+- Este componenta care susține trendul.
+- Necesită multă practică; se recomandă inițial pe cont demo.
+- Tranzacțiile pe astfel de zile sunt greu de executat și nu sunt recomandate pentru începători.
+
+#### **Stop Loss – Max/Min Size**
+- Pe DAX, Rares preferă stop loss între 36 și 38 de puncte, cu un maxim absolut de 39.
+- Nu se simte confortabil cu valori mai mari (ex: 40-60+).
+- Pentru EUR/USD și US30, nu există reguli clare – decizia este vizuală și subiectivă.
+- Stop loss-uri sub 10 puncte pe DAX sunt evitate (doar în piețe extrem de lente).
+
+---
+
+### **Strategii Principale**
+
+#### **Identificarea zilelor trendy**
+- Nu există o metodă exactă de anticipare.
+- Se observă direcția până în jurul orei 10-12 – dacă piața ține o singură direcție, e probabil trendy.
+- Se recomandă evitarea execuțiilor agresive în astfel de zile și focus pe lichiditate minoră.
+
+#### **Executarea trade-urilor**
+- Nu toate trade-urile valide sunt executate.
+- Decizia uneori vine din experiență și recunoașterea pattern-urilor anterioare.
+- Statistica personală și simțul pieței joacă un rol important în deciziile de execuție.
+
+#### **Evitatul trade-urilor aparent valide**
+- Exemplu: după două zile consecutive de win, probabilitatea statistică a unui al treilea win pe DAX era extrem de scăzută (doar 1-2 cazuri în anul anterior).
+- Rares a ales să nu execute trade-ul, deși era valid conform strategiei.
+
+---
+
+### **Aplicații Practice**
+
+- **Marcarea zilelor trendy** în grafic pentru a învăța să le recunoști în timp.
+- **Evaluarea stop loss-urilor** prin analiză statistică a trade-urilor personale.
+- **Decizii logice bazate pe istoric**: evitarea trade-urilor care contravin statisticii personale, chiar dacă setup-ul este valid.
+- **Focus pe dezvoltarea personală**: fiecare trader trebuie să-și construiască propria viziune și încredere în deciziile sale.
+
+---
+
+### **Aspecte Psihologice**
+
+- **Evoluția vine în timp**: nu te compara cu alți traderi; fiecare are propriul parcurs.
+- **Experiența dictează execuția**: după luni de trading pe același instrument, apar pattern-uri repetitive.
+- **Nu există rezultate imediate**: progresul vine din disciplină, muncă constantă și capacitatea de a învăța din pierderi.
+- **Îmbrățișarea pierderilor**: ele fac parte din trading și trebuie acceptate ca o componentă inevitabilă.
+
+---
+
+### **Întrebări și Răspunsuri Relevante**
+
+- **Cum știi când o zi este trendy?**
+  - Nu există o metodă sigură, ci o analiză subiectivă pe baza mișcării din primele ore.
+
+- **Care e stop-ul maxim/minim recomandat?**
+  - Pe DAX: între 36-38 puncte (maxim), nu sub 10 puncte (minim). - DEPINDE IN FUNCTIE DE VOLUMUL PIETEI LA MOMENTUL RESPECTIV. IN MOMENTUL DE FATA, UN STOP LOSS PENTRU DAX ESTE MAXIM 60 DE PUNCTE 
+  - La alte instrumente: evaluare vizuală și context specific.
+
+- **Cum decizi când să execuți un trade valid?**
+  - Bazat pe experiență, pattern-uri anterioare și feeling format din expunerea constantă la piață.
+
+- **De ce nu am rezultate ca tine?**
+  - Pentru că rezultatele vin în timp. Experiența de ani de zile nu se poate comprima în câteva săptămâni.
+
+---
+
+### **Concluzii**
+
+- Lecția este o reflecție matură asupra importanței experienței, înțelegerii profunde a pieței și autocunoașterii în trading.
+- Subliniază importanța gândirii logice și evitării execuțiilor automate fără context.
+- Mesaj puternic de **încurajare și realism**: fiecare trader este unic, iar progresul vine din disciplină și răbdare, nu din comparații.
+
+--- 
+
+Această lecție devine extrem de valoroasă pentru traderii cu cel puțin câteva luni de experiență, care încep să observe și să internalizeze pattern-urile pieței.

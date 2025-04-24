@@ -1,0 +1,82 @@
+**Rezumat lectie 11 - Adaptarea Strategiei pe Time Frame-uri Mari și Capcanele unui Risk Management Slab**
+
+---
+
+### **Introducere**
+
+Această lecție este împărțită în două părți principale:
+1. Cum să adaptezi strategia de tranzacționare pe time frame-uri mai mari (pentru cei care nu au timp să stea toată ziua în fața graficelor).
+2. Un studiu de caz psihologic și tehnic: cum poți pierde bani chiar și atunci când ai un win rate ridicat – din cauza unui management defectuos al riscului.
+
+---
+
+### **Partea I – Adaptarea Strategiei pe Time Frame-uri Mari**
+
+#### **Time frame-uri recomandate în funcție de execuție**
+
+| Execuție pe... | Analiză pe...             |
+|----------------|----------------------------|
+| 5 minute       | 30 minute + 1 oră (1H)     |
+| 15 minute      | 4 ore (4H) + 1 zi (Daily)  |
+| 30 minute      | 1 zi (Daily) + săptămânal (Weekly – opțional) |
+
+> Observație: time frame-urile mari oferă mai puține oportunități de trade, dar pot fi mai stabile și mai sigure.
+
+---
+
+#### **Exemplu practic pe UK100 (FTSE)**
+
+- **Analiză pe 30M:** Identificarea a 3 zone de lichiditate majoră.
+- **Trecere pe 5M:** Căutarea clasică a unui shift și gap.
+- **Executare:** 
+  - Gap mare → alegere între execuție directă sau împărțită (jumătate într-un gap, jumătate în altul).
+  - TP la 2RR, SL peste high-ul relevant.
+  - Trade-ul a durat aproape 24h – confirmare că execuțiile pe time frame-uri mari necesită mai multă răbdare.
+
+---
+
+#### **Considerații speciale pentru time frame-uri mari**
+
+- Gap-urile multiple: pe time frame-uri mari, pot apărea 2-3 gap-uri consecutive. În acest caz, dacă prețul se află în zona inferioară a mișcării, se poate alege și un gap mai devreme decât cel de la mijloc.
+- Utilizarea Fibonacci (linie 0–50–100%) pentru validarea zonei de execuție. Dacă gap-ul este sub nivelul de 50%, poate fi considerat mai sigur.
+- Execuțiile pe TF mare vin mai rar, dar pot fi mai „curate” și mai sigure decât pe 1M sau 5M.
+
+---
+
+#### **Avantaje și limitări**
+
+- **Avantaje:** timp redus în fața graficelor, risc potențial mai mic, potrivit pentru conturi mai mari.
+- **Limitări:** număr redus de trade-uri/lună, necesită răbdare și disciplină.
+
+---
+
+### **Partea II – Studiu de caz: Cum pierzi bani chiar și când câștigi**
+
+#### **Context:**
+Traderul are 5 trade-uri, dintre care:
+- 3 sunt câștigătoare cu 2RR fiecare.
+- 2 sunt pierzătoare cu 1RR.
+
+> **Rezultat în termeni de RR:** +4RR total (6RR câștigați – 2RR pierduți)
+
+#### **Dar în bani:**
+- Primele 3 trade-uri executate cu risc de 0.3% fiecare: +0.6% x 3 = +1.8%
+- Ultimele 2 trade-uri cu risc de 1% fiecare: -1% x 2 = -2%
+- **Rezultatul final:** -0.2% pe cont.
+
+#### **Concluzie:**
+Chiar dacă traderul are o strategie bună și un win rate de 60%, riscul inconstant și lipsa unui plan solid duc la pierderi.
+
+---
+
+### **Recomandări privind managementul riscului**
+
+- Menține un risc constant per tranzacție (ex: 1% sau 0.5%) sau modifică-l **doar cu un plan clar**.
+- Nu mări riscul în mod impulsiv după o serie de câștiguri – șansele ca următorul trade să fie pierzător sunt reale.
+- Ține evidența RR-ului și a riscului efectiv pentru a înțelege performanța reală.
+
+---
+
+### **Final Thoughts**
+
+Această lecție este extrem de valoroasă atât pentru traderii care vor să-și optimizeze timpul, cât și pentru cei care se confruntă cu frustrări legate de rezultate nealiniate cu performanța tehnică. Combină aspecte strategice cu lecții de psihologie și disciplină financiară.

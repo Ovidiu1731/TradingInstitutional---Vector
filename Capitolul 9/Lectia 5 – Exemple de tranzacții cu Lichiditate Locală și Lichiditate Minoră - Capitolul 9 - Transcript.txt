@@ -1,0 +1,109 @@
+Lectia 5
+===
+
+[00:00:00] Bine v-am găsit la clipul în care vom testa lichidități locale și lichidități minore. Vom face câteva exemple, voi încerca să le explic, să explic raționamentul din spate, în așa fel încât să aveți materiale pe bază acolo să lucrați și exemple de tranzacții pe care să le luați în considerare. Suntem pe GBPUSD.
+
+Iar am luat piețe la întâmplare să găsim din câte mai multe piețe. Avem o lichiditate locală sus, avem și o lichiditate locală aici. Hai să facem niște backtesting împreună să ne uităm un pic pe stele și să explicăm tranzacțiile în regulă Hai să vedem care e situația. În primă fază avem lichiditatea locală de jos luată.
+
+Ce știm despre lichiditățile locale pentru că cu ele vom începe, sunt similare cu lichiditățile majore doar că le găsim în principiu pe un minut și ocazional și pe 5 minute. În cauza de față, suntem pe un miniu vedeți avem sideways, avem mai multe zone. În momentul în care vedem market-ul în genul ăsta e bine pentru că ni se tot iau [00:01:00] lichidități și avem posibilități de intrat în tranzacție.
+
+Spre exemplu aici posibilitatea de intrat în tranzacție. Uite, aici, bam, când cade piața, iar posibilitatea de intrat. Deci sunt mai multe posibilități dar trebuie să fii foarte atent în momentul în care le execuți, să fii atent la oră, să fii atent la setup-ul în sine. Hai să vedem. De regulă când execuți la locale și pe un minut, riscul este un pic mai mare, mă refer ca transacția este un pic mai riscantă, deci aș scădea un pic partea de risc pe care îl asumăm noi în loc de un risc maxim, aș face un risc mai mic, aici depinde de tine și de cum dorești tu să faci eu fac riscuri mai mici pe lichiditățile locale, dar și de asemenea De foarte multe ori aici când faci lichidități locale, aici intră în acțiune de regulă shift-urile agresive.
+
+De ce? În cazul de față aici se poate considera un shift. Este un shift agresiv din punctul meu de vedere, dar... Lichiditatea locală clară luată și noi dacă n-am blackshift-ul ăsta, [00:02:00] atunci nu o să avem deloc shift ce mai probabil, de ce? Displacement-ul s-a întâmplat, gap-ul s-a întâmplat, dacă o să fie interes pentru instituții să execute aici.
+
+Hop asta scămi, este un pic ăsta stricat, o să punem așa. Ok, hai să vedem execuția o punem la jumate sau la intrare? Nici nu știu. Unde avem targetul Target punem în următoarea lichiditate locală, o avem ne încadrăm. Deci aș pune la intrare în gap, stop loss-ul undeva aici Ok, aici
+
+nu știu dacă va atinge neapărat targetul ăsta, dar nu cred bă dar are sens să-l atingă, pentru că acum oina n-ar avea de ce să se oprească aici prețul, pentru că nu a fost luată nimic ochi aluat lichidat, asta e mic aici dar cred că vom avea target sus, totuși uitându-mă pe grafic Unde a fost unul la doi Unul la doi deja puteam lua parțiale în zona asta, dar unul la doi se putea închide o parte din transacție și clar asta ar fi trebuit făcut și restul lăsaie să ruleze mai departe și mutam break-even-ul Hai să vedem dacă ne ia break-even-ul.[00:03:00] 
+
+Nu, ne atinge targetul final. Ăsta e trade-ul. Acum ce posibilitate ai? În cazul în care ai început ziua cu un trade de genul ăsta ai făcut un profit frumos poți să oprești. În cazul în care vrei să faci mai multe trade-uri, poți să mergi mai departe. Aveam lichidate locală hai să ne uităm după sell. Ok, shift.
+
+Iar nu este cel mai frumos shift ca la carte, dar este totuși un shift valid și când vine vorba de echități locale mă mai uit după shift-ul de astea. Pe majore de regulă încerc să stau cât mai, să caut setup-ul cât mai bun. Ok, avem deja două ghepuri. Setup-ul ăsta mi-ar arată ca și cum nu o să fie ceva ce se va executa.
+
+Pare că, da, deci, uite iar vă zic o chestie pe care o văd acum.
+
+Ok, deci când mă uit la setup-ul ăsta, în cazul în care nu vedem de pe acum un reject și să plecăm mai jos este un semn destul de [00:04:00] prost, pentru că dacă mai vedem încă o candelă de-asta și încă un gap mare, deja nu e cel mai frumos setup, dar merge o execuție ar fi un tri consecutiv gap setup și ar merge o execuție la jumătatea acesteia.
+
+Hai să vedem mai departe cine a rezervat piața, niciun gap, ok. Ok, ok, ok. În cazul de față având doar două gap-uri, execuția se poate face ori la intrarea în gap, ori la jumătate. Hai să vedem. În primul rând, cum ne încadrăm cu take profit-ul? Dacă facem la intrarea în gap, cu stop loss aici, până aici aș vrea să am avea un 1.4, not the best one, ca să ne încadrăm până într-un 2.
+
+Ăsta nu e cea mai bună setă, probabil l-aș fi ratat. Sincer acum cum e pe el l-aș fi ratat. Dacă ești un executor, îți place să execuți în stilul ăsta, poți să execuți așa, hai să vedem dacă se mai întoarce, să ne mai de o oportunitate, nu s-a mai întors. Ok, deci aveai varianta să execuți clasic la intrarea în ghep fără jumătatea ghepului, ți-ar fi luat 1 la 4 RR [00:05:00] aici clar ar trebui să iei parțiale în lichiditatea de jos, nu avea sens să nu iei.
+
+Aici vorbesc strict de situația de aici pentru că următorul target nu ar fi fost jos aici la 2 RR unde se închidea tranzacția, scuze dacă atinge sau iar ne face reverse, iar ne face, iar ne face reverse, ok. Deci iar dat o posibilitate interesantă de trade să înțeleg. Hai să vedem, continuăm backtesting-ul, prețul vine aici, shift în zona asta, deja mult prea sus, ok, aici deja e un setup mâncat, uitați cum arată chestia asta, adică n-ai cum să execuți pe baza așa ceva.
+
+Unde shift-ul e ok la aici dar displacement nu prea e, aici zice un gap, dar nu e mișcarea clară, e foarte departe gap-ul de stop loss, nu e ce trebuie. Abia la relichidare putem să ne uităm aici, ne-a reluat zona asta, aici este un setup, shift, dar nu avem gap, deci nici displacement. Mergem mai departe se relichidează zona.[00:06:00] 
+
+Iar setup urât, nu aș fi mers pe așa ceva, ți-a făcut shift, nu ți-a lăsat gap, ai și lunch hour, de asta nu e pe gustul meu, te vede între 19 și 20 și de aia nu prea e pe gustul meu, știți că vin până pe această sesiune de 19-20 și perioada asta, deci acu explicabil de ce arată așa piața. Și având în vedere că suntem fix în ziua de azi cam aici s-a terminat backtesting-ul pe GBPUSD.
+
+Hai să mai găsim încă un exemplu cu lichiditate locală și după trecem și la lichiditate minoră. Mergem mai departe Suntem pe US 30. Să știți că exemplele pe care încerc să le aleg sunt cumva exemple mai atipice, adică n-am ales cele mai simple și încerc să mă uit pe grafic după zone un pic mai complexe că dacă vreau cele mai simple lichidități locale, E foarte ușor toată lumea să le înțeleagă.
+
+Încerc să iau un pic mai detaliate trade-urile și un pic mai multe așa controverse ca să vedeți procesul din spate de gândire. Bun, aici avem două zone interesante. Zona asta de sus de aici cu lichiditate locală, zona asta de aici cu lichiditate [00:07:00] locală și mai jos, astea mi-au rămas mie pe grafic, trebuie să le șterg, ca și potențiale target-uri.
+
+Mai avem zona asta de aici și zona asta de aici. Hai să le jucăm să vedem cum se joacă.
+
+Ok, aici e interesant de ce? Pentru că mulți o să aibă confuzia, măi, rarășiunde se execută aici din prima, dar mai am și lichiditatea asta mai sus, dacă îmi ia pe asta și după vine în asta, aici aveți multe variante. Depinde la ce risc jucați. Fiind pe un minus, să știți, ziceți cu locale, e riscant oricum orice, dar...
+
+Avem următoarea variantă să zicem că vrem să punem 0,5% în piață cum facem asta împărțim în două 0,25 aici și 0,25 aici în cazul în care ne face trade aici e setup bun, am luat un mini ok, în cazul în care luăm un lose, aia mai avem 0,25 aici și mai avem încă un try, asta e o variantă, altă variantă așteptați direct varianta de sus și cea mai bună, în caz de față o să vedem cine gerează piața, eu [00:08:00] încă nu aș vrea să execut, ne-a făcut shift, ok.
+
+Ne-a făcut un shift aici. Ne-a și luat banii. Arată-vă ok setup-ul ăsta. Ok, avem gap mic, destul de mic gap-ul ăsta. Nu e cel mai bun. Trade-ul ăsta, uite ăsta este genul de trade care... Nu știu nu îmi place așa de mult chiar dacă are confluențe, are shift, are gap are displacement, are zona lichidată local, are o probabilitate a zice de vreo 45% de win părerea mea din experiență în ce vorbesc pot să greșesc, poate să fie 42, poate să fie 48 dar zic aproximativ un 45% merită execuție nu știu aici am fliput-o la o decizie la cum arată candrela asta, probabil pe aici o execuție aș arunca un 0.3% maxim pe trade-ul ăsta Mi se pare foarte riscant.
+
+În cazul în care o să fie luz, o să facem entry-ul mai sus și pierdem [00:09:00] 0.25 de aici. Ok. Aici ne-a luat lichiditatea, care ar fi fost un potențial target. Am fi închis aici la 1.6 o parte din tranzacție și restul lăsăm mai departe De asemenea uite ne-a făcut aici și un gap mai mare, deci în cazul în care nu voiați gap-ul acela de sus, puteați executați la intrare în acest gap și cred că tot am fi avut un setup, mai frumos al doilea setup decât primul.
+
+Poți ai stop ori aici, hai să stări pe primul să vedeți, puteți să aveți stop-ul aici, deasupra high-ului sau sus de tot în cazul în care vreți să fiți conservativi. Sus de tot mi se pare destul de riscant și targetul final ar fi aici lichiditatea asta, dar ar că aș merge cu stop-ul în caz de față aici.
+
+Hai să vedem în cazul extrem ce se întâmplă. Ok, take profit, wow, și am ajuns și la zi că setup-ul ăsta s-a întâmplat fix acum din ce filmam apărut, adică suntem acum la zi suntem pe un minut, deci da, nu știu cum mai ce s-a completat, ok, 1 la 7 și vedeți cum fix acum, da, deci a dat reverse, a schimbat [00:10:00] direcția din lichiditatea pe care am marcat-o, A schimbat direcția, a făcut o schimbare.
+
+Ok, astea ar câteva exemple de lichidități locale. Am încercat să vă și explic procesul de gândire din spate în așa fel încât să furați informații de aici. Să vedeți un pic cum le gândesc așa. Vă dați seama... Pe live nu o să gândiți la fel, pentru că o să aveți emoții. Eu acum deja pe backtesting și pe live sunt cam la fel, ca și sentimente nu mai sunt nici așa, cam aceleași gânduri le am, dar depinde de risc Am observat și la mine că atunci când e întotdeauna o tranzacție cu risc foarte mare, pentru mine tint să nu mai gândesc așa de limpede dar când am 0.3, 0.4, 0.5, exact cum vedeți că gândesc aici exact așa gândesc și pe live, fix același mod de gândire.
+
+Când vine vorba de riscuri mari, se cam schimbă nici eu nu pot să mai țin tipul ăsta de gândire și mai fac niște decizii pe care Poate le-aș face diferit când mă uit mai încolo peste trade-uri. Hai să ne uităm și la unu-două exemple cu lichiditate minoră. Lichiditatea minoră. Acum, după cum puteți vedea este clar, în ultima perioadă am avut un uptrend masiv.
+
+Dacă ne [00:11:00] uităm pe acest uptrend, avem diferite zone importante. Astea ar fi cele mai mari. Asta asta, asta în fine. Lichiditatea minoră este lichiditatea care susține trendul. Adică ce vrem să vedem vrem să vedem intrări odată cu trendul. În acest caz vrem să vedem lichidată o zonă dacă avem uptrend vrem să vedem zonă de jos lichidată Ok?
+
+Pentru că știți cum funcționează lichiditatea minoră. Deci vrei să vezi zona asta luată da, să-ți formeze setup și să continui odată cu trendul. Tu aștept să-ți fie luată lichiditatea ca după să intri odată cu trendul. În regulă hai să vedem posibile scenarii, să vedem cum arată, ok, avem
+
+lichiditatea asta minoră luată, shift-ul cel mai probabil va veni în zona asta, da, ok, [00:12:00] aici... Pare a fi un entry, hai să măsurăm și noi ghepul ăsta, măcar să aibă un punct ca să putem valida o intrare, are două puncte deci ăsta e entry-ul da. Ok, riscant, să știți, la cum îl văd aici riscant, dar este un sniper entry, un sniper entry.
+
+Asta este genul de trade la care îi dai un pic de spațiu să respire și de asemenea poți să-ți iei și RR mai mare, 17.4, hai să-i dăm până la un 11.5, are spațiu, are, ok, ca și take profit putem să mergem până high ăsta,
+
+ok, nu înșiund ăsta cu target, e, lăsăm așa ăsta e targetul final. Și pe parcursul tranzacției discutăm și să vedem cum se mișcă să vedem dacă mai sunt alte target-uri, hai să vedem
+
+momentan un pic de sideways, arată bine, avem o mișcare puternică în [00:13:00] jos, ne-a rupt zona asta de aici deja trade-ul ăsta i-a scăzut foarte mult probabilitatea de win, deci când văd asta, ce-mi dau seama este că avem zona asta ruptă de aici și pare că Prețul vrea să o continue în jos. Avem două posibilități în acest moment, ori să vină să ne ia lichiditatea asta de aici și în cazul ăsta vom avea un lose și vom putea face un re-entry în zona asta.
+
+Sau se poate să ne facă un stop hunt, să ne ia stopul de aici și după să plece.
+
+Pare că e fix pe stop. Ok, foarte interesant Nu știu dacă l-ar fila sau nu. Pare că am scăpat Pare că am scăpat și vedeți, de asta există regula cu spațiu, vedeți de asta trebuie să dăm spațiu, aici era stop lossul normal, uite îți dăm mereu spațiu să respire. Aici depinde și de metatrader 3-2 ăsta nu știu dacă scăpam sau nu, până acum pare că am scăpat, așa că e stop loss clar după, nu e stop loss clar.
+
+Deci aici există două posibilități în care ori ni se lua stop loss-ul [00:14:00] aici nu, la cum l-am marcat în acest moment nu era luat, Dar pe metatrader putea să ne ia. Dacă ne lua AE, puteam să căutăm din moment ce s-a refăcut, s-a luat și lichiditatea asta minoră de aici puteam să facem o re-entry. Și ia uite re-entry-ul deja îl văd.
+
+Shift-ul s-a produs, re-entry-ul e aici. Și mai avem și un gap jos aici. Dar fiind tu gap-s, aș executa în ala de sus să avem o siguranță. Hai să executăm în ăsta. Punem stop loss-ul la fel, cum a fost și înainte. Cu un pic de spațiu, că poate să mai întoarce. Și target-ul la fel. Deci oriți case in ori e ok.
+
+Hai să zicem că avem un minus 1. Nu șoc că atinge targetul sus, pare că merge în side. Ok, l-a atins. Deci cum am gândit situația asta? În cazul în care ați executat primul setup și am scăpat fără stoploss ar fi fost patru RR, ceea ce e enorm. În cazul în care am fost ghinioniști și nu ne-a fost luat stoploss-ul, ne puteam gândi la o reintrare pentru că a fost relichidată zona nouă După cum puteți vedea a fost un stop hunt, au fost luate stopurile și ce orică au intrat aici.
+
+Și după ne-a făcut iar setup. Shift în zona asta. Da? [00:15:00] Displacement, un gap aici și încă un gap aici și un gap setup, execuția sus și aveați 2.36 RR. Deci puteați să recuperați luzul de aici și mai aveați și un 1.36 RR. Targetul final, clar, ar fi fost aici Aici aș ieșit complet în cazul în care voiam să las runner.
+
+Deci ăsta era maximul. Și vedem că ne-a dat și reacție de aici, din acesta, dintr-o lichiditate locală aș spune la cum arată, da, e locală. Ok, ne-am uitat la un exemplu, hai să mai alegem și alte exemple. Uitându-ne la această formațiune, putem să marcăm câteva zone cu lichiditate minoră. Este zona asta, este zona asta și mai este zona de sus.
+
+Aici bine poți să găsești mai multe poți să ieși pe asta, poți să ieși, sunt foarte multe și v-am zis, lichiditatea minoră este genul de lichiditate pe care o să folosiți în momentul în care deja aveți niște experiențe în partea de tranzacționare. Până în momentul în care strângeți o experiență destul de cum să zic destul de complexă și destul de serioasă vă recomand să încercați să evitați partea de lichiditate minoră în [00:16:00] momentul în care...
+
+Deja le-ați învățat foarte bine pe celelalte puteți să încercați și zona asta. Ok, după cum puteți vedea avem zonele astea avem un downtrend destul de clar. Scopul nostru este să vedem lichidate zonele astea și să căutăm potențiale intrări cu trendul. Adică și zona asta e una interesantă, dar e cam mică mi se par cealalte mult mai relevante.
+
+Hai să-i dăm puțin să vedem care e situația. Continuăm în jos. Ok, astea lichitate n-aș executa aici dar hai să vedem dacă ne dă un setup, eu n-aș fi executat, încă n-avem shift, ok, n-am avut niciun setup, ok, ne-a luat zona asta, o zonă frumoasă merită un setup, hai să vedem și ora nu e foarte bună încă
+
+n-avem shift.
+
+Ok, asta arată bine, îmi place cum arată, deci shift-ul, ia vedeți [00:17:00] displacement puternic, ia vedeți gap ce mi-a lăsat aici, îmi place rău gap-ul ăsta cum stăm cu ora, ora nu mă sparge, dacă îmi faci la și 45 execuția cred acum și 36, nu cred, e perfect setup-ul dacă reușești un pic mai încolo execuția, ok, încă un gap aici pare că se transformă într-un setup foarte bun.
+
+Suntem la 43, ok, super setup ăsta, suntem la și 45, execuție, stop loss, acum cu take profit-ul cum aș merge? Nu știu, aș merge, da, avem zona asta aici, dar fiind downtrend o rupe, nu știu ce să zic, aș merge, da, aș lua un parțial mic aici, dar nu, aș rula, l-aș rula trade-ul ăsta. Fiind downtrend, dar bine avem și lichidul ăsta mare aici care e fix cu aia, interesant să poate să vedem un reject, da facem aici un exit de 40% și restul îl las până la un 2.5, [00:18:00] așa o joc, hai să vedem, ia și gap-ul de sus, a luat și gap-ul de sus, ok, frumos, ok, pare că ne apropiem de un stop loss.
+
+Pentru că avem reacție, ok, reacție destul de masivă, wow, ok, s-a vrut lichiditatea asta foarte puternică, a luat și banda aici, a luat și banda aici, ok, în punctul ăsta deja eu aveam închis 40-50% din tranzacție, hai să vedem dacă merge și mai jos și ăla a fost trade-ul, excelent wow, nu m-așteptam o reacție așa puternică ok, foarte bun trade-ul.
+
+Ăsta este exact genul de trade cu lichiditate minoră pe care l-aș executa în exemplu foarte bun, după cum puteți vedea aici e destul de clar, a venit, ne-a luat S-a întors ne-am făcut setup și trendul continuă și practic ceea ce ajută pe tine e puterea trendului care trage prețul ca un magnet în zonele cu lichiditate de jos.
+
+Ce nu mi-a câștigat mie încrederea aici, să merg și pe cinci minute să mă uit e că nu văd așa, ia uite cât sens face, ia uitați lichiditatea asta [00:19:00] aici acum a intrat în ea tare de tot, ăsta era target-ul lor ăsta era target-ul, băncio lichiditatea asta, acum, acum, uite se vede foarte clar. Deci, practic fiind lichiditatea asta aici pe 5 minute foarte puternică, ce zic băncii, au venit au intrat în zona asta agresiv în jos să ia banii.
+
+Scureți, vedem un reject sau vedem continuare? Ce credeți? Ia vedeți pullback. Uitați cât de frumos e totul e o poveste cum vine aici ne-a luat zona, nu a mai fost interes să mai coboare, că le trebuie și lor lichiditate nouă construită. Au mers mai sus și ia uite cum au luat și banda aici și au făcut treabă da?
+
+Hai să vedem cât se mai joacă, ia și lichiditatea despre care am vorbit aici, uitați reacția din lichiditatea asta masivă, bam, ia să vedem pe cea bună setup, chiar sunt curios, e hectic rău aici ce se întâmplă, nu aș executa pe așa ceva niciodată, aici poate, ia să vedem care lichidează zona asta, shift, [00:20:00] execuție, da, foarte frumos Ora este problema aici pentru mine, nu aș fi fost niciodată prezent la 2 dimineața, dar sunt cazuri în care sunt trader care vreți să faceți în timpul nopții și în timpul nopții aveți potențial de setup-uri.
+
+Zona asta de aici e interesantă ia să vedem. Nice, și target aici foarte frumos. Ok, am făcut destul de exemple, pe unul de 21 de minute am stat aici la turte voi. Vă mulțumesc mult pentru atenția acordată la acest clip, aveți foarte multe exemple, vă recomand să le revizionați de câte ori aveți nevoie să le înțelegeți foarte bine și ne vedem la clipurile următoare.
+
+Pa, pa!
+

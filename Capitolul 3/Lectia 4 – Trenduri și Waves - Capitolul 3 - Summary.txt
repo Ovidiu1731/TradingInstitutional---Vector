@@ -1,0 +1,82 @@
+### **Rezumat Lecția 4 – Trenduri și Waves (Valuri) în Piață**
+
+---
+
+#### **Introducere**
+
+Lecția 4 marchează trecerea la înțelegerea **dinamicii pieței** prin două concepte fundamentale: **wave-urile** (valurile) și **trendurile**. Chiar dacă nu vor fi utilizate extensiv în strategie, aceste noțiuni oferă context esențial pentru interpretarea pieței și luarea unor decizii mai conștiente.
+
+---
+
+#### **1. Waves – Valurile din piață**
+
+##### **Definiție generală**
+- Piața este formată în totalitate din wave-uri.
+- Wave-urile pot fi **Top Waves** (vârfuri) sau **Bottom Waves** (minime).
+- Există două forme principale:
+  - **Round Waves** – rotunjite, formate din mai multe candele.
+  - **Spike Waves** – ascuțite, formate din 2-3 candele, cu mișcare bruscă și inversare rapidă.
+
+##### **Exemple și caracteristici**
+- **Round Wave**: Ex. mișcare fluidă, treptată → seamănă cu un deal.
+- **Spike Wave**: Ex. candelă roșie mare urmată de o verde mare → seamănă cu un țep.
+- **Subiectivitate**: Dacă un val nu este evident, nu trebuie luat în considerare – **claritatea este cheia**.
+
+##### **Utilitate practică**
+- Wave-urile vor fi folosite ca **confluență** în strategie, fără a detalia tipul lor (round/spike).
+- Vor ajuta la identificarea **punctelor cheie de mișcare a prețului**.
+
+---
+
+#### **2. Trenduri – Direcția predominantă a pieței**
+
+##### **Tipuri de trenduri**
+- **Uptrend (trend ascendent)** – prețul crește în timp.
+- **Downtrend (trend descendent)** – prețul scade în timp.
+- **Trend lateral** – prețul se mișcă într-un interval restrâns, fără direcție clară.
+  
+Trendurile pot fi:
+- **Slow trend** – mișcări lente și constante.
+- **Fast trend** – mișcări rapide, bruște.
+
+##### **Structura trendului**
+- Trendul este compus dintr-o succesiune de wave-uri.
+- Într-un downtrend:
+  - **Low-urile** devin din ce în ce mai joase.
+  - **High-urile** devin din ce în ce mai joase.
+- Se confirmă în momentul în care apare un **lower low + lower high** față de precedenta secvență.
+
+##### **Pullback-ul**
+- O corecție temporară contra trendului principal.
+- După o scădere accentuată, prețul crește puțin înainte de a relua scăderea.
+- Reprezentat grafic ca o linie „în sus” între două scăderi.
+
+##### **Exemplu de execuție pe bază de trend**
+- Identificare downtrend → confirmare prin lower low → intrare în **sell** cu stop-loss deasupra wave-ului anterior → take profit la un nivel mai jos.
+
+##### **Semne ale finalului unui trend**
+- Prețul nu mai formează lower low-uri.
+- Apare o mișcare laterală.
+- Se observă o scădere a impulsului în direcția trendului.
+- Urmat adesea de inversare (ex: din downtrend în uptrend).
+
+---
+
+#### **Mesaje cheie și recomandări**
+
+- **Nu forțați identificarea valurilor sau trendurilor** – mergeți doar pe claritate.
+- **Nu acționați împotriva trendului**: în downtrend, se caută doar vânzări; în uptrend, doar cumpărări.
+- Tradingul este un joc de **probabilități**, nu de certitudini – se acționează pe baza probabilității celei mai mari.
+- Aceste concepte nu sunt elemente active ale strategiei, dar sunt esențiale pentru **conștientizarea comportamentului pieței**.
+
+---
+
+#### **Gânduri Finale**
+
+- Lecția oferă o privire de ansamblu asupra **mișcării naturale a pieței**, necesară pentru orice trader.
+- Următoarele lecții vor fi **practico-aplicative** – încep aplicarea directă a acestor concepte în TradingView.
+- Acumularea acestor noțiuni pregătește terenul pentru înțelegerea **lichidităților și intrărilor concrete** în piață.
+
+---
+
+Acest rezumat sintetizează bazele înțelegerii trendurilor și wave-urilor, elemente fundamentale ale pieței care vor sprijini deciziile de tranzacționare chiar dacă nu vor fi pilonii principali ai strategiei.

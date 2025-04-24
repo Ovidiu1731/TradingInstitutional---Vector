@@ -1,0 +1,102 @@
+### Rezumat Lecția 5 – Trading vs Investiții
+
+---
+
+#### Introducere
+
+Această lecție clarifică diferențele și asemănările dintre **trading** și **investiții**, două concepte adesea confundate, chiar și de către persoane educate. Scopul lecției este să evidențieze caracteristicile distincte ale fiecărei activități, oferind exemple concrete, diferențe de risc, durată și potențial de profit.
+
+---
+
+#### Asemănări între Trading și Investiții
+
+- Ambele implică **cumpărarea de active** pentru a obține **profit**.
+- Ambele implică **risc** – posibilitatea de a pierde bani.
+
+---
+
+#### Diferențe Majore
+
+| Aspect                     | Trading                              | Investiții                              |
+|---------------------------|---------------------------------------|------------------------------------------|
+| **Durata**                | Poziții pe termen scurt (intraday)   | Poziții pe termen lung (minim 1 an)     |
+| **Risc**                  | Foarte ridicat                       | Redus                                   |
+| **Potențial de profit**   | Ridicat, rapid                       | Stabil, dar lent                        |
+| **Bani folosiți**         | Poți folosi bani finanțați           | De regulă banii personali               |
+| **Flexibilitate**         | Poți câștiga și pe scădere           | Doar pe creștere                        |
+| **Timp implicat**         | Activitate intensă, zilnică          | Pasiv, implicare redusă                 |
+
+---
+
+#### Exemple Comparative
+
+- **Investiție**: Cumpărare apartament cu 90.000 €, vânzare la 105.000 € → Profit 15%.
+- **Trading**: Cumpărare acțiune la 100 $, vânzare la 150 $ → Profit 50 $ → Short de la 150 $ la 100 $ → Profit încă 50 $ → Total 100 $ profit în aceeași zi, chiar dacă prețul final e tot 100 $.
+
+---
+
+#### Avantaj Cheie al Trading-ului
+
+- Posibilitatea de a **câștiga pe scădere** („short selling”).
+- În investiții, o scădere înseamnă pierdere pură.
+
+---
+
+#### Exemple de Investiții
+
+- Apartamente, case, terenuri
+- Criptomonede
+- Acțiuni (bursă), ETF-uri
+- *Cea mai sigură*: **Investiția în educația proprie** – nu poate fi pierdută.
+
+---
+
+#### Exemple de Piețe pentru Trading
+
+- Bursa
+- Criptomonede
+- Indici bursieri
+- CFD-uri
+- Opțiuni
+
+---
+
+#### Capital și Risc
+
+- **Investiții**: Se folosesc proprii bani, risc crescut în cazul împrumuturilor (nerecomandat).
+- **Trading**: Poți tranzacționa **cu bani finanțați** de firme (ex: trader finanțat).
+  - Riscurile sunt mult mai mici datorită sistemelor de protecție și limitare.
+
+---
+
+#### Randamente și Performanță
+
+- **Investiții**:
+  - Randament mediu: **~10% anual**.
+  - Exemplu: 10.000 € → 1.000 € profit/an (taxabil).
+- **Trading**:
+  - Același 10% poate fi atins **într-o săptămână**, deși nu este recomandat.
+  - Obiectiv personal: **10% lunar** (realizabil după ce devii constant profitabil).
+
+---
+
+#### Strategia Recomandată
+
+1. **Construiește capitalul prin trading.**
+2. **Investește profitul obținut din trading**:
+   - Criptomonede
+   - Acțiuni
+   - Imobiliare (ex: garsonieră, teren)
+3. **Diversificare**: „Nu pune toate ouăle în același coș.”
+
+---
+
+#### Concluzii
+
+- Ambele sunt importante, dar **trading-ul e ideal pentru început**, ca sursă de capital rapid.
+- Investițiile sunt utile pentru **stabilitate pe termen lung**.
+- Eficiența vine din **combinarea celor două**, într-o strategie coerentă și bine gestionată.
+
+---
+
+Această lecție oferă o înțelegere clară a diferențelor fundamentale dintre trading și investiții, prezentând avantajele și dezavantajele fiecăreia, precum și cum pot fi combinate strategic pentru a construi un viitor financiar solid.

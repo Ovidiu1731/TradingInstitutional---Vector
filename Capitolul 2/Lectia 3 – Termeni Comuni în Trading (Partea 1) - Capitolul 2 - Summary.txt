@@ -1,0 +1,92 @@
+### Rezumat Lecția 3 – Termeni Comuni în Trading (Partea 1)
+
+---
+
+#### Introducere
+
+Această lecție este o bază teoretică esențială pentru orice trader începător. Sunt introduși **cei mai utilizați termeni din trading**, cu explicații clare și exemple vizuale. Lecția este construită pentru a oferi un limbaj comun cursanților, chiar dacă o parte din termeni nu vor fi folosiți activ în strategia mentorului.
+
+---
+
+### Termeni Tehnici Fundamentali
+
+#### 1. **High / Low**
+- **High** = punctul maxim al unei mișcări de preț.
+- **Low** = punctul minim.
+- Se clasifică în:
+  - **Higher High (HH)** – maxim mai mare decât precedentul.
+  - **Higher Low (HL)** – minim mai mare decât precedentul.
+  - **Lower High (LH)** și **Lower Low (LL)** – specifice trendurilor de scădere.
+
+#### 2. **Trenduri**
+- **Uptrend** = succesiune de HH și HL (creștere).
+- **Downtrend** = succesiune de LL și LH (scădere).
+
+#### 3. **Pullback / Corecție**
+- Mișcare temporară contrară trendului principal, creată adesea de **instituții** pentru a vinde în profit și a recumpăra la preț redus.
+- Este o zonă unde majoritatea traderilor de retail sunt manipulați și pierd bani.
+
+#### 4. **Retestare**
+- Prețul revine într-o zonă pe care a depășit-o anterior (ex: vechi high) pentru a o „retesta” înainte de a continua în direcția trendului.
+
+#### 5. **Setup**
+- Condițiile care semnalizează o oportunitate de tranzacționare.
+- Include combinații de semnale tehnice și context favorabil.
+
+#### 6. **Pattern**
+- Structură recurentă pe grafic.
+- Exemple: uptrend, downtrend, double top, double bottom.
+- Mentorul menționează că **nu folosește candle patterns**, dar este important ca cursanții să le cunoască.
+
+---
+
+### Alți Termeni Importanți
+
+#### 7. **Volum**
+- Reprezintă cantitatea de bani tranzacționată într-o anumită perioadă de timp.
+- Un volum mare poate semnala interes crescut al participanților mari la piață.
+
+#### 8. **Leverage (Levier)**
+- Permite tranzacționarea unor sume mai mari decât capitalul propriu.
+- Ex: cu levier 5X, o mișcare de 100$ aduce profit/pierdere de 500$.
+- **Poate amplifica semnificativ riscul**, dar va fi gestionat strict în cadrul strategiei mentorului.
+
+#### 9. **Margin Call**
+- Apare când pierderile sunt atât de mari încât contul rămâne fără fonduri → cont falimentat.
+- Poate apărea din overleveraging sau greșeli de gestionare a riscului.
+
+#### 10. **Spread**
+- Diferența dintre prețul de cumpărare (ask) și cel de vânzare (bid).
+- Reprezintă **costul indirect** al unei tranzacții.
+- În strategia folosită de mentor, spread-ul este **neglijabil**.
+
+---
+
+### Profiluri de Traderi
+
+#### 11. **Retail Trader vs Trader Instituțional**
+- **Retail trader** = trader individual, fără acces la informații privilegiate.
+- **Trader instituțional** = lucrează în cadrul băncilor, fondurilor mari și are putere de influență reală în piață.
+- Piața este dominată de instituții → **peste 80–90% din retail pierd**.
+
+---
+
+### Piețe și Instrumente
+
+#### 12. **Forex**
+- Prescurtare de la *Foreign Exchange Market*.
+- Tranzacționarea parităților valutare (ex: EUR/USD).
+
+#### 13. **Indice Bursier**
+- Reprezintă performanța unui grup de active (ex: acțiuni dintr-o anumită industrie sau regiune).
+- Nu se pot tranzacționa direct, ci prin:
+  - **Contracte Futures**
+  - **CFD-uri**
+  - **ETF-uri**
+  - **Opțiuni**
+
+---
+
+#### Concluzie
+
+Această lecție pune bazele **limbajului și logicii de bază** din trading, fără de care nu se poate înțelege structura pieței sau funcționarea strategiilor. Termenii vor fi aprofundați și aplicați în lecțiile viitoare, iar în partea a doua a acestei lecții se vor discuta instrumentele de tranzacționare concrete: CFD, ETF, Futures etc.

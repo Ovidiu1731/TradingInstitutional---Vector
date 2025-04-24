@@ -1,0 +1,77 @@
+### **Rezumat Lecția 2 – Anatomia Candelor (Lumânărilor) în Tranzacționare**
+
+---
+
+#### **Introducere**
+
+Această lecție continuă seria din capitolul 3, concentrându-se pe **înțelegerea detaliată a structurii unei candele** (lumânări) din graficele de tip candlestick – singurul tip de grafic utilizat în program. Lecția este teoretică, fără aplicații practice, urmând ca interacțiunea efectivă cu platforma TradingView să aibă loc în lecțiile viitoare.
+
+---
+
+#### **Concepte Cheie**
+
+- **Context**: Exemplificarea este realizată folosind indicele **S&P 500** pe un grafic **daily** (fiecare candelă reprezintă o zi).
+- **Programul bursier**: Graficul arată doar zilele lucrătoare (luni–vineri), deoarece bursa NYSE este închisă în weekend.
+- **Candelele**: Fiecare candelă se formează într-o perioadă de timp fixă (în acest caz o zi), iar această perioadă poate fi schimbată (de ex. la 4h, 1h, etc.) – urmează să fie detaliat în lecția despre **timeframes**.
+
+---
+
+#### **Structura unei Candele**
+
+Pentru fiecare candelă sunt afișate patru valori esențiale:
+
+1. **O – Opening price**: prețul de deschidere
+2. **H – High**: cel mai mare preț din perioada respectivei candele
+3. **L – Low**: cel mai mic preț
+4. **C – Closing price**: prețul de închidere
+
+**Exemplu concret din 2 noiembrie:**
+- Open: 3854 puncte
+- High: 3897
+- Low: 3752
+- Close: (nu este menționat explicit în transcript)
+
+Valoarea "puncte" este folosită în loc de "dolari" în exprimare, ex:
+- Dacă se intră în sell la 3920 și se iese la 3820 → profit = 100 puncte.
+
+---
+
+#### **Desenul unei Candele**
+
+**Candelă de creștere (verde):**
+- Open este mai jos decât Close.
+- High și Low reprezintă extremele fluctuației din acea zi.
+- Imaginea explicativă sugerează cum prețul evoluează în interiorul unei zile de tranzacționare.
+
+**Candelă de scădere (roșie):**
+- Open este mai sus decât Close.
+- Același principiu: fluctuații între high și low.
+
+---
+
+#### **Candlestick Patterns – Neutilizate**
+
+- **Autorul exclude complet utilizarea pattern-urilor clasice** de tip double top, double bottom, engulfing etc.
+- Motivul: instituțiile nu folosesc aceste pattern-uri pentru intrări; ele sunt folosite mai degrabă pentru **a induce în eroare traderii de retail**.
+- În strategie: **nu se bazează pe pattern-uri** ci pe principii solide și testate.
+- Dacă ești începător, **nu e necesar să le cunoști**.
+
+---
+
+#### **Recomandări Tehnice**
+
+- **Poziționarea graficului** pe ecran este importantă:
+  - Nu se recomandă vizualizarea incompletă sau în unghiuri ciudate.
+  - Trebuie să se vadă clar ultimele candele și intervalul high–low pentru interpretare eficientă.
+
+---
+
+#### **Gânduri Finale**
+
+- Lecția oferă o bază solidă în înțelegerea vizuală și tehnică a unei candele.
+- Se pune accent pe **claritate, simplitate și eliminarea elementelor inutile** (precum pattern-urile).
+- Următoarea lecție va fi despre **timeframes** – cum se interpretează perioadele de timp în grafice.
+
+---
+
+Acest rezumat sintetizează toate detaliile esențiale pentru recunoașterea, interpretarea și utilizarea candelelor în analiza tehnică.

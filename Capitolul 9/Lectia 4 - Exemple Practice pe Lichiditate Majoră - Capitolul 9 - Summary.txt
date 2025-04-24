@@ -1,0 +1,72 @@
+**Lecția 4 – Exemple Practice pe Lichiditate Majoră**  
+*Format simplificat, text clar și direct*
+
+---
+
+**1. Obiectivul Lecției:**
+- Demonstrații practice pe mai multe piețe (UK100, US30, GBPUSD, EURUSD, NASDAQ).
+- Exersarea recunoașterii și execuției corecte pe **lichiditate majoră**.
+- Combinarea lichidității cu **shift + gap + execuție**.
+
+---
+
+**2. Reguli și Observații Generale:**
+- Lichiditatea majoră = zone evidente (extreme) unde se află stop loss-urile.
+- Se poate tranzacționa toată ziua pe bază de lichiditate majoră, chiar și fără HOD/LOD.
+- Evită haosul: nu combina tipuri diferite de zile fără un sistem clar.
+- Poți lucra doar cu lichiditate majoră dacă vrei un stil simplificat.
+
+---
+
+**3. Exemple de Trade-uri (rezumate succint):**
+
+✅ **UK100**  
+- Shift valid, gap clar, execuție în gap, TP atins.  
+- Risc 1%, posibil parțial + breakeven.  
+- Tranzacție ca la carte, bazată doar pe lichiditate majoră.
+
+✅ **UK100 – al doilea exemplu**  
+- Shift + second leg, execuție în gap, TP atins.  
+- Trade lent, dar corect. Target atins după ~3 ore.
+
+❌ **US30**  
+- Setup corect dar fail: lichiditate luată, gap, execuție bună → **stop loss atins**.  
+- Lecție: se întâmplă și pierderi chiar cu setup corect.  
+- Motiv probabil: prețul era la all-time high → risc mai mare de fake move.
+
+✅ **GBPUSD**  
+- Shift valid, gap clar, execuție curată.  
+- TP atins în ~20 minute.
+
+✅ **EURUSD**  
+- Timeframe mare (TF 30m pentru marcaj, execuție pe M5).  
+- RR posibil: 1:6 sau chiar 1:7.  
+- Puterea unui setup bun pe TF mare → recuperezi 6 pierderi anterioare cu un singur win.
+
+✅ **NASDAQ**  
+- Execuție bună, dar trade greu de urmărit (mers lateral).  
+- Recomandare: pune alerte, nu urmări live graficul → te stresezi inutil.  
+- RR final: între 2.5 și 7, dacă era lăsat să curgă.
+
+---
+
+**4. Observații despre Luzuri:**
+- Majoritatea luzurilor apar în **timpul nopții** (algoritmii băncilor nu sunt activi).
+- Nu executa noaptea.
+- În backtesting, ignoră setup-urile care apar între 23:00 și 07:00.
+
+---
+
+**5. Recomandare finală:**
+- Fă-ți un folder cu **10 exemple de tranzacții pe lichiditate majoră** (win și loss).
+- Notează-ți:
+  - ora execuției
+  - structura (shift + gap)
+  - poziționarea stopului și TP-ului
+  - motivul intrării
+- Ajută enorm la învățare și validare personală.
+
+---
+
+**Concluzie:**
+Această lecție este una pur practică, cu exemple clare și relevante din piața reală. Te învață cum să identifici, execuți și evaluezi tranzacțiile bazate pe **lichiditate majoră**, oferindu-ți în același timp încrederea că sistemul funcționează dacă îl aplici corect.

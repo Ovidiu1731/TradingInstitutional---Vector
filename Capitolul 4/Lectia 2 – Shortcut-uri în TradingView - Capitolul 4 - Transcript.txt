@@ -1,0 +1,35 @@
+Lectia 2
+===
+
+[00:00:00] Salut, în acest clip o să continuăm cu TradingView și o să vorbim despre shortcut-uri, câteva combinații de taste care o să vă facă viața un pic mai ușoară. Nu avem facecam-ul în clipul ăsta și nu am avut nici în clipul trecut deoarece nu am vrut să acopăr inutil o parte de ecran, mai ales în clipurile de prezentare a platformelor.
+
+O să revină facecam-ul cât curând. Bun. Câteva shortcut-uri pe care le avem și vreau să vi le notați, o să aveți nevoie de ele și o să vă facă viața mult, mult mai ușoară În primul rând cum punem acest trendline, această linie orizontală? Cu combinația Alt, deci butonul Alt de pe tastatură apesați Alt și după care apăsați T.
+
+În momentul în care ați făcut această combinație doar dați click. Și încă o dată click și v-a apărut linia, deci încă o dată Alt T, click, click și a apărut linia. Acum dacă vreți să tragiți o linie dreaptă, uite o apăsați Alt T și o să încercați, dar e greu să o tragi perfect dreaptă, de multe ori nu o [00:01:00] să-ți ne mergi și o să o tragi așa un pic în sus.
+
+Ca să o tragi perfect dreaptă apeși Alt T, ați apăsat o dată click și apăsați Shift, iar Shift-ul, dacă îl țineți apăsat, Vedeți, pot să trasez doar linia dreaptă sau în sus sau în jos, mă rog dar nu cred că o fie de fost și așa. Deci cu Shift. Țineam apăsat Shift, am dat click și gata. Am venit la dreapta.
+
+Bun. După aceea, linia orizontală Alt plus H. Este o linie, după cum mai zic, infinită foarte de folos. Dacă vreți să umblați la ea click pe ea, puteți să schimbați culorile, să o faceți mai subțire, mai groasă cum vreți voi. Da, atât, alt plus H, simplu Dacă apăsăm alt plus J, avem aceasta, care se duce în dreapta, deci nu mai este infinită în stânga ci doar în dreapta.
+
+Alt plus J. Bun. Să ștergem ștergem și cu asta, bun. După care avem [00:02:00] linia verticală care este alt plus V. O să folosim această linie verticală foarte mult, deci să ținți minte această combinație. V-am pus asta să vă și arăt cum fac să șterg tot, ca să șterg toate liniile deodată. Țin apăsat control, trag mouse-ul peste, să fie selectate, vedeți acum sunt toate selectate și apăsați backspace și bam, s-au dus.
+
+Bun. Backspace este butonul ăla de șterge de pe asta, doamnă, în caz că este cineva care nu știe. După care, ce aș mai vrea să vă mai arăt deci avem alt V, alt H, toate astea sunt relativ importante, acum, Ctrl Z dacă am făcut ceva greșit și vrem să ne întoarcem, am pus din ea asta și nu mai vreau, apăsăm Ctrl Z și s-a dus, deci Ctrl plus tasta Z.
+
+Încă un trick pe care vi-l dau, dacă vreodată uitați aceste combinații tot ce trebuie să faceți este să dați click aici și o să vă arate, deci avem alt plus T aici, [00:03:00] alt H, alt V, alt C. Deci la tot ce se poate ce are un pattern, care are un shortcut, o să-l vedeți aici cam astea sunt în principiu pentru instrumentele de desenat pe grafic.
+
+Acum ce shortcuturi mai avem și unul foarte important pe care îl foloseam înainte destul de mult. Când umblați printre time frame-uri în loc să vă duceți să dați click pe ele, puteți să scrieți direct pe tastatură. Și ce înseamnă asta? Să zicem că vreau să mă duc pe un minute. Tot ce trebuie să fac ca să mă duc pe un minute este să apăs tasta 1.
+
+Să apăs Enter și gata, m-am dus direct pe 1 minută Vrem pe 3 minute, apăs 3, Enter, m-am dus pe 3 minute, vedeți pe grafică de 3. Vrem pe 5 direct, vrem pe 15 direct, rapid, pam pam, am scris 15, am dat Enter. Vrem pe o oră, la o oră trebuie să scriem 1 și H de la 1 hour, bam, vrem 4 ore, 4H, bam, 1D pentru 1 day, 1W pentru 1 week.
+
+Și ne întoarcem la 1 minute, deci e foarte simplu pur și simplu scrieți pe tastatura, dacă vrem să căutăm spre exemplu Nasdaq, am [00:04:00] scris Nasdaq și a apărut, doar atât trebuie să facem sau vreți nu știu, SPX, Bitcoin, L-ați scris și aia a fost tap-ul direct, nu mai stați să vă duceți aici ați dat click, trebuie să vă mișcați foarte repede.
+
+Și încă un trick pe care vi-l dau în acest clip, nu știu acum dacă varianta asta merge și la conturile free, dar cred că merge. Selectăm layout-ul, dăm aici click și putem să împărțim ecranul în toate aceste moduri. Spre exemplu dacă dau pe ăsta, mi s-a împărțit în două și uite aici am spre exemplu dacă vedeți este SMP-ul, iar aici este DAX-ul.
+
+Pot să mut aici din SMP în DAX Stai sa vad ce DAX am aici, acela de la Global Prime, deci am G30. Acum avem doua DAX-uri. Avem DAX-ul pe 5 minute aici si aici avem DAX pe 1 minute. Deci avem doua tipuri de DAX diferite.[00:05:00] 
+
+Dacă vrem să nu știu, există mai multe. Există 6, le punem sau nu știu cum vreți voi și dacă vreți să vă întoarceți înapoi doar dați click aici și apăsați pe 1 și v-ați întors la chart-ul inițial. Asta în caz că vreți să aveți mai multe timeframes pe ecran. Sunt mulți care se plâng că au nevoie de două ecrane nu aveți.
+
+Dacă aveți un ecran un pic mai mare, vă împărțiți în două ecrane și aveți două grafice în același timp. Asta în cazul în care tranzacționați mai multe piețe deodată ceea ce veți putea face. Bun, cam acesta este clipul despre TradingView, în momentul față știți că am Tot ce trebuie să știți despre baze, de acum trebuie să faceți practică deci ca un assignment așa ca un fel de temă să uitați peste tot ce am făcut în clipul 1 și clipul 2 și să testați, să puneți linii, să desenați pe grafic și așa mai departe după să ștergeți și să ajungeți la final să fie curat ca și acum.
+
+Să aveți data setată corect, să aveți graficul customizat după cum vă place vouă Și cam asta este cu trading view, nu este greu să vedeți, este foarte simplu intuitiv și foarte plăcut de utilizat. Ne auzim în clipul următor. [00:06:00] Salut!
+

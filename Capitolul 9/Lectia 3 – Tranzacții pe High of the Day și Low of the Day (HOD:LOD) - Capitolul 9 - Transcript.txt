@@ -1,0 +1,123 @@
+LEctia 3
+===
+
+[00:00:00] Bine v-am găsit la un nou clip. Încep clipurile un pic mai grele. În acest clip vom face practic o analiză Vreau să avem câteva tranzacții 5, 6, 7 8, 9, 10, vedem câte prindem în acest clip cu Half the Day și Love the Day. Să facem un breakdown, să ne uităm asupra lor Să vedem ce rezultate aduc. Și cel mai important sunt tranzacții actuale.
+
+De ce? Pentru că sunt fix, eu filmez acum, practic toate tranzacțiile astea sunt de săptămâna trecută până acum. Adică din ultima săptămână Sunt doar tranzacții actuale pe High of the Day și Low of the Day. În primul clip ne vom axa doar pe maximul și minimul zilei și tranzacții și intrări pe această bază.
+
+În următorul clip ne vom uita pe lichidități majoare Locale minore eventual le împart, să văd cât mult au fiecare, pentru că nu vreau să mă lungesc extraordinar de mult prin aceste clipuri, dar totuși trebuie să analizăm tranzacțiile, să facem o informație corectă, vreau să discutăm, vreau să împărtășesc puțin procesul de gândire din [00:01:00] spate, în așa fel încât să aveți niște exemple după care să vă puteți ghida.
+
+Înainte toate, vedeți în acest clip am șepcuța pe cap, vor mă arăta deplorabil înaintea acest clip, așa că am zis că îi punem o șepcuță. Bun. Haideți să facem un pic de treabă, hai să ne uităm peste tranzacții, o să începem cu primul trade. Hai să ne uităm în primă fază, avem half the day marcat, după cum se vede, low of the day marcat, low of the day lichidat, shift-ul care vine în zona, ia vreau să-mi scot linia asta, shift-ul care vine în zona asta aici, după cum puteți vedea Mulţi ar zice că ăsta-i shift-ul, nu, ăsta-i shift-ul şi ăsta-i corect da e shift corect, dar pe noi interesează primul shift care se întâmplă în setup.
+
+Ar nu se confunda mulţi oameni am văzut că mai confundă, ce fac ei e că iau ăsta ca shift, să zicem, şi după vedem asta, deci încă n-au avut niciun setup. Şi după ei încă cred că shift-ul ăla e valid, dar nu mai este, trebuie iar un nou shift, iar confluenţele şi așa mai departe pentru că a fost relichidată zona asta, ok?
+
+[00:02:00] Bun. Hai să ne uităm. Bun. După cum puteți vedea avem un tri consecutiv gap setup, pe ăsta de jos nu l-am mai marcat, dar e și aici un gap, după cum puteți vedea 1, 2, 3. Tri consecutiv gap setup, execuție la jumătate a gap-ului acesta, 3, 2 este unul valid, setup-ul nu e rău nu mi se pare un setup rău, execuția la jumătate, am un stop plus de 15 puncte, 2 RR.
+
+Pur și simplu a fost un luz Să știți că așa o să fie Efectiv o să fie win-uri, luz-uri Win-uri, luz-uri Scopul vostru este să scoateți Un win rate pozitiv statistic Despre asta e trading-ul Nu știu văd mulți oameni Care efectiv iau 2-3 luz-uri Și nu mai pot Sunt supărați Sunt își pierdătă încrederea ei Păi 2-3 luz-uri În 2 win-uri ai recuperat 4 luz-uri În 2 win-uri doar După azi vină doar 2 zile bune Și ai recuperat 4 zile slabe Deci stați relaxați În luz nu înseamnă nimica Țineți-vă de plan executați Stați relaxați Începem practic această analiză Cu acest luz Un luz foarte, foarte corect.
+
+Din punctul meu de vedere, [00:03:00] n-arată deloc rău. Hai să mergem la următoarea zi. Separa ziua, pe cum puteți vedea, low of the day-ul în acest punct, high of the day-ul în acest punct. Prețul vine, lichidează high of the day. Hai să ne uităm după shift-uri, să vedem împreună. În primul rând, dacă observați, în această zonă nu avem niciun shift, este aici un shift agresiv Ai putea să mai faci și ați dă ca să zici că aici e un shift, dar oricum n-ai gap, adică nu ai unde să execuți și practic aici vine setup-ul, deci ne relichidează zona asta, vine în jos, după când puteți vedea gap foarte mare, shift foarte, foarte clar, întoarcere în gap la jumătate, iar puteți face execuția la început puteai la jumătate dacă ești mai conservativ cum sunt eu, eu prefer la jumătate în acest caz, mai ales în gap mare, se vine la jumătate, stop lăsării 15 puncte deasupra high-value plus un pic de spațiu.
+
+Și cam asta am văzut. Indiferent că acolo ai high-ul de sus sau acolo ai high-ul ăsta erau variante corecte și indiferent de alegerea făcută aveai un take profit. Și în [00:04:00] cazul în care executeai la începutul gap-ului, cred că ai fi avut take profit, hai să vedem. Da, ai fi avut take profit în acest punct, în dreapta.
+
+Deci indiferent de cum alegeai această execuție, ai fi avut un take profit. Hai să contorizăm până acum. Avem
+
+De ce așa de șters textul, că am opacitatea, poate pentru că n-am scris, avem un luz și avem ia le punem pe ambele și punem o culoare neută, punem așa cu galben, un win, să punem win-urile primele să atragem lucrul ăsta și un luz. Mergem mai departe.
+
+Ia să vedem. Următoarea zi avem așa, high of the day, low of day nu l-am mai marcat pentru că nici măcar n-a fost atins în ziua asta, era foarte departe [00:05:00] prețul. După cum puteți vedea aici e un trade interesant, hai să vă explic de ce.
+
+Execuția, după cum puteți vedea n-am pus-o la jumătate a gap-ului, am pus-o la intrare al gap-ului, adică cel mai rău caz posibil în acest caz de intrare Până la execuție, după câte o să dea high-out de lichidat, primul shift ne vine corect aici în zona asta. Pentru că dacă vă uitați, aici nu mai fi fost un low, dar are doar o candelă deci ar fi fost un shift agresiv.
+
+Totuși un shift valid, adică nu, pardon, e un shift agresiv dar totuși un shift ok. L-aș fi luat în considerare, dar oricum nu aveam ghep aici, deci nu aveam setup-ul. Și aici ne-a venit, după când dezea shift-ul, este un second leg... Ne rămâne aici acest gap destul de clar. Execuția am pus în acest punct stop loss-ul deasupra ultimului high relevant 10.2 puncte Ok.
+
+Dacă vă uitați atent, take profit-ul nu a fost atins. În acest clip nu o să luăm în considerare regula cu break-even, eu folosesc break-even-ul destul de mult, nu știu dacă până la acest clip am vorbit sau nu, pentru că nu [00:06:00] știu unde va fi situat exact acest clip în program, dar în cazul în care am vorbit sau nu am vorbit despre break-even oricum nu am luat în considerare în acest clip, dacă ales să folosești regula cu break-even, ăsta ar fi fost un break-even.
+
+Dar în cazul de față, eu am pus aici îl punem ca și Lose, cu toate că dacă ai fi executat la jumătatea gap-ului, nu ar mai fi fost Lose, ar fi fost probabil Take Profit în zona asta, dar aș vrea să luăm ca un Lose ca să punem Worst Case Scenery. În următoarea față avem un win și două Loses. Asta a fost ziua, destul de frumos la 3 duvine.
+
+Puteți să închideți parțiale, desigur aveți varianta asta la, există mai multe tipuri în care jonglați, adică la 70% din Take Profit până când sunteți la 70% din target, puteți să mutați break-even și să închideți O parte din trade ca și profituri parțiale și prin această metodă veți maximiza profiturile.
+
+Dar e unul, nu prea folosesc parțialele, le folosesc doar când fac riscuri mai mari.
+
+Următoarea zi[00:07:00] 
+
+Ok. Următoarea zi
+
+Shift în această zonă după cum puteți vedea destul de clar, da, 1, 2, 3 ghepuri, execuție la ghepă din mijloc, prețul vine, jonglează un pic în stop loss și îl vedem în take profit. Foarte clar trade-ul, nimic de atăugat, două win-uri, două lose-uri.
+
+Mergem mai departe Vedeți m-am pregătit de dinainte ca să am pregătit aceste trade-uri, în așa fel încât de fapt nu m-am pregătit foarte mult pentru că erau oricum marcate că-s trade-urile mele, așa arată graficele mele, n-am făcut nicio modificare, așa arată mult normal. Ok. Ăsta este trade-ul de astăzi, trade-ul pe care l-am executat astăzi 5 februarie.
+
+Ok. Ok După cum puteți [00:08:00] vedea prețul în cazul ăsta mulți s-ar fi păcări și ar fi zis că aici e half the day, dar nu, half the day este prima candelă din zi în acest caz dacă vă uitați 21 sfert, aici este. O să vedeți că în multe zile ziua începe direct cu o candelă de-asta mare așa. De ce se întâmplă chestia asta?
+
+Pentru că e separare între zi, de la 20.59 a trecut direct la 21 sfert, după cum puteți vedea la oră și practic restul de ore, practic 11.00-12.00 și mai departe prețul încă se mișcă dar este afișat pe grafic direct. Cum ar veni ce s-a întâmplat în timpul ăsta, adică în realitate în orele astea s-a întâmplat probabil ceva în genul ăsta, dar OANDA, brokerul de la care suntem acum pe trading, îți arată direct mișcarea gen începutul și finalul mișcării pentru aceste trei ore.
+
+Deci asta e o candelă care reprezintă de fapt mai multe ore de mișcare. Ideea e că aici practic în piață ți este lăsat un fel de gap, de regulă. Și să știți că în 70% din cazuri, între 60% și 70%, de regulă gapul ăsta este atins și închis. Și în cazul ăsta, vedeți? Prețul vine, își face damblaua, dar când începe sesiunea vine închis complet și vedem reacție.
+
+De asta stă alpunca și HFDD aici pentru că de multe ori e atins și vedem o [00:09:00] reacție extra confluență uneori, nu tot timpul. Uneori nu-mi plac tipul ăsta de HFDD-uri, dar uneori funcționează foarte bine. Revenind, după cum puteți vedea, Shift în această zonă, Da? Aici n-aveai cum să le iei pentru că era agresiv, puteai să mai ai aici un shift, dar oricum ți-a relichidată zona, deci nu mai era valid.
+
+Oricum aveam și o zonă cu lichiditate luată aici plus half the day, vedeți Sunt mai multe confluențe care se stachează. Mi-a plăcut mult trade-ul ăsta pentru că am avut și half the day luat și lichiditate locală luată aici. După care reacție, trei gap-uri lăsate, execuție, un gap de la jumătate clasic, ăsta e trade-ul.
+
+Am mizat, vedeți, am aici un gap mare marcat, l-am mizat ca și target, pentru că în momentul în care am văzut piața ca a schimbat direcția și eram în zona asta, am zis băi, dacă îmi rupe zona asta e clar că băncile vor să ducă prețul aici am folosit logica, de ce? Pentru nu aveau de ce să mai ducă, doar să ia lichiditatea asta și să ia asta.
+
+Asta e tot ce aveau interes băncile, că știți, băncile merg după lichiditate și gap-uri. [00:10:00] În cazul ăsta ce aveai Aveai lichiditatea asta de aici Da? Și aveai ghepul ăsta. Astea erau tot interesa lor. Ce au făcut? Și-au executat orderele au luat stop loss-urile de aici au schimbat direcția. Vedeți câtă logică are totul?
+
+Deci au făcut băncile? Încă o dată să luăm logica din spate, să vedeți cât frumos e totul. Deci se deschide ziua. Da, aici nu erau băncile prezente. Na, na, na, na na. Băncii erau acum în punctul ăsta, se pregătește ziua să înceapă. Da? Ei ce fac? Uitați-vă, doamne cât frumos poate să fie, doamne, cât de frumos e market-ul uneori, doamne, nu-mi vine să cred.
+
+Deci uitați-vă cât perfect este totul. Prețul vine de când începi judea, deci băi, ce fac? Sunt în punctul ăsta și iau decizia așa. Avem bani aici și avem bani aici. Unde mergem Și băi ce le-au zis unul dintre fiii? Băi mergem sus. Ne închidem și ghepul ăsta de aici, luăm și banii din Hive de aici din lichiditatea asta.
+
+Au împins prețul și au luat toți banii de aici au închis poziția, au închis toplus-urile tradelor de aici, au închis toplus-urile de aici, bam, bam. După ce [00:11:00] au zis, acum schimbăm direcția, mergem închidem ghepul de jos. Și luăm și banii de aici. Pentru că în sus, ce să mai apropie, în zona asta nu mai erau toți mutați răstoplăsul în zona de half the day, nu mai erau aici în interes, nu mai erau bani.
+
+Au făcut asta și au făcut schema și au executat orderele, nu i-am intrat toată cu ei. Da? Bun. Au venit au închis gap-ul, am văzut un pic de reacție, după care, clar, au dus mai jos prețul să-și închidă lichiditatea. Da? Au luat banii uitați cum au construit aici ordere și bam, direct în sus. Ce au făcut?
+
+Uitați-vă cât de perfect e doar nu-mi vine să cred. Deci la fel. Să ne zilem chiar că piața este efectiv atât predictibilă și atât totodată bine ce se întâmplă? Da, shift în direcție opusă, shift, ne lasă două ghepuri aici, da, bam, schimbă direcția. O vedeți vedeți băncile, vedeți urma lor, cred că ăsta e momentul în care analizați exact preții se bază în strategia asta și cum puteți vedea doar prin aceste interpretări cum poți vedea băncile în piață.
+
+Uite, iar tu consecutiv ghebi setup, intră el, bani preacție până sus. Ce fac acum? Iau iar banii creați în zonele astea mai au niște bani pe aici, [00:12:00] prin zonele astea și acum ce au făcut Au făcut o schimbare completă de direcție, au lichidat iar toți banii și buyerii care au intrat aici, după care au mers în sus să facă noi buyeri după iar au dat-o în jos, au luat stopurile de aici și probabil și stopurile de aici.
+
+Văd că nu au atins la milimetru pentru că probabil oamenii deja îți mutase răstoplosurile mai sus un pic. Au închis tot ce au luat banii iar au schimbat direcția Vedeți cum plimbă. Prețul și fac apcane și plimbă prețul după bani. Noi trebuie să fim aici să intrăm o dată cu ei. Nu o să nimerim mereu. De asemenea de multe ori o să fie semnale false.
+
+O să avem impresia că băi trebuie să intrăm acum ca să-s băncile, dar nu o fie băncile. Dar scopul nostru este să avem dreptate de atâtea ori și cât greșim. Un 50-50 Adică 5% win rate este foarte bun cu 2 RR media. Voi trebuie să țintiți vă zic dacă scoateți 55% win rate cu un RR de 2, este senzațional pe termen lung și va însemna foarte mult pe viitor La început poate nu așa mult, dar în momentul în începi să ai cont de 100.000, 200.000, 300.000 de euro finanțat, în acel moment acest win rate înseamnă foarte mult.
+
+[00:13:00] În regulă un win clar, foarte frumos trade-ul ăsta. Și acum hai să facem și o statistică mică. Practic din ultimele 5 traduri pe care vi le-am arătat, au fost 2 win-uri, 3 lose-uri, deci 60% win rate. Nu e mare chestie pe așa puține traduri, ok? Deci și pierderi și câștiguri și ce ar fi însemnat asta? Păi, din 3 win-uri ar fi venit 6%, cu un risc de 1%, minus 2% pierderile.
+
+Deci am fi putut avea un potențial profit de 4% doar în aceste 5 zile cu o singură execuție pe zi. Ce însemna asta? Păi înseamnă următorul lucru. Dacă tu aveai un cont de 100.000, care nu este un cont foarte mare în partea de finanțare, asta ar fi însemnat un profit de 4.000 înseamnă 4.000 de euro profit.
+
+În 5 zile. Noi acum ne uităm pe scenariul frumos în care s-a nimerit să fie o perioadă decentă cu trei win-uri, două lose-uri, este o perioadă decentă am luat scenariul în care executați totul corect cu experiență nu o să fie așa de la început, nu o să aveți experiența asta, o să mai ratați unul, o să mai ratați unul, o să mai ratați altul, n-am [00:14:00] ținut cont de știri, n-am ținut cont de break-even, sunt anumite reguli pe care nu le-am luat în calcul.
+
+Dar vă arăt o gândire din spate și o logică în așa fel încât să știți puterea strategiei și ce poate să ofere această strategie. Vreau să vă arăt și trade-ul de astăzi îl am sigur pe aici Trade-ul de astăzi deci execuția pe care tocmai v-am arătat-o executată pe challenge, sunt acum încă un challenge de 160.000, vreau să-l trec și pe acesta, am executat pe challenge cu 1.2% risc am făcut un risc mai mare deoarece vreau să accelerez un pic procesul de trecere sunt deja în a treia săptămână de challenge, a trebuit să împart în două trade-uri, cu 100 loti fiecare, știți că pe FTM, în zona de indice e nevoie de lotaj foarte mare.
+
+Nu e ca la Forex unde mulți zic mamă cât volum mare folosești pe indice nu e sănătos și așa mai departe, dar nu e adevărat pentru că practic volumul ăsta pe Forex e echivalent, nu știu, 5, 4, 6, 7, adică pe indice foarte mare pe FTMO, dar pe altele volumul ăsta poate să fie 10, adică dacă ai executat cu 10 e echivalentul ăsta, depinde de companie și de cum se calculează.
+
+Riscul a fost undeva la 2000 de euro pentru un [00:15:00] potențial de 4000, a fost targetul, dar mi s-a închis la 1.7 RR pentru că am ales să închid un pic mai devreme una din tranzacțiile, deci am închis la 11.4 minute și una la 11.8 minute, finalul zilei 5 februarie, undeva la 3580 de euro profit pentru challenge.
+
+Și pe contul live am executat cu un 0.4%, am impresia pentru un 0.8%. Deci ăsta este un exemplu de trade. Asta nu înseamnă că veți avea iar numai câștiguri, numai pierderi și așa mai departe Ideea să fiți realiști, să fiți calculați, să vă propuneți anumite targeturi la care să vă opriți și să fiți și mulțumitori pieții.
+
+Văd pe mulți care efectiv nu au limite. Ce fac? Au luat au început luna, două săptămâni, le-a mers foarte bine au 8% profit în două săptămâni. Și în loc să se mulțumesc că zică, păi ăstea au profit foarte mult, mai ales dacă au un cont de 400.000-200.000, este mult. Puteţi să vă opriţi este un loc foarte bun, luaţi banii de pe masă şi abia după mai tranzacţionaţi.
+
+Ce fac, sau poate aveţi două conturi, unul de 100.000 la o firmă unul de 100.000 la altaţi, aţi atins pe unul de 100.800, opriţi-vă cu ăla, lăsaţi-l să vină pe autu să vă luaţi banii să aveţi mai departe [00:16:00] marje, pentru că cu profitul ăla început nu-i scoateţi şi vă luaţi Porsche sau vă luaţi nu ştiu ce,, banii ăia primii trei de zile, O să vedeți că o să reinvestiți trebuie să cumpărați multe conturi, să vă creșteți capitalul, să faceți cât mai multe surse să-i diversificați și abia după ce aveți aceste rezultate, da, ții, nu știu ce-ți dorește inimioara și sufletul, dar te-ai gândit foarte foarte smart totuși ai reinvestit foarte bine banii și cu cap.
+
+Am văzut că persoanele care au cele mai multe rezultate și cele mai bune sunt persoanele astea care sunt foarte calculate cu banii noui emoții pentru bani să relaxați își fac calcule bine își fac investițiile bine își fac un plan pentru orice fac, nu fac lucrurile la întâmplare și asta contează foarte mult ok, revenind la partea asta la ce vă spuneam mai departe vreau să ne mai uităm un secundă vreau să ne uităm și pe UK100 Facem împreună un trade live, backtesting.
+
+A fost astăzi s-a întâmplat. Și vreau să analizăm împreună cum arată gândirea mea din spate pentru mine. Am ales UK-ul, că ne-am [00:17:00] uitat deja pe DAX. Hai să vedem pe UK100. High of the day, după cum v-am văzut iar la 3.00. Low of the day aici. Hai să dăm drumul la zi. Eu sunt deja la monitor, sunt pregătit. În momentul de față ce fac?
+
+Doar aștept lichidarea high of the day sau low of day. Niște la high of the day. Bun. Ce așteptăm? Shift-ul. Hai să vedem dacă ne vine un shift. Momentan nu avem niciun low valid. Eu aici ce fac? Aștept. De regulă citesc stau cu ochii, am monitoarele pregătite citesc răspund la oameni, discut, stau pe grafic, eventual fac o statistică pentru săptămâna asta.
+
+Deci am diferite activități. Încă nu avem niciun low.
+
+Aici pot să spun că este un low valid.
+
+Deja ni s-a rupt Hai o precedentă, așteptăm un nou low. Ok. Asta este low-ul pe care l-am așteptat. Minim două candele roșii, minim două candele verzi.[00:18:00] 
+
+Ok. Avem shift-ul. Ce căutăm? Gap? Da, avem. Displacement? Avem. Bun. Mergem mai departe.
+
+Ce se întâmplă la acest punct? Exact. Execuție.
+
+Execuția la acest punct. Aveți banii între stop loss aici sau mai sus? O pun mai sus stop loss. În acest caz, pe mine încă e destul de micuț și cred că merge să o luăm pe un risc mai safe. Mă dințumesc că nu știu exact cum a fost teritoriul ăsta. Nu l-am urmărit. Gap-ul ăsta ca target, da e un target bun, o să vă zic live cum ați jucat trade-ul ăsta.
+
+Începe, avem un pic de mers în lateral, merge un pic în minus.[00:19:00] 
+
+Avem o reacție în favoarea noastră. În acest punct deja trade-ul a dat foarte bine. La jumătatea gap-ului, Voi aș închide o parte din tranzacție și aș pune breakeven în cazul în care aș cu un risc mare. În cazul în care n-aș fi cu un risc mare în trade, doar aș pune breakeven. Hai să vedem dacă va fi atins.
+
+Ok. În momentul de față trade-ul meu l-aș monta pe breakeven pe 0. V-am zis, dacă aș fi avut risc mare, aș închis poate jumătate din tranzacție să asigurăm un profit. Mergem mai departe. Cam ăsta a fost trade-ul. Doi rar, foarte frumos. Un trade ca la carte. Ce au făcut băncile? Au venit, au luat banii au făcut shift-ul și au lăsat gap-ul în urmă, au executat în el, au dus prețul mai jos, stop loss-ul și ăsta a fost trade-ul.
+
+Foarte simplu ca la carte, veți avea perioade în care va fi plin de trade-uri de genul ăsta perfecte Și vor fi perioade în care vor fi traduri fără niciun sens, urâte, pe care nu o le înțelegeți pentru că așa funcționează [00:20:00] piața, perioade și perioade. Vă zic lucrurile astea ca să vă pregătesc nu sunt aici să încurajez numai mentalitatea de rupem facem bani mai win-uri, mai așa și când sunt luzuri să fugim să nu le menționăm și așa mai departe Nu este acesta cazul, trebuie să ne focusăm și pe pierderi și pe câștiguri În regulă cam asta este tranzacția și pe UK100 Deja ne-am luat și avem 20 de minute în acest clip Un clip cu informații foarte, foarte multe Vă recomand să-l vizionați de mai multe ori de 3 ori de 4 ori, de 5 ori, să luați tranzacțiile să le faceți în screen și să le notați, să vă uitați peste ele, să acumulați cât mai multe informații.
+
+Țineți minte de multe ori să fie trade-uri situaționale, trade-uri la care nu poți să aibă mai multe interpretări. Ideea este să practicăm, să notăm, să ne ținem statistică și să ne ținem de treabă constant. Vă mulțumesc mult pentru atenția acordată și ne vedem la lecția următoare.
+

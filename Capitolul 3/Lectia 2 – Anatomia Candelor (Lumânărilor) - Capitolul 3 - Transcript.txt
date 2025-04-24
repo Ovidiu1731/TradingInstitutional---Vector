@@ -1,0 +1,41 @@
+Lectia 2
+===
+
+[00:00:00] Salutare! Suntem la al doilea clip din capitolul 3, vorbind despre anatomia candelilor sau lumânărilor, cum vreți să le ziceți. Am vorbit în clipul trecut despre tipul de graf deci doar pe acesta o să-l folosim tipul de grafic cu candele cel mai bun, cel mai important, cel mai cel. Așa Și acum că suntem pe tipul ăsta o vorbim despre o candelă, cum se citește o candelă, ce înseamnă, în primul rând...
+
+Pe ce vreau să ne acționez? Încă un lucru pe care vreau ne acționez repet, nu... Încercați acum să vă duceți pe TradingView și începeți să faceți toate lucrurile astea pe care le fac și eu. O să se întâmple asta în capitolul viitor. Deci pas cu pas o să luăm cum se creează un cont, cum îl setați și așa mai departe.
+
+Deci momentan doar vă uitați și luați notiții. Atât, nimic altceva. Bun. Primul rând aici în dreapta observați, este așa o fereastră mică să-i zicem unde sunt niște cifre. Suntem pe S&P 500 și ăsta este prețul S&P. S&P reprezintă indicea top 500 de [00:01:00] companii din state și prețul unei acțiuni în momentul de față este pe la 3.700 de dolari Suntem pe un grafic de daily, adică o candelă din aceasta se formează într-o zi durează o zi să se formeze, asta este o zi din istoria S&P.
+
+Acum... Noi vedem aici toate zilele mai puțin sâmbătă și duminică Deci sâmbătă și duminică New York Stock Exchange-ul este închis, totul este închis nu se face trading, cel puțin pe bursă pe crypto se face. Acum noi avem de luni marți miercuri joi și vinări, 5 zile care apar aici. Uite să luăm o săptămână, puteți vedea aici jos și data și ziua, deci astea sunt exemple fix din...
+
+Zile in care sunt eu acuma filmez pe 3 noi imbrie clipul asta Bun, si avem asa deci Luam de aici avem uite Mon de la Monday 17 octombrie 2022 Vedeti aici jos, da? Dupa [00:02:00] care trecem in urmatoarea candela Avem Tuesday 18 octombrie, Wednesday 19 octombrie si asa mai departe Deci jos vedem data in care suntem O candela este o zi Acest lucru poate fi schimbat de aici de sus, de la Time Frames dar o vorbim despre Time Frames-uri în următorul clip.
+
+Pe scurt, dacă ne mutăm aici pe 4 ore, o candelă devine 4 ore. Vedem suntem pe 28 octombrie la ora 16 după 28 octombrie la 20, deci din 4 în 4 ore se face o candelă. Noi acum stăm pe o zi că e mai simplu de explicat. Bun, deci o candelă din aceasta se formează într-o zi Punem mouse-ul pe candela respectivă, pe ultima, dar ne uităm de pe 3 noiembrie, asta este chiar de astăzi vreau să ne uităm, ce vedem noi aici este live market, deci mai sunt 7 ore și 29 de minute, vedeți aici până se închide candela, deci până se închide și apară una nouă o să ne uităm la cea precedentă pe 2 noiembrie, miercuri, dacă punem mouse-ul și ne uităm Aici sus avem patru valori.
+
+O să pun mouse-ul și o să ne uităm [00:03:00] la valoarele de acolo de sus. Avem în primul rând O, care vine de la opening price, este prețul de deschidere al candelei și este 3854 de dolari. Avem high-ul, H de la high, care a fost 3897, low price, care a fost 3752 și closing price. Și acum o să le explicăm pe fiecare în partea În dreapta aici după cum vorbeam de fereastra asta, vedem prețul, acesta este prețul, deci mutăm mai sus, vedem 4.000 de dolari mai jos, uite spre exemplu în punctul ăsta, prețul e la 3.700, după cum vedem aici, după care, mai sus, 3.900 și așa mai departe.
+
+Noi mai numim acești bani o să vorbim în puncte așa zicem, nu le zicem dolarile, le zicem puncte O să vedeți de ce mai încolo, dar țineți minte eu o să mă adresez acestor dolari ca și puncte adică dacă am intrat într-un sell în locul ăsta, am făcut o vânzare, deci am intrat în scădere, să facem profit pe scădere...
+
+Am intrat la 3920 [00:04:00] de puncte si am iesit, sa zicem la 3820, deci aici, sa zicem ca am iesit, deci am intrat aici am iesit aici am facut profit 100 de puncte O sa vedeti de ce e important, deci nu vorbim in dolari vorbim in puncte. Bun, deci ne uitam inca o data aici, avem opening price-ul care este acesta Asta este prețul în care candela s-a deschis.
+
+Avem closing price-ul, candela s-a închis în punctul acesta Avem low price-ul, punctul în care candela a fost cel mai jos și high price-ul gen locul în care candela a fost cel mai sus în ziua respectivă. O să vă arăt imediat și o imagine Aceasta este imaginea la care ne vom uita si vreau sa si faceti un desen.
+
+Incepem cu exemplul acesta de candala verde de bai. Dupa cum am vorbit opening price-ul este aici. Deci pretul s-a deschis in punctul asta. Ea fluctueaza in timpul zilei duce sus-jos, sus-jos, sus-jos. Punctul în care a fost cel mai jos în ziua respectivă să zicem că a început [00:05:00] aici, s-a dus, a fost până în punctul ăsta și a dat un reverse și a luat-o în sus.
+
+Deci ăsta este punctul în care a fost cel mai jos, cel mai sus punct, deci la un moment dat a ajuns aici și s-a retras și a închis, s-a trenat ziua fix în locul ăsta. Deci așa arată o candelă de bai, vreau să neapărat să aveți notat... Acest desen și mai avem pe acesta, la o candră scădere, invers. Opening price-ul e sus, a fost mai sus pentru o perioadă de timp și după aceea a scăzut până în punctul ăsta și a închis aici.
+
+Deci ăsta e closing price-ul, lowest point și highest point. Asta nu ne interesează cu confirmation-ul ăsta e altceva. Acum vine vorba, eu nu o să predau deloc în acest curs, nu o să vorbesc deloc despre candlestick patterns, nu am fost niciodată fan, double top, double bottom și toate sunt bullshit în punctul meu de vedere, nu funcționează adică sunt sigur că dacă ai o strategie testată e posibil să fie una dintre confluențele strategiei dar ele nu funcționează by default, trebuie foarte multe alte lucruri [00:06:00] Adiacente care să te ajute.
+
+Ideea este că dacă ești un trader avansat și știi despre ce vorbesc, despre candlestick patterns, eu nu voi folosi deloc candlestick patterns în această strategie pentru că instituțiile surpriză, nu folosesc absolut deloc aceste candlestick patterns pentru a lua entry-uri, pentru a intra în tranzacții.
+
+Le folosesc ca să inducă lumea în eroare, retail traderei. Adică instituția să-i inducă iar little traderii în eroare. Prin urmare noi nu o să folosim double taps, double bottoms, engulfing candles și așa mai departe niciun fel. Dacă ești începător și nu știi ce-s astea, nici nu-ți trebuie să le știi, crede-mă, s-o pierde de timp Eu rămân, adică repet, nu s-o pierde de timp pentru strategiile corecte care le folosesc ca și o confluență, dar dacă tu te bazezi doar pe ele, nu o să funcționeze niciodată Am vrut să adaug chestia asta ca să știți, nu o să vedeți candlestick patterns în strategia mea.
+
+Bun, vreau să arunc încă o dată o privire, să fiu sigur că am vorbit despre tot, am aici notat îndeapta, deci am vorbit despre poza respectivă, sper că ați desunat [00:07:00] tot. Vreau să vă mai arăt încă o chestie, care este poziția corectă a monitorului când vă uitați la candele? În niciun caz nu va fi asta. Pentru că nu ai informații, trebuie să te chiorăști să vezi ceva, nu are niciun sens să ții în modul ăsta graficul.
+
+La fel, nu are rost să ții așa nu înțelegi nimic din el, nici așa și nici așa. Poziția corectă din punctul meu de vedere este ceva în acest gen. Să ai pe monitor, nu știu cum să zic, să vezi scandelele, să ai informația în fața ta să fie clară. Uite ceva în genul și să țin capă eventual high-ul și low-ul din această ultima perioadă O să învățăm ce s-a stat aia, nu vă speriați, orice informație pe care o auziți și nu o înțelegeți o să fie explicată.
+
+Și cam asta e. În rest, [00:08:00] vreau să mă asigur că am vorbit de tot și da, am vorbit despre absolut tot. Cam asta este clipul despre candlestick pattern, sper că l-ați înțeles bine. E simplu revenim avem imaginea pe care am prezentat-o mai devreme, vom uita treaba peste ea dacă nu ați înțeles, dar o să le aprofundăm oricum în viitor.
+
+Următorul clip o să fie despre timeframes, ne auzim la el. Salut!
+

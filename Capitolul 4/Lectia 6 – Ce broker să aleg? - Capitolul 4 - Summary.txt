@@ -1,0 +1,65 @@
+### **Rezumat Lecția 6 – Brokeri Recomandați pentru Trading cu Capital Personal**
+
+---
+
+#### **Introducere**
+
+Această lecție este dedicată celor care aleg să tranzacționeze cu **capital propriu**, nu prin firme de finanțare (prop firms). Deși autorul estimează că doar 3–4% dintre cursanți vor merge pe această variantă, oferă totuși câteva exemple de brokeri reglementați și siguri, pentru cei interesați.
+
+**Notă importantă:** Nu sunt recomandări oficiale, ci exemple bazate pe încredere în persoane care folosesc acești brokeri de cel puțin un an. Este esențial să faci propriul research înainte de a alege.
+
+---
+
+#### **Brokeri enumerați în lecție**
+
+1. **Interactive Brokers**
+   - Considerat cel mai mare și profesionist dintre toți.
+   - Reglementat și foarte sigur.
+   - Procesul de deschidere a contului este mai complex: include interviuri și sume mai mari de început.
+   - Autorul are cont la ei, dar nu îl folosește pentru trading activ.
+
+2. **Admiral Markets (Admirals)**
+   - Cunoscuți de peste 4 ani, reputație solidă.
+   - Comisioane mici și acces la CFD-uri, inclusiv pe indici precum DAX și Dow Jones.
+   - O alegere bună pentru traderi de retail.
+
+3. **eToro**
+   - Singura platformă cu link de afiliere prezentat de autor.
+   - Autorul nu o folosește pentru trading activ, ci doar pentru investiții pe termen lung.
+   - Dacă alegi să creezi cont prin linkul lui, primești anumite beneficii (nespecificate).
+   - Reprezintă o opțiune ok pentru începători interesați de social trading și copy trading.
+
+4. **IC Markets**
+   - Foarte popular în rândul traderilor retail.
+   - Oferă leverage de 1:30.
+   - Acces la MetaTrader 4 și 5, spread-uri mici și comisioane competitive.
+   - Din auzite, serviciile sunt bune și platforma e stabilă.
+
+---
+
+#### **Discuție despre „haterii” pro firmelor**
+
+Autorul abordează și o temă de context: de ce mulți traderi mai vechi sau „veterani” critică firmele de finanțare.
+
+- Explicația sa: acești traderi sunt afiliați sau dețin brokeri tradiționali.
+- Pro firm-urile (ca FTMO) atrag tot mai mulți traderi, ceea ce scade numărul de clienți ai brokerilor clasici → deci le scad veniturile.
+- Din acest motiv, apar critici și campanii negative împotriva sistemului de prop firms.
+- Concluzia autorului: **e normal ca domeniul să evolueze**, iar prop firm-urile reprezintă o alternativă viabilă.
+
+---
+
+#### **Mesajul final**
+
+- Fiecare trebuie să ia decizia pe cont propriu: **capital personal sau finanțat**, în funcție de stilul și obiectivele sale.
+- Autorul nu îți spune ce să alegi și nu oferă sfaturi financiare, ci doar **prezintă opțiuni**.
+- Brokerii menționați sunt puncte de plecare bune pentru cercetarea personală.
+
+---
+
+#### **Concluzie**
+
+Această lecție oferă un cadru de referință pentru cei care iau în calcul tradingul cu bani proprii. Chiar dacă nu este varianta majoritară printre cursanți, e important să existe informație corectă, echilibrată și realistă despre ce presupune lucrul cu un broker clasic. Fie că alegi un broker sau o firmă de finanțare, **informația corectă și analiza personală sunt esențiale**.
+
+--- 
+
+Un material util pentru luarea unei decizii educate privind modelul de lucru preferat în trading.

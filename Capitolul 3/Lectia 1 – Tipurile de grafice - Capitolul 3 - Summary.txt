@@ -1,0 +1,69 @@
+### **Rezumat Lecția 1 – Introducere în Tranzacționare și Tipuri de Grafice**
+
+---
+
+#### **Introducere**
+Lecția 1 marchează începutul capitolului 3 din program, concentrându-se pe fundamentele tranzacționării. Accentul este pus pe importanța înțelegerii bazelor, chiar și pentru cei cu experiență, deoarece pot apărea informații noi și valoroase.
+
+---
+
+#### **Concepte Cheie**
+
+- **Scopul lecției:** O introducere în graficele folosite în tranzacționare.
+- **Platforma utilizată:** TradingView, una dintre cele mai populare aplicații pentru analiză tehnică.
+- **Recomandare:** În acest capitol se urmărește doar conținutul, fără a reproduce acțiunile din platformă. Interactivitatea practică va începe în capitolul următor.
+
+---
+
+#### **Tipuri de Grafice Prezentate**
+
+1. **Area Chart (Mountain Chart)**
+   - Utilizat pentru o imagine de ansamblu, în special în business și evaluarea produselor.
+   - **Nu este recomandat pentru tranzacționare activă.**
+
+2. **Line Chart**
+   - Similar cu Area Chart, dar fără culoarea de fundal.
+   - Oferă o vedere foarte generală, fără detalii despre punctele de deschidere/închidere.
+
+3. **Line with Marks**
+   - Varianta Line Chart cu puncte adăugate în schimbările de trend.
+   - **Utilitate limitată.**
+
+4. **Bars**
+   - Prezintă punctele de deschidere și închidere, oferind mai multe informații decât Line Chart.
+   - **Nu este preferat; rar utilizat.**
+
+5. **Candlestick Chart (Candles)**
+   - **Cel mai utilizat și recomandat tip de grafic.**
+   - Afișează deschiderea, închiderea, maximul și minimul unei perioade.
+   - 98–99% dintre investitori, fie retail sau instituționali, folosesc acest tip de grafic.
+   - Alegerea culorilor personalizate poate influența emoțiile traderului — se recomandă culori care induc calm și reduc reacțiile emoționale.
+
+6. **Heikin-Ashi**
+   - Grafic bazat pe medii, folosit în unele strategii.
+   - Nu este utilizat de autor, dar menționat ca alternativă cunoscută.
+
+7. **Step Line și alte grafice obscure**
+   - Nu sunt populare și nu sunt recomandate.
+
+---
+
+#### **Aplicații Practice și Recomandări**
+
+- **Focusul principal:** Candlestick chart.
+- Traderii ar trebui să personalizeze culorile și fundalul pentru a se simți confortabil și a evita declanșarea emoțiilor.
+- **Top 3 grafice recomandate:** Candlestick, Bars, Line.
+- Heikin-Ashi poate fi utilizat pentru unele strategii, dar nu este prioritar.
+- Graficele trebuie cunoscute pentru cultura generală de trader, chiar dacă nu sunt toate utilizate.
+
+---
+
+#### **Gânduri Finale**
+
+- Lecția este o introducere esențială în lumea graficelor.
+- Următoarea lecție va aprofunda **anatomia candelelor** și interpretarea acestora.
+- Notarea și înțelegerea tipurilor de grafice este esențială pentru progresul în tranzacționare.
+
+--- 
+
+Acest rezumat poate fi folosit ca material de referință pentru revizuirea conceptelor de bază despre grafice în analiza tehnică.

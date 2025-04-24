@@ -1,0 +1,97 @@
+### **Rezumat Lecția 9 – Market Structure Shift (MSS): Schimbarea de Structură în Piață**
+
+---
+
+#### **Introducere**
+
+Această lecție explică unul dintre cele mai importante concepte din analiza tehnică și din strategia prezentată în curs: **Market Structure Shift (MSS)** – adică **schimbarea de structură în piață**. Este o confluență esențială care semnalează posibile puncte de inversare a trendului. Deși la început poate părea complicată, autorul o explică într-un mod clar și logic, oferind și exemple concrete.
+
+---
+
+### **1. Ce este Market Structure Shift (MSS)**
+
+- **Definiție simplă**: schimbarea direcției pieței – din trend ascendent în trend descendent sau invers.
+- Piața are trei stări:
+  - **Trend ascendent**
+  - **Trend descendent**
+  - **Consolidare** (nu este considerată structură în cadrul acestei strategii)
+
+#### 🔁 MSS = Trecerea de la:
+- **Higher High & Higher Low** → la **Lower High & Lower Low** (sfârșitul unui uptrend)
+- **Lower Low & Lower High** → la **Higher Low & Higher High** (sfârșitul unui downtrend)
+
+---
+
+### **2. Cum identifici un MSS valid**
+
+- Se marchează atunci când este **rupt ultimul higher low (în uptrend)** sau **ultimul lower high (în downtrend)**.
+- Se notează pe grafic cu o linie și eticheta **MSS**.
+
+#### 🔍 Condiții pentru validare:
+- Toate high-urile și low-urile din structura respectivă trebuie să fie **valide** (regula cu două candele din lecția anterioară).
+- Dacă nu sunt valide, nu poți considera că a avut loc un MSS real.
+
+---
+
+### **3. Probabilitate și rol în strategie**
+
+- MSS este a patra regulă în procesul de execuție (după:
+  1. Zi fără știri majore
+  2. Interval orar corect
+  3. High/Low of the Day lichidat
+- După apariția MSS, probabilitatea statistică se schimbă:
+  - **~55% șanse să vedem schimbare reală de direcție**
+  - **~45% șanse să continue vechiul trend**
+
+> Așadar, **nu este o certitudine, ci un semnal cu probabilitate favorabilă**, iar scopul este să tranzacționăm **cu avantaj statistic**.
+
+---
+
+### **4. Exemple practice**
+
+#### ✅ Exemplu în uptrend:
+- Structură: higher high – higher low – higher high...
+- Prețul rupe ultimul higher low → **MSS** → semnal pentru potențial sell.
+
+#### ✅ Exemplu în downtrend:
+- Structură: lower low – lower high – lower low...
+- Prețul rupe ultimul lower high → **MSS** → semnal pentru potențial buy.
+
+- În ambele cazuri, autorul oferă exemple cu desen și marcaj vizual (cercuri, linii) care arată clar punctul unde are loc schimbarea.
+
+---
+
+### **5. Cum se folosește MSS în execuție**
+
+- MSS este un **filtru logic**:
+  - Nu intri în tranzacție doar pentru că vezi o lichiditate sau un punct interesant.
+  - Aștepți să vezi MSS, ceea ce înseamnă că **algoritmul a început schimbarea direcției**.
+
+- După MSS, urmează următoarele confluențe (care vor fi discutate în lecții viitoare).
+
+---
+
+### **6. Recapitularea regulilor învățate până acum**
+
+1. **Zi fără știri majore**
+2. **Interval de timp corect (10:15 – 12:00)** pentru execuții
+3. **High of the Day / Low of the Day lichidat**
+4. **Market Structure Shift (MSS)**
+
+> ⚠️ Autorul menționează că vor fi în total **10 reguli**, dar acestea sunt cele fundamentale de până acum.
+
+---
+
+### **7. Recomandări practice**
+
+- Revede lecția de mai multe ori dacă simți că nu ai înțeles complet.
+- Exersează pe grafic: **identifică structuri, validează high/low-uri, caută punctul de MSS**.
+- Folosește etichete vizuale (ex: MSS salvat ca template în TradingView).
+
+---
+
+### **Concluzie**
+
+Market Structure Shift este **o confluență esențială în strategia de execuție**. Te ajută să identifici momentele în care piața își schimbă direcția, oferind un avantaj statistic important. Lecția este o piatră de temelie pentru setup-ul complet și trebuie înțeleasă și exersată înainte de a trece mai departe.
+
+Această lecție clarifică logica din spatele mișcărilor pieței și îți oferă un cadru concret pentru a începe să „gândești ca un algoritm”.

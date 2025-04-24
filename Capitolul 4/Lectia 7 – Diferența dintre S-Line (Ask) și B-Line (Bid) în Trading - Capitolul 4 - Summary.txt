@@ -1,0 +1,73 @@
+### **Rezumat Lecția 7 – Diferența dintre S-Line (Ask) și B-Line (Bid) în Trading**
+
+---
+
+#### **Introducere**
+
+Această lecție explică detaliat ce înseamnă conceptele de **S-Line (Ask)** și **B-Line (Bid)**, esențiale pentru înțelegerea modului în care funcționează prețurile într-o platformă de tranzacționare. Este o lecție tehnică, dar foarte importantă pentru a calcula corect intrările, ieșirile, stop loss-urile și pentru a înțelege costurile ascunse ale unei tranzacții.
+
+---
+
+#### **Ce este S-Line (Ask Line)?**
+
+- Reprezintă **cel mai mic preț la care un vânzător este dispus să vândă** un activ.
+- Este prețul la care **se va executa o poziție de cumpărare (long)**.
+- Pe grafic, S-Line este de obicei **linia roșie** și este **deasupra prețului actual de piață**.
+- Dacă închizi o poziție de **short**, se va închide tot la acest preț.
+
+---
+
+#### **Ce este B-Line (Bid Line)?**
+
+- Reprezintă **cel mai mare preț pe care un cumpărător este dispus să îl plătească**.
+- Este prețul la care **se va executa o poziție de vânzare (short)**.
+- Apare **sub prețul actual de piață**.
+- Dacă închizi o poziție de **long**, se va închide la acest preț.
+
+---
+
+#### **Ce este Spread-ul?**
+
+- Este **diferența dintre S-Line și B-Line**.
+- Reprezintă un **cost invizibil** pe care îl plătești la fiecare tranzacție.
+- Cu cât spread-ul este mai mic, cu atât tranzacția e mai eficientă și mai ieftină.
+- În piețele lichide (ex. perechi valutare majore), spread-ul este mic.
+- În piețele mai puțin lichide (acțiuni exotice, criptomonede), spread-ul este mare.
+
+---
+
+#### **Importanța Spread-ului în Strategie**
+
+- Afectează direct:
+  - **Punctul de intrare și ieșire**.
+  - **Setarea corectă a stop loss-ului și take profit-ului**.
+  - **Costurile totale** ale strategiei (în special în scalping și day trading).
+- În zile cu volum mic (ex. sărbători bancare), spread-ul poate fi anormal de mare → se recomandă **evitarea execuțiilor în astfel de zile**.
+
+---
+
+#### **Recomandare de utilizare**
+
+- Activează întotdeauna opțiunile **Show Bid Price** și **Show Ask Price** în platforma MetaTrader.
+- Deși nu este ceva ce vei analiza constant, e bine să le ai vizibile pentru orientare și precizie.
+- Te ajută mai ales în perioade cu volatilitate sau lichiditate redusă.
+
+---
+
+#### **Exemplu practic**
+
+- Pe o pereche valutară:
+  - Bid-ul: 1.1050
+  - Ask-ul: 1.1052
+  - **Spread-ul este 0.0002**, adică **2 pips**.
+- Acest „mic” cost se aplică de fiecare dată când intri în piață.
+
+---
+
+#### **Concluzie**
+
+S-Line și B-Line nu sunt concepte complicate, dar sunt **foarte importante** în înțelegerea mecanismelor pieței și a costurilor reale de tranzacționare. Spread-ul nu este afișat sub formă de comision, dar este **un cost indirect inevitabil**, care trebuie înțeles și luat în calcul în orice strategie serioasă.
+
+---
+
+O lecție esențială pentru fundamentul tehnic al execuției tranzacțiilor și pentru înțelegerea structurii pieței.

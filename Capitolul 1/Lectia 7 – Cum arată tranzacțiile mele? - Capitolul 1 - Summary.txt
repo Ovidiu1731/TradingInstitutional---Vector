@@ -1,0 +1,84 @@
+### Rezumat Lecția 7 – Demonstrație Vizuală: Cum Arată Tranzacțiile și Strategia
+
+---
+
+#### Introducere
+
+Această lecție oferă un **„sneak peek” vizual și practic** al modului în care mentorul aplică strategia sa de trading direct pe grafice, cu exemple concrete. Lecția este concepută pentru a introduce începătorii în atmosferă și pentru a răspunde la întrebări frecvente despre execuție, structură și flexibilitatea strategiei.
+
+---
+
+#### Contextul Lecției
+
+- Nu este o lecție teoretică clasică, ci o **prezentare introductivă vizuală**.
+- Nu necesită cunoștințe prealabile de tranzacționare.
+- Realizată pe platforma **TradingView** (care va fi explicată complet în capitolul 4).
+- Demonstrație live cu tranzacții reale efectuate în ziua filmării (8 februarie).
+
+---
+
+#### Structura Strategiei
+
+- **Strategia este împărțită în două sesiuni posibile**:
+  - **Execuția de dimineață**: între orele 10:00–12:00.
+  - **Execuție flexibilă**: între 10:00–22:00 (în timpul sesiunilor de volum activ).
+- **Adaptabilitate**:
+  - Poate fi aplicată în funcție de programul individual.
+  - Se poate executa dimineața, la prânz sau seara.
+- **Flexibilă pe orice tip de time frame**: mici sau mari, în funcție de preferințele și disponibilitatea cursantului.
+
+---
+
+#### Execuția în Teren
+
+- Tranzacție demonstrativă efectuată pe time frame de **1 minut**.
+- Se arată punctele de **intrare**, **ieșire**, **stop-loss** și **take-profit**.
+- **Baza strategiei**: imită comportamentul și algoritmii instituționali.
+  - Scop: urmărirea și sincronizarea cu „băieții mari” (bănci, fonduri mari).
+  - Traderul retail este un „peștișor” care urmează „rechinul” ce mută piața.
+
+---
+
+#### Clarificări Esențiale
+
+- **Liniile și marcările de pe grafic** sunt interpretări strategice:
+  - Reprezintă pattern-uri și puncte cheie ale execuției.
+  - Sunt rezultatul unor „confluențe” strategice (reguli și semnale multiple).
+- **Strategia are reguli clare și bine definite** – spre deosebire de strategia inițială folosită de mentor, care era vagă și confuză.
+
+---
+
+#### Întrebări Frecvente Abordate
+
+- **O afectează dacă mai mulți folosesc aceeași strategie?**  
+  – Nu. Volumul generat de retail este infim comparativ cu cel instituțional.
+- **Poate fi folosită și pe alte piețe?**  
+  – Da, dar cele mai bune rezultate sunt pe **indici bursieri** și **Forex**.
+- **Funcționează strategia doar într-un anumit moment al zilei?**  
+  – Nu, atât timp cât este în sesiune activă, se poate adapta.
+
+---
+
+#### Precizări Realiste
+
+- **Strategia NU produce doar câștiguri**.
+  - Are și pierderi, ca orice strategie reală.
+  - Scopul: să câștigi mai des decât pierzi, cu un *risk/reward* favorabil.
+- **Mitul strategiilor „perfecte” fără pierderi este demontat**.
+- Nu se explică încă în detaliu componentele tehnice – urmează în lecțiile viitoare.
+
+---
+
+#### Ce Urmează
+
+- Veți învăța:
+  - Tipurile de setup-uri (în prezent sunt 7, cu posibilă extindere).
+  - Backtesting, algoritmi, psihologie, finanțări și execuții.
+- **Asistență garantată**: fiecare cursant are un mentor atribuit.
+- Informația este atent structurată, cu muncă intensă și resurse dedicate.
+
+---
+
+#### Concluzie
+
+Această lecție oferă un **preview realist și motivant** al modului de lucru profesionist în trading, arătând direct pe grafic cum funcționează strategia. Nu este menită să învețe în detaliu tehnica, ci să familiarizeze vizual și strategic cursantul cu ceea ce urmează în program.

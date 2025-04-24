@@ -1,0 +1,69 @@
+**Rezumat lectie 13 - Gapurile de la Extremă și Gapurile Parțial Închise: Utilizare Strategică în Execuții și Ieșiri**
+
+---
+
+### **Introducere**
+
+Lecția 13 aduce în prim-plan două tipuri avansate de gapuri – gapurile de la extremă și gapurile parțial închise – și explică modul în care pot fi folosite inteligent în tranzacționare. Sunt detalii de finețe, utile în special pentru traderii experimentați care își dezvoltă o abordare nuanțată asupra pieței și își construiesc statistici riguroase.
+
+---
+
+### **Tipuri de gapuri discutate**
+
+#### **1. Gapurile de la extremă**
+- Se formează **foarte aproape de un punct extrem** (ex: low sau high important).
+- Nu au o definiție numerică fixă (nu se măsoară în puncte), ci **se identifică vizual**, fiind cât mai apropiate de extrema locală.
+- Sunt considerate **gapuri instituționale**, la fel ca cele clasice.
+
+#### **2. Gapurile parțial închise**
+- Gapuri mari care au fost închise **doar parțial** (până la un anumit nivel).
+- **Partea neînchisă** rămâne activă și devine o zonă cu potențial impact (prețul se poate întoarce acolo pentru a „curăța” orderele rămase).
+- Nu sunt recomandate pentru **execuții directe**.
+- Se folosesc pentru:
+  - **plasarea stop-loss-ului** deasupra lor (sau sub, în funcție de direcția trade-ului).
+  - **stabilirea unor zone de take profit** (TP).
+
+---
+
+### **Exemple practice și observații importante**
+
+#### **Gap de la extremă – exemple pe DAX:**
+- Gapuri formate aproape de low-uri semnificative.
+- Sunt **zone frecvente de reacție**.
+- Pot fi folosite ca:
+  - **zonă de TP** – pentru a ieși în profit înainte de o potențială inversare.
+  - **semnal de avertizare** – prețul poate reacționa puternic în direcția opusă când ajunge într-un astfel de gap.
+
+#### **Gap parțial închis – logică și utilizare:**
+- Exemplu: un gap deschis între două puncte este închis doar până la jumătate → rămâne o zonă activă cu potențial.
+- **De evitat pentru execuție directă**, în lipsa unui shift clar și a altor confluențe.
+- **Mod de utilizare avansat**:
+  - Dacă se formează ulterior un setup (ex: second leg), iar gapul parțial închis este încă valid, **stop-loss-ul se mută deasupra acestei zone**, nu direct peste punctul de intrare.
+  - În poziții short, gapurile parțial închise pot deveni **ținte bune de profit** (prețul se oprește acolo și reacționează).
+
+---
+
+### **Confluența gapurilor: extremă + parțial închis**
+
+- În anumite cazuri, **un singur gap poate îndeplini ambele condiții**:
+  - Este situat aproape de extremă.
+  - Este parțial închis, cu o porțiune încă activă.
+- Astfel de gapuri sunt **foarte puternice** și au potențial mare de reacție → devin excelente zone de ieșire din trade.
+
+---
+
+### **Concluzii și recomandări**
+
+- Aceste două tipuri de gapuri sunt **detalii de finețe** care pot îmbunătăți considerabil precizia execuțiilor și ieșirilor din poziții.
+- **Gapurile de la extremă** sunt zone de rezistență/suport foarte respectate în piață.
+- **Gapurile parțial închise** pot fi:
+  - Elemente de planificare a TP/SL.
+  - Elemente de risc dacă sunt ignorate în plasarea SL-ului.
+- Nu sunt recomandate pentru începători ca zone de execuție, dar trebuie **monitorizate și integrate în planul de tranzacționare**.
+- **Nu modifica radical strategia de bază** doar pe baza acestor detalii – integrează-le treptat și testat.
+
+---
+
+### **Final Thoughts**
+
+Această lecție subliniază importanța rafinamentului în trading – când cunoști nu doar unde să intri, ci și unde să eviți greșelile. Gapurile discutate devin relevante odată cu acumularea de experiență și oferă o nouă perspectivă asupra interpretării mișcărilor instituționale din piață.

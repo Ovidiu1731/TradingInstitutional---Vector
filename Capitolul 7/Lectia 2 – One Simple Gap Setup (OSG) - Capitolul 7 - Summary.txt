@@ -1,0 +1,72 @@
+**Rezumat Lecția 2 – One Simple Gap Setup (OSG)**
+
+---
+
+### Introducere
+
+Această lecție detaliază primul setup specific din strategia de tranzacționare: **One Simple Gap Setup (OSG)**. Este un setup simplu, ușor de recunoscut și aplicat, ideal pentru traderii aflați la început de drum. Scopul lecției este să înțeleagă aplicarea acestui setup în contextul regulilor învățate anterior (lichiditate, shift, displacement etc.) și să formeze o bază solidă pentru execuții consecvente.
+
+---
+
+### Context și filozofie de lucru
+
+Setup-ul se încadrează în strategia generală care pornește de la execuții pe “high of the day” și “low of the day”, dar este aplicabil și pe parcursul întregii zile. Este important ca fiecare trader să-și descopere propriul stil – un proces care poate dura luni – și să nu copieze mecanic stilul altcuiva. Setup-ul OSG este un punct de plecare, dar fiecare trebuie să-l adapteze la propriul mod de lucru.
+
+---
+
+### Structura unui OSG
+
+Un **OSG** este caracterizat de:
+
+- Un singur **gap instituțional** format după un **market structure shift (MSS)** valid
+- Lichiditatea (“high of the day” sau “low of the day”) trebuie să fie luată înainte de formarea setup-ului
+- Execuția se face în interiorul gap-ului, iar stop loss-ul se plasează puțin sub/ peste ultimul punct relevant
+- Este cel mai simplu și mai comun setup
+
+---
+
+### Exemple din practică
+
+1. **Exemplu câștigător:**
+   - Lichiditate luată (low of the day)
+   - MSS clar definit
+   - Gap mare, prețul reintră și execută buy
+   - TP setat la 2R sau în zona “half of the day” (în funcție de context)
+   - Execuție corectă, profit atins
+
+2. **Exemplu cu shift agresiv:**
+   - Folosit rar și cu prudență, are un win rate mai mic
+   - Aplicat în condiții favorabile, a oferit un trade câștigător
+
+3. **Exemplu de pierdere (loss):**
+   - Toate condițiile tehnice respectate
+   - Prețul activează gap-ul dar atinge stop loss-ul înainte de a merge spre TP
+   - Se subliniază ideea că uneori vei fi chiar tu lichiditatea, iar asta e normal
+   - Nu întotdeauna o pierdere înseamnă o greșeală – tradingul implică și pierderi inevitabile
+
+---
+
+### Observații psihologice
+
+- Întrebarea “Ce am greșit?” nu are întotdeauna un răspuns tehnic
+- Este esențial ca traderii să accepte pierderile ca parte a procesului
+- Nu există sistem cu win rate 100%, cheia este **consistența și înțelegerea matematicii probabilităților**
+
+---
+
+### Statistici
+
+Pe un eșantion de **500 de tranzacții** (din aprilie anul precedent):
+
+- **90 de tranzacții (18%)** au fost OSG
+- **51 au fost câștigătoare**, **39 pierzătoare**
+- **Win rate: 57%**
+- Setup aplicat atât pe high/low of the day, cât și pe lichidități majore/minore
+
+Un win rate de peste 50% cu un raport risc-recompensă de minim 2R este considerat **excelent**.
+
+---
+
+### Concluzie
+
+One Simple Gap Setup este un setup simplu, dar puternic, ideal pentru a fi învățat și aplicat constant. Este recomandat să fie utilizat cu disciplină, combinat cu înțelegerea profundă a contextului pieței. Setup-ul oferă o bază solidă pentru construcția unui sistem profitabil și echilibrat pe termen lung.

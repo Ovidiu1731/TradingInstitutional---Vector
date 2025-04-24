@@ -1,0 +1,80 @@
+### **Rezumat Lecția 9 – Cum Folosești Corect MetaTrader și TradingView: Calculator vs. Telefon**
+
+---
+
+#### **Introducere**
+
+Lecția tratează un subiect foarte practic și frecvent întrebat: **de pe ce dispozitive e cel mai eficient să folosești MetaTrader și TradingView**? Răspunsul este diferit pentru fiecare trader, dar autorul oferă perspectiva sa personală și recomandări bazate pe experiență directă.
+
+---
+
+#### **Folosirea MetaTrader – Calculator sau Telefon?**
+
+- Autorul **folosește MetaTrader doar de pe calculator sau laptop**, niciodată de pe telefon.
+- Motive:
+  - Pe calculator are totul la vedere, poate folosi calculatorul pentru a face rapid calculele de lotaj.
+  - Evită greșelile de execuție (ex: scriere greșită a volumului), care se întâmplau frecvent când folosea telefonul.
+- **Telefonul poate fi folosit doar pentru monitorizare și închidere de poziții**, nu pentru execuție.
+- Experiență personală negativă cu telefonul: greșeli repetate → decizie clară de a renunța la execuție de pe mobil.
+
+---
+
+#### **Ce face în prezent?**
+
+- Tranzacționează **exclusiv de pe calculator sau laptop**.
+- Pe telefon are aplicația instalată doar pentru:
+  - Verificarea pozițiilor.
+  - Închiderea rapidă a unui trade dacă e necesar.
+- Recomandă să folosești telefonul **doar în combinație cu desktop-ul**, nu ca dispozitiv principal.
+
+---
+
+#### **Când ar avea sens să tranzacționezi de pe telefon?**
+
+- Dacă îți place stilul de lucru mobil și te simți confortabil cu el.
+- Dacă ai un job dinamic și nu poți sta lângă calculator.
+- Există persoane care fac trading cu succes de pe telefon, dar **nu este modelul ideal pentru o abordare profesionistă**.
+
+---
+
+#### **Despre alte platforme de execuție**
+
+- Există alternative la MetaTrader: **C-Trader**, **platformele brokerilor**, **ProRealTime**.
+- Autorul a testat mai multe variante, dar:
+  - Consideră că majoritatea au **taxe și comisioane mari** (ex. TradingView în varianta cu brokeri integrați).
+  - **Nu recomandă să tranzacționezi pe TradingView** – doar să-l folosești pentru analiză.
+
+---
+
+#### **TradingView – Cel mai bun pentru analiză**
+
+- Deși nu îl folosește pentru execuție, **autorul îl folosește zilnic pentru analiză tehnică**.
+- Interfață clară, plăcută, ușor de urmărit.
+- Are TradingView și pe **telefon**, și pe **desktop**.
+- Îl folosește pentru:
+  - Setarea alertelor în zonele de lichiditate.
+  - Monitorizarea portofoliilor.
+  - Vizualizare rapidă când e departe de calculator.
+- Alerta din TradingView îl notifică pe telefon și îl ajută să știe exact când să se pregătească pentru o execuție.
+
+---
+
+#### **Setup-ul tehnic recomandat**
+
+- **Nu ai nevoie de multe monitoare sau un birou de gaming**.
+- Un **singur laptop sau calculator** este suficient la început.
+- După ce ești profitabil, poți face investiții în upgrade-uri (birou, stație, monitoare etc.).
+- Recomandarea este: **investește în skill, nu în echipament**, cel puțin la început.
+
+---
+
+#### **Concluzie**
+
+- MetaTrader: folosește-l pentru execuție doar de pe calculator.
+- TradingView: folosește-l pentru analiză, pe desktop și telefon.
+- Telefonul poate fi un **suport util**, dar nu baza sistemului tău de lucru.
+- Construcția unui sistem profesionist vine **în timp, după rezultate**, nu înainte.
+
+---
+
+O lecție clară și sinceră despre ergonomie, eficiență și riscurile execuției greșite. Ideală pentru începători care caută să își creeze un sistem de lucru stabil și productiv.

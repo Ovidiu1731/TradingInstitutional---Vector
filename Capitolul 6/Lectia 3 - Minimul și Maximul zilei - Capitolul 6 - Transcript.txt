@@ -1,0 +1,67 @@
+Lectia 3 hod lod
+===
+
+[00:00:00] Incepem cu primul tip de lichiditate Acesta se numește high of the day sau low of the day, maximul sau minimul zilei Haideți să ne uităm un pic, e destul de simplu vreau să notați toate regulile cu atenție pe care le vom discuta. În primă fază înainte să marchezi high of the day și low of the day valabil doar pentru acest tip de lichidități Trebuie să împărțiți ziua de tranzacționare, deci repet, doar la high of the day și low of the day, la restul când vine vorba de echitate majoră minoră locală, acolo nu trebuie împărțită ziua, dar aici trebuie.
+
+Și haideți să o împărțim împreună Eu împart în următorul fel. Separ în primul rând ziua de tranzacționare merg pe grafic de un minut ca să separ. Deci pe time frame de un minut, apăsăm 1 pe tastatură și mergem aici. Și separăm, marcăm ultima candelă din zi vedeți dacă ne uităm jos de tot, ultima candelă dacă mergi pe ora României, UTC plus 2 e în perioada asta sau mai există perioada în care e UTC plus 3, vedeți, puneți voi ora [00:01:00] României să fie ora României aici și ultima candelă este 22.59, de la 22.59 dacă mergem la următoarea se face direct 21 sfert, pe noi ne interesează să marcăm ultima candelă Candelă din ziua precedentă, 22.59, în așa fel încât noi să avem marcată ziua actuală de tănați acționare, deci de la 21.15 dimineața până la următorul 22.59, care e linia finală.
+
+Între aceste două linii eu le țin pline. Marchez sesiunea în care mă interesează să marchez High of the Day și Low of the Day. Aceasta este între ora 10 și ora 12 ora României Este sesiunea de High of the Day și Low of the Day, eu o mai numesc și sesiunea dimineții sau sesiunea de dimineață Hai să marcăm împreună maximul și minimul zilei.
+
+Maximul și minimul zilei se marchează până în ora 10 ora României de [00:02:00] când începe ziua până în ora 10. Hai să ne uităm împreună. Spre exemplu punctul maxim dacă ne uităm aici este practic cadra de deschidere dacă ne uităm până în ora 10. E simplu, ne uităm între linia punctată și linia plină și vedem ăsta e punctul maxim.
+
+Nu mai e niciunul de când a început ziua și se trage eu îl trag până aici și îl marchez cu HOD. HOD, puteți să-mi arătați cum vreți voi. Ok, mergem mai jos să căutăm minimul zilei. Păi minimul zilei mie îmi pare a fi, aici este deja ora 10, deci nu m-am mai răsplat în considerare neapărat aș spune că este aici, ăsta este minimul zilei.
+
+Bam, intrăm aici, LOD, de la Love the Day. Și uite așa am marcat maximul și minimul zilei Hai să mai marcăm împreună câteva și după voi explic care este treaba cu ele. Deci astea se marchează până la ora 10, da, e destul de simplu nimic complicat Iar separăm ziua, 20.59, după care avem acum suntem pe 30 euro pe indicele Germanii pe DAX, asta este piața pe care [00:03:00] sunt.
+
+Ok, bun. În cazul de fața aia am aici deja pus low of the day-ul, îl puteți vedea, e punctul minim, se vede clar de când e în linie până aici, deci între cele două linii punctul minim este acesta și îl tragem. Iar punctul maxim este pe aici pe sus, iar este foarte similar ca ziua trecută, e efectiv prima candelă, nu o să mai marchez, dar este prima candelă.
+
+Cum puteți să puneți linia asta? Aici. Puteți să apăsați alt și t împreună, da? Deci alt t, bam și bam. Da, deci la marca l-am pus. În regulă Și practic ca să trageți linia dreaptă, țineți apăsa SHIFT, eu asta fac, țin apăsa, dacă nu țin SHIFT vedeți fac așa, dacă apăs SHIFT ia vedeți mi-o ține dreaptă de ține apăsa SHIFT și o trag.
+
+Asta așa ca niște prescurtări să fie formule de prescurtare. Ca să puneți liniile astea apăsați ALT și V, tasta V de la tastatură și le puneți așa, dacă vreți să faceți o linie punctată dați click pe ea. Și vă duceți aici la ăsta, la Style și puteți să le [00:04:00] faceți punctată, puteți să o faceți înapoi dreaptă sau cum vreți cum doriți voi, schimbați culorile, o faceți cum vreți.
+
+Ok, hai să o ștergem. Mergem mai departe. Uite aici e la fel, avem deja marcate. Deci cum ne orientăm Simplu, iar ne uităm de la linia plină până la linia punctată de când început ziua uite aici e pus la 20.55, că l-am marcat pe time frame 5 minute, dar aici e 20.59, așa, deci punctul este acesta punctul minim, acesta punctul maxim.
+
+Hai și la ultima, să mergem la încă o zi la fel, 20.59, cum puteți vedea minimul și maximul zilei De ce marcă minimul și maximul zilei? Care este rostul? Pentru că acestea sunt zone cu lichiditate prestabilite. Eu v-am zis că lichidățile astea le avem diferite, dacă vă amintiți în clipul trecut. Ei bine, High of the Day și Low of the Day sunt singurul tip de lichiditate pe care toți Trebuie să-l avem la fel pentru că se marchează la fel pentru toată lumea că toți avem minimul și maximul zilei la fel.
+
+Deci astea sunt lichidățile pe care toți le vom avea la [00:05:00] fel, dar restul toți le vom avea în funcție de decizii personale și viziuni personale marcate. Ok, în cazul de față high of the day, low of the day, de ce le marcăm și care e regula cu ele? Păi ele sunt, practic logica din spatele lor este următoarea.
+
+De când a început ziua de tranzacțioare știți că la ora 10 este market opening-ul deci noi oricum de aici începem tranzacțiunea după 10 și un sfert. Și de aia următoarea, de când a început ziua de tranzacțioare, unde în ziua respectivă se află cei mai mulți bani Păi în punctul maxim și punctul minim al zilei.
+
+Matematic vorbim, dar aici sunt și mai mulți bani. Ce înseamnă asta? Că băncile vor targeta maximul sau minimul zilei cel mai probabil. Asta nu se va întâmpla zilnic. În unele zile o să treacă efectiv până ele nu o să fie deloc interesați în altele o să fie. Deci depinde de la o zi la alta. În cazul de față am luat random un zi După cum puteți vedea ziua începe, vedeți cum băncile Formează maxim zilele înainte și nu au avut interes să îl ia pentru că s-au format banii aici proaspeți, dar ei voiau să meargă spre zona cu mai mulți bani, adică asta, love the day-ul, zona formată actual.
+
+Merg iau-i love the day-ul și uitați cum schimbă direcția piaței [00:06:00] în acest punct. Noi ce suntem interesați? Avem regulă următoare. În momentul în care prețul atinge half the day, asta e o primă regulă a strategiei noastre. Hai să îl scriem împreună regulile pe care le avem până acum. Deci reguli am scris reguli.
+
+Reguli bă ce scriu mă aicea mă enervează fontul și de aia nu îmi dau să ia să schimbă mă, 20 nu îmi place culoarea asta, gata nene, sau să o punem albastru hai că o punem albastru, reguli așa Avem în următorul fel. Regula 1 este zi fără știri majore. Aici o să scrie un paranteză subiectiv. De ce? Pentru că unele persoane o să-și definească o să zică, băi, nu știu am tranzacționat pe știri și pe mine nu mă afectează vreau să nu țin cont de regula asta.
+
+Puteți să nu țineți cont. Eu vă pun acum regulile mele. Hai că scrieam undeva unde nici nu Eu vă pun acum regulile mele pe care eu personal le folosesc voi puteți să le adaptați în funcție de voi, zi fără [00:07:00] știri majore depinde cum îți definești știrea majoră și așa mai departe sau ce știri ai ales să nu tranzacționezi.
+
+Fiecare persoană o să-și aleagă aici pentru el varianta corectă. Nu vreau să vă iau aripile să vi le tai Și să vă impun să nu tranzacționezi ceva. Dacă sunteți la început și încă le-ați experimentat puteți să le evitați pe toate cele roșii pe care vi le-am dat. Și după învățați cum să vă împărțiți între ele.
+
+Bun. Regula numărul 2 este High of the day sau Low of the day lichidat. Ok? Bun. În loc, aici este variabil, adică poate să fie have the day sau love the day lichidată dacă faci trading pe baza lichidităților, pe care încă nu l-am învățat pe baza la restul de lichidități, aici scrie lichiditate luată adică ori trebuie să ai o lichiditate majoră luată, ori o lichiditate minoră luată ori o lichiditate locală luată, ori have the day sau love the day lichidată, înțelegeți ce zic, o să vedeți mai încolo.
+
+Deci asta este regula numărul 2. În caz de față presupunem că avem zi fără știri majore Da, high of the day sau low of day lichidat avem? Păi în punctul ăsta încă n-avem că nu ne-a fost luat, de [00:08:00] când a început ora 10, că atunci ne uităm, până aici trebuie să vedem luat. Încă nu l-avem luat dar uite cum aici ni s-a luat low of the day-ul Bam, deci ni s-a întâmplat regula a doua.
+
+Ca să știți în momentul în care high of the day este lichidat noi ne uităm după poziții de vânzare Și în momentul în care low of the day este lichida, ne uităm după poziție cumpărare, adică în direcție opusă se numește counter trend, adică este în direcție opusă. Încă o regulă importantă pe care trebuie să o țineți minte este că high of the day-ul poate să acționeze după ce s-a transisionat a trecutora 12, da?
+
+A trecutora 12. Vă rog să mă notați că în acel moment have the day și love the day nu mai există s-au dus dacă a trecut ora 12 nu mai sunt valabile dar ele se pot transforma în lichidități normale adică într-o local într-o major asta o să învățați în următoarele lecții dar pe scurt ăsta se schimbă practic să zicem că a trecut ora 12 ăsta se schimbă și rămâne din have the day se schimbă în lichiditate Locală, minoră, majoră, care o să fie, deci el se numește have the day și este valid doar între ora [00:09:00] între orele de ce nu mi-apare am selectat altceva, între orele 10-12 dar ce trebuie să mai țineți minte este că rămâne echidrat doar în cazul în care e așa deasupra, o să vedeți momente urâte și hai să vă arăt, uite aici ăsta, ba nu că încă e bun și ăla vreau să găsesc unul care nu e valid care nu rămâne valid după ăsta, să vedem
+
+Da, aici au fost luate. N-am o variantă completă dar uite hai să luăm exemplu dar nu, că ăsta e o chestie ăsta chiar poate fi tranzacționat și ăsta poate fi tranzacționat n-avem variante. Aici o să fie un moment în care efectiv high of the deal o să vină așa. Deci uite imaginați-vă în următorul fel, piața vine așa în jos și aici rămâne high of the deal.
+
+Dar vedeți când vă uitați în big picture, aia nu e nicio lichiditate relevantă dacă te uiți că lichiditatea poate era sus de tot. Uite venise așa prețul Da, și aici era lichiditatea dar aici erau banii mulți în vârf clasic cum se vede, aici n-are nicio treabă, era nimic. Și de asta, ăsta se [00:10:00] șterge, nu mai înseamnă nimic după E high of the day până la final, dar după ora 12 nu mai este importat.
+
+Ok, deci asta este încă o regulă de care trebuie să țineți minte. De asemenea vreau să vă menționez faptul că orele difer un pic pe high of the day și low of the day în funcție de market. Pe exemplu dacă te duci pe US30...
+
+O să vedeți că ziua se separă un pic diferit după oră Mereu să vă uitați la ore. Deci vă duceți pe taia fredominu și mișcați să vedeți unde se separă ziua. Spre exemplu uite aici. Uite. Ultimul minut din zi a fost 23.59, numai 22.59 capăt DAX și după trece direct la ora 01.00 noaptea Deci separarea se face așa ai pus aici linie de separare de zi la 22.59 și practic începi să marchezi maximul zilei de la următoarea candelă de la 01.01.
+
+Și la fel, separă 10.12 clasic
+
+10 [00:11:00] 12, înțelegeți, nu le mai fac pierdentipul iar le puneți punctate și așa mai departe. Acum mulți mă întreabă, Rares, dar pe cum se folosesc liquidățile pe ce market-uri? High of the day și low of the day, recomandarea, mie îmi place cel mai mult pe DAX, vă zic sincer și doar pe DAX mă cam uit. O să mai am câteva piețe pe care o să încep să mă uit cu high of the day și low of the day Respectiv pe UK100, adică pe indice din Londra.
+
+O să-l testez nu garantez că o execu pe el, dar mie personal NASDAQ, care da, poate fi tranzacțiunea NASDAQ NAS100USD. Poate fi tranzacționat cu half the day și low of the day și de asemenea US30USD poate fi tranzacționat cu half the day și low of the day dar mie personal nu-mi plac așa de mult adică le-am testat, nu se compară la rezultate cu DAX-ul nu se compară, sunt complet inferioare pe termen lung, nici nu-mi plac așa de mult deci eu dacă nu găsești ceva pe DAX cu half the day și low of the day de regulă nu prea mă uit pe restul pe restul mă uit în [00:12:00] stradevăr sunt bune când vine vorba de lichidități, dar momentan O să înțelegeți un pic mai încolo ce am vrut eu să vă zic aici, dar notați Have The Day și Love The Day sunt bune pentru DAX mai sunt și alte piațe, testați, testați și pe U.S.T.R.T.
+
+și pe NASDAQ, poate vă plac, poate nu vă plac, poate pentru unul vă plac mult de tot și vreți să rămâneți pe astea nu știu depinde de voi, testați și vedeți Mie nu-mi plac așa de mult aceste piațe pentru Have The Day și Love The Day. Deci am vorbit de NASDAQ, am vorbit de ore de tranzacționare, am vorbit de tot asta, să mă asigur că n-am uitat nimic Nu, cam asta este.
+
+Deci cam asta este despre Have the day and Love the day, o confluență importantă a strategiei noastre o confluență pe care trebuie să o urmărim cu atenție și din care vom lua tranzacții mai încolo. Vă fac un disclaimer fiind încă la început de capitol, deci nu vă speriați că unele chestii nu au neapărat sens în acest moment, cu cât avansați, cu cât veți trece mai departe Cu atât lucrurile se vor lega piesele puzzle-ului se vor lega.
+
+Momentan eu doar vă dau piesele puzzle-ului dar nu știți care e puzzle-ul mulți dintre voi. De asta veți construi ușor ușor și se vor lega toate mai încolo. Ne vedem la [00:13:00] următorul tip de lichiditate în următoarea lecție, la lichiditate majoră.
+

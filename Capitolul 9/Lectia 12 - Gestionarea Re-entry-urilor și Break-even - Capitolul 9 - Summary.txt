@@ -1,0 +1,92 @@
+**Rezumat lectie 12 - Gestionarea Re-entry-urilor și Break-even-urilor prin Artificii de Calcul și Statistică Personală**
+
+---
+
+### **Introducere**
+
+Această lecție avansată abordează două probleme des întâlnite de traderii cu ceva experiență:
+1. Cum să tratezi inteligent situațiile de re-entry pentru a evita pierderile inutile.
+2. Cum să gestionezi eficient break-even-urile pentru a transforma potențialele frustrări în soluții profitabile.
+
+Lecția se adresează celor care au deja 1–2 luni de practică și urmărește dezvoltarea unei gândiri logice, flexibile și calculate.
+
+---
+
+### **Partea I – Re-entry: Cum să intri de două ori fără să-ți dublezi riscul**
+
+#### **Situația tipică:**
+- Două zone de lichiditate majoră.
+- Prima execuție (clasică) dă pierdere (-1%).
+- A doua execuție dă win (+2RR = +2%).
+
+> **Rezultat final:** -1% + 2% = +1% → ok, dar cu risc total crescut.
+
+#### **Soluția propusă: împărțirea riscului**
+- În loc de 1% pe fiecare execuție, se alocă:
+  - 0.5% pe primul trade.
+  - 0.5% pe al doilea trade.
+
+**Avantaje:**
+- Dacă primul e win → profit direct, cu risc redus.
+- Dacă primul e loss și al doilea win → tot profit net.
+- Dacă ambele sunt loss → ai pierdut doar 1%, exact ca un trade normal.
+  
+**Varianta mai conservatoare:** 0.25% + 0.25%.
+
+#### **Atenționare:**
+- Nu mări riscul la re-entry!  
+  Greșeala comună: execuție inițială 1% → loss → re-entry cu 2% → dezastru potențial.
+
+---
+
+### **Partea II – Break-even: Salvare sau Piedică?**
+
+#### **Problema:**
+- Prețul atinge zona de profit intermediar (ex. 1.5 RR).
+- Traderul mută SL pe break-even → prețul revine → poziția este închisă pe 0 → apoi merge în TP.
+
+> Această situație poate frustra dacă apare frecvent.
+
+#### **Cum analizezi dacă break-even-ul te ajută?**
+- Ex: Ai avut 10 trade-uri:
+  - 7 salvate prin break-even (care ar fi fost loss-uri).
+  - 3 ratate (care ar fi fost win-uri).
+- În acest caz, **break-even-ul e util** statistic.
+  
+> Dacă raportul e invers – break-even-ul devine dăunător.
+
+---
+
+### **Soluția propusă: Parțială + TP final**
+
+**Strategie:**
+1. La 1.8 RR → închizi 50% din poziție.
+2. Restul îl lași până la 2.2 RR.
+3. Dacă prețul se întoarce → ai securizat deja profit.
+4. Dacă merge în TP → ai atins 2 RR în medie.
+
+> Acest artificiu echilibrează situațiile în care break-even-ul lovește prea des. Se ia “ceva de pe masă” înainte de decizia finală.
+
+#### **Alte variante posibile:**
+- TP parțial la 1.6 RR și restul la 2.2 RR.
+- Ajustează în funcție de statistica personală.
+
+---
+
+### **Recomandări finale**
+
+- Nu te plânge de breakeven-uri. Analizează-le!
+- Creează soluții proprii. Gândește ca un profesionist, nu ca un victimă a pieței.
+- Fii flexibil: ce funcționează acum s-ar putea să nu funcționeze peste 3 luni.
+- Refă analiza periodic – stilul tău de trading evoluează.
+
+---
+
+### **Final Thoughts**
+
+Această lecție este un ghid esențial pentru rafinarea execuțiilor și managementului de poziție. Rares oferă unelte logice și matematice care te ajută să:
+- Minimiezi pierderile.
+- Maximizezi profiturile.
+- Îți păstrezi consistența pe termen lung.
+
+Este o lecție despre maturitate în trading, nu doar despre tehnică.

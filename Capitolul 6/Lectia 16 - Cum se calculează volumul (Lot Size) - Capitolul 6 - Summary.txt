@@ -1,0 +1,101 @@
+### **Rezumat Lecția 16 – Calculul Volumului (Lot Size): Cum Setăm Tranzacțiile cu Risc Fix**
+
+---
+
+#### **Introducere**
+
+Această lecție explică în detaliu cum se calculează **volumul (lot size)** într-o tranzacție pentru ca riscul să fie **predefinit și controlat**. Este una dintre cele mai importante lecții practice, fiind esențială pentru aplicarea corectă a strategiei. Autorul explică atât modul de calcul manual pentru indici, cât și utilizarea unui calculator online pentru Forex.
+
+---
+
+### **1. Ce înseamnă volumul (lot size)**
+
+- Volumul este **valoarea numerică** pe care o introduci în platforma de tranzacționare (MetaTrader) și care determină cât pierzi sau câștigi **pe punct/pip**.
+- Se calculează astfel încât **distanța dintre entry și stop loss să însemne exact suma pe care vrei să o riști**.
+- Ex: vrei să riști 100 EUR, iar stopul este de 18.5 puncte → volumul se calculează în așa fel încât 18.5 puncte = 100 EUR.
+
+---
+
+### **2. Calculul manual pentru indici (ex: DAX, NASDAQ)**
+
+#### ✅ Formula:
+**Volum = Sumă riscată (€) ÷ Număr puncte stop loss**
+
+#### ✅ Exemplu:
+- Risc dorit: 100 EUR
+- Stop loss: 18.5 puncte
+- Calcul: 100 ÷ 18.5 = **5.40**
+- Introduci **5.40** în câmpul de volum din MetaTrader.
+- Plasezi SL la 18.5 puncte și vei risca exact 100 EUR.
+
+---
+
+### **3. Pașii în platformă MetaTrader**
+
+1. Scrii volumul (ex: 5.40).
+2. Apeși pe „Buy” sau „Sell”.
+3. Tragi linia SL exact la distanța calculată (ex: 18.5 puncte).
+4. Verifici în stânga ecranului: trebuie să apară **-100 EUR**.
+5. Setezi Take Profit la RR 1:2 (ex: +200 EUR).
+6. Poziția e pregătită cu un risc clar și un obiectiv realist.
+
+---
+
+### **4. Închiderea parțială a unei tranzacții**
+
+- Se poate face **prin dublu click pe tranzacție** și modificarea volumului din fereastra de execuție.
+- Ex: ai 5.4 loturi deschise → scrii 2.7 și apeși „Close” → ai închis 50% din poziție.
+- Astfel:
+  - Îți încasezi profitul parțial.
+  - Reduci riscul rămas pe poziție.
+
+---
+
+### **5. Mutarea stop loss-ului în profit (management dinamic)**
+
+- Poți muta SL **după ce tranzacția intră în profit**.
+- Astfel:
+  - Protejezi profitul acumulat.
+  - Lași trade-ul să ruleze fără să închizi prematur.
+- Nu este metoda preferată de autor, dar este o opțiune pe care o poți integra în stilul tău personal.
+
+---
+
+### **6. Calculul volumului pe Forex (ex: EURUSD)**
+
+- **Formula este diferită** față de indici.
+- Se folosește un calculator online:
+  - Recomandare: [https://www.cashbackforex.com/tools/position-size-calculator](https://www.cashbackforex.com/tools/position-size-calculator)
+- Ce completezi:
+  1. Instrumentul (ex: EURUSD)
+  2. Moneda contului (ex: EUR)
+  3. Suma din cont (ex: 80.000 EUR)
+  4. Risc dorit (ex: 1%)
+  5. Stop loss în pips (ex: 10.0)
+- Calculatorul îți dă volumul (ex: 8.77) → îl introduci în MetaTrader.
+
+---
+
+### **7. Diferențe între Forex și indici**
+
+- **Pe Forex**: volumele sunt mici, dar valoarea pe pip este mare.
+- **Pe indici**: volumele sunt mari, dar punctul valorează mai puțin.
+- Este normal ca pe indici să vezi loturi de 40–50 – **nu înseamnă overtrading**, așa funcționează piața.
+
+---
+
+### **8. Recomandări practice**
+
+- Nu face calculele „din ochi”.
+- Nu uita că **platformele pot afișa comisioane**, deci suma nu va fi mereu exactă.
+- La început, fă mereu calculul înainte de a deschide o tranzacție.
+- Salvează calculatorul Forex în browser pentru acces rapid.
+- Asigură-te că înțelegi cum funcționează **fiecare piață în parte**.
+
+---
+
+### **Concluzie**
+
+Această lecție este **fundamentală pentru orice trader serios**. Ea oferă un cadru clar și aplicabil pentru a calcula volumul corect și a avea **control deplin asupra riscului**. Fie că tranzacționezi indici sau Forex, învățarea acestei tehnici îți va permite să fii profesionist în execuție și să îți protejezi capitalul.
+
+Este lecția care face diferența între un trader amator și unul disciplinat.

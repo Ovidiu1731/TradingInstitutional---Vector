@@ -1,0 +1,35 @@
+lectia 10
+===
+
+[00:00:00] V-am găsit la o nouă lecție în care vom discuta despre indicatorii. Ce indicator folosesc eu și este obligatoriu să folosim vreun tip de indicator? Asta este subiectul pe care îl vom aborda. În primă fază vreau să vă povestesc un pic despre experiența mea cu indicatorii. În primă fază când intră în tranzacționare și în lumea pieților financiare, multe persoane au impresia că selectezi unu-două indicatori care îți arată când să vinzi când să cumperi, o modalită super simple care îți fură ochii și ai impresia gata, e calea ușoară, pe asta merg și o să funcționeze și așa mai departe Dacă exista un indicator magic care îți spunea când să cumperi și când să vinzi, cu siguranță l-ar fi avut toată lumea și cu siguranță am fi fost toți multimilionari.
+
+Nu așa simplu este mult mai complex. Și încercați în general să fugiți de varianta simplă de varianta ușoară, care pare, cum să zic, cea mai accesibilă să spun așa. De multe lucrurile accesibile au un cost ascuns în spate foarte mare. Acum, când vine vorba de partea de indicator, [00:01:00] am trecut prin mai multe tipuri Anul 2019 și 2020 am folosit MACD, am folosit Stochastic, am folosit EMA-uri, mai multe tipuri Moving Average-uri, etc.,
+
+etc., etc. Am folosit acești indicatori și în combinație, unii cu ceilalți, și combinat tehnic cu indicatori cu nu știu ce, cu nu știu ce și așa mai departe. Ei bine la final de zi, la final de săptămână tot nu era clar. Atunci când făceam backtesting și mă uitam în urmă pe tranzacții și încercam să fac o statistică să-mi strâng o expertiză, îmi dădeam seama că tot arăta diferit față de în condițiile live de piață, când prețul se mișcă automat.
+
+De ce? Pentru că indicatorii Sunt lăguiți, așa se numește, sunt în urmă și de regulă ei par foarte bine când prețul deja s-a mișcat și vedem indicatorul pare că totul e perfect, dar în realitate vedeți că nu e așa când este în live market. Prin urmare, eu nu folosesc un indicator, nu spun că nu funcționează tot sau că toți sunt greșiți, dar nu folosesc indicatori în schimb am, [00:02:00] cum să spun, două aplicații, dacă vreți să le numiu așa pe care le folosesc în locul indicatorilor Nu au legătură cu analiza tehnică ci sunt lucruri vizuale.
+
+Și o să vă explic imediat de ce le folosesc. Primul se numește AGFX Watermark și așa mai departe Ăsta, practic ce face este că îmi pune aceste două zone. Zona de sus unde mi apare numele proiectului și zona de jos unde am permanent data în care suntem astăzi și piața pe care suntem și minutul. Ca să o adăugi practic intri la zona de indicatori Și cauți aici, uite cum avem în zona asta, A, G, bla bla bla.
+
+Deci acesta este AGFX Watermark, a intrat l-ai scris aici ai dat plus, dublu click și ți l-a activat, iar setările pe care le folosesc eu sunt acestea Bine puteți să vi le faceți voi, eu vi le las pe ecran în cazul în care vreți să aveți ceva similar, aici spui numele, aici spui subtitlu ca poți să spui și un subtitlu bine acum din ce mi-am gândit că l-am scos Dar există și varianta de a avea un subtitlu dedesubt nu mai știu sincer cum [00:03:00] îl activam.
+
+În fine, nu pot să zic că mă interesează neapărat partea de sus așa de mult, ci partea asta de jos mă interesează aici. Și de asemenea mai folosesc încă un indicator. Și acesta este cel mai important pe care vă rog să-l folosiți. Primul nu e obligatoriu, e decizia voastră. Ei bine la al doilea e important să-l folosim.
+
+Și hai să vorbim în ce condiții se folosește acesta. În primul rând când o să intrăm pe trading view și o să căutăm DAX, eu folosesc apelativul DE, 30 euro. Si aici vedem brokerul de la care este furnizat graficul. Spre exemplu acest grafic este furnizat de OANDA. Eu merg pe varianta OANDA, in primul rand ca am statistica facuta pe acest broker, pe grafice oferite de inca din 2019-2020, mi-am strans toata statistica si daca ma mut pe alt broker, e posibil sa nu mai fie identica, asta unu la mana.
+
+Doi la mana este broker partener oficial trading, eu sunt foarte serios, În general am auzit lucruri bune despre ei, de când le folosesc graficele, [00:04:00] au și date foarte bune, deci practic de asta îi folosesc. Ei la un moment dat au făcut o modificare acum câteva luni și dacă o să ne uităm un pic pe grafice și o să sting indicatorul ăsta, o să observăm un lucru important.
+
+Și hai să mergem într-o zonă în care să observăm mai bine. Uite aici se observă foarte bine. Vedeți aceste candele care nu sunt perfecte? Closing price-ul, această candelă, este departe de opening price-ul la următoare. Și vedem tot felul de spați între candele și nu arată bine și nu e estetic. Ia vedeți dacă activez cum mi le umple automat.
+
+Practic acest indicator ne face estetic graficul adică în loc... Ok, ăsta e closing price-ul, dar eu mă mențin ca înainte după această Deci așa arătau graficele furnizate de Oanda până acum câteva luni și ei de câteva luni le-au scos nu știu ce, dar este acest indicator care îți umple graficul și ți-l face să arate perfect.
+
+Care sunt setările? Hai să le facem împreună. Acestea inputs, cam așa arată. Style, [00:05:00] mi-am pus culorile de la lumânări pe care le folosesc Și visibility cam așa deci asta este ce am eu, o să faceți identic, puteți să opriți ecranul și să vă asigurați că aveți totul identic, am dat ok și cam asta este, avem acest indicator activ.
+
+Ca să facem un indicator să-l dezactivăm pe ochișorul ăsta și-l scoate, aici îl activează. Cum îl punem pe acesta? Că intrăm aici și căutăm no gaps. Candles ce primul ăsta? Ăsta este indicatorul, dar o să dăm dublu click și ne-l adaugă în zona asta ca să umblăm la setări Mergem aici setări, da? Și ați văzut ceea fac.
+
+Vă rog să vă puneți acum acest indicator pentru că noi o să ne ghidăm în viitor în următoarele capitole doar în funcție de grafic în acest fel, în grafic perfect. Mi-e place să arate bine, să fie curat, să fie organizat într-un mod structurat să spun așa. Aceștia sunt singurele, nu putem să le zicem neapărat indicatori dar sunt două programe ajutătoare pe care le folosesc unul pentru textul ăsta de aici și unul pentru candele.
+
+Cam [00:06:00] atât la acest moment din ce folosesc În afară de asta nu folosesc alți indicatori mi se pare că analiza tehnică și price action-ul în general sunt cele mai eficiente parte de indicatori nu pot să zic că îmi place așa de mult. Cam asta ar fi această lecție, ne pregătim în Pentru următoare perioade foarte interesante în acest program și în lecții.
+
+Urmează partea tehnică urmează să intrăm în foarte multe detalii. Vă rog să aveți răbdare, vă rog să nu vă grăbiți vă las lucrurile pas cu pas și într-un mod matur și calculat fără grabă. Vă salut cu drag!
+

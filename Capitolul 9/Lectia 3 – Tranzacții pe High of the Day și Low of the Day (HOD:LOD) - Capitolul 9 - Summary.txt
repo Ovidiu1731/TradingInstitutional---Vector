@@ -1,0 +1,57 @@
+**Lecția 3 – Tranzacții pe High of the Day și Low of the Day (HOD/LOD)**  
+*Format simplificat, structură clară*
+
+---
+
+**1. Obiectivul Lecției:**
+- Analiză practică pe tranzacții reale executate pe HOD și LOD.
+- Exercițiu de backtesting și interpretare a reacțiilor pieței în raport cu zonele-cheie.
+
+---
+
+**2. Structura și logica setup-ului:**
+- Aștepți lichidarea HOD sau LOD.
+- Cauți **Market Structure Shift**.
+- Cauți **gap** și **displacement**.
+- Execuție în gap, preferabil la jumătate.
+- Stop loss: deasupra ultimului high/low relevant.
+- Take profit: RR 1:2 sau mai mult.
+
+---
+
+**3. Exemple de Tranzacții:**
+
+- **Trade 1:** setup corect, 3 consecutive gaps, intrare bună → rezultat: **LOSS** (exemplu de pierdere normală).
+- **Trade 2:** lichidare HOD, shift clar, gap mare → rezultat: **WIN**.
+- **Trade 3:** shift valid, dar TP nu atins → **LOSS** (worst case, fără breakeven).
+- **Trade 4:** 3 gaps, execuție curată → **WIN**.
+- **Trade 5:** 5 februarie – lichidare + confluențe + gap → **WIN**.
+
+> Rezultat general: **3 win / 2 loss → 60% win rate**, potențial +4% profit cu risc 1% pe tranzacție.
+
+---
+
+**4. Elemente avansate discutate:**
+
+- **Break-even & profituri parțiale:** pot fi folosite pentru optimizare, dar nu sunt incluse în această analiză.
+- **Importanța logicii bancare:** băncile urmăresc lichidități și gapuri – interpretarea lor poate oferi context pentru targeturi realiste.
+- **Exemplu de analiză detaliată a mișcării prețului:** pe 5 februarie – analiză în profunzime a deciziilor băncilor.
+
+---
+
+**5. Trade live pe UK100 (backtesting):**
+- Lichidare HOD → shift → gap → execuție în gap → RR 2:1 → **trade câștigător**.
+- Se aplică regula de breakeven după o mișcare favorabilă.
+
+---
+
+**6. Concluzii practice:**
+- Nu toate trade-urile vor merge → **acceptă pierderile**.
+- Important: **consistența și execuția planului**.
+- La un win rate de 55% și RR 2:1 → strategia devine extrem de profitabilă.
+- **Reinvestește câștigurile cu cap**, nu te grăbi să cheltui.
+- Practică, salvează exemplele și ține evidența – **statistica e cheia**.
+
+---
+
+Această lecție este o demonstrație practică despre cum funcționează strategia în realitate și cum poți trage concluzii corecte din execuțiile proprii. Ideal de urmărit de mai multe ori și de reprodus pe cont propriu în backtesting.

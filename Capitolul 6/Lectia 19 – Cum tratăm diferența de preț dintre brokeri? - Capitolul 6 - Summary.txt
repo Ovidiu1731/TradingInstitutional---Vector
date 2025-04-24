@@ -1,0 +1,70 @@
+**Rezumat Lecția 19 – Diferențe între brokeri, grafice și platforme (MetaTrader vs TradingView)**
+
+---
+
+### Introducere
+Această lecție se concentrează pe diferențele dintre graficele furnizate de diverși brokeri și pe comparația între cele două platforme populare utilizate în trading: MetaTrader și TradingView. Informațiile prezentate sunt menite să clarifice confuziile care pot apărea în rândul traderilor, în special în comunități unde fiecare utilizează un alt broker.
+
+---
+
+### Concepte Cheie
+
+- **Brokerii oferă date ușor diferite**: Deși în proporție de 99,9% sunt similare, graficele furnizate de brokeri diferiți pot avea discrepanțe minore de preț.
+- **TradingView colaborează cu brokeri reglementați**: Exemple includ FXCM, OANDA, Capital.com, Forex.com, Pepperstone.
+- **OANDA – brokerul preferat**: Alegerea autorului lecției, datorită seriozității și parteneriatului vechi cu TradingView.
+
+---
+
+### Exemple Numerice Relevante
+
+- Comparație GBPUSD:
+  - OANDA: 1.26145
+  - FXCM: 1.26138
+  - Diferență: **7 puncte (pips)**
+- Diferență între MetaTrader și TradingView pe GBPUSD:
+  - MT: 1.25123
+  - TV: 1.25121
+  - Diferență: **2 puncte**
+- Diferență pe DAX în weekend:
+  - MetaTrader: 19.891
+  - TradingView: 19.926
+  - Diferență: **35 puncte**
+
+---
+
+### Recomandări Strategice
+
+- **Alege un singur broker**: Fii consecvent în utilizarea graficelor furnizate de un broker pentru a păstra acuratețea în analiză și statistică.
+- **Nu amesteca graficele între brokeri**: Poate genera confuzii în identificarea lichidității și validarea setup-urilor.
+- **Execută bazat pe vizual, nu pe cifre**: Execuția se face conform structurii vizuale a graficului, nu pe diferențe numerice minime.
+
+---
+
+### Aplicații Practice
+
+- **Lichiditate percepută diferit**: Uneori, un vârf poate atinge lichiditatea pe graficul unui broker, dar nu și pe al altuia.
+- **Indicatori utilizați**:
+  1. **AGFX Watermark** – pentru branding personal.
+  2. **No Gaps Candles** – umple golurile dintre lumânări pentru o vizualizare mai coerentă.
+     - Important: fără acest indicator, statistica poate deveni inexactă.
+
+---
+
+### Comparație MetaTrader vs TradingView
+
+- **MetaTrader**: utilizat exclusiv pentru execuție.
+- **TradingView**: utilizat pentru analiză și păstrarea statisticii.
+- **Divergențe între platforme**: rare, dar în momente de volatilitate sau evenimente majore, graficele pot arăta structuri complet diferite.
+  - Recomandare: evită execuțiile în aceste condiții și doar observă piața.
+
+---
+
+### Gânduri Finale
+
+- Diferențele între brokeri și platforme **nu afectează profitabilitatea**, dar pot cauza confuzii.
+- Este important să **înțelegi logica din spatele acestor diferențe**, să **nu devii obsedat de fiecare punct** și să **rămâi consecvent cu setările și platforma aleasă**.
+- Lecția acoperă un subiect esențial în etapa de rafinare a strategiei și evitarea erorilor de interpretare cauzate de discrepanțele între surse.
+
+--- 
+
+Această lecție oferă o înțelegere solidă asupra impactului diferențelor între brokeri și platforme și stabilește o direcție clară pentru analiză și execuție consecventă.

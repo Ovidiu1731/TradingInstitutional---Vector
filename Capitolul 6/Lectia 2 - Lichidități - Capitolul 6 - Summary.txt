@@ -1,0 +1,92 @@
+### **Rezumat Lecția 2 – Introducere în Lichiditate: Fundamentul Pieței și Primul Pas în Strategie**
+
+---
+
+#### **Introducere**
+
+Aceasta este prima lecție tehnică a programului și marchează începutul construirii strategiei de tranzacționare. Tema centrală este **lichiditatea**, definită ca fiind unul dintre cei mai importanți factori care determină mișcarea pieței. Fără lichiditate, nu există mișcare, nu există profit, iar piața nu ar funcționa.
+
+---
+
+### **Ce este lichiditatea și de ce contează**
+
+- Lichiditatea = **bani**. 
+- Când căutăm lichiditate pe grafic, căutăm **zone unde sunt bani**, adică unde se află ordinele altor traderi.
+- **Băncile și algoritmii instituționali vizează aceste zone**, pentru că acolo se pot extrage sume mari de bani.
+
+---
+
+### **Lichiditatea și stop loss-urile**
+
+- Cele mai multe lichidități se află acolo unde sunt plasate stop loss-urile traderilor.
+- Ex: dacă un trader face un buy, va pune stop loss-ul sub un „low” recent. Dacă prețul ajunge acolo, stopul este activat → **banii ies din contul traderului și intră în piață**.
+- Astfel, zonele de sub „low”-uri sau deasupra „high”-urilor devin **zone cheie de lichiditate**.
+
+---
+
+### **Exemplu practic explicat pas cu pas**
+
+- Punct de intrare (linia albă): buy.
+- Stop loss (linia roșie): sub un low recent.
+- Take profit (linia verde): mai sus, într-o zonă țintă.
+- **Unde sunt banii?** În punctul stop loss-ului – acolo piața recuperează bani de la traderi.
+- Traderii, în mod instinctiv, caută „siguranța” și pun stopuri cât mai jos → de aceea cele mai multe fonduri se strâng **sub extremele vizibile**.
+
+---
+
+### **Rolul băncilor și al volumului instituțional**
+
+- Piețele ca DAX sau Dow Jones implică volume uriașe – în mișcări de câteva minute se tranzacționează **sute de milioane sau chiar miliarde**.
+- Nu contează dacă intri cu 100 EUR – nu tu miști piața.
+- Piața se mișcă după zone unde sunt **stopuri colective** ale mii de traderi → **băncile vizează acele zone**.
+
+---
+
+### **Cum se marchează lichiditățile pe grafic**
+
+- Se folosesc linii etichetate „LIQ” (de la Liquidity).
+- Se personalizează culoarea și textul – salvate ca template pentru viteză.
+- Se marchează în special **extremele** (high și low evidente).
+- Fiecare zonă de lichiditate este potențial un loc de reacție a prețului.
+
+---
+
+### **Logica mișcărilor instituționale**
+
+- Băncile „plimbă” prețul dintr-o zonă de lichiditate în alta.
+- Ex: prețul urcă → formează un nou high → acolo apar stop loss-uri ale vânzătorilor.
+- Piața revine și le „colectează” (lichidează), apoi schimbă direcția.
+- Acest ciclu se repetă constant → **tradingul devine previzibil dacă înțelegi acest joc**.
+
+---
+
+### **Important: toate lichiditățile sunt valide, dar nu toate sunt profitabile**
+
+- Două zone pot fi corecte tehnic ca „lichiditate”, dar doar una are probabilitate mare de câștig.
+- Adevărata valoare vine din **calitatea selecției**, nu doar din corectitudinea tehnică.
+
+---
+
+### **Cele patru tipuri de lichiditate**
+
+1. **High of the Day / Low of the Day (HOD / LOD)**
+   - Maximele și minimele zilei curente.
+
+2. **Lichiditate Majoră**
+   - Zone vizibile pe timeframe-uri mari, asociate cu mișcări instituționale.
+
+3. **Lichiditate Locală**
+   - Vizibilă pe timeframe-uri mai mici, relevantă pe termen scurt.
+
+4. **Lichiditate Minoră**
+   - Cele mai mici reacții – potențial profitabil dar cu risc mai mare.
+
+Acestea vor fi analizate în detaliu în lecțiile următoare.
+
+---
+
+### **Concluzie**
+
+Lichiditatea este **fundația strategiei**, iar înțelegerea ei este esențială pentru a interpreta corect mișcările pieței. Scopul nu este doar să recunoști unde sunt banii, ci să înțelegi **de ce și cum ajunge prețul acolo**. Lecția marchează o schimbare importantă în modul de gândire al traderului – de la executant orb, la analist conștient al jocului instituțional.
+
+Aceasta este prima cărămidă reală în construirea unei strategii solide de trading.

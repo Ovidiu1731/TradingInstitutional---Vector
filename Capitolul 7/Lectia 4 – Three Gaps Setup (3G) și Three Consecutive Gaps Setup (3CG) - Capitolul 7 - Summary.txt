@@ -1,0 +1,53 @@
+**Rezumat Lecția 4 – Three Gaps Setup (3G) și Three Consecutive Gaps Setup (3CG)**
+
+---
+
+### Introducere
+
+Lecția 4 se concentrează pe două setup-uri relativ rare și mai avansate: **Three Gaps Setup (3G)** și **Three Consecutive Gaps Setup (3CG)**. Acestea sunt o extensie logică a setup-urilor anterioare (OSG, TG, TCG), fiind aplicabile în contexte cu mai multă activitate instituțională vizibilă prin trei gap-uri.
+
+---
+
+### Three Consecutive Gaps Setup (3CG)
+
+- Apare atunci când, în urma unui **shift de structură** și a unei **lichidități luate**, se formează **trei gap-uri instituționale consecutive**.
+- **Execuția recomandată** este în **gap-ul din mijloc**.
+- Dacă gap-urile sunt mari, execuția se face ideal **la jumătatea gap-ului** respectiv.
+- În exemplul oferit:
+  - Lichiditatea "high of the day" a fost luată
+  - A existat un shift clar
+  - Cele trei gap-uri au fost consecutive
+  - Trade-ul a fost executat în mijlocul celui de-al doilea gap și a fost câștigător
+
+---
+
+### Three Gaps Setup (3G)
+
+- Structura este similară, însă **gap-urile nu sunt consecutive** (sunt dispersate în structura de preț).
+- Setup-ul este identic ca logică, însă **poziționarea diferită a gap-urilor** îl face distinct de 3CG.
+
+---
+
+### Statistici
+
+- Dintr-un total de **500 de tranzacții**, **26** au fost identificate ca 3G sau 3CG, adică **5% din total**.
+- Distribuția rezultatelor:
+  - **13 câștiguri**
+  - **13 pierderi**
+  - **Win rate: 50%**
+
+Este cel mai mic win rate dintre toate setup-urile executate frecvent în strategie.
+
+---
+
+### Observații și recomandări
+
+- Setup-urile 3G și 3CG sunt **foarte rare**, iar frecvența lor redusă nu justifică o focalizare exclusivă pe ele.
+- Totuși, ele pot oferi oportunități valoroase atunci când apar, în special 3CG, care prezintă o formare clară și ordonată.
+- **Execuția în gap-ul din mijloc** este o regulă de bază pentru 3CG și este preferabilă în majoritatea situațiilor.
+
+---
+
+### Concluzie
+
+Three Gaps Setup și Three Consecutive Gaps Setup sunt setup-uri avansate, rare și cu o rată de succes medie. Ele trebuie tratate ca oportunități ocazionale și nu ca piloni principali ai strategiei. Când apar, pot fi executate cu încredere, urmând regulile standard (lichiditate luată, shift, displacement, execuție în gap). Lecția subliniază clar diferențele dintre cele două tipuri și oferă o recomandare clară privind modul de abordare.

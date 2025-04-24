@@ -1,0 +1,119 @@
+### Rezumat Lecția 3 – Stilul de Tranzacționare, Strategie, Piețe și Rutina Zilnică
+
+---
+
+#### Introducere
+
+Această lecție este una profund tehnică, în care mentorul prezintă în detaliu stilul său de tranzacționare, baza strategiei folosite, piețele preferate și cum arată o zi din viața sa de trader profesionist. Este o lecție fundamentală pentru înțelegerea modului său de lucru și a principiilor din spatele performanței constante în trading.
+
+---
+
+#### Stilul de Tranzacționare
+
+- **Tipul de trading**: Intraday trading (toate tranzacțiile sunt închise în aceeași zi).
+- **Motivația**: 
+  - Oferă multe oportunități zilnice (3-5 per piață/zi).
+  - Favorizează învățarea rapidă și eficientă.
+  - Timp mediu al unei tranzacții: ~2 ore.
+- **Trecerea de la scalping** la intraday a fost influențată de eficiență și claritate în execuție.
+  
+---
+
+#### Evoluția Strategiei
+
+- **Inițial**: Strategie de retail clasică (indicatori, suport/rezistență, Fibonacci, EMA-uri).
+- **Probleme identificate**:
+  - Lipsa clarității în punctele de intrare/ieșire.
+  - Dificultate în alegerea oportunităților corecte.
+- **Transformare**:
+  - Întâlnirea cu un mentor esențial care i-a schimbat mindset-ul.
+  - Renunțarea la ideea că strategia trebuie să fie complexă.
+  - Focus pe reguli clare, plan bine structurat și simplitate.
+- **Adevăr esențial**: Problema majoră în trading nu este strategia, ci controlul emoțional și mentalitatea.
+
+---
+
+#### Strategia Actuală
+
+- **Tip**: Instituțională (inspirată din comportamentele și algoritmii bancari).
+- **Concepte cheie**:
+  - Execută în același mod în care operează băncile.
+  - Evită strategiile populare de retail (risc mare, probabilitate mică).
+- **Exemplu explicativ**: Real Madrid vs. Oțelul Galați – Alege tabăra câștigătoare (băncile).
+- **Roboți vs. oameni**:
+  - 90% din trading-ul instituțional e făcut de algoritmi.
+  - Roboții sunt eficienți, dar nu pot înlocui factorul uman.
+- **Mituri demontate**:
+  - Strategia nu e secretă sau magică.
+  - Nu promite milioane peste noapte.
+  - Nu e creația sa originală, dar a perfecționat execuția pentru fusul orar românesc.
+
+---
+
+#### Date Tehnice și Performanță
+
+- **Vechea problemă**: Lipsă de claritate și consistență.
+- **Rata de câștig**: 55%–62%, cu un *Risk-to-Reward* mediu de **1.89**.
+- **Executare**:
+  - Fără indicatori magici.
+  - Se bazează pe price action + analiză fundamentală.
+  - Caută 10 confluențe înainte de a intra în tranzacție.
+- **Perioade de execuție preferate**:
+  - Londra și New York sessions (10:00 – 23:00).
+  - Evită 08:00–10:00 din motive personale.
+
+---
+
+#### Piețe Preferate
+
+- **Indici bursieri**:
+  - DAX
+  - NASDAQ
+  - US30
+  - UK100
+- **Forex**:
+  - Ocazional, GBP/USD.
+  - Forex reprezintă doar ~10% din activitatea sa.
+- **Strategia funcționează pe orice piață**, dar dă rezultate excelente pe piețele unde băncile sunt active.
+
+---
+
+#### Minusurile Strategiei
+
+1. **Sezonul estival** – activitate scăzută din cauza vacanțelor instituționale.
+2. **Evenimente geopolitice neașteptate** – știri majore pot distorsiona piața.
+3. **All-time highs** – lipsa datelor istorice reduce acuratețea deciziilor.
+
+**Soluție**: evitarea execuțiilor în zile sensibile (aprox. 4 din 22/lună), analiză fundamentală simplificată și prudență crescută.
+
+---
+
+#### Platforme Folosite
+
+- **TradingView** și **MetaTrader 5**.
+- Sunt gratuite și ușor de folosit.
+- Vor fi explicate în lecții viitoare, pas cu pas.
+
+---
+
+#### Rutina Zilnică
+
+- **Dimineața**: Trezire la 7-8, sport, mic dejun.
+- **Trading**: 
+  - Sesiuni de 2–4 ore/zi.
+  - Trading floor în București cu echipă de 23 de persoane.
+- **După trading**:
+  - Analiză portofolii, studiu, întâlniri, conținut pentru comunitate.
+- **Seara**: Relaxare, familie, pregătire pentru ziua următoare.
+
+---
+
+#### Sfaturi Finale
+
+- Nu exagera cu execuțiile – evitați epuizarea.
+- Evitați iluzia banilor rapizi – disciplina și constanța sunt cheia.
+- Oricine poate învăța strategia, dar efortul, practica și răbdarea sunt esențiale.
+
+---
+
+Această lecție oferă o imagine completă asupra metodei de lucru a mentorului, oferind bazele strategiei sale instituționale și punând accent pe importanța unui mindset sănătos, a disciplinei și a adaptabilității în trading. Este o resursă esențială pentru înțelegerea corectă a modului profesionist de abordare a pieței.

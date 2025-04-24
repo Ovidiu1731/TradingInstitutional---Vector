@@ -1,0 +1,53 @@
+**Rezumat Lecția 9 – Discount Rule (Regula Discountului)**
+
+---
+
+### Introducere
+
+Această lecție, filmată spontan din Maldive, introduce conceptul de **Discount Rule** – o regulă suplimentară, utilizată rar, menită să ajute la **filtrarea execuțiilor în scenarii mai complicate**, în special în cazul setup-urilor de tip **Multiple Gaps (MG)**. Deși nu este o regulă esențială sau frecvent aplicată, autorul o consideră o unealtă utilă pentru traderii avansați care doresc o selecție mai rafinată a entry-urilor.
+
+---
+
+### Ce este Discount Rule?
+
+Discount Rule presupune folosirea unui **instrument de tip Fibonacci Retracement**, nu pentru a calcula retrageri clasice, ci pentru a delimita vizual două zone:
+
+- **Zona premium (scumpă)** – peste 50% din mișcarea de preț (leg)
+- **Zona discount (ieftină)** – sub 50% din leg
+
+**Ideea principală:** se caută execuții doar în zona discount (sub 50%) dintr-o mișcare ascendentă sau descendentă, pentru a avea o intrare mai avantajoasă și un raport risc-recompensă mai bun.
+
+---
+
+### Aplicare practică – Exemplu cu Multiple Gaps Setup
+
+- Se identifică un **displacement clar** după o **lichiditate luată**.
+- Sunt prezente **mai multe gap-uri**, ceea ce complică alegerea punctului optim de execuție.
+- Se trasează un Fibonacci Retracement pe întreaga mișcare (low → high).
+- **Se evită gap-urile aflate peste nivelul de 50%**.
+- Se preferă execuția în **primul gap valid situat sub 50%**.
+
+Această metodă oferă un filtru suplimentar care poate ajuta la decizie într-un context incert, precum MG.
+
+---
+
+### Alte contexte în care se poate folosi Discount Rule
+
+- Când există o **lichiditate minoră** urmată de displacement.
+- Când nu este clar în care gap să se execute – se selectează doar cele de sub 50%.
+- Poate fi aplicat atât pe timeframe-uri mici, cât și pe cele mai mari.
+
+---
+
+### Recomandări
+
+- **Nu este o regulă obligatorie**, ci o confluență suplimentară.
+- Este potrivită mai ales **pentru traderii experimentați**, care caută execuții mai fine.
+- Se recomandă testarea ei în demo și integrarea doar dacă aduce îmbunătățiri reale.
+- **Nu este eficientă dacă nu aveți o statistică solidă.** Se sugerează să fie aplicată abia după acumularea a 100–200 de execuții și analiza rezultatelor.
+
+---
+
+### Concluzie
+
+Discount Rule este o unealtă de **filtrare avansată**, utilă mai ales în contextul setup-urilor multiple și în deciziile ambigue de execuție. Nu trebuie aplicată mecanic, ci doar în scenarii în care poate aduce claritate și precizie. Lecția oferă un instrument suplimentar pentru cei care vor să ducă strategia la un nivel mai rafinat și sistematic, dar subliniază clar: **statistica este cheia** în orice ajustare de strategie.

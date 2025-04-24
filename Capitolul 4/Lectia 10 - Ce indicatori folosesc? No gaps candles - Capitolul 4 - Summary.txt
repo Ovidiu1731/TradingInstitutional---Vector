@@ -1,0 +1,65 @@
+### **Rezumat Lecția 10 – Indicatori: Îi Folosim sau Nu? Ce Folosește Autorul**
+
+---
+
+#### **Introducere**
+
+Această lecție răspunde la una dintre cele mai frecvente întrebări în trading: **sunt indicatorii necesari?** Autorul explică din propria experiență evoluția sa în utilizarea indicatorilor, concluzionând că nu folosește niciunul dintre indicatorii tehnici clasici. Lecția oferă totuși două unelte vizuale utile pentru organizare și claritate în analiză.
+
+---
+
+#### **Experiența personală cu indicatorii tehnici**
+
+- În anii de început (2019–2020), autorul a testat mai mulți indicatori:
+  - **MACD**
+  - **Stochastic**
+  - **EMA** (medii mobile)
+  - și alți indicatori populari
+
+- A încercat și combinații între indicatori și tehnici de analiză clasică, dar:
+  - **Rezultatele au fost neclare și contradictorii**.
+  - Indicatorii se comportă bine în backtesting (analiză pe trecut), dar **în live market sunt „lăguiți”** – adică reacționează cu întârziere.
+  - Acest comportament i-a redus încrederea în indicatori ca unelte de decizie.
+
+---
+
+#### **Concluzie clară: autorul NU folosește indicatori tehnici**
+
+- Nu afirmă că toți indicatorii sunt inutili, dar **nu fac parte din strategia sa**.
+- Preferă să folosească **price action** și **analiză vizuală clară**.
+
+---
+
+#### **Cele două unelte „vizuale” folosite în loc de indicatori**
+
+1. **AGFX Watermark**
+   - Adaugă un watermark în partea de sus și jos a graficului.
+   - Jos: afișează data, piața curentă și timeframe-ul – **util pentru organizare** și structurare.
+   - Se adaugă prin căutare în zona de indicatori: „AGFX Watermark”.
+   - Nu influențează analiza, doar adaugă un element vizual estetic și informativ.
+
+2. **No Gaps Candles**
+   - Cea mai importantă unealtă folosită.
+   - **Reface graficul pentru a elimina golurile vizuale (gaps) între candele** cauzate de modificările în datele OANDA.
+   - Revine la stilul vizual inițial, cu candele conectate armonios, fără spații nefirești între ele.
+   - Ajută la **claritate și acuratețe vizuală**.
+   - Se caută în indicatori: „no gaps candles”, se adaugă și se configurează conform preferințelor (culori, stil, etc.).
+
+---
+
+#### **Brokerul și graficul preferat: OANDA – DE30EUR (DAX)**
+
+- Toată statistica și backtestingul autorului a fost realizat pe **OANDA**, motiv pentru care recomandă păstrarea acestui grafic.
+- Schimbarea brokerului poate afecta forma graficului și rezultatele analizelor.
+
+---
+
+#### **Mesaj final important**
+
+- **Indicatorii nu sunt cheia succesului** – uneori oferă mai multă confuzie decât ajutor.
+- Concentrează-te pe **price action**, claritate vizuală și analiză obiectivă.
+- Urmează lecții mai tehnice în continuare – este esențial să ai răbdare și să parcurgi totul pas cu pas, în ritm logic și matur.
+
+---
+
+O lecție esențială pentru formarea unei mentalități profesioniste și curate în trading, care separă iluziile indicatorilor „miraculoși” de instrumentele cu adevărat utile în analiză.

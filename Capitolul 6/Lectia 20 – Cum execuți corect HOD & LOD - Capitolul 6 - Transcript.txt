@@ -1,0 +1,59 @@
+Lectia 20
+===
+
+[00:00:00] Salutare tuturor și bine v-am găsit la un nou clip. În această lecție vom discuta despre modalitățile de intrare în tranzacție, care sunt acestea, cum tranzacționăm pe toată ziua și așa mai departe. O să vedeți că este destul de simplu nu este nimic complicat. În primă fază vreau să scriem încă o dată regulile strategiei împreună.
+
+Avem așa, regula numărul 1, astea le scut ca să ne le reamintim, da? Zi fără știri majore
+
+2.
+
+Intervalul de timp predefinit, ce înseamnă asta, de exemplu poate fi 10 și 12 unde este primul trade al zilei sau trade-ul dimineții, poate tu nu poți să ajungi între ora 10 și 12 să tranzacționezi și ți este mai confortabil între 12 și jumătate și 3 și jumătate Poți să pui acel interval. [00:01:00] Ideea este să-ți predefinești oarecum un timp și să ai un plan.
+
+Să știi mă, tranzacționez mereu de la ora X până la ora Y, sesiunile astea și cam asta e. Deci asta este o modalitate foarte bună. Noi să trec aici la modul general, intervalul de timp predefinit, pentru că astăzi o să ne uităm pe mai multe intervale de timp și o să vă explic cum tranzacționăm pe toate.
+
+După a treia regulă zonă
+
+Lichiditate luată asta se referă la modul general, știți, have the day, love the day, lichiditate majoră minoră locală oricare din ele trebuie să ai o zonă din aceasta luată după care, MSS, după care, gap, sau hai să punem displacement după gap, displacement, gap, insert, Instituțional, 7, [00:02:00] execuție 8, stop loss plus un pic de spațiu, la ultimul hai să le-aș lua relevant sau dacă vrei La cel la ultimul high sau low major, da, plus un pic de spațiu să respire, 9, setăm take profit-ul, 2 sau 3 RR în funcție de dorința ta și de cum funcționează și de asemenea o să vorbim un pic mai încolo despre cum funcționează break-even, o să folosim un pic și break-even, o să vedeți exact care sunt regulile pentru acesta și regula numărul 10, răbdare și respectă planul Ok, astea de aici ce vedeți, sunt regulile pe care trebuie să le respectați și pe care o să ne uităm astăzi acum.
+
+Le-am pus aici la început, puteți să le notați și voi, să le aveți [00:03:00] scrise pe parcurs o vedeți că le țineți minte Aici nu o să mai aveți nevoie de ele, nu le mai folosești niciodată scrise pentru că le înveți pur și simplu. Hai să luăm un prim exemplu Transacţia asta îmi place la acest program şi la ce lucrăm şi aşa mai departe e totul la zi, deci uitaţi, noi acum facem practică exact pe ce s-a întâmplat ieri în piaţă.
+
+Deci nu vorbesc în cărţi, azi suntem în 1 februarie şi astea sunt de pe 31 ianuarie deci fix de ieri. Şi să vedeţi cum se aplică exact ce vorbim la momentul filmării. Ok, zi fără ştiri majore Bifom. Da, le luam la rand Zi fără știri mașinilor e bifat. Intervalul de timp predefinit să zicem că noi avem în regulă că tranzacționăm între 10 și 12, bifat.
+
+Zonă cu lichiditate luată încă nu avem hai să marcăm zonele cu lichiditate, respectiv half the day și low of the day, pentru că știți între ora 10 și ora 12 ne uităm doar pe half the day și low of the day. De asemenea știți ca o recapitulare, half the day și low of the day [00:04:00] recomand să fie tranzacționate în principal pe DAX, pe restul piețelor lor îl studiați înainte și îl testați bine.
+
+Eu nu sunt mare fan pe alte pieți mi se pare că DAX-ul dă cele mai bune rezultate long term. Ăsta este low of the day. După cum puteți vedea, între linia de 22,59 și linia de 10,5, între linia dreaptă și cea punctată se marchează minimul și maximul îl avem aici, fix la începerea sesiunii.
+
+Bun, hai să dăm drumul În continuare, dacă s-au pierdut încerc să pun plusurile alea înapoi așa, hai să vedem care e situația
+
+Momentan așteptăm. Nu avem materia regulă îndeplinită, avem trade. Degeaba nu vă uitați după restul Dacă nu aveți zona lichidată nu ajungeți să vă uitați la astea. Vă interesează regula numărul 3 să fie îndeplinită. Ok. Aici regula 4, vreau să menționez un lucru foarte important pe [00:05:00] care trebuie să-l notați, că am văzut că mulți au confuzia asta, regula 4, 5 și 6 nu trebuie să se întâmple neapărat în ordine asta, adică să fie shift și după asta uiți după displacement.
+
+Poate să fie prima oară displacement-ul și gap-ul și după să vină shift-ul și să executați în ele. Deci astea poate să vină în ordine diferită acestea trei 4, 5 cu 6, dar restul sunt în ordine adică N-ai voie să cauți mari chestii accesibili până n-ai zona lichidată ok? Deci momentan efectiv doar așteptăm 3.
+
+Eu ce fac în perioada asta? Îmi pun alerte alert aici, alert aici și îmi fac de treabă citesc lucrez, fac sport. Am telefonul îmi sună pe telefon Bing când mi-a fost atinsă zona și știu că trebuie să încep să mă uit pentru un trade. Bun, am avut zona luată Înseamnă că ni s-a îndeplinit regula numărul 3.
+
+Ce facem în acest moment? Știți când este luată high of the day ne uităm după poziții de... Scadere. Ok. Hai sa fac si mare ca nu se vadă si mai bine. Mergem mai departe in continuare cautam shift-ul. Momentan nu avem Aici avem [00:06:00] un... Nu e cel mai frumos shift. Hai sa cautam unul mai clar totusi. Mereu asteptati sa vedeti in momentul in vine shift, sa vină unul Păi să fie și frumos să fie și vizibil cât cât nu tot timpul o să reușiți dar recomand uite aici uite-l cât clar e, îmi place, o să-l iau de aici, aici este shift-ul, da, ok și este foarte clar, bifăm mai departe în fine mă rog asta se top limbă deci le luăm și noi la rând, deci bifa, bifa bifa, s-a bifat regula numărul 4.
+
+Displacement avem, ia uite-l, cât clar este displacement-ul, este foarte clar, o mișcare puternică Da, a doua dată ce a fost luat în direcție opusă, este un display valid, da, pentru că avem chiar gap în interiorul acesteia, deja avem un gap, un gap foarte vizibil, ok, execuție hai să vedem la jumătate știți că fiind gap-uri de genul ăsta foarte mari, mie îmi place execuția spre [00:07:00] jumătatea gap-ului asta nu înseamnă că e greșit dacă executați mai jos, dar...
+
+Mie îmi place așa Și punctaj aș pune la un 15 Stop loss Take profit la 1 la 2 Hai să vedem mai departe
+
+Da deci capăt scurt Deci s-a întâmplat Stați că am uitat să vă zic să fie și mai clar Deci gap instituțional bifat Execuție bifat Stop loss bifat Take profit 2 RR bifat Eventual poți să pui un target la 2 RR Și un low of the day Eventual dacă vrei, putem să vedem dacă este sincer, nu-mi amintesc exact dacă a atins sau nu dar rămâne de văzut așa și răbdare și respect în planul acum tot ce facem este să așteptăm
+
+Încă nu ne-a fost luat Take Profit-ul. Acum abia. Take Profit-ul este luat doi rar, eu aici am ieșit complet, am și executat această tranzacție fără și după. Eu aici am ales să ies complet din această tranzacție, acum de voi puteți să ieșiți pe exemplu 70%, să închideți o să învățați când vă învăț parțiale, [00:08:00] puteți să ieși 70%, să lăsați 30% să continueți și hai să vedem dacă atinge o următorul target de 2.94
+
+Da, îl atingea. Și uite așa putea să aveți un trăiere. Doar cu trade-ul ăsta și cu 1% risc dacă reușeați să-l prindeți, practic dacă tu ai fi pierdut 3 trade-uri înainte 3 greșeli s-a făcut și câștigi doar trade-ul ăsta deja ești pe 0. În cazul în care ai început un challenge, ai un cont de 200.000 și ai luat doar trade-ul ăsta este 3% profit.
+
+Adică undeva la 6000 de euro profit, deci de asta zic că în trading decât să dai foc bine la început o să trebuie să luați mai multe tranzacții, să executați cât mai mult, să învățați, așa e primul an, cam așa e, dar o să vedeți cu cât deveniți mai buni, cu atât să vă focusați pe a lua traduri mai rar, dar traduri mai bune, adică traduri calitative, care arată bine și să le țineți într-un mod [00:09:00] calculat și fără emoții.
+
+Cam asta ar fi un exemplu de trade pe high of the day și low of the day, cam așa arată execuția, am făcut-o împreună live, o să vină oricum în capitolul nou, o să avem un capitol dedicat cu exemple multe mai multe exemple de genul ăsta și pierderi și câștiguri cum faci backtesting, cum te uiți prin trade-uri deci acolo o să găsiți foarte multe materiale momentan noi doar învățăm Concret execuția cum arată și sper că ați înțeles logica din spate, logica este următoarea.
+
+Ce se întâmplă aici? Zona de have the day este zona practic cu cei mai mulți bani din piață în momentul de față până în ora 10, adică cu lichiditatea cea mai mare, adică zona de interes cea mai mare al băncilor acestea două sunt. Băncii le duc prețul în have the day, iau banii oamenilor dar cei mai mulți și acum schimbă pentru a merge în jos Ca să ia și restul de bani.
+
+Asta se întâmplă deci de bani în bani. Dar aici, cum își lasă forma? Prin Shift, schimbând direcția pieței, după care vedem displacement-ul și gap-ul. Gap-ul, aici sunt orderele lor neexecutate, pentru că ei nu poate să dea [00:10:00] drumul direct la 1 milion de euro, Vânzarea, trebuie să mai și întoarcă prețul un pic și de-aia rămân gap-urile astea găurile astea aici sunt order-ele băncilor.
+
+Băncile au întors și-au luat order-ele și-au continuat jocul mai departe până la off the day unde gata și-au luat profitul au ieșit și-au terminat tranzacția. În cazul de față, nu este mereu așa uneori, nu ajung până la off the day uneori, asta e chestia aia că muzul o să-ți ia de-a uneori, băncile o să-și trească mișcarea asta doar până la 1.3.
+
+Efectiv ăsta e targetul lor și gata s-a schimbat și noi, poate aveam până la 1.2 pus take profit-ul. Și nu l-am închis aia am luat un luz, nu este nicio problemă de asta, o să luăm multe luzuri chiar uneori putem să avem dreptate și să luăm luzuri. Este normal. Ok? Bun. Mergem mai departe. Vreau să copiez aceste reguli să mergem cu ele și pe următorul grafic.
+
+Ne-am uitat pe un have the day, love the day, dar azi ne uităm și pe toată ziua. Ok.
+

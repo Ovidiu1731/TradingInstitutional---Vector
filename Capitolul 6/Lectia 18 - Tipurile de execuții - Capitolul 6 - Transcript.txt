@@ -1,0 +1,35 @@
+Lectia 18
+===
+
+[00:00:00] Bine v-am găsit la o nouă lecție în care discutăm despre tipurile de ordere sau market orders, să vedem care sunt acestea în ce moduri putem executa tranzacțiile și așa mai departe. Sunt trei moduri principale despre care vom discuta și acelea sunt market order, limit order și buy stop sau sell stop.
+
+Astea sunt modurile în care poți intra în piață și poți executa. Și acum o să luăm cât un exemplu din fiecare O să vă zic ce folosesc eu și cum se folosesc fiecare. Suntem pe One Minute și începem cu 1, Market Order și principalul tip de execuție pe care îl fac eu. Market Order prin ce se clasifică e că faci execuția instantă Eu execut, știți, pe MetaTrader, am butoanele de buy și de sell.
+
+Tot ce fac eu îmi pun loturile, volumul și apăs butonul de vânzare sau de cumpărare. Tranzația mi se execută exact în momentul în care suntem noi. Ulterior țin apăsat în track stop loss, în track [00:01:00] take profit-ul și cam aia e execuția. În general, mulți întrebări arești dar cum poți să execuți repede Cum poți să intri în tranzacții și așa mai departe E simplu Deci haideți să vă arăt exact cum fac procesul.
+
+Ca să-l înțelegeți. Sunt aici sunt pregătit, ipotetic, da, ne gândim că acum s-a lăsat un gap aici și că noi urmărim o tranzacție și că prețul în momentul de față e pe aici pe jos și noi vrem să executăm aici. Eu deja văd că mi s-au întâmplat regulile strategiei și deja mă pun să placez entry-ul, să zicem că vreau să-l fac la jumătatea acestui gap, să zicem că vreau să-mi stopu, știți acum e totul ipotetic, da, deci...
+
+N-aș fi luat, pe exemplu execuție cu 6 și ceva puncte, uite să zicem cu 6.7. Bun, normal minim 10 puncte aș fi luat, dar luăm în acest caz. Ok, bam, bam, bam, ok și am pus execuția totul este pregătit și acum prețul e pe aici noi așteptăm să vină în zona asta. Până atunci până să revină că [00:02:00] nu revine instant, ce fac eu?
+
+Că intru, căut pe calculator, pardon, calculator. Intru aici și ulterior calculez Să zicem că vreau să risc nu știu, 400 de euro și împart la 400 împărțit la 6,7 puncte adică eu trebuie să execut cu 59 de loturi. Da, pe FTMOS, pe exemplu dacă suntem acum, am intrat, am pus 59 de loturi am apăsat butonul, mi l-a pus instant și după doar trag stop loss-ul la...
+
+Și te iei profitul. Asta e tot. Asta durează execuția în sine, nu știu, se face foarte repede. Adică dacă ești super rapid, o poți face în câteva secunde Acum, mai sunt câteva detalii importante și hai să discutăm și părțile negative. Deci părțile negative la market order sunt în momentul în care nu e volumul în piață.
+
+Atunci când e volumul în piață și vei apăsa market order, ți se va executa tranzacția pe aici, pe aici, pe aici ți se va executa mereu prost, adică în defăvăra ta, adică dacă tu voia aici să intri în vânzare, ți se va executa mai jos așa. Și cu [00:03:00] toate că tu ai apăsat aici asta e când va fi volumic în piață.
+
+De regulă nu se întâmplă asta dacă faci între orele stabilite sau dacă nu faci trading pe zilele cu bank holiday sau zilele mai plictisitoare și așa mai departe dar în mod normal ar trebui să fie totul ca la carte. Deci cam asta este despre market order, este preferatul meu, e foarte simplu efectiv doar apesi un buton ai intrat in piata, gata, e super simplu de folosit, cam asta e tot, market order, bun.
+
+Limit order este cand iti placezi o tranzactie si iti o pregatesti pentru viitor, sa zicem ca tu ai facut o analiza, pe de regula limit order-ele nu prea ai cum sa le folosesti pe un minut, adica le folosesti pe 5 minute, 15 minute si asa mai departe. Eu n-am mai folosit de ceva timp Folosesc în momentul în care o încep să iau trade-uri pe time frame mai mare.
+
+Spre exemplu fac eu analiza să zicem că îmi place ghepul ăsta lăsat aici, vedeți Și să zicem că eu aleg, băi, vreau să-mi placez de pe-acuma tranzacția, în cazul în care prețul vine în zona asta, vreau să mi se execute automat tranzacția și să meargă până la 1 la 2 în acest caz să zicem că ăsta [00:04:00] e targetul Prețul vine, bam, bam, bam, bam, bam bam bam, îl atinge aici mi s-a executat direct tranzacția pentru că este deja plasată Da, prețul merge, merge, merge și după care face asta și eu nici trebuie să mai fiu la calculator, eu pot să fac analiza asta și să placez tranzacția dimineața și să se execute automat la ora...
+
+Două după amiaza. Ăsta e limit order-ul, cam asta e tot, deci îl placezi din timp Acuma depinde dacă faci pe time frame mai mare îl poți folosi, e bun, e ok, de regulă îți prinde prețurile un pic mai slabe în anumite instanțe, adică tu ai pus execuția aici și se execută și stau un pic mai sus, dar tot e ok, adică îmi place limit order-ul, e ok.
+
+Și mai avem buy stop sau sell stop, care au mai multe utilizări, dar o să vă zic una din ele nu mai folosesc, am folosit în primul moment de trading foarte mult. Cum functioneaza asta e ca daca pretul ti este aici sus si tu vrei sa faci o vanzare, tu poti sa setezi sub pret Practic să faci vânzare, să continui, adică prețul îți atinge să intri o dată cu trendul, e bun bai stop-ul, set stop-ul oricând faci cu trendul, intrări, oricând faci când [00:05:00] e o zonă, un gap, ți-a luat gap-ul și tu pui stop-ul fix când reîncepe scăderea în direcția pe care o doreai tu.
+
+Cam asta e. Deci vedeți diferența este că la, cum se numește, la limit order tu trebuie să placezi tranzacția de dinainte ca prețul să vină în zona asta, la buy placezi după ce vine la sell stop și vrei să intri în zona asta de jos de aici știți e automat, bam, aici ți-a executat stop. Și cam astea deci buy stop sau sell stop cam astea fac.
+
+Acum nu trebuie să vă complicați cu restul părerea mea e că e suficient să știți market order-ul care e cel mai simplu posibil și pe care l-am arătat de mai multe ori pe parcurs și oricine poate să-l înțeleagă. În cazul în care vrei să te duci în detaliu poți să folosești și limit order și buy stop sau sell stop, mergi pe un condemn, o vezi cum funcționează, le testezi, nu te costă absolut nimica și odată ce le-ai învățat îți ia 20 minute maxim de practică, odată ce le-ai învățat, ești pregătit să folosești pe care ți-l dorește inimioara.
+
+Cam asta ar fi cu acest clip, ne vedem mai departe.
+

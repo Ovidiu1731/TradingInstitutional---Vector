@@ -1,0 +1,78 @@
+### **Rezumat Lecția 4 – Lichiditatea Majoră: Cel Mai Puternic Tip de Lichiditate**
+
+---
+
+#### **Introducere**
+
+Această lecție tratează **lichiditatea majoră**, considerată de autor ca fiind **cea mai importantă și cu cea mai mare probabilitate de câștig** dintre toate tipurile de lichiditate. Este rar întâlnită, dar oferă cele mai clare și profitabile puncte de reacție ale pieței. Lecția include exemple practice, explicații tehnice și recomandări de time frame-uri.
+
+---
+
+### **1. Ce este lichiditatea majoră**
+
+- Este **cel mai clar și mai vizibil tip de lichiditate** de pe grafic.
+- Apare în punctele **cele mai evidente și extreme** ale unei mișcări de preț.
+- Este **rară**, dar oferă **cel mai mare potențial de win**.
+- **Este adesea contra-trend** – prețul reacționează în sens opus trendului curent după ce ia această lichiditate.
+
+---
+
+### **2. Time frame-urile recomandate pentru identificare**
+
+- **Ideal: 15 minute** – oferă claritate, echilibru între detaliu și relevanță.
+- Se poate folosi și:
+  - **5 minute** – pentru detaliere suplimentară.
+  - **30 minute / 1 oră** – pentru context general.
+- Time frame-uri mai mari (ex. 4h, daily) nu sunt necesare pentru acest tip de analiză.
+
+---
+
+### **3. Cum identifici o lichiditate majoră**
+
+- Este extrem de **vizibilă** – un high/low evident, o zonă pe care o „vezi din avion”.
+- Dacă trebuie să te gândești prea mult dacă e „majoră sau nu” → **nu este majoră**.
+- Poți nota ca „locală - posibil majoră” dacă nu ești sigur.
+
+---
+
+### **4. Cum o marchezi pe grafic și cum o folosești**
+
+- Se trage o linie clară pe zona respectivă (ex: high sau low foarte clar).
+- Se adaugă **alertă** la atingerea acelei zone:
+  - Clic pe linie → „Add Alert”.
+  - Când prețul ajunge acolo, ești notificat pe telefon → revii la grafic.
+- Apoi, analizezi contextul și **decizi dacă execuți**, în funcție de alte confluențe.
+
+---
+
+### **5. Exemple practice și observații**
+
+- Exemplu pe DAX și US30:
+  - Se marchează extremele evidente de pe 15m.
+  - După ce prețul atinge zona, **reacționează clar** – uneori creează mișcări semnificative imediat.
+- Exemplele arată că lichiditățile majore **pot fi puncte excelente de intrare**, mai ales dacă sunt primele lichidate într-o zi.
+
+---
+
+### **6. Cum organizezi analiza zilnică**
+
+- Autorul analizează **4 piețe zilnic**:
+  - 3 indici + 1 pereche Forex.
+  - Tot procesul de marcare a lichidităților durează **maximum 15 minute**.
+- De obicei, tranzacționează doar pe **DAX**, restul sunt back-up în zilele fără oportunități.
+
+---
+
+### **7. Precizări importante**
+
+- Lichiditatea majoră **nu garantează win** – ci are o **probabilitate mai mare decât celelalte**.
+- Nu toate zonele marcate vor fi atinse imediat – e nevoie de **răbdare**.
+- Dacă o zonă de lichiditate majoră este atinsă și se confirmă cu alte confluențe, poate fi **una dintre cele mai bune oportunități de trading**.
+
+---
+
+### **Concluzie**
+
+Lichiditatea majoră este **cel mai valoros tip de lichiditate** din punct de vedere al probabilității de profit. Este clară, vizibilă și oferă reacții semnificative atunci când este atinsă. Lecția oferă un cadru solid pentru identificarea și folosirea acestor zone în strategia de trading, punând accent pe simplitate, vizibilitate și disciplină în execuție.
+
+O lecție-cheie în construcția sistemului tehnic, care definește unul dintre pilonii fundamentali ai strategiei.

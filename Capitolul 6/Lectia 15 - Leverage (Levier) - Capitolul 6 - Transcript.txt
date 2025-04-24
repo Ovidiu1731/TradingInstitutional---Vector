@@ -1,0 +1,33 @@
+Lectia 15
+===
+
+[00:00:00] În acest clip vom discuta despre levier. Văd foarte multă confuzie pe internet când vine vorba de acest levier pentru că unii zic fast trading cu leverage și mulți cred că acel leverage se referă de fapt la loturile pe care le folosești că folosești mai multe loti Alții înțeleg altceva și vreau în acest clip să încercăm să discutăm despre acest subiect și să-l înțelegem pe cât mai simplu posibil.
+
+Momentan încă nu am ajuns la cum se calculează lot size-ul sau loturile, vorbim în următorul clip. La ce se referă aceste loturi, practic cât introduci, câte loturi introduci în așa fel încât să-ți introduci riscul corect. Dacă tu vrei să introduci pe o tranzacție de stop loss de 10 puncte, să zicem, vrei să bagi 100 de euro, cum faci acest lucru cât mai rapid?
+
+La se referă practic calculul de lot size și la asta vom discuta practic clipul următor. În clipul ăsta facem așa o pregătire Bun. Levierul. Ca o definiție scurtă este utilizarea fondurilor împrumutate pentru a crește poziția de tranzacționare. Deci asta [00:01:00] este practic levierul. Utilizezi fonduri. Să zicem că tu ai 1000 de euro în cont și pentru a risca o poziție nu sunt suficiențe acei 1000 de euro pentru un leverage 1 la 1.
+
+Asta înseamnă unul la unul înseamnă că nu folosești leverage, este totul stoc. Cu 1000 de euro dacă tu vrei să intri pe o tranzacție ce necesită mai mult de 1000 de euro în ea practic leverage-ul ce te lasă, ce se întâmplă e că practic tu te împrumuți de la brokerul respectiv ca să poți să tranzacționezi.
+
+Este un fel de, ai zice contract, dar nu e chiar un contract și e foarte simplu Mulți sunt speriați de acest leverage, au impresia că mamă că îl folosesc și pierd mai mult decât rămân datorați, dar nu există așa ceva, mai ales dacă o faceți cum vă prezint eu, dacă o faceți în alte feluri, Puteți ajungeți în orice instanță și în orice situație dar la cum vă prezint nu există niciun fel de risc, n-am fost în viața mea într-o situație de acest gen.
+
+Bun, revenim, deci levierul este utilizarea, reprezintă utilizarea fondurilor împrumutate pentru a crește poziția de tranzacționare dincolo de ceea ar fi fost disponibil doar din soldul de numerar. Conturile de brocaraj permit utilizarea efectului de levier prin tranzacțioarea în marjă în care [00:02:00] brokerul furnizează fondurile împrumutate.
+
+Acum există... Astea câteva din tipurile de levieri care există 1x1, 1x20, 1x30, 1x100 și 1x500 La 1 la 1 practic poți să te împrumuți doar o dată suma pe care o ai cont. La 1 la 20 poți să tranzacționezi cu de 20 de ori suma pe care o ai în cont practic Acum încerc să vă explic pe simplu detaliul, adică partea levier se poate intra foarte în detalii cu discuții dar acum o luăm mai pe simplist.
+
+Aici de 100 de ori și aici de 500 de ori Practic Se referă și la lot size de foarte multe ori dar încă nu am discutat despre asta, o discutăm după. Eu levierul pe care îl folosesc în acest moment, se poate schimba pe viitor dar momentan folosesc 1 la 100. Pe FTM-ul folosesc 1 la 100 și este arhi suficient pentru ce am nevoie.
+
+1 la 500 a fost banat în Europa, era mult prea mare și se făceau riscuri, intra lumea full margin, intrau cu toți banii. Și se pierdeau conturi. Încă mai există brokeri sunt ok pentru conturi foarte mici, deci cu cât [00:03:00] aveți contul mai mic, cu atât e mai bine să aveți mai mare. Dacă aveți un cont de 100 de dolari nu o să puteți să faceți trading, pe asta nu o puteți să riscați ca lumea În schimb vă trebuie unul la 500 ca să vă laseți să tranzacționați cu ei.
+
+Eu am unul la 100 acum pe FTMO și totul este în regulă. Mai există unul la 30, unul la 20, unul la 1. Ideea asta este că cu cât vă duceți mai jos, e posibil să fiți lăsați să riscați mai puțin Înțelegeți la ce mă refer? Deci aveți foarte, foarte mare grijă în acest sens. Acuma sunt companii, spre exemplu calculul la lot size poate să difere.
+
+Eu în următorul clip voi prezenta pentru ce folosesc eu în mare parte, adică pentru FTMO și pentru brokerii clasici vă prezint cum se calculează loturile, cum se calculează riscul în tranzacție Acuma se poate calcula diferit de la un broker la altul. Deci regula de bază în cazul în care ai intrat pe un broker despre care nu ai mai discutat până acum, vrei să-l testezi, înainte să pui direct bani la joc și așa Fă câteva tranzacții să-ți dai seama dacă loturile se calculază la fel, fă cu loturi foarte mici adică cu risc extrem de mic, cu 1 euro, 2 euro, să vezi dacă înțelegi calculul și e totul în regulă te setezi, te pregătești și [00:04:00] ulterior ai văzut că e totul cum crezi, ai dat seama de calcul, ai zis bun, hai, mergem mai departe.
+
+De asemenea, vreau să mă înțeleagă că este interesantă. Sunt platforme care, cu toate că oferă, uite Cortanas, pe exemplu o companie un pro-farm, la Cortanas, pe exemplu cu toate că ești pe... Tot pe ProForm, poți să riși cu 1 la 20 mai mult decât poți pe FTMO cu 1 la 100, pentru că se calculează diferit loturile.
+
+Deci de asta zic că să aveți grijă nu vă ghidați numai după ce vă arată aici pentru că e posibil să fie calculul diferit la risc Și cam asta este ideea din spate. Știu asta e o lecție și apare un pic mai greu să credă până acum, pentru că și mie la început mi-a fost greu să înțeleg levierul, dar o dată ce înțelege foarte simplu adică doar trebuie să treceți până la următoarele lecții să înțelegeți, e foarte, foarte simplu și un detaliu foarte mic.
+
+Acum nu există vreun risc genul, deci la conturile finanțare, spre exemplu FTM-ul, Nu există că dacă alegi leverage și tranzacționezi cu el, trebuie să dai bani înapoi sau să înapoiezi bani cuiva, nu există nimic Adică dacă ați intrat cu un leverage mare de tot și ați pierdut instant [00:05:00] contul aia e ei își asumă pierderea Deci indiferent că aveați voie să pierdeți 4.000 și s-a întâmplat să pierdeți 6.000 cumva printr-o mișcare, nu o zică nimeni nimic că n-au cum să vă ceară bani nu există nimic contractual, ok?
+
+Deci să știți că sunteți acoperiți pe partea asta. Mergem mai departe. Levierul poate să difere de la un broker la altul, după cum am zis sau de la o platformă la alta, la fel și calculul de lot. Vă rog să notați acest lucru, e foarte important. În lecția viitoare o să vedeți ce înseamnă loturile, cum funcționează și cum se calculează dar până atunci vreau să știți că poate să difere de la un broker la altul și să aveți atenție Eu vă dau un standard și vă dau cum se calculează pe Forex și pe Indici, dar mai departe vă recomand să studiați și să fiți atenți și pe cont propriu Cam asta ar fi cu clipurile despre leverage, nimic mai mult, ne vedem mai departe la clipurile următoare.
+

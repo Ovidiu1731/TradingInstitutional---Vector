@@ -1,0 +1,39 @@
+Lectia 4 majora
+===
+
+[00:00:00] Lichiditatea majoră. Cum funcţionează Care sunt caracteristicile acestea? Vreau să menţionez dacă ar fi să fac un top, lichiditatea majoră este lichiditatea cu cea mai mare probabilitate de câştig. Asta nu înseamnă că ceilalte lichidităţi nu merită folosite, că de-aia vi le prezint că toate au rolul lor şi toate pot fi de mare folos în anumite instanţe.
+
+Dar lichiditatea majoră este cel mai rar tip de lichiditate întâlnit, dar şi cel mai eficient Lichiditatea majoră se poate marca cam pe orice time frame de la 5 minute în sus, totuși cu cât time frame-ul crește cu atât e mai puternică dar nici să ajungeți prea exagerati Hai să vă dau un exemplu.
+
+Pentru mine time frame-ul preferat pe care marquez lichiditatea majoră este 15 minute. Unor mă mai uit și pe oră și altor și pe 5 minute în exemplu de față lichidățile majore sunt lichidățile alea cele mai clare și cele mai mari uite-ți pe 15 minute este pe exemplu din start iau lichiditatea asta mare de aici și este o lichiditate majoră pentru mine la fel dacă ne uităm [00:01:00] uite mai este o lichiditate în acest punct pe care o marchez Aceasta este iar o lichiditate majoră Ne ducem mai jos în punctul extrem, aici iar o lichiditate majoră după cum puteți vedea Ok, cam astea sunt pe 15 minute, hai să mergem și pe oră să vedem, poate am ratat ceva dar n-am ratat, sunt fix la fel, ok, acum mergem pe 5 minute, mergem dăm un pic de zoom in și ca lichiditate majoră, uite dacă mergem le avem pe cele mari, da, pe 15 minute marcate și acum mergem și un pic mai în detaliu, uite, este, pe exemplu, lichiditate majoră pe care aș mai vedea-o este punctul ăsta, îmi pare rău că avem aici un pic de mizerie pe grafic, dar ăsta e graficul meu de zi cu zi pe ăsta lucrez și n-aș fi vrut să le șterg, așa că tragem de aici o lichiditate majoră, iar...
+
+În acest punct și încă una în extrema de aici.
+
+Așa deci principalele pe care marchezi de regulă sunt 5 minute și 15 minute, puteți merge și mai sus 30 minute și o oră. Deja 4 ore mi se [00:02:00] pare prea mult sau daily, adică nu are sens să ajunge acolo. Mi se pare că astea sunt suficiente pentru lichidități. Acum ce trebuie să înțelegeți? Lichiditățile majore trebuie să aveți un pic de răbdare cu ele, sunt mai greu de atins dar probabilitatea de câștig este mai ridicată decât la celelalte.
+
+Asta nu înseamnă că veți avea numai win-uri, clar nu, dar sunt lichidați frumoase și cum funcționează, le marcăm și pun alerte pe fiecare. Cum pui o alertă? Te duci îndreptuită Eu mi-am scos liniile astea vedeți multe de pe ecran ca să nu vă încurc pe voi. De aici, cu mouse-ul, vedeți Îmi pun aici și apăs pe plus-ul ăsta.
+
+Îmi pun linia unde vreau, apăs pe plus și dau Add Alert. O să mi se pune o alertă automată, când prețul atinge zona aia, primează pe telefon, știu că trebuie să mă întorc la execuție Așa funcționează totuși am automatizat. Îmi fac analiză, îmi marchez punctele de interes, în momentul în care îmi sună telefonul am venit și analizez să vedem dacă merită sau nu o execuție în acel punct, în funcție și de ce alte confluențe.
+
+Prin urmare, avem lichiditate, după cum am zis lichiditate majoră în aceste două puncte plasăm Alertele și asta a fost mergem pe următoarele [00:03:00] grafice. Mulți oameni întreabă Rariș câte marketuri să transacționezi în același timp și așa mai departe? Ăsta e un subiect separat de discuție, dar vreau să-l ating aici că oricum o să vedeți tot mentoratul de cineva, mai fac un clip separat.
+
+Ideea este că depinde de tine și de cum îți place. Unii oameni preferă un singur market să se focuseze și să-l facă pe ăla să fie perfect. Alte persoane vor două marketuri, alții vor 4, alții vor 10, depinde cum ești. Eu personal, simultan urmăresc cam 4 piețe dar real vorbind sunt full focus pe una singură care e DAX-ul pentru mine pe rest tu mergi doar atunci când DAX-ul nu mi-o oferă nimic Eu pe DAX în principal nu trebuie să aveți la fel, puteți să aveți poate alte piețe eu cu asta mă înțeleg, DAX-ul mi-o oferă cele mai frumoase rezultate clar statistic vorbind orice ar fi pentru mine asta este cel mai bun market în continuare și produce cele mai bune rezultate poate pentru tine îți fie altceva Dar eu prefer să țin 4 și eu fac în următorul fel, țin 3 indici și una de Forex în momentul de față și am așa, dacă nu-mi place, pe exemplu DAX-ul, nu are nimic azi că sunt zile [00:04:00] în care nu oferă nimic pur și simplu nu funcționează sunt zile de genul ăsta.
+
+Merg pe EOS Trading, mă acolo analizez poate găsesc aici trade-uri, fac pe el dacă nu, merg pe următorul, dacă nu, merge nimic din zona de indici merg pe zona măi și pe EURUSD deci cam așa procedez deci cam așa mă plimb în trele, oricum țin un loc pe toate, că nu e greu să marchezi lichidități, să faci o analiză, deci o faci imediat îmi ia zilnic.
+
+5 minute DAX, 3 minute, 3 minute, 3 minute. Deci zilnic îmi iau Ca în 14 minute, ai zi un sfert de oră toate market-urile să le analizezi, să le puni în analiza inițială și da pe parcurs mai market-ezi câteva chestii mai sună alerte dar oricum lucrezi la mai multe lucruri în același timp adică trading-ul nu necesită foarte multă muncă fizică adică market-ezi câteva lucruri și în rest îți faci business-ul, lucrezi la alte lucruri, faci call-uri, ai alte aspecte poți să lucrezi la diferite proiecte îți sună la răma, te-ai întors la laptop-ul cu trading sau monitor-ul cu trading, pac, pac, pac, ți-ai organizație, plasa, tranzacția, te-ai întors și așa mai departe Bun.
+
+Revenind la discuția de față, deci cam asta e cu lichiditățile majore de aici. Hai să mergem și pe US30.[00:05:00] 
+
+Dacă ne uităm un pic aici, așa căutăm și aici mergem pe 15 minute, dar la fel din star level, extremele, o extremă aici lichiditate majoră. Pach, ia uite aici a fost o lichiditate majoră dacă puteți observa, prețul a venit, Da, au luat lichiditatea și ne-a creat direct mișcare. Noi am fi profitat dar zice că, o, ulu, da.
+
+E suficientă mișcarea asta? Da, e arhi suficientă, adică aici se făcea un trade foarte frumos de cumpărare. La fel, lichiditatea majoră este counter trend, este împotriva trendului, deci 3 dintre lichidățile pe care le folosim vor fi împotriva trendului, iar unul avem care este și cu trendul, în cazul în care avem o zi trendy să ne adaptăm.
+
+Ok, deci cam asta e cu lichiditatea majoră am și o poză, aici sunt toate tipurile de lichidități explicate, hai să mergem să ne uităm la lichiditatea majoră încă o dată la regule de bază, voi trebuie notați tot ce v-am zis. Revenind se marchează pe time frame de 15 minute, cel mai rar întâlnit tip de lichiditate, cea mai mare probabilitate de win din cele patru, dacă nu ești [00:06:00] sigur că o lichiditate este majoră atunci nu este, e regulă importantă mulțumim pentru abonare și cum știu dacă asta e locală majoră, nu știu ce.
+
+O să le învățați și restul, o să vedeți că locala și majora seamănă mult între ele. Ca să vă dați seama e simplu dacă nu ești sigur că e o lichiditate mare de tot, că e foarte vizibilă și așa mai departe înseamnă că nu e majoră La majoră se vede, deci majora este vizibilă este puternică. Dacă te câcăi și te uiți și te gândești, bă asta o fi, nu o fi, nu știu, nu știu, înseamnă că nu e.
+
+Înseamnă că este o locală, poți să pui locală, linuță majoră, că și eu de multe ori sunt confuz, nu știu dacă una e sigur locală sau majoră, dar nici nu are relevanță, ideea este să fie o lichiditate bună și se vede acest lucru O să vedeți că le practicați pe parcurs și o le învățați foarte bine lichiditățile.
+
+Cam asta este cu lichiditatea majoră. Ne vedem la următorul clip despre lichiditate locală.
+

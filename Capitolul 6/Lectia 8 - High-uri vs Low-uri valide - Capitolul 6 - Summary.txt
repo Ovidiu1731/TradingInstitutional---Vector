@@ -1,0 +1,70 @@
+### **Rezumat Lecția 8 – High-uri și Low-uri Valide: Regula Numerelor de Candele**
+
+---
+
+#### **Introducere**
+
+Această lecție este una tehnică, dar esențială pentru strategia generală. Scopul ei este să definească **ce este un high sau un low valid**, conform regulilor precise ale strategiei prezentate. Deși pe grafic multe high-uri și low-uri pot părea evidente, **nu toate sunt considerate valide** în contextul acestei metode de analiză. Diferența stă în **compoziția candelelor din jurul vârfului sau minimului respectiv**.
+
+---
+
+### **1. De ce este important să definim corect high-urile și low-urile**
+
+- Acestea sunt **baza pentru identificarea lichidităților** și pentru stabilirea **punctelor cheie de reacție**.
+- Algoritmii instituționali **lucrează după reguli clare**, fără subiectivitate.
+- Pentru a putea aplica corect următoarele concepte din strategie (ex: March Extraction Shift), trebuie să înțelegi și să identifici corect aceste puncte.
+
+---
+
+### **2. Regula de bază pentru validare**
+
+Pentru ca un **high** sau un **low** să fie considerat valid, trebuie să respecte următoarea regulă:
+
+#### ✅ **High valid:**
+- În partea **din stânga** a high-ului: minim **două candele verzi (bullish)**.
+- În partea **din dreapta** a high-ului: minim **două candele roșii (bearish)**.
+
+#### ✅ **Low valid:**
+- În partea **din stânga** a low-ului: minim **două candele roșii (bearish)**.
+- În partea **din dreapta** a low-ului: minim **două candele verzi (bullish)**.
+
+📌 **Notă importantă:** Candelele **nu trebuie să fie consecutive**, dar trebuie să fie **minim două de fiecare parte**.
+
+---
+
+### **3. Exemple de aplicare**
+
+- Se oferă exemple pe grafic în care:
+  - Un low este valid pentru că are 2 candele roșii înainte și 2 verzi după.
+  - Un high **nu este valid** pentru că îi lipsește o parte (ex: doar o candelă roșie după).
+- Cazuri ambigue apar des – **dacă nu ești sigur, mai bine nu consideri zona validă**.
+- Exemplu: unele candele sunt greu de clasificat (ex: corp mic, fără direcție clară) → pot fi considerate **neutre**.
+  - În astfel de cazuri, este **decizie personală** dacă o incluzi sau nu, dar autorul recomandă **să alegi mereu claritatea.**
+
+---
+
+### **4. Cum tratăm candelele neutre**
+
+- Nu există o regulă fixă – depinde de:
+  - Contextul general.
+  - Cum arată restul structurii.
+  - Interpretarea personală.
+- Sugestie: dacă ai dubii, **alege să nu execuți** – așteaptă un high sau low clar.
+
+---
+
+### **5. Recomandări practice**
+
+- Nu lua decizii în grabă – uită-te la compoziția candelelor cu atenție.
+- Aplică regula numerică exact cum e:
+  - Dacă ai doar 1 candelă într-o parte – **nu e valid**.
+  - Dacă ai 2+ în ambele părți – **este valid**.
+- **Ignoră scenariile neclare** – strategia funcționează cel mai bine când execuțiile sunt făcute doar pe structuri clare și evidente.
+
+---
+
+### **Concluzie**
+
+Identificarea corectă a high-urilor și low-urilor valide este un pas tehnic **absolut esențial** pentru execuția strategiei. Lecția oferă o regulă simplă, dar eficientă, bazată pe **numărarea candelelor**, care elimină subiectivitatea și întărește disciplina în analiză. Începând de aici, orice element tehnic – lichiditate, shifturi, gapuri – va fi construit pe această fundație.
+
+Această lecție trebuie revizitată constant până când regula devine **reflex** vizual.

@@ -1,0 +1,34 @@
+
+### **Rezumat Lecția 2 – Shortcut-uri și Optimizarea TradingView**
+
+În această lecție continuăm cu prezentarea platformei TradingView, concentrându-ne pe scurtături utile de tastatură (shortcut-uri) și câteva funcții care îți pot face experiența de lucru mai rapidă și mai eficientă. Scopul este să te familiarizezi cu comenzile care îți permit să lucrezi ușor, fără să fii nevoit să cauți prin meniuri.
+
+**Shortcut-uri pentru desen pe grafic:**
+
+Poți să trasezi linii foarte rapid folosind combinații de taste. De exemplu, dacă vrei să pui o linie oblică (trendline), apeși Alt și tasta T, apoi dai click de două ori pe grafic pentru a o plasa. Dacă vrei ca linia să fie perfect dreaptă, ții apăsat și Shift.
+
+Pentru o linie orizontală infinită, folosești Alt și H. Dacă vrei o linie care merge doar spre dreapta din punctul în care ai dat click, folosești Alt și J. Iar pentru o linie verticală, folosești Alt și V – aceasta va fi foarte utilă mai târziu.
+
+Dacă vrei să ștergi toate liniile odată, ții apăsat pe Ctrl, selectezi liniile cu mouse-ul și apoi apeși pe tasta Backspace.
+
+Un alt shortcut important este Ctrl + Z, care anulează ultima acțiune – exact ca în orice program obișnuit.
+
+**Comenzi rapide pentru schimbarea timeframe-urilor:**
+
+Poți schimba timeframe-ul foarte simplu fără să dai click pe meniuri. Scrii direct pe tastatură numărul care reprezintă intervalul și apeși Enter. De exemplu, dacă vrei să vezi graficul pe 1 minut, scrii „1” și apoi Enter. Pentru 3 minute, scrii „3”, pentru 15 minute „15” și tot așa. Dacă vrei să treci la 1 oră, scrii „1H”, pentru 4 ore „4H”, pentru o zi „1D” și pentru o săptămână „1W”.
+
+**Căutare rapidă a simbolurilor:**
+
+Dacă vrei să cauți un instrument precum Nasdaq, S&P500 sau Bitcoin, pur și simplu începi să tastezi numele lui și imediat îți apare – nu mai este nevoie să intri în meniuri speciale.
+
+**Vizualizare multiplă pe ecran:**
+
+TradingView îți permite să împarți ecranul în mai multe grafice, ca să poți urmări mai multe timeframes sau instrumente în același timp. De exemplu, poți să vezi DAX-ul pe 5 minute într-o parte a ecranului și pe 1 minut în cealaltă. Dacă ai un ecran suficient de mare, această funcție este foarte utilă. Se activează ușor din iconița de layout și poți reveni oricând la vizualizarea pe un singur grafic.
+
+**Ce ai de făcut după această lecție:**
+
+Reia lecțiile 1 și 2, deschide TradingView și exersează toate shortcut-urile prezentate. Trasează linii, șterge-le, schimbă timeframe-urile din tastatură și încearcă să personalizezi graficul după cum îți place. La final, încearcă să păstrezi graficul curat, exact cum l-ai găsit inițial.
+
+**Concluzie:**
+
+Platforma TradingView este ușor de folosit și foarte eficientă, iar cu aceste shortcut-uri vei economisi timp prețios. În plus, vei lucra mai clar și mai ordonat, ceea ce este esențial în tranzacționare. Acum că ai aceste cunoștințe de bază, ești pregătit pentru partea practică a cursului.

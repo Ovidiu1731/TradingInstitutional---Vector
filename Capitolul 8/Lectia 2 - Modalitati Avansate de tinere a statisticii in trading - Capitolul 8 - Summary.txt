@@ -1,0 +1,75 @@
+**Rezumat Detaliat – Lecția 2: Modalități Avansate de Ținere a Statisticii în Trading**
+
+---
+
+### Introducere
+
+Această lecție continuă subiectul esențial al statisticii în trading, prezentând modalități avansate și structurate de a ține evidența performanței, atât în format fizic, cât și digital. Accentul este pus pe disciplina și personalizarea procesului statistic, ca elemente fundamentale în dezvoltarea unui trader profesionist.
+
+---
+
+### Concepte Cheie
+
+- **Statistica ca pilon central al succesului**: Dacă respecți strategia, ții o evidență riguroasă și ai o psihologie bună, rezultatele apar aproape inevitabil.
+- **Personalizarea procesului**: Statistica trebuie adaptată stilului personal pentru a fi sustenabilă și utilă.
+- **Feedback constant**: Statistica oferă răspunsuri clare pentru fiecare decizie luată în piață.
+- **Mindset-ul corect**: Entuziasmul pentru a analiza chiar și pierderile este vital pentru progres.
+
+---
+
+### Modalități de Ținere a Statisticii
+
+#### 1. **Statistică Fizică (pe hârtie)**
+- **Structură**: 13 pagini (câte una pentru fiecare lună + o pagină finală pentru sumarul anului).
+- **Conținutul unei fișe lunare**:
+  - Număr tranzacție
+  - Ziua și data
+  - Tipul ordinului (Buy/Sell)
+  - Gap-uri create și care a funcționat (primul, al doilea)
+  - Dimensiunea gap-ului (mic, mediu, mare – opțional)
+  - Gap închis complet sau nu
+  - Tip setup
+  - Stop Loss
+  - Rezultatul (Win/Loss)
+  - Risk-Reward atins și maxim
+  - Zi cu știri sau nu
+
+> Se recomandă tipărirea mai multor pagini și completarea lor zilnică pentru execuțiile reale.
+
+#### 2. **Excel Automatizat (digital)**
+- **Creat de un membru din comunitate (Valentin)** și adaptat special strategiei predate.
+- **Funcționalități**:
+  - Completare semi-automată prin butoane și meniuri predefinite.
+  - Editabil: poți adăuga/scoate setup-uri, piețe, opțiuni etc.
+  - Statistică automată:
+    - Winrate per setup
+    - Profitabilitate per piață
+    - RR mediu
+    - Număr de execuții
+    - Re-entry, break-even, marcaje (agresiv/normal)
+    - Planificat vs. neplanificat
+    - Screenshot-uri atașate (link direct din fișierele locale)
+
+> Excelul oferă o imagine de ansamblu clară și imediată asupra performanței și este ideal pentru optimizare și analiză comparativă.
+
+---
+
+### Recomandări Practice
+
+- **Integrează statistica în rutina ta zilnică/săptămânală** – devine un obicei esențial pentru progres.
+- **Creează un ambient plăcut pentru completare** – transformă procesul într-o activitate relaxantă și satisfăcătoare.
+- **Fii disciplinat în perioadele dificile (ex. vara)** – adaptează-ți programul pentru a nu pierde consistența.
+- **Învață să te bucuri de analiză** – chiar și atunci când ai pierderi, ele sunt sursă valoroasă de învățare.
+
+---
+
+### Final Thoughts
+
+- Această lecție completează structura de bază a programului, reprezentând o piesă importantă din „puzzle”-ul trading-ului eficient.
+- Statistica nu este doar un instrument, ci o unealtă vitală pentru creștere și corecție.
+- Indiferent că este ținută fizic sau digital, este esențial să fie făcută în mod serios, constant și personalizat.
+- Nu toate metodele se potrivesc tuturor – încearcă diverse abordări și păstrează ce funcționează pentru tine.
+
+---
+
+Această lecție oferă ghidul complet pentru organizarea eficientă a datelor de trading și poate fi folosită ca referință pentru structurarea unei rutine solide de analiză și reflecție.

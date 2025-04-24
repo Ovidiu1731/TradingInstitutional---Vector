@@ -1,0 +1,59 @@
+**Rezumat Lecția 8 – Last Gap Execution (LGE)**
+
+---
+
+### Introducere
+
+Lecția 8 explorează un concept de execuție denumit **Last Gap Execution (LGE)**. Deși nu este încă definit ca un setup formal din cauza lipsei de date statistice, autorul îl introduce ca o posibilitate observată în practică, în special pe piețe aflate în trend. LGE este o metodă alternativă de intrare în tranzacție bazată pe închiderea gap-urilor lăsate anterior.
+
+---
+
+### Ce este Last Gap Execution?
+
+LGE este o execuție care are loc **într-un gap lăsat în urmă** de o mișcare anterioară, de obicei într-un context de trend puternic. Se observă următorul tipar:
+
+1. Are loc o lichiditate luată și o mișcare puternică.
+2. În urma mișcării rămân **gap-uri neînchise**.
+3. Prețul revine ulterior pentru a **închide aceste gap-uri**.
+4. La atingerea gap-ului, se observă **reacții semnificative**.
+
+---
+
+### Caracteristici
+
+- Gap-urile pot fi închise **mai târziu în structură**, nu neapărat imediat după shift.
+- Reacțiile apar frecvent după ce prețul reînchide aceste zone.
+- Gap-ul vizat este adesea **ultimul neînchis** dintr-o structură sau dintr-o secvență de trend.
+- LGE nu are încă **reguli stricte de execuție**, fiind un concept în dezvoltare.
+
+---
+
+### Exemple și observații
+
+- Reacții repetate în trend descendent pe gap-uri închise ulterior.
+- Gap-uri multiple lăsate în urmă → prețul le închide unul câte unul → apar reacții puternice.
+- Poate fi utilizat ca **extra confluență** în execuție, nu ca semnal primar.
+- Exemple cu execuție după închiderea ultimului gap, cu SL de ~7 puncte și TP 2R.
+
+---
+
+### Context ideal de aplicare
+
+- Piețe aflate în trend (downtrend/uptrend)
+- Gap-uri lăsate după un **displacement clar**
+- Confirmare suplimentară: lichiditate luată + shift înainte de execuție
+- Timeframe-uri mai mari (pentru o vizibilitate mai bună asupra gap-urilor rămase)
+
+---
+
+### Recomandări
+
+- **Nu este recomandat pentru începători** sau pentru cei care nu stăpânesc încă bine strategia principală.
+- Trebuie privit ca un **instrument avansat**, pentru traderii care doresc să își rafineze execuțiile.
+- Se recomandă **testarea intensă** a acestui tip de intrare înainte de utilizarea în conturi reale.
+
+---
+
+### Concluzie
+
+Last Gap Execution este o idee promițătoare, dar încă în stadiu experimental. Poate oferi execuții foarte bune, însă nu este validat încă statistic ca un setup oficial. Pentru traderii avansați, poate deveni o unealtă suplimentară în arsenal, mai ales în combinație cu alte confluențe precum lichiditatea și trendul. Până la obținerea unor statistici clare, rămâne o observație valoroasă de avut în vedere.

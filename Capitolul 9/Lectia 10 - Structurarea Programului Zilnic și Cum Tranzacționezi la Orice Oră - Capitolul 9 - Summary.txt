@@ -1,0 +1,60 @@
+Rezumat lectie 10 - Structurarea Programului Zilnic și Cum Tranzacționezi la Orice Oră
+---
+
+### **Introducere**
+
+Lecția 10 explică modul în care un trader își poate organiza eficient ziua de tranzacționare în funcție de orele disponibile, stilul personal și contextul pieței. Se pun bazele construirii unui program echilibrat, care să integreze trading-ul într-un stil de viață sustenabil și sănătos, evitând epuizarea sau lipsa de direcție.
+
+---
+
+### **Intervalele recomandate pentru tranzacționare**
+
+Se identifică patru intervale principale în care se pot efectua tranzacții:
+
+1. **10:00 – 12:00**  
+   - Se execută strategii de tip *High of the Day / Low of the Day*.
+
+2. **12:00 – 16:15**  
+   - Se lucrează cu lichidități (strategii mai complexe, probabil pe baza conceptelor din lecțiile anterioare).
+
+3. **16:45 – 22:00**  
+   - Tot lichidități, o sesiune ce s-a dovedit foarte profitabilă în ultima perioadă.
+
+4. **(19:00 – 20:00) – opțional**  
+   - Este ora lansării ordinului, un interval cu execuții mai proaste, slippage, spread mare. **Nu este recomandat** pentru majoritatea traderilor.
+
+---
+
+### **Structurarea unei zile de tranzacționare – exemplu personal**
+
+Rares prezintă modul în care își organizează ziua:
+
+- **7:00 – 8:00** – Prima masă a zilei.
+- **10:15 – 12:00** – Prima sesiune de analiză și posibilă execuție (Love of the Day / Have of the Day).
+- **12:00 – 12:30** – Pauză, a doua masă.
+- **12:30 – 16:15** – A doua sesiune de analiză și execuție (lichidități).
+
+#### **Reguli personale de gestionare a sesiunilor:**
+- Dacă **primul trade e câștigător**, ziua se închide.
+- Dacă **primul trade e pierzător**, se mai permite un al doilea trade.
+- La **două pierderi consecutive**, ziua este închisă.
+- Dacă **nu se găsește niciun setup valid**, se continuă în sesiunea următoare.
+- Se poate tranzacționa și seara (după ora 17:00), în special dacă timpul sau contextul nu a permis sesiuni mai devreme.
+
+---
+
+### **Recomandări și bune practici**
+
+- Nu este necesar să tranzacționezi 8–12 ore pe zi – apare riscul de burnout.
+- Integrarea trading-ului într-un stil de viață echilibrat este esențială:
+  - Alimentație corectă.
+  - Sport.
+  - Activități extra-trading.
+- Cea mai bună oră de tranzacționare este **cea mai potrivită pentru tine**, testată și analizată în funcție de contextul personal și eficiența pe termen lung.
+- Oricare dintre cele 3 intervale principale pot oferi oportunități valide dacă sunt analizate și testate corect.
+
+---
+
+### **Final Thoughts**
+
+Această lecție oferă un cadru realist și echilibrat pentru organizarea eficientă a zilei de tranzacționare. Nu promovează suprasolicitarea, ci o structură bine gândită, susținută de reguli clare, adaptabilitate și testare constantă. Lecția este esențială mai ales pentru traderii care încep să caute consistență și disciplină în activitatea lor zilnică.

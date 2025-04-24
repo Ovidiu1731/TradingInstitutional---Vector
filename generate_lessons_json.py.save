@@ -1,0 +1,111 @@
+import os
+import re
+import json
+
+BASE_DIR = "."  # Current folder
+
+lessons = []
+
+for chapter_folder in sorted(os.listdir(BASE_DIR)):
+    chapter_path = os.path.join(BASE_DIR, chapter_folder)
+    if not os.path.isdir(chapter_path):
+        continue
+
+    for filename in sorted(os.listdir(chapter_path)):
+        if not filename.endswith('.txt'):
+            continue
+
+        # Updated regex: handles Romanian characters and both dashes
+        match = re.search(r"Lec[țt]ia\s*(\d+)\s*[-–]\s*(.*?)\s*[-–]\s*Capitolul\s*(\d+)", filename, re.IGNORECASE)
+        if not match:
+            print(f"⚠️ Could not parse: {filename}")
+            continue
+
+        lesson_num, title, chapter_num = match.groups()
+        lesson_id = f"capitol_{chapter_num}_lectia_{lesson_num.zfill(2)}"
+        chapter_label = f"Capitolul {chapter_num}"
+        lesson_label = f"Lecția {lesson_num}"
+
+        existing = next((l for l in lessons if l["id"] == lesson_id), None)
+        if not existing:
+            lesson = {
+                "id": lesson_id,
+                "chapter": chapter_label,
+                "lesson": lesson_label,
+                "title": title.strip(),
+                "summary": "",
+                "transcript": ""
+            }
+            lessons.append(lesson)
+        else:
+            lesson = existing
+
+        file_path = os.path.join(chapter_path, filename)
+        with open(file_path, encoding="utf-8") as f:
+            content = f.read().strip()
+
+        if "summary" in filename.lower():
+            lesson["summary"] = content
+        elif "transcript" in filename.lower():
+            lesson["transcript"] = content
+
+# Export to JSON
+with open("lessons.json", "w", encoding="utf-8") as f:
+    json.dump(lessons, f, ensure_ascii=False, indent=2)
+
+print(f"✅ Exported {len(lessons)} lessons to lessimport os
+import re
+import json
+
+BASE_DIR = "."  # Use current directory
+
+lessons = []
+
+for chapter_folder in sorted(os.listdir(BASE_DIR)):
+    chapter_path = os.path.join(BASE_DIR, chapter_folder)
+    if not os.path.isdir(chapter_path):
+        continue
+
+    for filename in sorted(os.listdir(chapter_path)):
+        if not filename.endswith('.txt'):
+            continue
+
+        match = re.search(r"Lectia\s*(\d+)\s*[-–]\s*(.*?)\s*[-–]\s*Capitolul\s*(\d+)", filename, re.IGNORECASE)
+        if not match:
+            print(f"⚠️ Could not parse: {filename}")
+            continue
+
+        lesson_num, title, chapter_num = match.groups()
+        lesson_id = f"capitol_{chapter_num}_lectia_{lesson_num.zfill(2)}"
+        chapter_label = f"Capitolul {chapter_num}"
+        lesson_label = f"Lecția {lesson_num}"
+
+        existing = next((l for l in lessons if l["id"] == lesson_id), None)
+        if not existing:
+            lesson = {
+                "id": lesson_id,
+                "chapter": chapter_label,
+                "lesson": lesson_label,
+                "title": title.strip(),
+                "summary": "",
+                "transcript": ""
+            }
+            lessons.append(lesson)
+        else:
+            lesson = existing
+
+        file_path = os.path.join(chapter_path, filename)
+        with open(file_path, encoding="utf-8") as f:
+            content = f.read().strip()
+
+        if "summary" in filename.lower():
+            lesson["summary"] = content
+        elif "transcript" in filename.lower():
+            lesson["transcript"] = content
+
+# Export to JSON
+with open("lessons.json", "w", encoding="utf-8") as f:
+    json.dump(lessons, f, ensure_ascii=False, indent=2)
+
+print(f"✅ Exported {len(lessons)} lessons to lessons.json")
+

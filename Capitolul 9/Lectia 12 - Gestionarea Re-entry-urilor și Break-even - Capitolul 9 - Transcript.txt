@@ -1,0 +1,61 @@
+Lectia 12
+===
+
+[00:00:00] Și bine v-am găsit la o nouă lecție în care vom vorbi despre rientriuri și cum să tratezi situațiile în care ai break-even destul de des. Cum să le tratezi? O să discutăm așa un subiect destul de interesant Hai în primă fază să ne uităm peste situația de re-entry-uri Nu vreau să discutăm foarte mult de acest aspect, dar sunt sigur că vor exista întrebări Acesta e un clip cu detalii este pentru oameni mai avansați, că dacă sunteți la început și încă nu ați practicat foarte mult strategia, nu știu cât bine o să-l înțelegeți dar pentru perioada în care o să faceți 1-2 luni de trading o să înțelegeți foarte bine la ce mă refer aici Vă recomand să-l urmăriți încă de pe acum, să aveți în vedere aceste aspecte și pe viitor să revedeți acest clip.
+
+Avem aici două zone cu lichiditate, major amândouă. Din trecut nu are relevanță de când prețul vine bam, bam bam bam, bam și ne ia lichiditatea asta. Întrebarea este ce faci? Execuți? O aștepți pe următoarea? [00:01:00] Cu ce risc să execuți? Aici sunt sigur că o apară anumite confuzii. În primul rând ai varianta să execuți aici clasicul 1 la 100 risc O să luăm stock de-a riscul ăsta.
+
+Și vine așa bam bam bam și ți-a luat stop. Ai pierdut 1 la 100. Și ce faci? Aștepți să-ți vină aici bam bam bam, iei și aici 1 la 100, da? Bam bam bam bam, plus. Ai pierdut minus 2 la 100. Ăsta este worst case scenario, scenariul cel mai negativ și pe care majoritatea oamenilor fără experiență îl fac. Eu o vă învăț ca de un detaliu cum să evitați acest lucru.
+
+Hai să ținem minte de ce la, vă las acolo minus 2% la îndreapta ca să știți că la e primul scenariu, ok. Hai să șterg aici astea bă, dar le-am făcut și eu. Ok, cum ar fi ca în loc să, uite mai ai varianta mă, ce ar mai face care ar ignora primul trade și ar zice băi execut doar dacă îmi vine la ăsta de sus, care e cea mai mare probabilitate Că într-adevăr lichiditatea asta are o probabilitate [00:02:00] mare să dea rezultate în el.
+
+De ce? Că atunci când ți-o ia pe asta, oricând e posibil să meargă prețul mai sus ca să-ți ia și banii de aici Asta nu înseamnă că se va întâmpla așa de multe ori, o să vedeți asta. Asta nici nu m-a mai atinsă. Că înseamnă că n-au mai fost bani acolo și n-au mai fost interes pentru bănci să mai ducă prețul până în sus, a rentat mai mult să schimbe direcția.
+
+Dar unii o să zică, bă aștept aici sus, nu e o problemă să faceți asta, dar eu o vă dau un caz cum să le prindeți și pe ambele. Ca să fiți siguri și da unii ar alege unul ăsta, ar zice, bă executor dacă îmi vine aici, iar poate mulți o să rateze tranzacția. Ok. Dar cum facem, care e scenariul corect prin care putem prinde ambele?
+
+Uite-o ce aș face, poți să împarți riscul În loc să faci 1% aici și 1% aici, ce faci Faci 0,5 aici și faci 0,5 aici. Și hai să vedem cum se schimbă jocul. Deci în loc să pui 1% pe un trăi să îl pierzi direct după 1% și așa Practic 1% trade-ul la pe care Erai tu interesat l-ai împărsit în două și aia vedeți acum În cazul în care ăsta merge E perfect am luat un 2 RR Să zicem sau 3 RR sau cât vreți Să luăm cel mai [00:03:00] slab posibil că puteți să vă duceți mai departe Ați luat un plus 1% Și uite așa n-ați luat Dacă făceați 1% da ați fi avut direct 2% dar mai bine așa De ce?
+
+Ai făcut un 0.5 Ți-a mers trade-ul super ok poate după se întoarce Aici sus și mai deși aici acum 0.5 și uite așa Ai făcut treabă Bun Deci asta e ideea În cazul în care ai fi pierdut raidul ăsta, În loc să ai minus 1%, ai doar minus 0,5. Îți vine 3-2 aici l-ai executat și pe ăsta și după ați avenit win-ul și ai minus 0,5 pierdut de aici cu plus 1% făcut de aici.
+
+Deci ai iar plus 0,5%. Înțelegeți un debat? Deci în loc să fii pe minus, chiar dacă l-ai pierdut pe primul și l-ai câștigat pe al doilea tot ai câștigat. Deci ai șansă aici să ai câștig direct, ai șansă ok, ai pierdut aici încă ai șansă să fii profitabil. Așa în cazul în care le pierzi pe ambele... A, e, ambele au fost rele, gândiți-vă că pierdeți doar unul la ăsta, înseamnă nimic înseamnă un trade.
+
+Și voi v-ați împărțit riscul pe trade-ul ăla practic în două trade-uri. Este un artificiu de calcul foarte inteligent și foarte interesant pe care îl puteți face. Eu l-am folosit de mai multe ori când vine vorba de [00:04:00] re-entry-uri, adică re-intrări. Ai încercat să execuți aici nu ți-a mers a fost toblos, dacă vrei îți recomand tot așa mulți.
+
+Cea mai mare greșeală pe care o puteți face, vă zic de pe acum, e să faceți aici 1%. Să te enervezi că ai pierdut și să faci jerie între aici cu 2%, să crezi riscul. Asta e o tâmpenie mondială. O să-ți mergă odată, da, îți merge, bun, ai făcut profit mare, bravo, dar pe termen lung ăsta te rade. Obiceiul ăsta îți face contul praf și pulbere.
+
+Deci să nu faceți chestia asta, că o să vedeți că o să vă pară foarte rău. Și acum eu am pus un la 100 stock, zice încă ți-e îți place să faci cu 0,5%, atunci îți împărți 0,25% cu 0,25%, ok? Deci vă împărțiți riscul pe un trade, îl împărțiți în două trade-uri, asta faceți aici. În cel mai rău caz dacă ați pierdut ambele trade-uri aia, ați pierdut un trade.
+
+În cazul în care ai win aici e perfect, ai avut un win din prima. În cazul în care ai lose și ai win aici, iar ai avut... Un câștig la final și important este să ieșim pe plus la final de zi la final de săptămână la final de lună. Deci de asta cam așa tratez situația cu re-entry-urile. Acum mulți mă întreabă, Rari, ce faci Re-entry-uri nu faci?
+
+Eu mai am perioade în care fac, perioade în care nu [00:05:00] fac. Uite spre exemplu, nu cred că am mai făcut o re-entry de vreo patru luni sau trei luni în momentul în care filmez asta. Dar anul trecut aveam o perioadă prin aprilie-mai Când făceam re-entry-uri la fiecare trei zile. Deci iar depinde de perioadă.
+
+Unor le simt și-mi plac, alteori simt că nu funcționează bine pentru mine și asta în perioada în care fac și în perioada în care nu fac. Eu vă prezint aici varianta asta. Sigur o să vă dați seama care este cea mai bună variantă pentru voi, dar trebuie să le știți pe toate și încerc să vă dau cât mai multe variante.
+
+Ăsta e un artificiu de calcul de detaliu pe care mulți nu-l știu și poate să fie de foarte mare folos și sper să vă folosiți de el cu cap. Bine acum hai să discutăm alt subiect foarte interesant și iar vă dau un artificiu foarte mișto de calcul de detaliu. Probabil mulți nu o să înțelegeți ce vă arăt aici, pentru că nu ați făcut încă trading suficient.
+
+Cei care ați făcut trading, înțelegeți. Și în cazul în care v-ați întors la clipul ăsta mai târziu, ceea oricum e obligatoriu să tot revedeți clipurile astea, în momentul în care v-ați întors mai târziu la clipul ăsta, o să-l înțelegeți foarte bine. Erau un trend de scăzcători, ați intrat aici într-o poze de vânzare.
+
+Prețul vă merge bine și [00:06:00] ajunge la break-even În cazul în care doriți să executați cu break-even În cazul în care nu doriți clipul, nu vă interesează partea asta Dacă nu folosiți break-even, nu vă interesează să vedeți partea asta Dar să zicem că ție îți place Să folosești break-even Ai mutat break-even Și s-a întâmplat asta Prețul a venit s-a luat stopul și a plecat mai jos Mie mi s-a întâmplat lucrul ăsta?
+
+Da, mi s-a întâmplat de o grămadă ori O să vi se întâmple? Da, o să vi se întâmple și vouă Întrebarea asta e cât de des Vi se întâmplă? Pentru că sunt oameni Mie pe exemplu chestia asta mi s-a întâmplat în ultimele șase luni De vreo trei ori Neglijabil. De ce? Pentru că majoritatea traderilor la mine cu breakeven arătau așa și breakevenul îmi salva foarte mult.
+
+Ok? Și era o decizie foarte bună și încăutioară. La mine statistic, breakevenul mă ajută. Tu trebuie să-ți dai seama pentru tine dacă te ajută sau nu să muți breakeven, să muți tranzacția practic pe zero în momentul în care atinge, nu știu, 1.5 RR, 1.4 RR, 1.6 RR, 1.7 RR Depinde de tine Fă-ți un calcul și vezi dacă merită sau nu, pentru că am pretend la care breakevenul le pierde.
+
+Și cum trebuie tu să faci este să te uiți în următorul fel, să verifici să vezi, [00:07:00] bun, break-even-ul ăsta, câte 3 durează mi-a făcut 7, mi-a salvat 7 luzuri și mi-a pierdut și 3 win-uri, adică pentru că am luat break-even mi s-a întâmplat de 3 ore asta, m-a fost scos și mi-a venit în win și am avut 7 luzuri salvate, deci dacă facem calculul la final este evident că e mai bine să folosești break-even pentru că ți-a salvat multe luzuri.
+
+Dar dacă îți salva doar două luzuri și îți pierdea patru win-uri, adică efectiv ratai din cauza breakeven-ului erai scos pe zero și pe aceea era în mâini de patru ori, atunci clar nu merită să folosești breakeven. Deci vă trebuie o statistică mai lungă în așa fel încât să vă dați seama dacă rentează sau nu pentru voi acest breakeven.
+
+Acum uitându-mă la acest grafic, cum poți să procedezi în așa fel încât să iei mereu ceva de pe masă Pentru că, da, e important să luăm și de pe masă lucruri. O variantă pe care vă dau și funcționează foarte bine următoarea, dacă vedeți că multe trade-uri vă ies break even și după îți duc puinuri și le pierdeți așa, ce [00:08:00] puteți face este în momentul în care trade-ul vă atinge 1.6 RR, vă dau un simplu exemplu să închideți partea ei sau, nu știu, hai să zicem 1.8 RR că e mai simplu.
+
+1.8 RR, care e mai jos, e pe aici. În momentul în care trade-ul vă atinge 1.8 RR, ce faceți stai să facem calumni, hai să facem frumos să fie treaba treabă Să vi-l fac direct, deci, ăsta presupunem că este 1.8 RR, 1.8, și aveți o regulă cum vreți voi, la 1.6, 1.7, 1.8, depinde cum vedeți voi lucrurile, la 1.8 RR să închideți 50% din tranzacție, adică jumătate din aceasta.
+
+Ați luat jumătate profit să zicem că ați intrat cu... 100 de euro pe acest trade, în punctul ăsta aveaţi 180 de euro profit, aţi închis 90 de euro aici, i-aţi închis aţi securizat 90 de euro. [00:09:00] Preţul de aici s-a întors şi v-a scos publiciv în AE, da şi pă mergeam luz. Care-i partea bună din artificiu ăsta? E că ai rămas cu ceva pe masă ai rămas cu nişte bani ai lăsat totul, adică efectiv tu în loc să profiţi că ai avut atapt timp profit, N-ai luat nimica de pe masă Dar cu chestia asta, uite ai ales să închizi o parte și prin a închide acest parțial ți-ai securizat o parte din profit.
+
+Ok. Acum mulți ziceți Murariș dar uite am închis aici la 1.8 și pot să aduzi mult mai jos. De ce am închis doar aici Păi da, dar în cazul în care ai ales să închizi, să faci artificiu ăsta, da, ce poți să faci ca să-ți echilibrezi totul e să închizi restul de 50% la 2.2 RR. Și uite așa ai făcut media între astea două și ți-a dat dacă faci media limită, ți-a dat 2 RR la final, da.
+
+Și uite așa bam, bam, bam, s-a mișcat, ați închis la 2.2 RR și gata. Și uite așa ați și securizat la 1.8, ați fost siguri că în cazul în care v-ați situat și pe brichii vă e ok. Și ați luat restul în cazul în care v-a mers trendul în continuare v-ați închis la 2.2 RR și uite așa ați ajuns la 2.0 Sau puteți să închideți la 2.0 și o să ieșiți cu 1.9 RR.[00:10:00] 
+
+Înțelegeți ce zic Sau dacă aveți cu 1.6 și închideți la 2.2, cât înseamnă asta Undeva la 1.8 cred? Ceva de genul la unu.media, deci aveți multe artificii pe care le puteți face în așa fel încât să securizați, că văd mulți care se plâng, zic doamne câte breakeven-uri iau nu o ai păi bun, ia atitudine, vezi că ceva nu e în regulă nu te plânge, ok, ia atitudine așa face o persoană, un trader corect, un trader de succes, nu stă și se plânge, ok, ai informația din statistică că ai multe breakeven-uri, rezolvă-o uite-te în statistica ta, vezi că pierzi multe trader-uri pe anumit setup, rezolvă-o mereu caută să rezolvi caută variante Crează, fi creator, gândește, asta trebuie trebuie mereu să îți folosești foarte, foarte mult analiză proprie și să găsești soluții pentru tine.
+
+Deci cam asta ar fi o tehnică foarte bună pe care o puteți folosi sau dacă nu doriți să vă complicați nu folosiți niciodată brechii, mă lăsați 3-2 ori stop loss or take profit. Aici studiați și o să vă dați seama în timp nu din prima, în câteva luni de zile o să vedeți că o vardeți [00:11:00] de mai multe ori până o să vă dați seama exact, da, ăsta este cea mai bună variantă ăsta este cea mai bună variantă pe care să merg mai departe În regulă cam asta a fost acest clip, un clip al detaliilor dar neapărat am vrut să discut cu voi despre acestea Ne vedem la lecția următoare!
+

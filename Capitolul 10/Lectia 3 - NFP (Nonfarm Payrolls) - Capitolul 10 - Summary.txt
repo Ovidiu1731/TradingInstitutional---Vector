@@ -1,0 +1,117 @@
+**Rezumat Detaliat – Lecția 3: NFP (Non-Farm Payrolls)**
+
+---
+
+### Introducere
+
+Această lecție tratează în profunzime unul dintre cei mai importanți indicatori economici: **NFP (Non-Farm Payrolls)** – raportul lunar privind ocuparea forței de muncă în sectoarele non-agricole din SUA. Este un eveniment de referință în calendarul economic global, cu un impact major asupra piețelor financiare, în special asupra USD, aurului și indicilor bursieri.
+
+---
+
+### Ce este NFP?
+
+- **NFP = Non-Farm Payrolls** – reflectă **modificarea lunară a numărului de locuri de muncă** din sectoarele non-agricole din SUA.
+- Publicat de **Bureau of Labor Statistics (BLS)**.
+- **Publicare**: prima vineri a fiecărei luni.
+- Scop: oferă o imagine de ansamblu asupra **sănătății economiei americane**.
+
+---
+
+### Importanța NFP
+
+- **Indicator-cheie** pentru:
+  - Evaluarea stării economice.
+  - Stabilirea politicii monetare de către **Federal Reserve (Fed)**.
+- Afectează:
+  - **Dolarul american (USD)**
+  - **Aurul (XAU)**
+  - **Indicii bursieri americani (ex: S&P 500)**
+
+---
+
+### Reacția piețelor la NFP
+
+#### a) **Forex (valute)**
+- **USD crește** dacă datele NFP sunt **mai bune** decât așteptările (forecast).
+- **USD scade** dacă datele sunt **mai slabe** decât forecast-ul.
+
+#### b) **Indici bursieri**
+- Reacția este **variabilă**, în funcție de **percepția investitorilor** asupra datelor și asupra implicațiilor economice.
+- Rezultatele pozitive pot duce la:
+  - Creștere (încredere în economie).
+  - Scădere (teamă de creșteri viitoare ale dobânzilor).
+
+#### c) **Obligațiuni**
+- Randamentele cresc dacă economia este puternică (potențial de majorare a dobânzilor).
+
+#### d) **Aur (XAU)**
+- Tinde să reacționeze **invers față de USD**.
+- Rezultate slabe la NFP → aurul se apreciază.
+
+---
+
+### Exemple de reacții
+
+1. **Cifre NFP peste așteptări**:
+   - USD se apreciază.
+   - Indicii (ex: S&P 500) pot crește.
+
+2. **Cifre NFP sub așteptări**:
+   - Aurul crește.
+   - Indicii pot scădea.
+
+---
+
+### Strategii în jurul NFP
+
+#### 1. **Înainte de raport**
+- Analizarea **forecast-ului și datelor anterioare** (previous) pe investing.com.
+- Stabilirea unui scenariu probabil (pozitiv/negativ).
+
+#### 2. **În timpul raportului**
+- **Se evită tranzacțiile** – volatilitatea este foarte mare.
+- Risc crescut de spike-uri bruște și mișcări fără logică tehnică.
+
+#### 3. **După raport**
+- Se identifică **direcțiile clare ale pieței**.
+- Se așteaptă **confirmări tehnice** înainte de a intra în piață.
+
+> **Statistica autorului**: evită complet ziua de NFP după 5 ani de testare – în medie 9 din 12 ocazii au generat pierderi sau volatilitate neclară.
+
+---
+
+### Managementul riscului
+
+- În cazul în care se decide tranzacționarea:
+  - **Stop loss strict**.
+  - **Reducerea riscului** pe poziții.
+- Ideal: folosiți ziua de NFP pentru **statistică, relaxare sau alte activități**.
+
+---
+
+### Factori suplimentari în interpretare
+
+- Datele bune pot fi percepute **negativ** dacă sugerează inflație mare.
+- **Creșteri salariale** peste așteptări = potențial de majorare a dobânzilor → presiune pe piețe.
+- Impactul dobânzilor asupra USD este mereu corelat cu percepția pieței asupra inflației și stabilității.
+
+---
+
+### Curiozități despre NFP
+
+- Publicat din **1939** – aproape 100 de ani de istoric.
+- Unul dintre cele mai urmărite evenimente lunare din lume.
+- Poate genera mișcări de **peste 100 de pips în câteva minute**.
+- Supranumit de traderi **"Vinerea de foc"**.
+
+---
+
+### Concluzii
+
+- NFP este **mult mai mult decât o știre economică** – este un reper al stării generale a economiei.
+- **Recomandare**: testați individual impactul NFP în strategia voastră. Dacă rezultatele sunt negative, cel mai bine este să **evitați complet ziua**.
+- **Tranzacționarea eficientă** = identificarea zonelor de risc și oportunitate în mod calculat.
+
+---
+
+Această lecție oferă toate fundamentele necesare pentru a înțelege și a integra corect raportul NFP în procesul de analiză și decizie al unui trader profesionist.

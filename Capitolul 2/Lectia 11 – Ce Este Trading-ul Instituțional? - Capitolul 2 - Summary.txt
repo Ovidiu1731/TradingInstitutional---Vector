@@ -1,0 +1,95 @@
+### Rezumat Lecția 11 – Ce Este Trading-ul Instituțional?
+
+---
+
+#### Introducere
+
+Această lecție marchează **punctul de tranziție** în program, trecând de la înțelegerea piețelor la **înțelegerea modului în care gândesc și acționează marile instituții financiare**. Este o lecție fundamentală pentru a înțelege strategia ce urmează a fi învățată, întrucât întreaga metodologie este inspirată din logica și comportamentele instituționale.
+
+---
+
+### Diferența dintre Trading-ul de Retail și Trading-ul Instituțional
+
+#### Trading de Retail:
+- Practicat de indivizi de acasă.
+- Infrastructură standard, strategie adesea bazată pe indicatori populari.
+- Capital limitat.
+- Acces la informații publice și decizii rapide, bazate pe date generale.
+- **Limitare în viziune și execuție**, mai vulnerabil emoțional.
+
+#### Trading Instituțional:
+- Practicat de **bănci, hedge funds, fonduri de investiții**.
+- Capital masiv, infrastructură avansată, acces la date superioare.
+- Utilizează **algoritmi** sofisticați și echipe de analiști.
+- Execută ordine cu impact mare în piață, dar încearcă să-și **mascheze intențiile**.
+- **Obiectiv**: minimizarea costurilor (slippage, spread) și maximizarea randamentului prin precizie.
+
+---
+
+### Metafora „Peștișorul și Balena”
+
+> Traderul de retail este „micul peștișor” care urmează balena (instituția) și **profită de urmele lăsate**.
+
+- Nu avem nevoie de aceleași unelte ca instituțiile, ci de capacitatea de **a înțelege și anticipa mișcările lor**.
+- Obiectivul nostru: **să recunoaștem urmele lăsate de instituții în piață**, pentru a ne poziționa inteligent.
+
+---
+
+### Strategii Folosite de Instituții
+
+1. **High Frequency Trading (HFT)**  
+   - 15–25 execuții pe minut.  
+   - Profituri mici, dar multe, extrem de rapide.
+
+2. **Arbitraj** *(nu este permis pentru retail)*  
+   - Exploatarea discrepanțelor de preț dintre brokeri sau piețe.  
+   - Este eficient, dar **ilegal sau interzis** pentru traderi de retail → duce la banarea conturilor.
+
+3. **Market Making**  
+   - Oferirea de lichiditate constantă pe piață.  
+   - Job real în cadrul instituțiilor financiare – bazat pe contracte și parteneriate.  
+   - Profituri din spread și poziționare anticipată.
+
+---
+
+### De Ce Mentorul Nu Alege să Lucreze Într-o Instituție
+
+- A primit oferte, dar le-a refuzat.
+- Motivul: preferă **libertatea, flexibilitatea și lipsa stresului de a gestiona bani ai altora**.
+- Trading-ul de acasă îi permite:
+  - Program flexibil.
+  - Decizii proprii.
+  - Scalare nelimitată.
+
+---
+
+### Manipularea Lichidității și „Urmele” Instituționale
+
+- Instituțiile își **ascund ordinele**, dar nu pot face acest lucru perfect.
+- Volumele pe care le tranzacționează sunt uriașe → **lasă urme vizibile pe grafic**.
+- Strategia predată în program este construită pentru a **detecta aceste urme** și a profita de ele.
+
+---
+
+### Realitatea Instituțiilor: Și Ele Pot Pierde
+
+- Instituțiile nu sunt invincibile – **și ele pierd** bani.
+- Exemple istorice:
+  1. **Lehman Brothers (2008)** – faliment în criza financiară.
+     - Film recomandat: **„The Big Short”**.
+  2. **Knight Capital (2012)** – pierderi de **440 milioane USD** într-o zi din cauza unui algoritm defect.
+
+> Diferența? Instituțiile au **capacitatea de a absorbi pierderile** datorită diversificării și resurselor uriașe.
+
+---
+
+### Concluzie
+
+- Nu este nevoie să fii într-o bancă pentru a gândi și tranzacționa ca una.
+- **Obiectivul acestui program** este să te învețe să identifici logica instituțională în piață.
+- Cu strategie, disciplină și înțelegere, **traderul de retail poate obține rezultate extraordinare**.
+- Lecția pregătește terenul pentru următoarele materiale, unde se va discuta concret **cum funcționează algoritmii instituționali și cum putem „citi” urmele lor în piață**.
+
+---
+
+Această lecție este **piatra de temelie** pentru următoarele module, care vor explica în detaliu strategia instituțională aplicată pas cu pas.

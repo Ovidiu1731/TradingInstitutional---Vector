@@ -1,0 +1,75 @@
+Lectia 11
+===
+
+[00:00:00] În această lecție vom discuta despre cum pot tranzacționa pe orice time frame, deci pe orice timp de tranzacționare, dacă, spre exemplu nu vreți să tranzacționați nu știu, pe un minut, cum o fac eu în mare parte, în combinație cu 5 și 15 minute, poate vreți să tranzacționați pe time frame-uri mai mari, nu aveți așa de mult timp să stați în zona de trading.
+
+Atunci în acest clip, vă voi explica cum adaptați strategia în funcție de acest lucru. De asemenea vom discuta despre un alt aspect... Cum poți pierde și atunci când câștigi și cum vindeci chestia asta? O să vedeți e studiu de caz. Ok, în primă fază o să luăm un exemplu Suntem pe UK 100 GBP, pe un indice din Anglia.
+
+Și hai să notăm zonele cu lichiditate. Văd în principiu 3 zone cu lichiditate majoră. O vedem pe asta aici. Suntem pe time frame de 30 de minute. O să vă explic merea de ce. Deci luăm zona asta ca o majoră. De asemenea zona asta tot ca o lichiditate majoră și [00:01:00] mai avem zona de jos de aici, tot ca o lichiditate majoră.
+
+Când mă uit la graficul ăsta cel mai mult îmi place zona de jos. O să vă explic de ce. Bun, am marcat trei zone cu lichiditate Acum în mod normal știți că noi marcăm pe 5 și 15 minute lichidățile, tu tot ce trebuie să faci ca să crești time frame-ul la această strategie pur și simplu crești time frame-urile, adică acum combo-ul pe care îl folosim face o analiză pe 30 de minute și o oră și executăm pe 5 minute.
+
+După faci invers, te duci și faci analiza pe o oră și 4 ore și poți să execuți pe 15 minute. Bine recomandă de fapt 4 ore și daily pentru execuții pe 15 minute. Și cam asta e, deci pur și simplu adaptezi time frame-ul. Hai să vi le știți eu ca să fie mai ușor. Deci pentru execuție pe 5 minute vreți să faceți analiza pe 30 min și [00:02:00] 1H.
+
+În cazul în care doriți să executați pe 15 minute, atunci faceți pe 1H și nu, nu chiar, chiar aș vrea 4, hai să punem 4, 4H și 1Day și cam astea mai sus n-aș merge, deja o să găsiți prea greu o găsiți 3 trader pe lună nu știu dacă vreți să faceți asta, vi-l pun, dar nu cred că vrea cineva să facă asta, dacă vrei să execuți, nu, aș pune pe 30 de minute dacă vrei să execuți.
+
+Faci studiul în mare parte pe daily, doar pe one day. Cam și poate și pe weekly, dar nu, cam astea sunt combo-urile pe care le poți folosi. Acuma ținând cont, noi acum facem primul caz, care este un caz, îți dă foarte mult timp, de ce? Că tu ai intrat pe 30 de minute, da, tu aici deja vezi nu știu câte zile de trading, adică uite-te și marchezi lichidățea asta, o lichiditatea asta, adică o să-ți fie dat un trade și nici nu știu să vă zic, cam la, hmm, o să mă uit aici în perioadă, cam la După două zile o să aveți un [00:03:00] trade, dar ideea e că o să fie un pic mai mare la ele, fiind mai rare.
+
+Și totodată e un stil în cazul în care nu aveți așa de mult timp de tranzacțioare. Hai să vă arăt. Bun. În momentul de față dăm drop pe 5 minute, avem lichidățile marcate și noi ne executăm regulile, le știți deja. Hai să vedem. Așteptăm să ne se ia una din lichidități, o să țină apăsarea, hopa hopa, hopa, hopa hopa hopa, că ne-am dus foarte tare înainte.
+
+Ne-a fost luată lichiditatea, ne-a sunat alerta, bing, ne-a sunat alerta ne pregătim pentru shift. Hai să vedem ia uite shift-ul, deci avem un shift undeva în zona, a spune, asta, nu e cea mai clară zonă de shift, dar este, acum e, aia e validă că a fost ruptă și zona asta, aici avem shift-ul și acum ne uităm după gap-uri, avem un gap mare aici Și încă un ghep mare aici.
+
+Aici ai două posibilități, ori execuți din prima [00:04:00] în ghepul ăsta, ori dacă vrei să ai preț mai bun, poți să execuți jumătate din tranzacția planificată în acest ghep și jumătate aici. Pe încă faci un preț mediu mai bun, adică dacă tu trebuia să execuți pentru 328 loturi poți să faci 8 aici și 8 aici. Eu în acest caz o să placez tranzacția În acest gap pe 5 minute nu e chiar ca pe un minut unde știți că totul merge foarte agresiv și pui entry-ul la jumate aici aș pune de unde începe, stop loss-ul undeva în această zonă, deasupra acestui high cu un pic, îi mai dăm un pic de spațiu, așa și take profit-ul la locul lui.
+
+Nu știu dacă acesta va fi un win sau un lose, o să vedem ce se întâmplă A, ni s-a deschis trade-ul Sau, banul că n-a atins gap-ul încă Încă nu este deschis trade-ul.
+
+Acum este deschis trade-ul. S-a [00:05:00] executat fix la această candelă când a intrat prețul în gap. Ok, 1 la 2. Pe 5 minute nu am testat, nu o să folosesc break-even. Ok, ok, vedem o reacție directă favoarea noastră Nu știu aici cu break-even-ul nu prea l-am testat cât să-l folosesc o să văd pe viitor plănuiesc și o să folosesc pe time frame-ul un pic mai mare ocazional strategia pentru niște intrări pe termen un pic mai lung.
+
+Nice, nice, nice.
+
+Se pare că momentan avem un reverse, am avut un double bottom acolo, ok, momentan suntem în minus, deci de la aproape take profit am revenit în minus, ok, momentan suntem în lateral, iar suntem aproape de take profit, iar nu a fost luat și gata Ăsta a fost trade-ul. Dar nu ușor, a trebuit a fost executat la ora 1 după amiază și s-a închis la [00:06:00] ora 11 următoarea zi ora 12 chiar, deci a durat o zi acest trade aproape, ca să știți pe time frame-uri mai mari, dar acum luăm exemple pentru time frame-uri mai mari.
+
+Dar un trade frumos un trade valid, un trade care se putea executa pe acestea de time frame., mi s-a luat următoarea lichiditate, major asta de aici. Bun, așa că ne dă vreun setup.
+
+Ok, avem shift în zona asta, gap-urile deja formate, gap aici, gap aici, gap aici
+
+Hai să facem o execuție În acest caz[00:07:00] 
+
+Rentează deci în acest caz e un caz mai special, știți că de de regulă trii consecutivi ghep se recomandă execuția în ghepul de la jumătate. Dar dacă vă uitați în acest caz chiar dacă o să se întoarcă și o atingă zona asta, merită execuție în această zonă și hai să vă spun de ce. Pentru că dacă ne uităm din vârf până jos, Josul oului, suntem în zona inferioară, deci stop loss nu este unul prea mare, să spui că face o diferență mare dacă aștept până aici sau aștept până aici.
+
+În acest caz eu o să pun această execuție aici. În cazul în care se întoarce iar până jos, na, asta eu așa o văd deci dacă aș fi fost pe 5 minute, aș fi avocat de la stat timp de 5 minute, aș fi ales o execuție în acest punct. Acum vedem dacă am dreptate sau nu, pare că se întoarce iar pare că vrea mai jos prețul, se poate aba nu.
+
+Am schimbat direcția. Ok. Ăsta e trade-ul, deci o decizie bună în cazul ăsta. De asta trebuie să faceți și un pic de interpretare, lucrurile astea o să vedeți o să le învățați pe parcurs. [00:08:00] La început vă recomand, mai ales pe time frame-urile mici da, execuții la jumătate, la gap-ul din jumătate atât e consecutiv gaps.
+
+La astea la time frame-uri mai mari, e un pic diferit lucru. O să vedeți, se joacă un pic diferit setup-urile. Nu mai sunt la fel ca pe 1 minute, cum vi l-am arătat, adică nu se mai... Închid toate să zic așa și să căutați deci dacă vreți să vă decideți în care gheb să te căutați, vă puteți folosi puneți practic cum se numește e un tool care se poate folosi pentru așa ceva, pentru la măsura 50%, dar nu mă știu exact, hai să folosim Fibonacci, dar nu mă știu, e altul, e un tool special pe care îl folosești a, dar și Fibonacci, vă că l-am citat ok, dacă e sub zona de 50% acest Fibonacci hai să vă arăt și setările lui Nu-l folosesc extrem, dar are astea setările.
+
+În cazul în care este sub zona de 50%, pe un minut nu folosesc niciodată chestia asta, dar la time-frame-uri mari, știu că am fost învățat chestia asta cu câțiva ani de zile, că este bine să se intri sub 50% din corecție. Deci în cazul de față Cam asta era situaţia, vedeţi avem linia de 0, linia de 50 şi linia de 100 şi [00:09:00] practic sub 50 poţi să alegi orice gap din zona asta, dacă vrei să fii sigur că a prins dintre ăsta executa aici da, merita să-l prinzi acolo pentru că uite ce lichiditate mare a avut luat, adică probabilitatea să ai de aici o execuţie adică vai să prinzi trade-ul ăsta, vai să prinzi o execuţie aici arată bine.
+
+Bun, plus că acum văd mai era şi un potenţial gap aici bine. Ava e înainte că Andra asta nu-mi place. Chiar dacă e deschis gap-ul și e ok și e în regulă, tot, da, ăsta ar fi cea mai bună execuție ca și gap. Ok. Deci mă rog, mai continuăm că nu mai rost, putem să găsim așa la infinit practic marchezi următoarea lichiditate de aici de jos, o marchezi și pe următoarea de sus și tot așa cauți, unele o să fie luzuri, unele efectiv o să vă vină, o să faci lichiditatea, o să faci setup și mergi în continuare în jos.
+
+A, i-ai luat luzul, l-ai luat nu-i problemă, mergi pe următoarea lichiditate mare, a, vin la următoarea lichiditate, ți-a făcut setup, bine, gata ți-ai recuperat luzul ăsta păi ai luat și un plus 1%. După mai departe pleacă înapoi în sus să-ți iau o zonă nu, Ba, am lus, nu a mers minus 1, după aceea vine în zona asta, pac, a executat plus 2 și tot așa.
+
+Deci cam ăsta este principiul și [00:10:00] sistemul. Poate pare greu pentru unii dar credeți-mă că nu este așa de greu adică o să vedeți că îl învățați și nu o aveți niciun fel de problemă dar trebuie necesită practică. Testați, vedeți cum vă place mai mult. Mie îmi place mai mult pe time frame-urile mai mici.
+
+Acolo sunt fan, dar acum contul meu cum crește din ce în ce mai mult, cifrele crește din ce în ce mai mult, capitalul crește din ce în ce mai mult, time frame-urile mici devin deja prea riscante pentru mine și trebuie să încep să mă mut, să mai fac și pe time frame-uri un pic mai mari trading ca să pot să risc mai mult și să fie cum să zic, să ai risc mai mult în bani dar riscul în sine al tranzacției să fie un pic mai mic.
+
+Că pe time frame-uri mai mari, na, tranzacții vin mai rar, dar sunt și un pic mai sigure decât pe time frame-uri mai mici Pe time frame-uri mici vă vin multe tranzacții, vă ajută mult la scalare și la învățat, dar sunt un pic mai riscante. Cam asta este situația Acum hai să vorbim de scenariul despre care v-am spus mai devreme, v-am menționat cum pierzi bani în timp ce câștigi.
+
+Și tot lucrul ăsta vine de la risk management. Să zicem că tu ai intrat pe un cont și ai început cu 0.3% risc Ai câștigat trade-ul. S-a întâmplat totul foarte frumos. Ai făcut plus 2 RR. [00:11:00] Deci ai făcut punct 0,6%. Cu plus. Ești șef. Ok. Hai să ștergem asta. Continu. Asta a fost primul tău trade. Ai zis băi, mai fac unul cu 0,3.
+
+Mai fac unul cu 0,3. Iar câștigi. Plus 2%. Plus 2 RR, pardon. Adică 0.6%. Deja contul tău este plus 1.2%. Și începi să prindi curaj și zici, a, păi eu știu hai direct 1%, ce naiba. Și dai 1 la 100.
+
+Și stai să mă călpierzi. Minus 1 RR și ești minus 1. Ok. Și te-ntorci înapoi la 0.3%. Că te-ai speriat aici. Te uiți la 0.3? Iar îl câștigi. Plus 2 RR. [00:12:00] Wow! 0.6%. Și acum, iar îți crește încrederea și zice hai băi să mai dau 1 la 100 că trebuie să închid luna bine trebuie să iau profit mai mare, nu știu ce. Și îl pierzi și pe ăsta.
+
+Minus 1 RR. Și ai pierdut încă 1 la 100.
+
+Și aveți voi aici ceva mai mare, calculul ăsta pe care vi-l arăt eu. Câți dintre voi v-ați întâlnit în situația asta? Cei care ați făcut trading. Fac pariu că majoritatea ați întâlnit situația asta. Practic voi ați avut 5 trade-uri, 3 câștigătoare, 2 pierzătoare. Aveți 60% win rate, corect 60% win rate. Imens, imens da?
+
+2 RR, dacă noi adunăm RR-urile aici, voi ați făcut, deci luăm plusurile, 2 cu 2 cu 2 înseamnă 6 RR minus 2 RR voi aveți plus 4 RR, 4 RR, ceea wow, dacă făceați 1% [00:13:00] pe toate înseamnă plus 4%, enorm, dacă făceați 0,5% pe toate înseamnă plus 2%, super bine Ei bine voi la riscul ăsta pe care l-ați tot variat, ce ați făcut?
+
+0.6 cu 0.6 cu 0.6 înseamnă 1.8%. Dacă scădem pierderile, rezultatul final este minus 0.2%. Deci voi, cu toate că ați avut erer pozitiv, cu toate că aveți un rate senzațional, la final de una ați ajuns să pierdeți. Asta este un risc money management slab și să vedeți, cred că foarte mulți dintre voi ați pățit chestia asta, să executați 50 de tranzacții și cu toate că la final de lună dacă calculezi RR-ul tu ai câștigat, dar doar pentru că ai vărea riscurile FUT 1.03, 1.1 1.2, 1.1 nu aveau sens efectiv, ai ajuns în situația asta.
+
+Deci, de aia recomand să țineți un risc constant sau să-l țineți foarte, foarte bine calculat, să luați deciziile cu cap Și vedeți că de multe ori se întâmplă ca fix atunci când crești riscul, deci când vin câștiguri cu 0.3-0.4 multe, vezi că atunci când crești riscul e posibil să dai pierderea aia masivă, așa că ai [00:14:00] grijă când îl crești și când îl modifici.
+
+Deci asta am vrut să vă evidențiez acest aspect, să fiți conștienti el, să-l notați, să fiți foarte foarte atenți. Cam asta ar fi vreo să fiți cât mai bine pregătiți și să cunoașteți fiecare posibilitate care se poate întâmpla. Ne vedem la lecția următoare!
+

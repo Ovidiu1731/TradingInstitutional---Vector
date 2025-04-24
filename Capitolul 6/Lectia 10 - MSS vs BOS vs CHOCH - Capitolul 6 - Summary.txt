@@ -1,0 +1,70 @@
+### **Rezumat Lecția 10 – MSS vs BOS vs CHoCH: Clarificări Conceptuale**
+
+---
+
+#### **Introducere**
+
+Această lecție este una scurtă, dar extrem de importantă pentru înțelegerea precisă a strategiei. Ea clarifică diferențele dintre trei concepte foarte des întâlnite în analiza tehnică:
+- **Market Structure Shift (MSS)**
+- **Break of Structure (BOS)**
+- **Change of Character (CHoCH)**
+
+Deși pe internet sunt adesea tratate ca fiind identice sau interschimbabile, lecția subliniază **diferențele esențiale** dintre ele și explică **de ce doar MSS este folosit în strategia prezentată**.
+
+---
+
+### **1. Market Structure Shift (MSS)**
+
+- Este **singurul concept folosit activ în strategie**.
+- Arată **identic cu CHoCH** pe grafic, dar are o diferență-cheie:
+  - Se bazează pe **low-uri și high-uri valide**, conform regulii discutate în lecțiile anterioare (minim două candele pe fiecare parte).
+- Are o **probabilitate mai mare de câștig** în cadrul strategiei, tocmai pentru că implică structură validă și logică instituțională.
+
+---
+
+### **2. Break of Structure (BOS)**
+
+- Este **opusul lui MSS și CHoCH**.
+- Apare **în direcția trendului**, nu contra lui.
+  - Ex: în uptrend, fiecare rupere de high este un BOS.
+- Este folosit pentru a **confirma continuarea trendului**.
+- Deși corect ca noțiune, **nu este folosit în strategia noastră**.
+- Este bine să știi de existența sa pentru cultură generală și înțelegere tehnică.
+
+---
+
+### **3. Change of Character (CHoCH)**
+
+- Arată **identic cu MSS** pe grafic, dar se diferențiază astfel:
+  - NU necesită ca high-urile și low-urile să fie **valide** (adică nu se numără candelele).
+  - Orice „low” sau „high” este acceptat ca semnal de schimbare.
+- Este un concept **mai permisiv**, dar și **mai slab statistic**.
+- De aceea, nu este preferat în strategia prezentată, deoarece poate da semnale false.
+
+---
+
+### **4. Exemplu concret explicativ**
+
+- Se oferă un exemplu de low rupt:
+  - Pentru **CHoCH**, este un semnal valid (se schimbă direcția).
+  - Pentru **MSS**, nu este valid deoarece acel low **nu avea două candele roșii înainte** → deci nu este considerat valid structural.
+- Această **nuanță mică** este extrem de importantă și mulți traderi pierd bani pentru că nu o cunosc.
+
+---
+
+### **5. Mesajul autorului**
+
+- Aceste diferențe, deși subtile, **fac diferența între o execuție profitabilă și una pierzătoare**.
+- MSS este un instrument mai precis și mai logic, deoarece **respectă algoritmul bancar**, care se bazează pe structură, nu pe percepție vizuală.
+
+---
+
+### **Concluzie**
+
+- **Nu vom folosi BOS și CHoCH în strategie** – sunt menționate doar pentru claritate conceptuală.
+- **Vom folosi doar MSS**, deoarece:
+  - Este construit pe structură validă.
+  - Are o probabilitate mai mare de reușită.
+  - Reflectă modul real în care funcționează algoritmii instituționali.
+
+Această lecție consolidează bazele tehnice ale strategiei și te protejează de confuzii comune din comunitățile de trading. Un pas crucial pentru a gândi corect și disciplinat ca trader.

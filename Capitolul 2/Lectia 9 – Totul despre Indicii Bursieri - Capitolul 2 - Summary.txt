@@ -1,0 +1,112 @@
+### Rezumat Lecția 9 – Totul despre Indicii Bursieri
+
+---
+
+#### Introducere
+
+Această lecție este dedicată integral **indicilor bursieri**, considerată de mentor ca fiind **cea mai sigură și ușor de înțeles categorie** pentru tranzacționare. Este o lecție teoretică de bază, dar extrem de importantă, care pune fundamentele pentru aplicarea strategiei instituționale pe acești instrumente.
+
+---
+
+### Ce sunt Indicii Bursieri?
+
+- **Instrumente financiare** care reflectă performanța unui grup de acțiuni.
+- Pot reprezenta:
+  - Un **sector** (ex: tehnologie),
+  - O **industrie** (ex: feroviară),
+  - Sau o **piață întreagă** (ex: economia americană).
+- Reprezintă o **medie ponderată** a valorilor acțiunilor componente.
+
+---
+
+### Rolurile Principale ale Indicilor
+
+1. **Măsurarea performanței pieței** – „termometrul” economiei.
+2. **Reper pentru investitori** – se compară randamentele portofoliilor.
+3. **Instrument financiar** – stă la baza ETF-urilor, futures, opțiunilor.
+
+---
+
+### Istoria și Evoluția Indicilor
+
+- Primul indice: creat în **1884** de **Charles Dow** (co-fondator WSJ).
+- Inițial măsura 11 companii (9 feroviare).
+- În **1896**, apare **Dow Jones Industrial Average (DJIA)**:
+  - Format din 12 companii la început, azi include **30 companii majore**.
+
+---
+
+### Evoluții Globale
+
+- După succesul DJIA, au apărut:
+  - **FTSE 100 (UK)** – UK100
+  - **DAX (Germania)** – DAX40
+  - **NIKKEI (Japonia)** – 225 companii
+  - **Shanghai Composite (China)**
+  - **MSCI** – piețe dezvoltate la nivel global
+  - **FTSE All World Index**
+
+---
+
+### Evenimente Istorice Importante
+
+1. **1929 – Marea Depresiune**: scădere severă a DJIA.
+2. **1987 – Lunea Neagră**: DJIA scade cu **22% într-o singură zi**.
+3. **2008 – Criza Globală**: indicii scad cu până la **50%**.
+
+> Observație: crizele aduc oportunități. „Cash is king” în criză.
+
+---
+
+### Metode de Calcul ale Indicilor
+
+1. **Price Weighted (ex: DJIA)** – acțiunile cu preț mare au impact mai mare.
+2. **Market Cap Weighted (ex: S&P 500)** – influența e proporțională cu capitalizarea bursieră.
+3. **Equal Weighted** – fiecare companie are pondere egală.
+4. **Factor Weighted** – influențate de factori precum volatilitate sau valoare contabilă.
+
+---
+
+### Indici Importanți pe Regiuni
+
+#### SUA
+- **S&P 500** – 500 de companii mari (barometru al economiei).
+- **NASDAQ** – 100 companii tech (NAS100).
+- **DJIA** – companii din diverse industrii.
+
+#### Europa
+- **UK100 / FTSE 100** – cele mai mari 100 companii britanice.
+- **DAX40** – 40 companii mari din Germania.
+
+#### Asia
+- **NIKKEI 225** – companii japoneze.
+- **Shanghai Composite** – China.
+
+---
+
+### Cum Folosesc Investitorii Indicii?
+
+1. **Evaluare performanță** – compară portofoliul cu un indice.
+2. **Diversificare** – prin ETF-uri și fonduri mutuale.
+3. **Predicții macroeconomice** – indicii semnalează starea economică generală.
+
+---
+
+### De Ce Folosim Indicii în Strategia Instituțională?
+
+- **Volum mare** și lichiditate crescută.
+- **Comisioane reduse**, spread minim, slippage foarte mic.
+- **Reglementare și transparență** – piețe mature.
+- **Strategia funcționează perfect pe indici**, vizibilitate excelentă a algoritmilor instituționali.
+- Singura dificultate: **atunci când sunt la all-time highs** (fără istoric anterior).
+
+---
+
+#### Concluzie
+
+Indicii bursieri sunt:
+- **Barometre economice globale**,
+- **Instrumente excelente pentru tranzacționare activă**,
+- **Extrem de eficiente în aplicarea strategiei instituționale**.
+
+Înțelegerea acestora este **esențială** pentru succesul în trading, iar această lecție oferă **baza completă** pentru a începe execuții corecte pe acești activi.

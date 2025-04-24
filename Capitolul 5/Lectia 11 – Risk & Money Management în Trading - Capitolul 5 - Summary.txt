@@ -1,0 +1,97 @@
+### **Rezumat Lecția 11 – Risk & Money Management în Trading**
+
+---
+
+#### **Introducere**
+
+Această lecție este dedicată unuia dintre cele mai importante capitole din trading: **risk și money management-ul**. Autorul subliniază că o strategie fără un sistem clar de gestionare a riscului este sortită eșecului. Lecția oferă un cadru detaliat despre cum să îți stabilești regulile personale de risc, cum să-ți structurezi tranzacționarea în procente și cum să evoluezi de la un sistem fix la unul adaptiv.
+
+---
+
+#### **1. Two Losses Rule – Regula nenegociabilă**
+
+- Dacă ai **două pierderi consecutive într-o zi**, **oprește complet tradingul** pentru acea zi.
+- Autorul a folosit inițial varianta cu 3 pierderi, dar ulterior a devenit mai conservator.
+- O singură dată a încălcat această regulă (în 2021), iar consecințele au fost grave – pierderi de mii de euro și o lecție dureroasă de ego.
+- De atunci, a respectat regula cu strictețe și nu a pierdut niciun cont FTMO în 4 ani.
+
+---
+
+#### **2. Gândește totul în procente, nu în bani**
+
+- Traderii profesioniști discută și evaluează performanțele **doar în procente**.
+- Exemplu: Nu spui „am făcut 4.000 EUR”, ci „am făcut 10%”.
+- Avantaj: **eliberează mintea de presiunea emoțională legată de bani** și permite o analiză obiectivă.
+
+---
+
+#### **3. Riscul maxim recomandat: 1% pe tranzacție**
+
+- Pe un cont de 40.000 EUR:
+  - 1% risc = 400 EUR per tranzacție.
+  - Cu 1% risc poți pierde maxim 10 tranzacții consecutive.
+  - Cu 0.5% risc – 20 pierderi.
+  - Cu 0.25% risc – 40 pierderi.
+
+**Concluzie:** un risc mai mic = mai multe „gloanțe” disponibile și o protecție mai bună a contului.
+
+---
+
+#### **4. Fixed risk vs. adaptive risk**
+
+- **Fixed risk**: riscul este identic pentru fiecare tranzacție (ex. mereu 0.5%).
+  - Potrivit pentru începători – reduce deciziile emoționale.
+- **Adaptive risk**: riscul variază în funcție de calitatea setup-ului.
+  - Ex: setup foarte bun → risc 1%; setup decent → risc 0.5%.
+  - Autorul folosește acest stil în prezent, dar **doar după ani de experiență**.
+
+---
+
+#### **5. Puterea compunerii în trading**
+
+- Două win-uri cu RR 1:2 și 1:2.5 = +4.5%.
+- Acest profit poate „șterge” 4–5 tranzacții pierzătoare.
+- **Ideea esențială**: chiar dacă începi cu mai multe pierderi, **2-3 win-uri bune îți recuperează contul**.
+- De aceea este important un RR bun și o strategie executată cu răbdare.
+
+---
+
+#### **6. Personalitate: Low risker vs High risker**
+
+- **Low risker (conservator)**: riscuri mici, conturi mai stabile, stres mai redus.
+  - Autorul se identifică aici.
+- **High risker**: riscuri mari, rezultate rapide, dar volatilitate mare și risc crescut de pierdere a contului.
+  - Mulți traderi folosesc această abordare pe conturi multiple de 160k și merg pe profituri rapide + reinvestire.
+  - Este un stil obositor și greu de susținut emoțional.
+
+**Concluzie:** fiecare trebuie să se cunoască și să își aleagă stilul potrivit.
+
+---
+
+#### **7. Importanța statisticii personale**
+
+- Autorul își bazează deciziile pe o statistică proprie, dezvoltată în ani de trading.
+- Nu toate regulile sunt rigide – uneori le ajustează în funcție de context și experiență.
+- Traderii începători nu au încă această libertate – trebuie să urmeze reguli standard până când își creează propria bază de date.
+
+---
+
+#### **8. Adaptarea regulilor în timp**
+
+- Nu toate regulile funcționează identic pentru toți.
+- Ex: „breakeven rule” (mutarea stop-loss-ului pe 0) – funcționează pentru unii, dar nu pentru toți.
+- Important este să **nu iei decizii impulsive**, ci **să le testezi statistic**.
+- În timp, îți vei crea propriul sistem, cu reguli care ți se potrivesc.
+
+---
+
+#### **Concluzie finală**
+
+- Risk & money management-ul nu este un set de reguli rigide, ci un sistem viu, care se construiește și se adaptează în funcție de experiență și personalitate.
+- La început: riscuri mici, reguli clare.
+- Cu timpul: interpretare, flexibilitate și autonomie decizională.
+- **Respectarea regulii celor două pierderi și gândirea în procente sunt piloni esențiali ai unui trader disciplinat.**
+
+---
+
+Această lecție oferă o fundație solidă pentru gestionarea eficientă a riscului și construirea unui comportament profesionist în trading. Este una dintre cele mai importante lecții tehnice și psihologice din program.

@@ -1,0 +1,47 @@
+Lectia 4
+===
+
+[00:00:00] CFD-ul sau Contract for Difference. CFD-urile, practic prin intermediul CFD-urilor putem să facem short sau să facem long într-o piață da? Ce înseamnă short și long? Long înseamnă o poziție de cumpărare, deci când zic că eu fac long, după cum vedeți în această poză practic fac Buy și când zic I'm going short sau fac un short înseamnă că fac un sell.
+
+Să vă notați vi le colorați cu verde, vă faceți un chinear long și short, long înseamnă buy, short înseamnă sell. Prin intermediul acestor contracte noi putem să facem long sau să facem short pe indici. În mod normal când investești activ, investești pentru long term, în Tesla, tu poți să faci bani doar pe cumpărare, cumperi ceva și ții.
+
+Prin intermediul CFD-urilor noi putem să facem și short. Ce înseamnă short? Să facem bani pe scădere. Spre exemplu [00:01:00] o să vă dau un exemplu simplu pentru că toată lumea îl știe, exemplu Bitcoin. Acum un an de zile, Bitcoin era în maxim, era la 60 și ceva de mii o să zic 67 de mii, nu știu exact ce era.
+
+Anumite persoane la 67 de mii au făcut short. Adică au luat poziții de sell și cu cât Bitcoin scade cu atât ei fac profit. Este inversul buy-ului. Cum funcționează short-ul? Practic tu vinzi la 67.000 un Bitcoin pe care nu-l ai, așa funcționează știu că sună ciudat, dar cum vinzi ceva ce nu ai la 67.000 te împrumuți practic de la exchange, cum ar veni să zicem, la 67.000 Și el scade scade scade și în momentul în care închizi, tu practic recumperi adică tu ai să zicem că ai închis tranzacția la 30.000, ai făcut short la 60.000 tu faci practic ai cumpărat Bitcoin-ul pe care l-ai vândut la 60.000 la 30.000 și ai făcut profit diferența dintre ele.
+
+Sper că înțelegeți ce zic mi-a luat la început un pic să înțeleg concret ce înseamnă un short, dar asta înseamnă, deci tu practic vinzi ceva ce n-ai și îl cumperi jos mai [00:02:00] ieftin cam așa funcționează Deci în trading sunt foarte multe persoane care o să se întrebe, poți să faci profit în trading în momentele astea în care piața scade?
+
+Da, poți face oricând, chit că e bull market, chit că e bear market, chit că e sânge pe străzi, o să puteți faceți profit oricum aproape orice zi. Ce este bull și ce este bear? Bull înseamnă practic tot așa, înseamnă long, înseamnă ceva de o perioadă de creștere, bull market este perioada de creștere, bear market este perioada de scădere, prin bear sau cum zicem bearish.
+
+Ne referim la o perioadă de scădere. ATF-urile, Exchange Trade Fund, reprezintă o colecție diversificată de active, similar unui fond mutual. Deci tu când cumperi un ATF, practic cumperi câte o bucățică din mai multe active. Asta înseamnă contracte futures. Un, este, contractul futures este un angajament între doi parteneri un văzător și un cumpărător, de a vinde, [00:03:00] respectiv de a cumpăra un bun, mărfuri, acțiuni, valute aure etc.,
+
+la un preț stabilit în momentul încherii tranzacției și cu executarea contractului la o dată viitoare, future. Asta facem noi, noi o să tranzacționem futures, practic Noi să zicem că vrem să facem un buy, cumpărăm un număr de contracte și îl vindem mai sus, iar prin intermediul acelor contracte facem bani.
+
+E simplu o să vă explic mai încolo, nu trebuie să înțelegeți acum mot-a-mot. Mă, trecem mai departe. Așa avem următorii termeni, avem major news event. Un major news event este, aceștia pot fi CPI, unemployment rate, NFP. Și sunt multe major news event-uri, o să le discutăm într-un clip separat unde o să vi le dau pe toate și o să vă arăt cum să știți în fiecare zi ce major news event apare.
+
+De regulă este un major news event pe săptămână, de regulă depinde, [00:04:00] dar cam așa e unul pe săptămână și în timpul acestor major news events noi nu o să facem trading, niciodată este regulă niciodată nu o facem trading. În timpul acestor eventuri se întâmplă ce v-am zis mai devreme cu leverage-ul și cu margin call, acolo pierzi conturi în timpul acestor eventuri.
+
+Broker. Ce este un broker? Este un operator economic, un intermediar o persoană fizică sau o companie care intermediază cererea și oferta pe o piață financiară. Iar el își ia practic banii, remunerația mă rog și salariul îl ia din comisioană. Brokerii momentul de față nu mai sunt fizici, nu mai sunt oameni, sunt roboți.
+
+Noi nu o să folosim teoretic un broker. În strategia MyTrading, noi o să lucrăm cu o firmă care ne finanțează direct, au ei brokerul lor pe noi, nu ne interesează nu o să ne alegem niciodată, nu o să avem bătaia asta de cap cu ce broker luăm, cu ce comisioane, nu o să avem deci o să vă învăț cum să nu vă bateți capul deloc cu brokerii și o să facem bani fără să ne intereseze brokerii, [00:05:00] dar trebuie să știți ce stăți la un broker.
+
+HFT Software sau High Frequency Trading Software. Este un robot algoritmic care tranzacționează pentru tine, nu am folosit în viața mea genul ăsta de software, dar știu că există și unele funcționează, majoritatea sunt schemuri, dar există softuri foarte scumpe pe care poți să le cumperi și fac trading pentru tine fără ca tu să faci nimic automat, e automatizat totul și îți face bani.
+
+Pe viitor sunt interesat să cumpăr genul de trading software. Știu că unul bun pornește de la mulți bani ai cunoscut care să-ți facă banca lumea și știu că sunt 10K+, 10.000 de euro plus. O să fiu interesat să investesc în așa ceva, cât probabil anul viitor, mă gândesc, să iau unul să-l am. Dar este tare pentru că îți produce bani pe termen lung, dar repet, e unul foarte scump deja, că găsiți ceva Software de genul ăsta gratuit pe net sunt șanse foarte mici să meargă și e posibil să vă mănânce banii ce stă aici la randament randamentul practic este [00:06:00] un profit exprimat în porcentaj pe care îl aveți voi după investiție spre exemplu ați cumpărat Tesla la 100 de dolari s-a dus la 1000 randamentul vostru este de 10x
+
+după aceea Demotrading, nu, scuzați-mă, Propfarm. Un Propfarm este o firmă care investește în tine. Deci noi o să lucrăm cu un Propfarm și o să vă arăt cum să aplicați și cum să faceți rost de finanțare. Eu cu un Propfarm lucrez, sunt finanțat de ei, fac trading numai cu banii lor n-am scos niciun bani din buzunarul meu pentru trading, cei foarte tare și este o oportunitate imensă pe care o avem Pe care o avem.
+
+Punct. E o oportunitate imensă. Demo trading. Demo trading-ul este tipul acela de trading în care nu folosești banii tăi dar folosești niște bani falși. Este tipul de trading pe [00:07:00] care îl faci ca să testezi strategia și noi o să vedeți că o vă învăț la finalul pe finalul mentoratului o să avem o perioadă în care o să exersați și o să faceți demo trading.
+
+Ceva timp ca să, în primul rând, să vedeți că merge ceea ce vă arăt și o să testați și o să vedeți că funcționează și este incredibil și după aceea să vă faceți un pic mâna până să începeți să faceți trading cu bani reali. Eu am făcut demo trading patru luni înainte să încep să fac cu bani reali și a fost foarte bine pentru că am evitat pierderi nesemnificative pierderi fără niciun sens.
+
+Poate și de asta am avut un parcurs așa de bun în acest job. Și acum terminăm lecția cu o întrebare Și această întrebare este, ce se întâmplă dacă nu înțeleg un termen pe parcursul mentoratului? O să vedeți că eu o să folosesc foarte mulți termeni pentru că am, na, fiind atâta timp în domeniul acesta folosesc foarte mulți termeni poate uneori complicați, fără să-mi dau seama că poate unii dintre voi nu înțelegeți, ceea ce este absolut normal.
+
+În cazul în care eu am [00:08:00] folosit un termen și nu l-am explicat pe parcursul mentoratului, pur și simplu dați un sarj pe Google. Jur că mă străduiesc să nu omit nimic și să nu fac ceva greu de înțeles din acest mentorat să fie totul ok, dar se poate să greșesc la un moment dat să nu specific un anumit termen.
+
+Intrați pe Google, nu știu. Termenul leverage și îl zic cândva și să zicem că nu l-aș fi specificat cauz ce este acela leverage? Enter și găsești toată explicația acolo. Deci nu trebuie să vă abateți de la procesul de învățare doar pentru că n-ați înțeles un anumit termen, există sute de clipuri pe YouTube, există tot ce ai nevoie.
+
+Ce fac eu aici? Toată informația pe care o adun este imposibil de găsit. Într-adevăr partea instituțională despre care o să vorbim și experiența pe care o am, acelea nu aveți unde să le găsiți vă zic sigur, partea instituțională poate dacă Găsiți pe cineva care face trading instituțional sau dacă faceți research se poate să găsiți, dar degeaba, ca să ai o strategie complete să faci bani în trading e totul ca un puzzle.[00:09:00] 
+
+Și tu da, poți să te duci să cauți pe YouTube două luni să găsești o parte din puzzle acolo să găsești o parte acolo mai faci research trei ani, mai găsești o parte acolo bam, bam, bam, bam și strângi puzzle-ul dar tu nu-l ai complet. Tu ca să faci profit trebuie să ai puzzle-ul complet și eu ce fac? Eu știu deja puzzle-ul și îți îl dau ție, îți dau o bucată acolo îți pun o bucată acolo și la final vei avea
+

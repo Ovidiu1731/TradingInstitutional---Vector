@@ -1,0 +1,57 @@
+**Rezumat Lecția 7 – Multiple Gaps Setup (MG)**
+
+---
+
+### Introducere
+
+Această ultimă lecție din capitolul 7 este dedicată setup-ului **Multiple Gaps (MG)**. Este un setup **nerecomandat** pentru execuție din cauza lipsei de claritate și a caracterului aleatoriu. Autorul declară explicit că **nu tranzacționează acest setup** și explică de ce.
+
+---
+
+### Ce este Multiple Gaps Setup?
+
+MG apare în situațiile în care, după un market structure shift, apar **mai mult de trei gap-uri** instituționale. Aceste gap-uri pot fi consecutive sau dispersate și creează incertitudine în ceea ce privește punctul optim de execuție.
+
+Exemplu de structură:
+- După shift, se formează 5 gap-uri
+- Nu există un criteriu clar care să indice în care dintre ele se va întâmpla reacția
+- Prin urmare, execuția devine o formă de **gambling**, lucru pe care strategia încearcă să îl evite complet
+
+---
+
+### Recomandări privind execuția
+
+- **99% din cazuri, autorul nu execută MG**
+- Dacă, totuși, alegeți să executați:
+  - **Folosiți ultimul gap închis** (ultimul rămas activ după închiderea celorlalte)
+  - Execuția se face în acel gap, cu stop loss deasupra high-ului confirmat (cu minim două candele verzi/roșii)
+  - Există două variante pentru SL: una riscantă (mai apropiată), alta conservatoare (peste ultimul high)
+
+În exemplul din lecție, chiar dacă a fost un win, se menționează clar că **este o excepție**, nu o regulă.
+
+---
+
+### Recapitulare generală a execuțiilor
+
+- **1 gap** → se execută în acel unic gap
+- **2 gaps** → execuția recomandată este în **al doilea format**
+- **3 gaps sau 3 consecutive gaps** → execuția în **gap-ul din mijloc**
+- **MG (mai mult de 3 gap-uri)** → **nu se recomandă execuția**; dacă totuși se face, se alege ultimul gap neînchis
+
+---
+
+### Final de capitol
+
+Autorul încheie capitolul cu un **sfat practic**:
+
+- Creează-ți **foldere separate** pentru fiecare tip de setup (OSG, TG, TCG, 3G, 3CG etc.)
+- Marchează tranzacțiile zilnic și **urmărește performanța fiecărui setup**
+- Scopul este să-ți formezi o **gândire sistematică**, bazată pe date și observații proprii
+
+---
+
+### Concluzie
+
+Multiple Gaps Setup este singurul setup din capitol care **nu este recomandat** pentru execuție, fiind considerat prea incert și inconsistent. Lecția oferă nu doar un avertisment, ci și un cadru clar pentru decizie: dacă un setup pare haotic și neclar, **cel mai bun plan este să nu execuți**. Strategia urmărește claritate, disciplină și sistematizare, nu speculație.
+
+Astfel se încheie capitolul 7, cu toate setup-urile explicate, clasificate și aplicate într-un mod logic, simplu și sistematic.

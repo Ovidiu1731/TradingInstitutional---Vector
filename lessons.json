@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "capitol_1_lectia_01",
+    "chapter_num": 1,
+    "lesson_num": 1,
+    "title": "Bun Venit!",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 1 - Bun Venit! - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 1 - Bun Venit! - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_02",
+    "chapter_num": 1,
+    "lesson_num": 2,
+    "title": "Cum am început trading",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 2 - Cum am început trading-ul? - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 2 - Cum am început trading-ul? - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_03",
+    "chapter_num": 1,
+    "lesson_num": 3,
+    "title": "Cum Tranzacționez?",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 3 - Cum Tranzacționez? - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 3 - Cum Tranzaționez? - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_04",
+    "chapter_num": 1,
+    "lesson_num": 4,
+    "title": "Primii Pași în Trading",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 1/ Lectia 4 – Primii Pași în Trading - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/ Lectia 4 – Primii Pași în Trading - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_05",
+    "chapter_num": 1,
+    "lesson_num": 5,
+    "title": "Trading vs Investiții",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 5 - Trading vs Investiții - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 5 - Trading vs Investiții - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_06",
+    "chapter_num": 1,
+    "lesson_num": 6,
+    "title": "Prezentarea Programului Trading Intituțional",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 6 - Prezentarea Programului Trading Intituțional - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 6 - Prezentarea Programului Trading Intituțional - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_07",
+    "chapter_num": 1,
+    "lesson_num": 7,
+    "title": "Cum arată tranzacțiile mele?",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 7 – Cum arată tranzacțiile mele? - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 7 – Cum arată tranzacțiile mele? - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_08",
+    "chapter_num": 1,
+    "lesson_num": 8,
+    "title": "Profilul Traderului de Succes",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 8 – Profilul Traderului de Succes - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 8 – Profilul Traderului de Succes - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_09",
+    "chapter_num": 1,
+    "lesson_num": 9,
+    "title": "Câți Bani Se Pot Face din Trading?",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 1/ Lectia 9 – Câți Bani Se Pot Face din Trading? - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/ Lectia 9 – Câți Bani Se Pot Face din Trading? - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_1_lectia_10",
+    "chapter_num": 1,
+    "lesson_num": 10,
+    "title": "Cum Obțin Capital de Tranzacționare?",
+    "chapter_label": "Capitolul 1",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 1/Lectia 10 – Cum Obțin Capital de Tranzacționare? - Capitolul 1 - Summary.txt",
+      "transcript": "./Capitolul 1/Lectia 10 – Cum Obțin Capital de Tranzacționare? - Capitolul 1 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_01",
+    "chapter_num": 2,
+    "lesson_num": 1,
+    "title": "Ce este trading",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 1 – Ce este trading-ul? - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 1 – Ce este trading-ul? - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_02",
+    "chapter_num": 2,
+    "lesson_num": 2,
+    "title": "Investiții Long Term vs Short Term",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 2 - Investiții Long Term vs Short Term - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 2 - Investiții Long Term vs Short Term - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_03",
+    "chapter_num": 2,
+    "lesson_num": 3,
+    "title": "Termeni Comuni în Trading (Partea 1)",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 3 – Termeni Comuni în Trading (Partea 1) - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 3 – Termeni Comuni în Trading (Partea 1) - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_04",
+    "chapter_num": 2,
+    "lesson_num": 4,
+    "title": "Termeni Comuni în trading (Partea 2)",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 4 –  Termeni Comuni în trading (Partea 2) - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 4 –  Termeni Comuni în trading (Partea 2) - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_05",
+    "chapter_num": 2,
+    "lesson_num": 5,
+    "title": "Aparatura necesară pentru tranzacționarea activă",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 5 – Aparatura necesară pentru tranzacționarea activă - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 5 – Aparatura necesară pentru tranzacționarea activă - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_06",
+    "chapter_num": 2,
+    "lesson_num": 6,
+    "title": "Cazino vs Trading",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 6 - Cazino vs Trading - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 6 - Cazino vs Trading - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_07",
+    "chapter_num": 2,
+    "lesson_num": 7,
+    "title": "Sesiunile de Tranzacționare",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 7 - Sesiunile de Tranzacționare - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 7 - Sesiunile de Tranzacționare - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_08",
+    "chapter_num": 2,
+    "lesson_num": 8,
+    "title": "Analiza Fundamentală în Trading",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 8 – Analiza Fundamentală în Trading - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 8 – Analiza Fundamentală în Trading - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_09",
+    "chapter_num": 2,
+    "lesson_num": 9,
+    "title": "Totul despre Indicii Bursieri",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 9 – Totul despre Indicii Bursieri - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 9 – Totul despre Indicii Bursieri - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_10",
+    "chapter_num": 2,
+    "lesson_num": 10,
+    "title": "Ce market tranzacționez",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 10 - Ce market tranzacționez - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 10 - Ce market tranzacționez - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_11",
+    "chapter_num": 2,
+    "lesson_num": 11,
+    "title": "Ce Este Trading",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 11",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 11 – Ce Este Trading-ul Instituțional? - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 11 – Ce Este Trading-ul Instituțional? - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_12",
+    "chapter_num": 2,
+    "lesson_num": 12,
+    "title": "Cum Funcționează Algoritmii Instituționali?",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 12",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 12 – Cum Funcționează Algoritmii Instituționali? - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 12 – Cum Funcționează Algoritmii Instituționali? - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_2_lectia_13",
+    "chapter_num": 2,
+    "lesson_num": 13,
+    "title": "Cum operează instituțiile?",
+    "chapter_label": "Capitolul 2",
+    "lesson_label": "Lecția 13",
+    "files": {
+      "summary": "./Capitolul 2/Lectia 13 - Cum operează instituțiile? - Capitolul 2 - Summary.txt",
+      "transcript": "./Capitolul 2/Lectia 13 - Cum operează instituțiile? - Capitolul 2 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_3_lectia_01",
+    "chapter_num": 3,
+    "lesson_num": 1,
+    "title": "Tipurile de grafice",
+    "chapter_label": "Capitolul 3",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 3/Lectia 1 – Tipurile de grafice - Capitolul 3 - Summary.txt",
+      "transcript": "./Capitolul 3/Lectia 1 – Tipurile de grafice - Capitolul 3 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_3_lectia_02",
+    "chapter_num": 3,
+    "lesson_num": 2,
+    "title": "Anatomia Candelor (Lumânărilor)",
+    "chapter_label": "Capitolul 3",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 3/Lectia 2 – Anatomia Candelor (Lumânărilor) - Capitolul 3 - Summary.txt",
+      "transcript": "./Capitolul 3/Lectia 2 – Anatomia Candelor (Lumânărilor) - Capitolul 3 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_3_lectia_03",
+    "chapter_num": 3,
+    "lesson_num": 3,
+    "title": "Timeframes",
+    "chapter_label": "Capitolul 3",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 3/Lectia 3 - Timeframes - Capitolul 3 - Summary.txt",
+      "transcript": "./Capitolul 3/Lectia 3 - Timeframes - Capitolul 3 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_3_lectia_04",
+    "chapter_num": 3,
+    "lesson_num": 4,
+    "title": "Trenduri și Waves",
+    "chapter_label": "Capitolul 3",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 3/Lectia 4 – Trenduri și Waves - Capitolul 3 - Summary.txt",
+      "transcript": "./Capitolul 3/Lectia 4 – Trenduri și Waves - Capitolul 3 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_3_lectia_05",
+    "chapter_num": 3,
+    "lesson_num": 5,
+    "title": "Analiza Tehnică vs. Analiza Fundamentală",
+    "chapter_label": "Capitolul 3",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 3/Lectia 5 – Analiza Tehnică vs. Analiza Fundamentală - Capitolul 3 - Summary.txt",
+      "transcript": "./Capitolul 3/Lectia 5 – Analiza Tehnică vs. Analiza Fundamentală - Capitolul 3 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_3_lectia_06",
+    "chapter_num": 3,
+    "lesson_num": 6,
+    "title": "Este Strategia 100% Matematică?",
+    "chapter_label": "Capitolul 3",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 3/Lectia 6 – Este Strategia 100% Matematică? - Capitolul 3 - Summary.txt",
+      "transcript": "./Capitolul 3/Lectia 6 – Este Strategia 100% Matematică? - Capitolul 3 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_01",
+    "chapter_num": 4,
+    "lesson_num": 1,
+    "title": "Platforma TradingView",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 1 - Platforma TradingView - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 1 - Platforma TradingView - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_02",
+    "chapter_num": 4,
+    "lesson_num": 2,
+    "title": "Shortcut",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 2 – Shortcut-uri în TradingView - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 2 – Shortcut-uri în TradingView - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_03",
+    "chapter_num": 4,
+    "lesson_num": 3,
+    "title": "Capital Personal vs. Capital Finanțat",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 3 – Capital Personal vs. Capital Finanțat - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 3 – Capital Personal vs. Capital Finanțat - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_04",
+    "chapter_num": 4,
+    "lesson_num": 4,
+    "title": "Firmele de finanțare",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 4 – Firmele de finanțare - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 4 – Firmele de finanțare - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_05",
+    "chapter_num": 4,
+    "lesson_num": 5,
+    "title": "MetaTrader",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 5 – MetaTrader - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 5 – MetaTrader - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_06",
+    "chapter_num": 4,
+    "lesson_num": 6,
+    "title": "Ce broker să aleg?",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 6 – Ce broker să aleg? - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 6 – Ce broker să aleg? - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_07",
+    "chapter_num": 4,
+    "lesson_num": 7,
+    "title": "Diferența dintre S",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 7 – Diferența dintre S-Line (Ask) și B-Line (Bid) în Trading - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 7 – Diferența dintre S-Line (Ask) și B-Line (Bid) în Trading - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_08",
+    "chapter_num": 4,
+    "lesson_num": 8,
+    "title": "Cum Alegi Corect Piața de Tranzacționare",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 8 – Cum Alegi Corect Piața de Tranzacționare - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 8 – Cum Alegi Corect Piața de Tranzacționare - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_09",
+    "chapter_num": 4,
+    "lesson_num": 9,
+    "title": "MetaTrader pe telefon vs PC",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 9 - MetaTrader pe telefon vs PC - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 9 - MetaTrader pe telefon vs PC - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_4_lectia_10",
+    "chapter_num": 4,
+    "lesson_num": 10,
+    "title": "Ce indicatori folosesc? No gaps candles",
+    "chapter_label": "Capitolul 4",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 4/Lectia 10 - Ce indicatori folosesc? No gaps candles - Capitolul 4 - Summary.txt",
+      "transcript": "./Capitolul 4/Lectia 10 - Ce indicatori folosesc? No gaps candles - Capitolul 4 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_01",
+    "chapter_num": 5,
+    "lesson_num": 1,
+    "title": "Psihologia în Trading și Așteptările Corecte",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 1 – Psihologia în Trading și Așteptările Corecte - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 1 – Psihologia în Trading și Așteptările Corecte - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_02",
+    "chapter_num": 5,
+    "lesson_num": 2,
+    "title": "Risk to Reward, Win Rate și Puterea Probabilităților",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 2 – Risk to Reward, Win Rate și Puterea Probabilităților - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 2 – Risk to Reward, Win Rate și Puterea Probabilităților - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_03",
+    "chapter_num": 5,
+    "lesson_num": 3,
+    "title": "Cele Trei Stagii Psihologice ale Traderului",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 3 – Cele Trei Stagii Psihologice ale Traderului - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 3 – Cele Trei Stagii Psihologice ale Traderului - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_04",
+    "chapter_num": 5,
+    "lesson_num": 4,
+    "title": "Piața Are Mereu Dreptate!",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 4 – Piața Are Mereu Dreptate! - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 4 – Piața Are Mereu Dreptate! - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_05",
+    "chapter_num": 5,
+    "lesson_num": 5,
+    "title": "Capcana Schimbării Strategiei și Cum să o Eviți",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 5 – Capcana Schimbării Strategiei și Cum să o Eviți - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 5 – Capcana Schimbării Strategiei și Cum să o Eviți - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_06",
+    "chapter_num": 5,
+    "lesson_num": 6,
+    "title": "Acceptarea Riscului în Trading",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 6 – Acceptarea Riscului în Trading - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 6 – Acceptarea Riscului în Trading - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_07",
+    "chapter_num": 5,
+    "lesson_num": 7,
+    "title": "Win & Lose Streak",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 7 – Win & Lose Streak - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 7 – Win & Lose Streak - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_08",
+    "chapter_num": 5,
+    "lesson_num": 8,
+    "title": "Când evităm trading",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 8 - Când evităm trading-ul? - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 8 - Când evităm trading-ul? - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_09",
+    "chapter_num": 5,
+    "lesson_num": 9,
+    "title": "Winner’s Mindset vs. Loser’s Mindset în Trading",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 9 – Winner’s Mindset vs. Loser’s Mindset în Trading - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 9 – Winner’s Mindset vs. Loser’s Mindset în Trading - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_10",
+    "chapter_num": 5,
+    "lesson_num": 10,
+    "title": "Trading vs Job",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 10 - Trading vs Job - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 10 - Trading vs Job - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_11",
+    "chapter_num": 5,
+    "lesson_num": 11,
+    "title": "Risk & Money Management în Trading",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 11",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 11 – Risk & Money Management în Trading - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 11 – Risk & Money Management în Trading - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_12",
+    "chapter_num": 5,
+    "lesson_num": 12,
+    "title": "Care este probabilitatea să am multe pierderi consecutive?",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 12",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 12 - Care este probabilitatea să am multe pierderi consecutive? - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 12 - Care este probabilitatea să am multe pierderi consecutive? - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_13",
+    "chapter_num": 5,
+    "lesson_num": 13,
+    "title": "Personalitatea în Trading",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 13",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 13 – Personalitatea în Trading - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 13 – Personalitatea în Trading - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_14",
+    "chapter_num": 5,
+    "lesson_num": 14,
+    "title": "SHU HA RI (Secretele mele pentru performanță)",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 14",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 14 - SHU HA RI (Secretele mele pentru performanță) - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 14 - SHU HA RI (Secretele mele pentru performanță) - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_5_lectia_15",
+    "chapter_num": 5,
+    "lesson_num": 15,
+    "title": "Greșeli Comune în Trading",
+    "chapter_label": "Capitolul 5",
+    "lesson_label": "Lecția 15",
+    "files": {
+      "summary": "./Capitolul 5/Lectia 15 – Greșeli Comune în Trading - Capitolul 5 - Summary.txt",
+      "transcript": "./Capitolul 5/Lectia 15 – Greșeli Comune în Trading - Capitolul 5 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_01",
+    "chapter_num": 6,
+    "lesson_num": 1,
+    "title": "Cea mai eficientă metodă de studiu",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 1 - Cea mai eficientă metodă de studiu - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 1 - Cea mai eficientă metodă de studiu - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_02",
+    "chapter_num": 6,
+    "lesson_num": 2,
+    "title": "Lichidități",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 2 - Lichidități - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 2 - Lichidități - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_03",
+    "chapter_num": 6,
+    "lesson_num": 3,
+    "title": "Minimul și Maximul zilei",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 3 - Minimul și Maximul zilei - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 3 - Minimul și Maximul zilei - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_04",
+    "chapter_num": 6,
+    "lesson_num": 4,
+    "title": "Lichiditatea Majoră",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 4 - Lichiditatea Majoră - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 4 - Lichiditatea Majoră - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_05",
+    "chapter_num": 6,
+    "lesson_num": 5,
+    "title": "Lichiditatea Locală",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 5 - Lichiditatea Locală - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 5 - Lichiditatea Locală - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_06",
+    "chapter_num": 6,
+    "lesson_num": 6,
+    "title": "Lichiditatea Minoră",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 6 - Lichiditatea Minoră - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 6 - Lichiditatea Minoră - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_07",
+    "chapter_num": 6,
+    "lesson_num": 7,
+    "title": "Entry: Stop Loss: Take Profit",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 7 - Entry: Stop Loss: Take Profit - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 7 - Entry: Stop Loss: Take Profit - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_08",
+    "chapter_num": 6,
+    "lesson_num": 8,
+    "title": "High",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 8 - High-uri vs Low-uri valide - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 8 - High-uri vs Low-uri valide - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_09",
+    "chapter_num": 6,
+    "lesson_num": 9,
+    "title": "Market Structure Shift (MSS)",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 9 - Market Structure Shift (MSS) - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 9 - Market Structure Shift (MSS) - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_10",
+    "chapter_num": 6,
+    "lesson_num": 10,
+    "title": "MSS vs BOS vs CHOCH",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 10 - MSS vs BOS vs CHOCH - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 10 - MSS vs BOS vs CHOCH - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_11",
+    "chapter_num": 6,
+    "lesson_num": 11,
+    "title": "MSS Agresiv",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 11",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 11 - MSS Agresiv - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 11 - MSS Agresiv - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_12",
+    "chapter_num": 6,
+    "lesson_num": 12,
+    "title": "Simple Gaps",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 12",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 12 - Simple Gaps - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 12 - Simple Gaps - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_13",
+    "chapter_num": 6,
+    "lesson_num": 13,
+    "title": "Gap instituțional & Displacement",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 13",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 13 - Gap instituțional & Displacement - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 13 - Gap instituțional & Displacement - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_14",
+    "chapter_num": 6,
+    "lesson_num": 14,
+    "title": "Lista de reguli complete",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 14",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 14 - Lista de reguli complete - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 14 - Lista de reguli complete - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_15",
+    "chapter_num": 6,
+    "lesson_num": 15,
+    "title": "Leverage (Levier)",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 15",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 15 - Leverage (Levier) - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 15 - Leverage (Levier) - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_16",
+    "chapter_num": 6,
+    "lesson_num": 16,
+    "title": "Cum se calculează volumul (Lot Size)",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 16",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 16 - Cum se calculează volumul (Lot Size) - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 16 - Cum se calculează volumul (Lot Size) - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_17",
+    "chapter_num": 6,
+    "lesson_num": 17,
+    "title": "Cum calculezi loturile pe mai multe piețe?",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 17",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 17 - Cum calculezi loturile pe mai multe piețe? - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 17 - Cum calculezi loturile pe mai multe piețe? - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_18",
+    "chapter_num": 6,
+    "lesson_num": 18,
+    "title": "Tipurile de execuții",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 18",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 18 - Tipurile de execuții - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 18 - Tipurile de execuții - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_19",
+    "chapter_num": 6,
+    "lesson_num": 19,
+    "title": "Cum tratăm diferența de preț dintre brokeri?",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 19",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 19 – Cum tratăm diferența de preț dintre brokeri? - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 19 – Cum tratăm diferența de preț dintre brokeri? - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_20",
+    "chapter_num": 6,
+    "lesson_num": 20,
+    "title": "Cum execuți corect HOD & LOD",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 20",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 20 – Cum execuți corect HOD & LOD - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 20 – Cum execuți corect HOD & LOD - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_6_lectia_21",
+    "chapter_num": 6,
+    "lesson_num": 21,
+    "title": "Execuția pe bază de lichidități și tranzacționarea pe tot parcursul zilei",
+    "chapter_label": "Capitolul 6",
+    "lesson_label": "Lecția 21",
+    "files": {
+      "summary": "./Capitolul 6/Lectia 21 – Execuția pe bază de lichidități și tranzacționarea pe tot parcursul zilei - Capitolul 6 - Summary.txt",
+      "transcript": "./Capitolul 6/Lectia 21 – Execuția pe bază de lichidități și tranzacționarea pe tot parcursul zilei - Capitolul 6 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_01",
+    "chapter_num": 7,
+    "lesson_num": 1,
+    "title": "Introducere în setup",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 1 - Introducere în setup-urile folosite de Rareș - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 1 - Introducere în setup-urile folosite de Rareș - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_02",
+    "chapter_num": 7,
+    "lesson_num": 2,
+    "title": "One Simple Gap Setup (OSG)",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 2 – One Simple Gap Setup (OSG) - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 2 – One Simple Gap Setup (OSG) - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_03",
+    "chapter_num": 7,
+    "lesson_num": 3,
+    "title": "Two Gap Setup (TG) și Two Consecutive Gaps Setup (TCG)",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 3 – Two Gap Setup (TG) și Two Consecutive Gaps Setup (TCG) - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 3 – Two Gap Setup (TG) și Two Consecutive Gaps Setup (TCG) - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_04",
+    "chapter_num": 7,
+    "lesson_num": 4,
+    "title": "Three Gaps Setup (3G) și Three Consecutive Gaps Setup (3CG)",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 4 – Three Gaps Setup (3G) și Three Consecutive Gaps Setup (3CG) - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 4 – Three Gaps Setup (3G) și Three Consecutive Gaps Setup (3CG) - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_05",
+    "chapter_num": 7,
+    "lesson_num": 5,
+    "title": "Second Leg Setup (SLG)",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 7/ Lectia 5 – Second Leg Setup (SLG) - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/ Lectia 5 – Second Leg Setup (SLG) - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_06",
+    "chapter_num": 7,
+    "lesson_num": 6,
+    "title": "Unclassified Setup",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 6 – Unclassified Setup - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 6 – Unclassified Setup - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_07",
+    "chapter_num": 7,
+    "lesson_num": 7,
+    "title": "Multiple Gaps Setup (MG)",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 7 – Multiple Gaps Setup (MG) - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 7 – Multiple Gaps Setup (MG) - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_08",
+    "chapter_num": 7,
+    "lesson_num": 8,
+    "title": "Reacție din ultimul gap",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 8 – Reacție din ultimul gap - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 8 – Reacție din ultimul gap - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_7_lectia_09",
+    "chapter_num": 7,
+    "lesson_num": 9,
+    "title": "Discount Rule",
+    "chapter_label": "Capitolul 7",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 7/Lectia 9 – Discount Rule - Capitolul 7 - Summary.txt",
+      "transcript": "./Capitolul 7/Lectia 9 – Discount Rule - Capitolul 7 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_8_lectia_01",
+    "chapter_num": 8,
+    "lesson_num": 1,
+    "title": "Importanta Statisticii in Trading",
+    "chapter_label": "Capitolul 8",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 8/Lectia 1 - Importanta Statisticii in Trading - Capitolul 8 - Summary.txt",
+      "transcript": "./Capitolul 8/Lectia 1 - Importanta Statisticii in Trading - Capitolul 8 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_8_lectia_02",
+    "chapter_num": 8,
+    "lesson_num": 2,
+    "title": "Modalitati Avansate de tinere a statisticii in trading",
+    "chapter_label": "Capitolul 8",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 8/Lectia 2 - Modalitati Avansate de tinere a statisticii in trading - Capitolul 8 - Summary.txt",
+      "transcript": "./Capitolul 8/Lectia 2 - Modalitati Avansate de tinere a statisticii in trading - Capitolul 8 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_8_lectia_03",
+    "chapter_num": 8,
+    "lesson_num": 3,
+    "title": "Cum îți creezi algoritmul? Ce trebuie să conțină?",
+    "chapter_label": "Capitolul 8",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 8/Lectia 3 - Cum îți creezi algoritmul? Ce trebuie să conțină? - Capitolul 8 - Summary.txt",
+      "transcript": "./Capitolul 8/Lectia 3 - Cum îți creezi algoritmul? Ce trebuie să conțină? - Capitolul 8 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_01",
+    "chapter_num": 9,
+    "lesson_num": 1,
+    "title": "Profituri Partiale, BE, Backtesting",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 1 - Profituri Partiale, BE, Backtesting - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 1 - Profituri Partiale, BE, Backtesting - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_02",
+    "chapter_num": 9,
+    "lesson_num": 2,
+    "title": "Exemple Backtesting",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 2 - Exemple Backtesting - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 2 - Exemple Backtesting - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_03",
+    "chapter_num": 9,
+    "lesson_num": 3,
+    "title": "Tranzacții pe High of the Day și Low of the Day (HOD:LOD)",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 3 – Tranzacții pe High of the Day și Low of the Day (HOD:LOD) - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 3 – Tranzacții pe High of the Day și Low of the Day (HOD:LOD) - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_04",
+    "chapter_num": 9,
+    "lesson_num": 4,
+    "title": "Exemple Practice pe Lichiditate Majoră",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 4 - Exemple Practice pe Lichiditate Majoră - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 4 - Exemple Practice pe Lichiditate Majoră - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_05",
+    "chapter_num": 9,
+    "lesson_num": 5,
+    "title": "Exemple de tranzacții cu Lichiditate Locală și Lichiditate Minoră",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 5 – Exemple de tranzacții cu Lichiditate Locală și Lichiditate Minoră - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 5 – Exemple de tranzacții cu Lichiditate Locală și Lichiditate Minoră - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_06",
+    "chapter_num": 9,
+    "lesson_num": 6,
+    "title": "Cat de veche poate fi o lichiditate?",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 6 - Cat de veche poate fi o lichiditate? - Cum ne adaptăm constant? - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 6 - Cat de veche poate fi o lichiditate? - Cum ne adaptăm constant? - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_07",
+    "chapter_num": 9,
+    "lesson_num": 7,
+    "title": "Tranzacționarea în Perioadele de All",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 7 Tranzacționarea în Perioadele de All-Time High - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 7 Tranzacționarea în Perioadele de All-Time High - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_08",
+    "chapter_num": 9,
+    "lesson_num": 8,
+    "title": "Zile Trendy & Stop Loss Size",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 8 - Zile Trendy & Stop Loss Size - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 8 - Zile Trendy & Stop Loss Size - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_09",
+    "chapter_num": 9,
+    "lesson_num": 9,
+    "title": "Tranzacții Situaționale, Legea Viziunii",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 9 - Tranzacții Situaționale, Legea Viziunii - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 9 - Tranzacții Situaționale, Legea Viziunii - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_10",
+    "chapter_num": 9,
+    "lesson_num": 10,
+    "title": "Structurarea Programului Zilnic și Cum Tranzacționezi la Orice Oră",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 10 - Structurarea Programului Zilnic și Cum Tranzacționezi la Orice Oră - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 10 - Structurarea Programului Zilnic și Cum Tranzacționezi la Orice Oră - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_11",
+    "chapter_num": 9,
+    "lesson_num": 11,
+    "title": "Adaptarea Strategiei pe Time Frame",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 11",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 11 - Adaptarea Strategiei pe Time Frame-uri mai Mare (Swing Trading) - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 11 - Adaptarea Strategiei pe Time Frame-uri mai Mare (Swing Trading) - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_12",
+    "chapter_num": 9,
+    "lesson_num": 12,
+    "title": "Gestionarea Re",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 12",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 12 - Gestionarea Re-entry-urilor și Break-even - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 12 - Gestionarea Re-entry-urilor și Break-even - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_13",
+    "chapter_num": 9,
+    "lesson_num": 13,
+    "title": "Gap",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 13",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 13 Gap-urile Extreme si partial inchise - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 13 Gap-urile Extreme si partial inchise - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_9_lectia_14",
+    "chapter_num": 9,
+    "lesson_num": 14,
+    "title": "Cum Tranzacționezi în Perioade de Maxim Istoric și Importanța Adaptabilității",
+    "chapter_label": "Capitolul 9",
+    "lesson_label": "Lecția 14",
+    "files": {
+      "summary": "./Capitolul 9/Lectia 14 - Cum Tranzacționezi în Perioade de Maxim Istoric și Importanța Adaptabilității - Capitolul 9 - Summary.txt",
+      "transcript": "./Capitolul 9/Lectia 14 - Cum Tranzacționezi în Perioade de Maxim Istoric și Importanța Adaptabilității - Capitolul 9 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_01",
+    "chapter_num": 10,
+    "lesson_num": 1,
+    "title": "Introducere în Analiza Fundamentală",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 1 - Introducere în Analiza Fundamentală  - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 1 - Introducere în Analiza Fundamentală  - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_02",
+    "chapter_num": 10,
+    "lesson_num": 2,
+    "title": "CPI (Consumer Price Index)",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 2 - CPI (Consumer Price Index) - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 2 - CPI (Consumer Price Index) - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_03",
+    "chapter_num": 10,
+    "lesson_num": 3,
+    "title": "NFP (Nonfarm Payrolls)",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 3 - NFP (Nonfarm Payrolls) - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 3 - NFP (Nonfarm Payrolls) - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_04",
+    "chapter_num": 10,
+    "lesson_num": 4,
+    "title": "FOMC Meeting & Minutes",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 4 - FOMC Meeting & Minutes - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 4 - FOMC Meeting & Minutes - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_05",
+    "chapter_num": 10,
+    "lesson_num": 5,
+    "title": "Unemployment Rate",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 5 - Unemployment Rate - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 5 - Unemployment Rate - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_06",
+    "chapter_num": 10,
+    "lesson_num": 6,
+    "title": "GDP",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 6 - GDP - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 6 - GDP - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_07",
+    "chapter_num": 10,
+    "lesson_num": 7,
+    "title": "PCE (Personal Consumption Expenditures)",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 7 - PCE (Personal Consumption Expenditures) - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 7 - PCE (Personal Consumption Expenditures) - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_08",
+    "chapter_num": 10,
+    "lesson_num": 8,
+    "title": "Știri cu impact redus",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 8 - Știri cu impact redus - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 8 - Știri cu impact redus - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_09",
+    "chapter_num": 10,
+    "lesson_num": 9,
+    "title": "Black Swan Events și Războaiele în Piețele Financiare",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 9 -Black Swan Events și Războaiele în Piețele Financiare - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 9 -Black Swan Events și Războaiele în Piețele Financiare - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_10_lectia_10",
+    "chapter_num": 10,
+    "lesson_num": 10,
+    "title": "Crize Economice",
+    "chapter_label": "Capitolul 10",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 10/Lectia 10 - Crize Economice - Capitolul 10 - Summary.txt",
+      "transcript": "./Capitolul 10/Lectia 10 - Crize Economice - Capitolul 10 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_01",
+    "chapter_num": 11,
+    "lesson_num": 1,
+    "title": "Așteptări Realiste, Mindset Corect și Pași Structurați pentru Un Start Sustenabil în Trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 1",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 1 - Așteptări Realiste, Mindset Corect și Pași Structurați pentru Un Start Sustenabil în Trading - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 1 - Așteptări Realiste, Mindset Corect și Pași Structurați pentru Un Start Sustenabil în Trading - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_03",
+    "chapter_num": 11,
+    "lesson_num": 3,
+    "title": "Sezoanele in Trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 3",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 3 - Sezoanele in Trading - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 3 - Sezoanele in Trading - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_04",
+    "chapter_num": 11,
+    "lesson_num": 4,
+    "title": "Adaptibilitatea in Trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 4",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 4 - Adaptibilitatea in Trading - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 4 - Adaptibilitatea in Trading - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_05",
+    "chapter_num": 11,
+    "lesson_num": 5,
+    "title": "Mirajul Banilor",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 5",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 5 - Mirajul Banilor - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 5 - Mirajul Banilor - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_06",
+    "chapter_num": 11,
+    "lesson_num": 6,
+    "title": "Taxele in Trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 6",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 6 - Taxele in Trading - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 6 - Taxele in Trading - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_07",
+    "chapter_num": 11,
+    "lesson_num": 7,
+    "title": "Ciclicitatea in trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 7",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 7 - Ciclicitatea in trading - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 7 - Ciclicitatea in trading - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_08",
+    "chapter_num": 11,
+    "lesson_num": 8,
+    "title": "Momente grele:Ghid motivațional",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 8",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 8 - Momente grele:Ghid motivațional - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 8 - Momente grele:Ghid motivațional - Capitolul 11 - Transcript .txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_09",
+    "chapter_num": 11,
+    "lesson_num": 9,
+    "title": "Zgomotul din exterior",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 9",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 9 - Zgomotul din exterior - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 9 - Zgomotul din exterior - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
+    "id": "capitol_11_lectia_10",
+    "chapter_num": 11,
+    "lesson_num": 10,
+    "title": "Trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 10",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 10 - Trading-ul este un joc - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 10 - Trading-ul este un joc - Capitolul 11 - Transcript.txt"
+    }
+  }
+]

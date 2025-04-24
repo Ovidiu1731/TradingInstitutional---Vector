@@ -1,0 +1,87 @@
+**Rezumat Detaliat – Lecția 2: CPI (Consumer Price Index / Inflația)**
+
+---
+
+### Introducere
+
+Această lecție explică în detaliu **CPI (Consumer Price Index)** și **Core CPI**, indicatori economici esențiali în înțelegerea inflației și a impactului acesteia asupra economiei și piețelor financiare. Este o lecție fundamentală pentru traderii care doresc să-și dezvolte analiza fundamentală și să folosească știrile în mod inteligent în luarea deciziilor.
+
+---
+
+### Ce este CPI?
+
+- **CPI = Indicele Prețurilor de Consum** – măsoară evoluția prețurilor pentru bunuri și servicii consumate de gospodării.
+- **Este barometrul inflației**, exprimat procentual: ex. 2.4%, 2.6%, 2.8%.
+- O inflație considerată „sănătoasă” este în jurul valorii de **2%**.
+
+---
+
+### Cum influențează inflația economia?
+
+- **Inflația mare** → creșterea **ratei dobânzii de referință** de către băncile centrale (ex. Federal Reserve).
+- **Rata dobânzii ridicată** = împrumuturi mai scumpe → scăderea banilor în circulație → **scăderea inflației**.
+- Exemplu explicativ: valoarea pepenilor pe o insulă în funcție de raritatea lor ilustrează perfect **principiul cererii și ofertei** aplicat banilor.
+
+---
+
+### Core CPI vs. CPI
+
+- **Core CPI** = CPI *fără* componente volatile (alimente, energie).
+- Se consideră un indicator **mai stabil și mai relevant** pentru tendințele inflaționiste pe termen lung.
+- **Federal Reserve** analizează în principal **Core CPI** în deciziile de politică monetară.
+
+---
+
+### De ce este important CPI pentru:
+
+#### a) **Guverne și bănci centrale**
+- Pentru ajustarea ratelor dobânzilor și stabilirea politicilor monetare.
+
+#### b) **Investitori**
+- Influențează **acțiuni, obligațiuni, valute**.
+- Poate anticipa deciziile băncilor centrale și direcția pieței.
+
+#### c) **Consumatori**
+- Afectează **puterea de cumpărare**.
+- Contractele salariale pot fi ajustate în funcție de inflație.
+
+---
+
+### Relația CPI cu alți indicatori economici
+
+- **PIB (GDP)** – inflația ridicată reduce consumul → scade PIB-ul.
+- **Șomaj** – conform Curbei Phillips, inflația și șomajul sunt invers corelate pe termen scurt.
+- **Rata dobânzilor** – reglate pentru a controla inflația.
+- **PPI (Producer Price Index)** – prefațează mișcările inflaționiste.
+- **Valoarea monedei** – inflația mare → scăderea valorii monedei → afectează exporturile/importurile.
+
+---
+
+### Tratamentul practic al știrilor CPI în trading
+
+- CPI există pe toate monedele: USD, EUR, GBP, CHF, JPY etc.
+- **US CPI** – cel mai relevant → *se evită complet*, deoarece aduce volatilitate mare.
+- **Euro CPI** – se tratează cu prudență; dacă este eveniment major, se evită întreaga zi sau intervalul apropiat.
+- **CPI Japonia, NZ etc.** – relevant doar dacă tranzacționezi acele piețe.
+- **CPI Marea Britanie** – se evită dacă tranzacționezi GBP.
+
+#### Situații:
+- **Rezultat identic cu forecast** = efect neutru.
+- **Rezultat sub forecast (inflație în scădere)** = efect pozitiv.
+- **Rezultat peste forecast (inflație în creștere)** = efect negativ.
+
+---
+
+### Recomandări
+
+- Evită trading-ul în timpul publicării CPI în primul an de experiență.
+- Nu complica inutil trading-ul: aceste informații sunt suficiente pentru o înțelegere practică și aplicabilă.
+- Stabilește o rutină de monitorizare a știrilor (ex: 10-15 minute pe zi pe investing.com sau calendarul platformei).
+
+---
+
+### Final Thoughts
+
+Această lecție oferă o înțelegere clară a ceea ce înseamnă inflația și cum poate fi integrată în procesul decizional al unui trader. Înțelegerea CPI și Core CPI este un pas esențial în construirea unui profil de trader care îmbină analiza tehnică cu analiza fundamentală într-un mod eficient și rațional.
+
+Următoarele lecții vor aprofunda și alți indicatori fundamentali precum FOMC, NFP, șomajul, GDP, PCE etc.

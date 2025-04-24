@@ -1,0 +1,80 @@
+### **Rezumat Lecția 8– Cum Alegi Corect Piața de Tranzacționare**
+
+---
+
+#### **Introducere**
+
+Această lecție abordează una dintre cele mai importante decizii în trading: **pe ce piață să tranzacționezi** și **câte piețe să urmărești simultan**. Nu există o regulă unică valabilă pentru toți – fiecare trader trebuie să își găsească propriul drum în funcție de stilul și rezultatele proprii.
+
+---
+
+#### **Criteriul principal: performanța pe termen lung**
+
+- Nu există „cea mai bună piață” pentru toată lumea.
+- Alegerea trebuie făcută **pe bază de testare și statistici personale**.
+- Autorul oferă exemplul său personal: **DAX-ul (DE30 EUR)** este piața care i-a generat cele mai bune rezultate, cu peste 80% din tranzacțiile efectuate acolo.
+- A testat de-a lungul timpului mai multe piețe: aur, argint, forex, acțiuni, indici.
+  - **Rezultatele cele mai slabe** le-a avut constant pe aur și argint → le-a eliminat complet.
+
+---
+
+#### **Personalitatea pieței**
+
+- Fiecare instrument financiar are o dinamică proprie, un „stil” de mișcare specific.
+- Piețele sunt comparate cu oameni – fiecare cu „caracterul” lui.
+- Trebuie să te simți confortabil cu modul în care se mișcă o piață, să o înțelegi intuitiv.
+
+---
+
+#### **Recomandare de testare pentru începători**
+
+1. Alege câteva piețe care îți inspiră încredere sau curiozitate (ex. DAX, US30, EURUSD, NASDAQ).
+2. Tranzacționează pe demo 2–3 luni.
+3. Ține o **evidență clară a rezultatelor**: câte win-uri și câte loss-uri ai pe fiecare piață.
+4. Elimină piețele care îți aduc pierderi constante.
+5. Păstrează-le pe cele profitabile și **focusează-te pe ele pe termen lung**.
+
+---
+
+#### **Câte piețe să urmărești simultan?**
+
+- Depinde de personalitate și experiență.
+- La început, este **ideal să începi cu 1 sau 2 piețe**.
+- Avantajul concentrării pe o singură piață:
+  - O poți înțelege în profunzime.
+  - Devii expert pe acel comportament specific.
+- Dezavantajul: există perioade în care acea piață **nu produce setup-uri bune** → devine inactivă sau greu de înțeles.
+
+**Soluție:** Ai 2–3 piețe în vizor, ca alternativă în perioadele „moarte”.
+
+---
+
+#### **Exemplul personal actual al autorului**
+
+- Piața principală: **DAX** – este mereu prima analizată.
+- Piața secundară: **US30** (Dow Jones).
+- Alte piețe de interes:
+  - NASDAQ
+  - EURUSD (paritate)
+  - UK100 (indice Londra)
+  - GBPUSD (în studiu)
+  - S&P500 (doar pentru observații, nu pentru execuție)
+
+**Procesul său de lucru:**
+1. Analizează DAX.
+2. Dacă nu găsește oportunități, trece la US30.
+3. Dacă nici acolo nu e nimic convingător, verifică celelalte piețe.
+4. Își setează alerte și revine doar când piața atinge zonele marcate.
+
+---
+
+#### **Concluzii și recomandări**
+
+- Alegerea pieței potrivite se face **în timp**, pe baza experienței personale.
+- Nu te grăbi să sari de la o piață la alta fără o justificare statistică.
+- Rămâi flexibil și deschis la ajustări.
+- După 6–12 luni de practică, vei identifica clar care piață îți aduce cele mai bune rezultate și pe care merită să te concentrezi.
+
+---
+
+O lecție esențială care pune bazele unui **proces de selecție rațional și personalizat** al pieței de tranzacționare. Fără această claritate, orice strategie are șanse mici să fie scalată pe termen lung.

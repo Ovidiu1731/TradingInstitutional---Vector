@@ -1,0 +1,94 @@
+**Rezumat Detaliat – Lecția 1: Profituri Parțiale, Break-Even, Structura Pieței și Backtesting**
+
+---
+
+### Introducere
+
+Această lecție reprezintă un material dens și esențial, destinat traderilor aflați într-o etapă intermediară spre avansată. Sunt introduse și analizate în detaliu concepte precum **profituri parțiale**, **break-even**, diferențele dintre **Market Structure Shift și Break of Structure**, noțiuni despre **backtesting extins** și adaptarea la **propriul program de trading**.
+
+---
+
+### 1. Profituri Parțiale – Definiție și Aplicabilitate
+
+#### Ce sunt?
+- Închiderea unei părți dintr-o tranzacție aflată în profit, pentru a **securiza un câștig**.
+- Recomandate doar la **tranzacții cu risc mare**.
+
+#### Avantaje:
+- **Reduc stresul psihologic** – după închiderea parțială, traderul se simte mai relaxat.
+- **Securizare parțială a câștigului** – protecție în caz de întoarcere a prețului.
+- Permite rularea unei poziții spre targeturi extinse (ex: RR 1:5).
+
+#### Dezavantaje:
+- **Strică matematica strategiei** – introducerea de rezultate „intermediare” alterează raportul Win/Loss.
+- **Scad profitul final** – închiderile timpurii reduc câștigul maxim.
+- **Recomandare**: să nu se închidă sub 70–80% din RR planificat.
+
+#### Tehnică pe MetaTrader:
+- Se închide parțial prin reducerea volumului în fereastra de tranzacție activă.
+
+---
+
+### 2. Break-Even – Protejarea Capitalului
+
+#### Ce este?
+- Mutarea stop loss-ului în punctul de intrare („pe zero”) după ce prețul ajunge aproape de target.
+
+#### Recomandări:
+- Se mută **doar după ce s-a atins 70–80% din RR**.
+- Folosit prematur → trade-ul este închis pe 0 înainte de a atinge profitul.
+
+#### Combinația ideală:
+- Închiderea **30%** din poziție + mutarea stop-ului pe 0 → „risk-free” cu profit asigurat.
+
+---
+
+### 3. Market Structure Shift vs. Break of Structure
+
+| Termen                   | Definiție                                                   | Moment de folosire                   |
+|--------------------------|-------------------------------------------------------------|--------------------------------------|
+| **Market Structure Shift** | Schimbarea direcției trendului (de ex: higher low rupt)      | Doar la **schimbarea trendului**     |
+| **Break of Structure**     | Continuarea trendului existent prin ruperea unui high/low   | Atât **în trend**, cât și la schimbări |
+
+- Se recomandă **utilizarea doar a Market Structure Shift** pentru consistență.
+- **CHoCH (Change of Character)** este sinonim cu Market Structure Shift, dar are mici diferențe de reguli (ex: număr de candele).
+
+---
+
+### 4. Termeni echivalenți: Gap instituțional, Fair Value Gap, Imbalance
+
+- Toți indică același lucru – o **zonă de dezechilibru** de preț.
+- Diferențele sunt doar de terminologie, **nu conceptuale**.
+
+---
+
+### 5. Backtesting – Aplicație și Extindere
+
+#### Recomandare:
+- Extinderea analizelor **pe toată ziua**, nu doar în intervalul 10:00–12:00.
+- Alegerea orelor de trading în funcție de **disponibilitatea și performanța personală**.
+
+#### Procesul:
+1. Marchează lichiditățile majore.
+2. Identifică Market Structure Shift + gap.
+3. Evaluează toate oportunitățile de intrare.
+4. Notează rezultatele (win/lose) pentru fiecare oportunitate.
+5. Compară execuțiile reale cu potențialele execuții.
+
+#### Scop:
+- **Identificarea erorilor personale**: lipsă de concentrare, frică, decizii emoționale.
+- Creșterea nivelului de **conștiență și control al deciziilor** în tranzacționare.
+
+---
+
+### Concluzii
+
+- **Parțialele și break-even-ul sunt unelte utile**, dar pot deveni destructive dacă sunt folosite incorect.
+- Este esențial să se înțeleagă **momentul potrivit pentru folosirea lor**.
+- În trading, **matematica strategiei trebuie protejată**.
+- Backtestingul corect este cheia dezvoltării unui sistem robust și personalizat.
+- **Mindset-ul, adaptabilitatea și disciplina** rămân fundamentele succesului în trading.
+
+---
+
+Această lecție oferă un set complet de instrumente și corecturi conceptuale pentru traderii care doresc să își rafineze stilul și să adopte o abordare mai profesionistă și calculată în tranzacționare.

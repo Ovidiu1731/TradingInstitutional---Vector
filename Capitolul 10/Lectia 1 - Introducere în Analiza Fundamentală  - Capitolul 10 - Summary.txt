@@ -1,0 +1,89 @@
+**Rezumat Detaliat – Lecția 1 (Introducere în Analiza Fundamentală)**
+
+---
+
+### Introducere
+
+Această lecție deschide un nou capitol dedicat **analizei fundamentale**, un domeniu adesea ignorat de traderii concentrați exclusiv pe analiza tehnică. În mod contrar aparențelor, analiza fundamentală nu este complicată, ci extrem de valoroasă și necesită o înțelegere graduală, dar strategică. Lecția este construită ca o introducere, punând accent pe concepte, mindset și bazele interpretării știrilor economice.
+
+---
+
+### Concepte Cheie
+
+- **Analiza fundamentală = analiza știrilor** și a contextului economic global.
+- **Complementaritate cu analiza tehnică**: cele două trebuie folosite împreună pentru o viziune completă asupra pieței.
+- **Rolul analizelor economice**: oferă indicii indirecte care pot fi folosite pentru a evita zilele riscante sau pentru a identifica oportunități mai bine conturate.
+- **Scopul acestui capitol**: dezvoltarea unei viziuni macro și a unei capacități de interpretare a contextului economic.
+
+---
+
+### Metodologia Recomandată
+
+#### 1. **Studiu treptat și aplicat**
+- Nu este necesar să înțelegi totul din prima – procesul este unul de lungă durată.
+- Se recomandă revizuirea lecțiilor tehnice anterioare înainte de a intra în detaliile fundamentale.
+
+#### 2. **Notițele ca instrument de învățare**
+- Fiecare lecție trebuie să fie însoțită de notițe detaliate.
+- Obiectivul este **învățarea activă**, nu doar consumul pasiv de informații.
+
+#### 3. **Rolul știrilor în trading**
+- Folosite **mai ales pentru a evita zile periculoase**, nu neapărat pentru a executa tranzacții.
+- Excepții: doar în cazuri în care mai mulți indicatori corelează perfect și experiența permite o decizie bazată pe știri.
+
+---
+
+### Aplicabilitate Practică
+
+#### Zile cu știri majore:
+- **CPI, NFP, FOMC Meetings, Unemployment Rate, GDP, PCE** – au impact semnificativ asupra piețelor.
+- **Evitați trading-ul în aceste zile în primul an de experiență**.
+- **Bank Holidays (ex: US Bank Holiday)**:
+  - Se evită complet – lipsă de volum, lipsă de lichiditate, algoritmii sunt inactivi.
+  - Ideal pentru: odihnă, studiu, activități personale sau statistică.
+
+#### Exemplu de calendar economic:
+- **Investing.com** – calendar economic gratuit și detaliat.
+- **Site-ul tradinginstitutional.ro** – conține de asemenea un calendar util.
+- Setări recomandate:
+  - Trei steluțe pentru impact major.
+  - Fus orar corect (ex: GMT+2 sau GMT+3 în funcție de sezon).
+
+#### Interpretarea valorilor:
+- **Actual** = cifra reală publicată.
+- **Forecast** = așteptările pieței.
+- **Previous** = valoarea anterioară.
+- Ex: Dacă forecast = 2.9% și actual = 2.5%, este un semnal pozitiv (inflație mai mică decât se anticipa).
+
+#### Alte detalii utile:
+- **Preliminary release (simbol “p”)** = estimare, nu valoare oficială.
+- **FOMC Meeting Minutes (simbol “report”)** = nu decizii oficiale, ci un rezumat al discuțiilor.
+
+---
+
+### Mindset și Recomandări
+
+- **Nu complica trading-ul**: simplifică strategia, ai răbdare, construiește o rutină zilnică.
+- **Petrece 10–15 minute zilnic pentru studiu fundamental**.
+- **Nu încerca să ai câștiguri zilnice**: caută echilibru între win și loss, construiește consistență.
+- **Stabilește un plan clar de învățare** și aplicare graduală.
+
+---
+
+### Final Thoughts
+
+Această lecție reprezintă fundamentul pentru capitolele următoare despre analiza fundamentală. Nu oferă un ghid complet pentru toate tipurile de știri, ci stabilește cadrul și atitudinea necesare pentru a deveni un trader conștient de contextul macroeconomic.
+
+Următoarele lecții vor aborda în detaliu:
+- **CPI**
+- **FOMC**
+- **NFP**
+- **Unemployment Rate**
+- **GDP**
+- **PCE**
+- **PMI**
+- **Retail Sales**
+
+---
+
+Această introducere este o piesă esențială din puzzle-ul complet al unui trader profesionist și servește drept bază solidă pentru aprofundarea subiectelor macroeconomice relevante.

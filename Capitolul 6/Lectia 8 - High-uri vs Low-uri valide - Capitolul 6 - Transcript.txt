@@ -1,0 +1,29 @@
+Lectia 8 high low valid
+===
+
+[00:00:00] High-uri vs. Low-uri valide. Cum definim dacă un vârf sau un maxim sau un minim este valid și așa mai departe Știți că am învățat în clipul despre trend-uri, despre high-uri și low-uri. În acest clip vreau să definim regula pentru un high-valid și un low-valid Vreau să menționez din capul locului că acești termeni sunt folosiți strict pentru această strategie deci asta nu definește în general un high sau un low valid pentru că în general dacă te uiți la graficul ăsta tu poți să spui uite hai să luăm, avem aici high-low, high-low se vede destul de clar.
+
+Corect? Corect. Dar pentru strategia mea astea nu sunt toate low-uri valide Sau high-uri valide. Pentru strategia mea avem aici low valid, avem aici high, low, high, low, high, fără acesta și acesta. Astea nu sunt valide. Și o să discutăm de ce, cum funcționează și care e logica din spate. Hai să dăm [00:01:00] drumul. În primă fază E foarte important să înțelegem cum se definește un high sau un low valid.
+
+De ce? Pentru că algoritmii instituționali în momentul în care execută tranzacțiile, ei nu au subiectivitate, ci pur și simplu se ghidează după niște reguli Și ei știu am la bani nu știu ce, schimbăm direcția și ei ca să execute poziții în direcții opuse, se ghidează și în funcție de numărul de candele.
+
+E foarte important să numărăm candelele pentru un high sau un low valid. Ca să știm pentru următoarea confluență care se numește March Extraction Shift pe care o să învățăm cum o alegem. Și este o regulă simplă de la care pornim. Ca să definim un high valid care este acesta. Deci avem aici un vârf. Tot ce trebuie este ca partea asta care îl creează asta așa, să aibă minim două candele verzi și cea de jos să aibă minim două candele roșii.
+
+Nu trebuie să fie consecutive. Deci să fie una după alta, dar trebuie să aibă minim 2 cu minim 2. Asta e regula [00:02:00] simplă și atât. Poate momentan ați înțeles că o pare ciudat când te uiți așa hai să o luăm pe grafic că mai simplu. Hai să o luăm cu acest loc, da? Avem aici minim 2 candele roșii avem Avem și 2 verzi avem Lău valid.
+
+Mergem mai departe. Avem aici două candele verzi minim, avem avem multe uite una, două trei, avem multe da, dar avem două roșii după, opa nu avem, deci asta pentru strategia mea și pentru execuția mea nu este un high valid, iar acesta nu este un low valid. Mergem mai departe. Avem minim două candele verzi în compoziție.
+
+Da, uite-le câte sunt aici. O grămadă avem Avem și două roșii. Da, avem. Aici mult o să mă întrebați cum tratăm aceste candele neutre. Aici e mai complex. E o discuție. Depinde. E greu să zici dacă candela asta e una bearish sau una bullish, uneori o să aleg ca una neutral, uneori o aleg ca una neutral, uneori ca una bearish depinde și de restul setup-ului, depinde de multe aspecte aici e mai subiectiv.
+
+Dar în caz de față o problemă că avem două clare. Dacă vrei să o mergi la cea mare claritate o iei asta ca neutral și să zicem că nu [00:03:00] exista asta aici, asta nu era. Ăsta îl defineai ca un low, depinde dacă pe asta o considerai neutral, ăsta nu era un low valid, că nu aveai două candele roșii. Prin urmare, ce puteai să faci în cazul de față e să nu lei încozitare și să cauți un low clar.
+
+Aici e la decizia fiecăruia dacă vrei să mergi pe siguranță mai mare sau nu. Revenim la discuție, aici da, deci avem așa low, high-ul avem aici, low-ul avem aici Dacă la low la fel avem minim 2 roșii, da, avem minim 2 verzi, da. Mergem aici, aici este un high valid, 3 secunde pentru răspuns. 3, 2, 1, normal că este un high valid, avem minim 2 candele verzi și minim 2 roșii.
+
+Aici e un low valid, normal, minim 2. Roșii cu minim două versii și asta este. Deci așa se fac high-urile și low-urile valide, nimic mai simplu doar numer candele, se numără candele, asta e, uite, hai să luăm aici, ăsta e un high valid, este, avem aici candelă chiar dacă vedeți nu sunt consecutive, observați, deci nu sunt consecutive, dar este, uite aici aici e low-ul, două roșii două versii hai aici [00:04:00] Înțelegeți cum funcționează?
+
+Deci chiar dacă aici vedeți, astea nu sunt consecutive, nu contează sunt două candele bai. De acum, o să mai aveți scenarii în care lucrurile nu o să arate prea clar, o să fie mereu scenarii un pic mai detaliate așa mai confusing. Clar alea depinde de interpretarea fiecăruia, știți? Adică nu știu dacă o să găsesc chiar acum.
+
+Uite, aici, pe exemplu aici nici nu știi cum să o iei, să o iei ăsta ca un high valid. Ăsta să le iei ca un low valid, adică să zici că băi ai avut o cantă de roșii aici o mai iei și pe asta, nu, nu o lua, când vezi chestii care pentru tine sunt neclare, nu executa mai bine, le ignori, poate pentru mine e clar, poate eu zic bă da, pentru mine e un low aici, eu ca un low asta este, am ales această regulă eu unul nu aș, nu aș lua în cazul ăsta, nu arată bine, înțelegeți la ce mă refer, se vadă clar, las lucrurile să arate cât mai clar pentru voi.
+
+Bun, ne vedem la clipul următor.
+

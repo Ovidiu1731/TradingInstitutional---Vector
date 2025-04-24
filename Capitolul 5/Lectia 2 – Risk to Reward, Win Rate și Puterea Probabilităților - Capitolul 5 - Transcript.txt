@@ -1,0 +1,75 @@
+Lectia 2
+===
+
+[00:00:00] Salut! În acest clip o să vorbim despre Risk to Reward Ratio o să vorbim despre rata de câștig sau win rate și după care o să vorbim despre probabilități. Vreau să notați în clipul ăsta cât multe informații puteți o să vă folosiți de aproape tot ce vorbesc în acest clip pe parcursul carierei voastre de trading.
+
+Deci să începem! În primul rând Hai să vorbim de rata de câștig. Rata de câștig este practic un procentaj deci se calculează în procente din practic cât Câte win-uri și câte loser faci tu este o statistică, adică Spre exemplu dacă tu ai avut 10 trade-uri și ai câștigat 4 din ele, În cazul ăsta ai un win rate de 40%, ai câștigat 4 din 10 trade-uri.
+
+Cam asta e, deci rata de câștigă tranzacțiilor tale. Bun, cam atât trebuie să știm despre ea După care o să vorbim despre risc și reward. [00:01:00] Practic noi ca să facem un trade, să plasăm o tranzacție, trebuie să riscăm ceva. Nu există să plasezi o tranzacție din nimic doar să faci bani din nimic. Banii se fac cu alți bani.
+
+Prin urmare noi o să riscăm o sumă de bani ca să facem o sumă mai mare de bani sau o sumă echivalentă. Bun, am luat aici cel mai simplu exemplu Am marcat zona roșie este riscul, zona verde este reward-ul sau profit-ul, deci reward-ul este mai ușor și profit, risk sau loss. Bun, dacă punem mouse-ul pe acest kenar, vedem așa, avem risk to reward ratio de 1, adică riscăm în cazul ăsta în stânga aici să zicem 100 de euro ca să luăm 100 de euro.
+
+Linia neagră care separă cele două zone este entry-ul nostru într-o tranzacție, noi o să executăm tranzacția la punctul la linia aceasta neagră, dacă tranzacția o ia în sus, în continuare suntem în profit, dacă o ia în jos, pierdem Practic [00:02:00] riscăm 100 de euro ca să luăm 100 de euro. Nu recomand niciodată un risk reward așa de mic, de 1 la 1.
+
+De asta trebuie să ne folosim de oportunitățile pe care ni le dă trading-ul și faptul că putem să ne facem noi numerele cu mâna noastră. De aceea matematica unor e importantă pentru că se folosește și în trading. Și cum se folosește? Creștem acest risk reward până se face 2 aici jos, iar acum, În loc să mai avem riscul 100 ca să luăm 100, o să avem 100 ca să luăm 200.
+
+Deci practic, noi riscăm o sumă ca să luăm o sumă dublă față de riscul nostru. Și aici intervine puterea cifrelor și o să discutăm un pic despre puterea cifrelor și puterea probabilităților. Dar asta este risk to reward sau RR, se mai prescurtează RR, RR. Risk to reward, practic este riscul tău Comparat cu profitul tău În cazul acesta este 1 riscul [00:03:00] la 2, 1-2.2.
+
+Bun, acum am luat aici un exemplu pe câteva ore de trading și o să discutăm un pic situația, o să șterg aici risk-reward-ul ăsta să nu ne mai încurce. A, și vreau să vă mai zic o chestie dar de fapt o vorbim după chestia asta de aici. Bun, și asta este o zi de trading random, este chiar ziua de azi. Am marcat câteva trade-uri, nu o să le explic, oricum nu o să facem trading pe o strategie de genul ăsta o să vă explic ceva mult mai concret și mult mai simplu dar aici am marcat pur și simplu niște tranzacții, repet, linia neagra este linia în care s-a executat tranzacția, da?
+
+Și haideți să ne imaginăm că nu știm ce se va întâmpla mai departe. Suntem în punctul ăsta de aici din dreapta e tot, da? Și eu aici vreau să execut o tranzacție de cumpărare, am executat linia Neagră ne-am pus topul de 100 de puncte mai jos, deci în punctul acesta unde se termină linia roșie, tranzacțiunea asta este închisă automat pe 0, cu minus 100 de euro sau dolari e relevant, iar dacă tranzacția l-am luat în sus, [00:04:00] cum s-a întâmplat în cazul ăsta, este închisă pe plus 200 de euro, adică noi riscăm 100 de euro să luăm 200 de euro menționez că tranzacțiile astea nu le-am executat,
+
+Sunt pur și simplu puse random, deci nu sunt bazate pe ceva anume, le-am pus doar ca să luăm acest exemplu În cazul acesta prima tranzacție am executat-o nu aveam de unde să știu dacă o iau în sus sau în jos, dar a fost un win. Deci avem până acum un win în această zi. Trece timpul, trece timpul, trece timpul.
+
+În acest moment zicem că văd o altă oportunitate de creștere. Și în acest moment, iar intră o tranzacție de cumpărare, dar piața a luat-o în direcția opusă de mine, tranzacția mi-a fost închisă pe minus 100. Dacă observați am intrat aici în tranzacție, am mers până în profit 100 și ceva, dar tranzacția pur și simplu nu a mers și s-a închis pe minus 100.
+
+Deci până acum avem un win și un lose. Trecem mai departe. La fel, aici să zicem că am văzut o oportunitate de creștere. Am intrat în tranzacție [00:05:00] Mi-a mers în profit, dar tranzacția nu a mers și mi s-a închis iarăși în minus. A3 la 3 de astăzi este iarăși un luz. Deci avem un win, un luz și un luz. Și ultima tranzacție am luat-o ipotetic vorbind aici și am ținut-o deschis în loc de 1 la 2 am ținut-o la 1 la 3, adică am riscat O sută să iau trei sute Și am avut încă un win Bun Și acum hai să ne uităm peste statistica de astăzi Trade-urile sunt între ora 9 și 12 Dimineața Cum vreți să-i spuneți Am avut așa 4 trade-uri 2 win-uri și 2 lose-uri Poate înainte să începeți să studiați trading Ați fi zis că Suntem pe zero astăzi Că ai avut 2 win-uri și 2 lose-uri Dar în realitate nu e așa Trading-ul este mult mai puternic decât credeți din punct de vedere al probabilităților De ce?
+
+Pentru că noi în astea două win-uri aici am luat de două riscuri adică doi [00:06:00] risk-reward, Și în win-ul cealalt am luat de 3 ori riscul, adică 3 risk-reward, deci în total noi am câștigat 5 unități cum ar veni de risk-reward și am pierdut doar 2, 1 aici și 1 aici Prin urmare astăzi de fapt suntem în profit și un profit foarte bun.
+
+Suntem în profit 5 risk-reward, adică 2 câștigate de aici și 3 câștigate de aici minus cele 2 pierdute în aceste 2 tranzacții deci suntem pe plus 3 risk-reward Cât înseamnă asta în bani? Păi un risk reward de 100 de dolari în exemple date. Prin urmare, avem 3 risk reward, adică 300 de dolari profit în această zi, cu 2 win-uri și 2 lose-uri.
+
+Imaginați-vă, deci am avut câștiguri multe Am avut 2 câștiguri și 2 pierdere, atât. Și am fost pe profit bun. Acest risc putea să nu fie 100, putea să-l setați în funcție, v-am explicat că o să vorbim despre levier mai concret și așa mai departe Dacă levierul era X2, aici am fi avut 200 risc și luam 400, dacă aveam [00:07:00] levierul X3, aveam aici 300 risc și ar fi fost aici 900 profit la final, deci în funcție de levier Voi puteți vă setați cifrele cum vreți asta e tare în trading, orice poate fi customizat, puteți să priscați ce bani vreți voi, cum vreți voi, să puneți stop-urile cum vreți voi Orice depinde de tine deci in trading nu ai nicio scuza totul depinde de tine, poți să faci nu-ți convine ceva schimbi acel ceva, e simplu poți să faci orice, o libertate totală în a interpreta informația din grafice o să ștergem și aceste trade-uri sper că ați înțeles ideea pe care am vrut să o transmit și ați înțeles puterea trading-ului și acum vreau să vă zic un lucru, risk reward-ul este invers proporțional cu rata de câștig cu cât rata de câștig O să vă crească, adică o să aveți un win rate de nu știu, din 10 trade-uri câștigați 6, cu atât risk reward-ul scade.
+
+De ce? Cu cât țineți trade-uri cu un risk reward mai mare, să zicem că ați luat aici [00:08:00] un buy și vreți să-l țineți până la 8 risk reward. Vă dați seama că acum probabilitatea e mult mai mică să vă iasă trade-ul ăsta dacă îl țineți deschis atât. Acum l-am ținut noi mai devreme la 2. Uite, s-a completat. Win.
+
+Mai luam, să zicem unul pe aici. Ăăăă... Uite să zicem în punctul ăsta cu un stop micuț, deci uite ăsta ieșea win, ăsta ieșea win dar dacă punem risk reward-ul creștem, practic rata noastră de câștig scade că trade-ul ăsta n-ar mai fi ieșit, ar fi fost un lose la final de zi ăsta la fel ar fi fost un lose.
+
+Deci în funcție de strategia voastră vă stabiliți risk reward-ul. Eu recomand risk reward între 2 și 3, nu mai sus de 2, nu mai sus de 3 pentru strategia mea dar să știți că merg și variantele astea adică o să le discutăm, se poate să face și cu risk reward mai mic și cu unul recomand mai degrabă un risk reward mai mare decât unul mai mic.
+
+Și gândiți-vă că practic... Puterea risk [00:09:00] reward-ului, vreau să vă mai zic un lucru. Spre exemplu noi în cazul ăsta riscăm 1 să luăm 3. Gândiți-vă că dacă pierdem 3 tranzacții consecutive și câștigăm doar una singură, suntem pe 0. Gândiți-vă la lucrul ăsta, adică noi trebuie să avem dreptate odată din 4 ca să fim pe 0.
+
+Nu mai zic că dacă din 9 trade-uri avem 3 corecte și 6 pierdute, suntem pe un profit foarte bun, suntem pe 3 risk reward profit. Și doar cu trei tranzacții din nou câștigate. Ca să înțelegeți la fel puterea risk reward-ului și puterea trading-ului bun? Deci țineți minte că sunt invers proporționale. Și acum o să luăm un exemplu o să vorbim puțin despre probabilități.
+
+Spre exemplu noi avem aici 10 traderi și fiecare au un outcome diferit. Outcome-ul este random, niciodată nu știi în trading când îți va ieși un trade și când nu. Scoteți-vă din minte de la început de aici încă încă încă trading-ul lucruri că Faptul că intrați într-o tranzacție și știți că asta va fi un win sau un lose, niciodată nu știi.
+
+Noi pur și simplu [00:10:00] executăm un algoritm care ne generează mai multe câștiguri decât pierdere, atât. Asta e tot ce facem. Nu trebuie să știți dacă tradul o să iasă sau nu o să iasă sau să vă chinuiți să-l faceți în așa fel să iasă, nu. Executați și atât. Și veți vedea. Și să zicem că am executat 10 traduri, pur și simplu ne-am ținut de algoritm, nu am făcut nimica și s-a întâmplat asta.
+
+Te-au ieșit un win, lose, lose, win, lose, win, win win, lose, win. Deci am avut 6 win-uri și 4 lose-uri. Deci win rate-ul nostru după aceste 10 trade-uri este de 60%.
+
+60%. Ce trebuie să știm? În primul rând în probabilități în jocul probabilităților, mereu trebuie să luăm în considerare faptul că avem nevoie de un sample foarte mare, adică avem nevoie de multe trade-uri cu 10, nu poți să faci o statistică reală, trebuie 500 să zicem și din 500 de trade-uri dintr-un sample mare atunci o să ai niște informații relevante, bune, corecte accurate.
+
+Spre exemplu dacă avem un zar și noi dăm cu zarul, știm că [00:11:00] să pice orice fața zarului este o probabilitate de 1 în 6. Zarul are 6 fețe și este probabilitatea 1. Dar dacă dăm de 6 ori cu zarul, nu o să pice o dată 1, o dată 2, o dată 3, o dată 4, o dată 5 și o dată 6. O să pice poate 4, 4, 4, 3, 1, 2. Și nu a picat niciodată 5 și 6, cu toate că probabilitatea era 1 în 6.
+
+La fel dacă dăm de 100 de ori încep să fie mai relevante mai corecte statisticele adică poate avem a pica de... Nu stiu, 15 ori 4, de 15 ori 5, de 18 ori 6, e, ideea e ca cu cat dai de mai multe ori cu zarul, cu atat devin mai corecte rezultatele finali adica daca ajungi sa dai de 100 de mii de ori probabil o sa fie foarte apropiat 1, de 2, de 3, de 4, de 5, de 6 de catori au picat e, asa e si intre din care ai nevoie de multe de multe sempluri ca sa ai un rezultat relevant ok[00:12:00] 
+
+Ce v-am iubit să discut aici să vă arăt și să vă scrieți lucrurile astea pe caiet, asta este win rate-ul de care aveți nevoie ca să fiți profitabil, deci ca să fiți profitabil la următoarele risc reward-uri adică dacă noi riscăm 1 ca să luăm 1 pe o tranzacție într-adevăr avem nevoie de mai mult de 50% din tranzacții câștigătoare.
+
+Uite vă o să vă mai desnez încoat aici, asta să-l vedeți, deci hai să le facem un pic mai mari Deci 1 la 1, da? În cazul acesta în care executăm tranzacții în care riscăm 100 ca să luăm 100 de euro profit, ne trebuie mai mult de 50% din tranzacții câștigătoare. Deci din 100 de tranzacții trebuie să avem, nu știu, 60 și avem profit.
+
+Dacă avem 2 riscrivori, deoitați cum se schimbă lucrurile. Acum avem nevoie doar de 33% din tranzacții să fie profitabile. Deci din 3 tranzacții putem să avem 2 pierderi și 1 câștig. Și o să fim pe break-even, orice, dacă avem, nu știu, 100 de trade-uri, [00:13:00] 33 trebuie să fie câștiguri, restul 66 poate să fie pierderi și noi tot nu am pierdut niciun bani, nimic Suntem pe 0, nu am pierdut nimic.
+
+Deci cam asta e puterea risk reward-ului. La 3 avem 20% și la 4, deci dacă voi țineți trade-uri cu 4 risk reward, adică luați numai trade-uri de genul ăsta, puteți din 100 de trade-uri să pierdeți 80 Și câștigați doar 20 și sunteți la fel pe zero. Deci nu ați pierdut niciun ban. Asta este puterea risk reward-ului, puterea probabilităților.
+
+Trading-ul este un joc al probabilităților Strategia, vă repet, nu contează așa de mult, deci o să vedeți mai încolo o să vă învăț o strategie simplu o strategie care funcționează și vă creează venit, dar puteți să folosiți și dacă nu v-ar plăcea ce vă arăt eu, nu știu nu vă convine ceva cu toate că o vă arăt la orice oră cum să faceți cum să executați, mai puțin ori pe zi.
+
+O să vă arăt toate posibilitățile, dar să zicem că nu vă place ceva, nu știu, [00:14:00] puteți să găsiți o strategie oriunde și să executați, vorba este de mindset, mindsetul este cel mai important și mai contează ca să ai un mindset corect, v-am zis trebuie să înțelegeți ce se întâmplă în grafice și când faci o strategie de retail, o strategie pe care o găsiți pe internet, nu înțelegeți ce se întâmplă, doar executați lucruri pe care nu le înțelegeți, dar eu învățându-vă un trading de tip instituțional...
+
+O să vă explic concret ce se întâmplă în grafice și o să înțelegeți exact ce se întâmplă în grafice și o să vedeți cum acționează instituțiile respective, ceea ce o vă ajute la psihic pentru că o să știți ce se întâmplă și când o să pierdeți o să știți a, ok, am pierdut din cauza că instituțiile ne-au pus, ne-au prins într-o capcană, a, e, se întâmplă.
+
+Țineți minte, de în 100 de tranzacții, dacă o să aveți nu știu, un risc de ori de 2 și dacă trenați cu 50 de câștiguri și 50 de pierderi, o să fiți într-un super profit. În regulă cam asta a fost cu clipul ăsta, un clip un pic mai lung și plin de informații, dar vă rog să [00:15:00] îl aprofundați. Și încă un lucru cu care vreau să termin și să scrieți mare de tot acolo în caiet, trading-ul nu este despre a avea dreptate sau a greși, deci nu este despre acest lucru, ci este despre a executa și de a ține algoritmul continuu nu contează La fiecare trăit particular dacă ai dreptate sau nu, vedeți în cazul de față.
+
+Deci nu contează, poate azi și mâine am avut luz-luz, dar după următoare trei zile am trei win-uri și fac un super profit, deci nu are relevanță în fiecare zi ce rezultat aveți, ci la final de lună trageți linia și atunci contează rezultatul, nu pe fiecare zi în parte, nu are nicio relevanță. Sper că v-ați notat, dacă este ceva neclar, reluați clipul și mai uitați-vă o dată la el, oricum trebuie să-l vedeți clipul ăsta de minim 4-5 ori pentru că e foarte important dacă înțelegeți ce v-am explicat aici, o să înțelegeți puterea trading-ului.
+
+Ne vedem la clipul următor, studiați și spor!
+

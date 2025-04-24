@@ -1,0 +1,84 @@
+### **Rezumat Lecția 15 – Levierul: Ce Este, Cum Funcționează și Ce Trebuie să Știi Ca Să-L Folosești Corect**
+
+---
+
+#### **Introducere**
+
+Această lecție are scopul de a clarifica conceptul de **levier (leverage)**, care este adesea înțeles greșit în comunitățile de trading. Autorul își propune să explice simplu și practic **ce înseamnă levierul**, **cum se folosește**, care sunt **riscurile reale** și **ce diferențe apar între brokeri sau platforme**. Este o lecție introductivă, pregătitoare pentru următoarea, care va aborda **calculul loturilor**.
+
+---
+
+### **1. Ce este levierul (leverage)**
+
+- Levierul înseamnă **utilizarea fondurilor împrumutate de la broker** pentru a deschide poziții mai mari decât suma de bani deținută efectiv în cont.
+- **Exemplu simplu**:
+  - Ai 1.000 EUR în cont.
+  - Fără levier (1:1), poți deschide o poziție de 1.000 EUR.
+  - Cu levier 1:100, poți deschide o poziție de 100.000 EUR.
+
+> 💡 Levierul îți oferă **putere de tranzacționare sporită**, dar trebuie folosit cu responsabilitate.
+
+---
+
+### **2. Tipuri de levier și ce înseamnă**
+
+- Levieri standard:
+  - **1:1** – fără împrumut, tranzacționezi doar ce ai în cont.
+  - **1:20, 1:30** – levier moderat.
+  - **1:100** – frecvent folosit pe FTMO și suficient pentru majoritatea traderilor.
+  - **1:500** – foarte mare, interzis în Europa pentru conturi normale (risc ridicat).
+
+> 🔁 Cu cât levierul este mai mare, cu atât **poți tranzacționa mai mult cu bani mai puțini**, dar **riscă să pierzi mai repede** dacă nu este controlat.
+
+---
+
+### **3. Levierul în practică**
+
+- Autorul folosește în prezent **1:100 pe FTMO**, considerat optim.
+- **1:500** era utilizat anterior, dar a fost restricționat din cauza riscurilor ridicate (full margin trading).
+- Pentru conturi mici (ex. 100 USD), un levier mare este **obligatoriu** pentru a putea intra în piață.
+
+---
+
+### **4. Levierul ≠ lot size**
+
+- Mulți confundă levierul cu **numărul de loturi** folosite într-o tranzacție.
+- Levierul **permite** folosirea mai multor loturi, dar **nu le determină direct**.
+- Lot size-ul va fi explicat separat, în lecția următoare.
+
+---
+
+### **5. Riscuri și mituri despre leverage**
+
+- Mit: „Dacă folosești leverage, poți ajunge dator la broker.” ❌ Fals.
+  - Pe FTMO și majoritatea brokerilor reputabili, **nu poți rămâne dator**.
+  - Dacă pierzi peste limită, **contul se închide automat**, brokerul își asumă pierderea.
+- Singurul risc real este **dacă tranzacționezi fără stop loss** sau **folosești riscuri prea mari**.
+
+---
+
+### **6. Diferențe între brokeri și platforme**
+
+- **Levierul și modul de calcul al loturilor pot diferi** între brokeri.
+- Ex: Pe Cortanas, cu levier 1:20, poți risca mai mult decât pe FTMO cu levier 1:100, pentru că **loturile sunt calculate diferit**.
+- Regula de aur:
+  - **Testați fiecare platformă nouă cu tranzacții mici** înainte de a investi sume serioase.
+  - Asigurați-vă că **înțelegeți cum se calculează riscul real**.
+
+---
+
+### **7. Recomandări practice**
+
+- Nu vă ghidați exclusiv după ce scrie pe site – testați direct în platformă.
+- La început:
+  - Tranzacționați cu loturi foarte mici (1–2 EUR risc).
+  - Familiarizați-vă cu modul de funcționare al leverage-ului pe platforma aleasă.
+- Lecția următoare va explica **cum se calculează efectiv lotul**, în funcție de levier, stop loss și capitalul disponibil.
+
+---
+
+### **Concluzie**
+
+Levierul este **un instrument esențial în trading**, dar înțeles greșit poate duce la erori grave. Lecția demistifică acest concept și oferă un cadru clar pentru utilizarea lui corectă, responsabilă și adaptată contextului fiecărui trader. Este o lecție de bază pentru orice începător, dar și un reminder valoros pentru traderii avansați.
+
+Această lecție deschide ușa către **calculul loturilor**, care va transforma teoria despre levier într-un instrument aplicabil zilnic.

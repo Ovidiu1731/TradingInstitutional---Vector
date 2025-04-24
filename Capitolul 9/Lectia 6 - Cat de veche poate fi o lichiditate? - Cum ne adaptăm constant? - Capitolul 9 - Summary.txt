@@ -1,0 +1,78 @@
+** Rezumat Lecția 6 – Cât de veche poate fi o lichiditate?**  
+*Format simplificat, clar și aplicabil*
+
+---
+
+### 1. Ce este o „lichiditate bună”?
+
+- Nu există o definiție fixă.
+- Este **acea lichiditate care funcționează cel mai bine pentru tine** din punct de vedere statistic.
+- Fiecare trader trebuie să testeze și să-și creeze propria clasificare (locale, majore, minore etc.).
+
+---
+
+### 2. Cum alegi o lichiditate calitativă?
+
+- Prin **practică intensă**, **statistică personală**, și **testare constantă**.
+- Nu inventa lichidități doar ca să execuți – caută zone **vizibile și evidente**.
+- **Extremele de preț** sunt cele mai bune locuri pentru lichidități relevante.
+
+---
+
+### 3. Lichidități prea recente (prea „tinere”)
+
+- Exemplu: lichiditate formată la ora 11 și executată la 13.
+- Nu este neapărat greșit, dar este **mai riscantă**.
+- Lichiditățile formate în ultimele **20–50 minute** sunt **prea proaspete** pentru a fi fiabile.
+- Dacă execuți pe astfel de zone, **redu riscul** (ex: 0.25%).
+
+---
+
+### 4. Lichidități prea vechi
+
+- Exemplu: lichiditate din aprilie, luată în august.
+- Pe TF mare (ex. 1H) pare că a funcționat, dar pe M1 **ar fi provocat multiple stop-loss-uri**.
+- **Recomandare**: marchează lichidități pe TF de **maxim 15 minute**.
+- Ideal: lichidități de **maximum 2–3 săptămâni** în urmă.
+- **Peste o lună** → devin irelevante pentru execuție activă.
+
+---
+
+### 5. Adaptabilitate în piață
+
+- Piața **nu este statică** – trebuie să te adaptezi constant.
+- Exemple:
+  - Perioade când strategia „have the day” funcționează foarte bine.
+  - Alte perioade când funcționează mai bine execuții pe lichiditate majoră/locală.
+- **Soluția**: backtesting frecvent pentru a vedea ce funcționează în prezent.
+
+---
+
+### 6. Backtesting = cheia adaptării
+
+- Uită-te **săptămânal** peste ce a mers și ce nu.
+- Dacă un model funcționează 3 săptămâni la rând → **folosește-l**.
+- Dacă piața se schimbă, schimbă-te și tu.
+
+---
+
+### 7. Mentalitate corectă
+
+- Tradingul e greu și necesită **luptă interioară constantă**.
+- Fii pregătit să accepți:
+  - Zile pierzătoare (ex: -794 euro într-o zi, după 10 ore de muncă).
+  - Fluctuații emoționale → trebuie **controlate**.
+- Învață să reacționezi **la fel** la un win sau la un loss.
+
+---
+
+### Concluzie:
+
+- Nu există „prea tânără” sau „prea veche” în mod absolut – dar există **probabilitate mai mică de reușită**.
+- **Ideal**: lichidități vizibile, de maxim 2–3 săptămâni, pe TF de maxim M15.
+- **Adaptează-te permanent**, nu executa mecanic.
+- **Fii disciplinat emoțional** – acceptă pierderile și învață din ele.
+
+--- 
+
+Această lecție este atât tehnică, cât și psihologică, și oferă un ghid complet pentru înțelegerea calității unei lichidități și pentru cum să te adaptezi în funcție de comportamentul pieței.

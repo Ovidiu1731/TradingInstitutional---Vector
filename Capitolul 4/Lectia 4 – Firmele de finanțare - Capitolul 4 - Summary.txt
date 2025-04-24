@@ -1,0 +1,103 @@
+### **Rezumat Lecția 4 – Prezentarea Platformei FTMO (Finanțare pentru Tranzacționare)**
+
+---
+
+#### **Introducere**
+
+Lecția 4 face o prezentare detaliată a platformei **FTMO**, principala firmă de finanțare folosită de autor pentru trading. Accentul cade pe experiența personală cu această companie, regulile de funcționare, avantajele și limitările, precum și pe procesul de aplicare și tranzacționare în cadrul sistemului de tip „prop firm”.
+
+---
+
+#### **De ce FTMO?**
+
+Autorul nu este sponsorizat și alege FTMO din convingere, deoarece:
+- Este o firmă serioasă, cu servicii de calitate.
+- Are suport tehnic prompt și eficient (prin live chat).
+- Permite plata în multiple forme: crypto, cont bancar personal sau pe firmă.
+- A lucrat cu ei din 2020 și a primit mereu banii la timp, inclusiv când au apărut probleme ce au fost rezolvate rapid.
+
+---
+
+#### **Dezavantajul principal – prețul**
+
+FTMO are prețuri mai mari decât alte firme de finanțare, dar:
+- Acestea reflectă **calitatea și siguranța** serviciilor.
+- Cu cât firma este mai ieftină și mai permisivă, cu atât este mai riscantă.
+- Recomandarea este să nu te zgârcești la diferențe minore pentru un serviciu esențial.
+
+---
+
+#### **Free Trial – antrenament gratuit nelimitat**
+
+- Oricine își poate crea conturi demo (free trial), identice cu cele reale.
+- Sunt valabile 14 zile, după care se pot reface gratuit.
+- Ideal pentru testare, fără niciun risc financiar.
+- Poți rula demo-uri timp de luni sau ani, până când ești pregătit pentru un cont live.
+
+---
+
+#### **FTMO Challenge – începutul finanțării**
+
+- Se poate selecta valuta contului (EUR, USD etc.) – **nu se mai poate schimba ulterior**.
+- Se alege mărimea contului: 10.000, 20.000, 40.000, 80.000 sau 160.000 EUR.
+- Prețuri: între 155 EUR (pentru 10k) și 1080 EUR (pentru 160k).
+- Platforme acceptate: MetaTrader 4, MetaTrader 5, CTrader.
+- Tipuri de cont: FTMO standard sau FTMO swing (autorul folosește doar varianta standard).
+- Levier: 1:100 – considerat excelent.
+
+---
+
+#### **Procesul de obținere a unui cont live**
+
+1. **Faza 1 – Challenge:**
+   - Trebuie să faci 10% profit (ex. 4.000 EUR dintr-un cont de 40.000).
+   - Nu ai voie să pierzi mai mult de 5% pe zi și 10% în total.
+   - Fără limită de timp – poți atinge targetul oricând.
+   - După finalizare, treci în Faza 2.
+
+2. **Faza 2 – Verification:**
+   - Trebuie să faci doar 5% profit (ex. 2.000 EUR pentru cont de 40.000).
+   - Regulile de risc rămân identice.
+   - După finalizare, contul devine live.
+
+3. **Contul live:**
+   - Nu mai ai targeturi de profit impuse.
+   - Profitul este retras lunar sau bilunar, în funcție de opțiunea aleasă.
+   - Primești înapoi taxa de aplicare dacă reușești Challenge-ul.
+
+---
+
+#### **Distribuția profitului (Profit Split)**
+
+- Începi cu 80% profit pentru tine, 20% pentru FTMO.
+- Poți ajunge la 90% pentru tine, în funcție de performanță și scalare.
+- Nu plătești nimic înapoi dacă pierzi contul – riscul este doar al firmei.
+
+---
+
+#### **Reguli importante și avertismente**
+
+- **Securitatea contului:** nu posta public numărul contului de logare – poate duce la suspendare.
+- **FTMO nu resetează contul lunar automat** – dacă ești în pierdere la final de lună, pornești luna următoare cu acel minus.
+- **Regulile pot varia între firmele de finanțare** – studiază-le cu atenție!
+- **Live chat FTMO** este cel mai rapid și sigur mod de a obține ajutor tehnic – evită să ceri sprijin mentorului pentru probleme tehnice.
+
+---
+
+#### **Exemplu real: o lună de profit**
+
+- Luna analizată este din mai 2021.
+- Profit total: 4.016 EUR, realizat în 49 de tranzacții.
+- Scor de consistență: 79%.
+- Toată luna a fost în profit, cu o singură secvență de pierderi.
+- Demonstrație că se poate reuși încă de la început dacă sunt respectate regulile și ai disciplină.
+
+---
+
+#### **Concluzie**
+
+FTMO este o platformă excelentă pentru traderii serioși care doresc finanțare profesionistă și stabilă. Free trial-ul este ideal pentru testare, iar conturile live oferă un cadru bine structurat și scalabil. Cu respectarea regulilor și o strategie solidă, poți construi cariera de trader fără un capital personal mare.
+
+--- 
+
+Acest rezumat oferă o imagine completă a modului în care funcționează FTMO și ce înseamnă să lucrezi cu o firmă de finanțare serioasă. Este un ghid esențial pentru orice trader interesat de trading profesionist cu capital extern.

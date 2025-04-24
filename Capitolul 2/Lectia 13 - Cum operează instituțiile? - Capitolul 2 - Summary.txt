@@ -1,0 +1,95 @@
+### Rezumat Lecția 13 – Cum Operează Instituțiile: Mituri vs. Realitate
+
+---
+
+#### Introducere
+
+Această lecție clarifică modul real în care **instituțiile financiare mari (bănci, fonduri etc.) operează în piață**, demontând mituri populare și erori des întâlnite în spațiul online. Informațiile sunt obținute direct de la profesioniști care activează în instituții și sunt corelate cu observații practice de peste 17 ani. Lecția este un **fundament esențial** pentru înțelegerea comportamentului pieței și a strategiei instituționale.
+
+---
+
+### Realitatea Instituțiilor Azi
+
+- **Mit demontat**: Traderii instituționali nu mai lucrează „la telefon” sau în grup, ca în filmele vechi.
+- **Adevăr**: 90% din instituții folosesc **algoritmi automatizați (roboți)** care decid și execută tranzacții.
+- Traderul uman are acum rol de:
+  - Calibrare a algoritmului.
+  - Monitorizare în timp real.
+  - Intervenție în cazuri de urgență (ex: știri neprevăzute).
+
+---
+
+### De Ce Se Folosesc Roboți?
+
+- **Fără emoții** – robotul nu are stres, dureri de cap, probleme personale.
+- **Greșeli rare** – mai puțin probabil decât la om.
+- **Disponibilitate non-stop** – robotul execută constant și predictibil.
+
+> Excepție: știrile neprevăzute (ex: anunțuri Pfizer) pot da peste cap algoritmii → aici intervine omul.
+
+---
+
+### Băncile Nu Sunt Invincibile
+
+- **Mit fals**: Băncile fac doar profit.
+- **Adevăr**: și ele au **zile pierzătoare**, dar compensează prin câștiguri mai mari în alte zile.
+- Exemple de comportament instituțional:
+  - Luni: pierdere
+  - Marți: profit
+  - Miercuri: pierdere
+  - Joi: profit
+  - Vineri: pierdere
+  - ➤ Săptămână per total: **profitabilă**, pentru că pierderile sunt controlate, câștigurile mai mari.
+
+---
+
+### Lecție de Mentalitate pentru Traderul de Retail
+
+- **Nu te aștepta la profit zilnic.**
+- Băncile pierd uneori cu algoritmi de milioane € – cum să te superi tu că ai două zile pe minus?
+- **Focus pe performanța lunară**, nu zilnică.
+- Banii din contul de trading = **doar cifre**, nu bani în buzunar.
+  - Abia când faci withdraw, sunt reali.
+
+---
+
+### Despre Strategia Instituțională Predată
+
+- Există de **minim 17 ani** (posibil 20+), folosită constant de bănci.
+- **Nu este inventată de mentor**, ci doar predată în mod structurat.
+- Strategia este:
+  - **Scalabilă**.
+  - Testabilă istoric (vezi grafice din ultimii 17 ani).
+  - **Neafectată de faptul că o folosesc mai mulți** – băncile nu sunt deranjate de retail, ba chiar îi folosesc în avantajul lor.
+
+---
+
+### Băncile Nu Sunt Rivale Între Ele
+
+- **Fals**: BCE și FED sunt competitori.
+- **Adevăr**: sunt **corelate**, nu rivale. Nu se contrazic în poziții mari.
+- Colaborează indirect pentru a **profita de pe urma traderilor de retail**, nu pentru a se sabota.
+
+---
+
+### Poziționarea Ideală a Traderului de Retail
+
+> Nu trebuie să fii contra băncilor. Trebuie să fii **cu ele**.
+
+- Traderul smart este **„peștișorul” care urmează rechinul** (banca).
+- **Nu copia traderii de retail care folosesc indicatori și speranțe.**
+- **Fii de partea instituțiilor**: urmărește-le logica, urmele și manipularile → profită de ele.
+
+---
+
+### Concluzie
+
+Această lecție oferă:
+- **Claritate completă** despre cum operează marile instituții.
+- **Mentalitatea corectă** pentru un trader performant.
+- **Validare istorică** a strategiei care urmează să fie predată.
+- Baza pentru a înțelege de ce funcționează strategia instituțională și de ce este sustenabilă pe termen lung.
+
+---
+
+Este o lecție de **mindset, realitate și strategie instituțională**, esențială pentru orice cursant care vrea să înțeleagă „de ce funcționează ce urmează”.

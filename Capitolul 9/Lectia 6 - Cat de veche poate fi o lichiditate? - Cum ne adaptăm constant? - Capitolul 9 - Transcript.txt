@@ -1,0 +1,55 @@
+Cat de veche poate fi o liq
+===
+
+[00:00:00] În această lecție vom continua discuția despre lichidități și voi adresa întrebare pe care am auzit-o de foarte multe ori Cât de veche poate fi o lichiditate sau cât actuală și cum ne ghidăm în acest sens și ăsta o să fie în principiu subiectul pe care o să-l discutăm astăzi și la final o să mai abordăm încă un subiect care nu are neapărat legătură cu acest lucru.
+
+Bun, să discutăm un pic ce înseamnă o lichiditate bună Păi e greu să definești concret pentru că fiecare își definește lichiditățile într-un anume fel. O lichiditate bună, o lichiditate calitativă Este o lichiditate care aduce cele mai bune rezultate din punct de vedere statistic pentru voi, respectiv pentru mine.
+
+O să vedeți că în momentul în care începem să executăm, fiecare avem un stil diferit de a selecta lichiditățile. Important este faza de testare la început să testați toate tipurile de lichidități, să faceți o statistică mai complexă mai amplă Și în momentul în care aveți o statistică [00:01:00] complexă să puteți trage concluzii.
+
+Până trageți voi concluziile voastre, puteți urmări ce vă dau eu și ce ofer eu. Practic sunt statisticile mele și ceea funcționează pentru mine. Folosiți aceste lucruri standard, iar pe parcurs observați la voi Care este lichiditatea care funcționează cel mai bine? Sau tipurile de lichidități spre exemplu poate vă plac foarte mult lichidațiile locale și majore sau locale și minore Uite spre exemplu cunosc persoane apropiate care nu folosesc deloc majorele nu le plac, mie îmi plac cel mai mult.
+
+Am persoane care tranzacționează doar locale, am persoane care tranzacționează locale și minore Am persoane care tranzacționează doar minore și majore, deci depinde, unii care tranzacționează pe toate cum sunt eu, mie îmi plac toate. Dar depinde, contează foarte mult să vă găsiți personalitatea în trading și să vă dați seama care este cel mai bun și cel mai optim tip de lichiditate pentru voi.
+
+Ok, deci asta este răspunsul din start, că mă întreabă mulțumesc, cum să aleg lichiditățile cele mai calitative? Păi cum le alegi Prin a face foarte multă practică, prin a face foarte multă statistică, prin a sta pe grafic, prin a marca lichidități și a vedea care funcționează și care nu. Pentru mine până la urmă și prin a alege puncte extreme.
+
+[00:02:00] Nu, vă mai spun încă o dată nu vă chinuiți să găsiți lichidități minuscule pe aici să inventați lichiditatea doar ca să executați nu. Căutați lichidități vizibile, lichidități care se observă cu cât e mai observabil și un punct mai extrem, cu atât este mai bine. Există varianta de a avea lichidități prea mici Sau prea mari, ca și durata de timp mă refer, sunt formate de prea mult timp sau prea puțin timp și o să luăm un exemplu Prea puțin timp este exemplul de astăzi v-am luat un exemplu fix de astăzi o execuție pe care eu am evitat-o pentru că am văzut lichiditatea care am considerat că este una mult mai Prea slabă Ce înseamnă acest lucru?
+
+Păi este o lichiditate care este formată la ora 11 și vine execuție pe aia la ora 13, adică efectiv formată de două ore. Nu înseamnă că este greșit acest lucru, dar nu ne ajută neapărat să fie o lichiditate formată atât de recent. Eu mai execut tranzacții bazate pe acest lucru dar dacă alegeți să executați pe lichidități de-astea foarte mici riscul trebuie să fie unul scăzut.
+
+Asta este recomandarea mea În cazul în care este o lichiditate formată în ultimele 20 minute, 30 minute, 50 minute, [00:03:00] Nu rentează să executați pe baza acesteia. A, că mai e altă lichiditate, luată mai mare între timp sau lucruri de acest gen, da, asta este altceva. Dar, în caz de față Lichiditatea asta mi s-a părut mult prea mică.
+
+Love the day a fost irrelevant. De ce? Oricum nu este unul vizibil frumos e prima candelă din zi și de asemenea nu mai este în intervalul 10-12 să spunem că ar mai avea vreo relevanță. Deci practic e doar o lichiditate locală luată aici micuță. Ne oferă oarecare reacție dar nimic cât să ne dea o tranzacție pozitivă.
+
+De asta am și evitat prin prisma lichidității pe care n-am considerat-o neapărat calitativă. Bun, acum hai să luăm un exemplu de lichiditate prea mare. Suntem pe time frame de o oră. Și avem o lichiditate formată aprilie și este luată în august. Iar dacă ne uităm pe time frame-ul ăsta a funcționat a venit prețul, a luat lichiditatea a schimbat direcția, dar pe un minut până executam noi, credeți că a arătat bine aici Nu, vă zic eu că v-a luat nu știu câte stop loss-uri până ducea reacția asta.
+
+De ce? Pentru că era time frame-ul mult prea mare și puterea foarte, foarte mare. De asta vă recomand Să rămâneți la time frame de 15 minute maxim pentru marcarea lichidităților majore și de multe ori lichiditățile prea mari e posibil să [00:04:00] nu ajute Uite spre exemplu când marcăm pe asta care e o lichiditate imensă e foarte puternică, există șanse mari ca prețul să vină să facă asta și așa.
+
+Ea se arate bine dar dacă mergi pe o minută îți dai seama că îți lua stop-lostul. M-aș limita cumva, dar n-am o regulă stabilită clar, adică să mă uit să zic uite este 11 noiembrie nu mai luăm mai mult de 11 zile. Aș spune să nu fie mai mult de 2-3 săptămâni în urmă cam asta ar fi limita, ăla ar fi un maxim.
+
+Acum nu înseamnă nu funcționează, că și asta e o lichitate frumoasă, nu e o lichitate rea și o să țin cont de ea Dar mi-ar plăcea să mai văd la pachet cu alte mici aspecte ori să văd lichidată și să văd un displacement bun și un shift bun sau lucruri de acest gen, dar ar fi recomandat să nu vă duceți pe lichidități prea mari, în niciun caz pe time frame de oră pe 15 minute puteți să marcați și din trecut Dar aveți grijă să nu fie mult prea îndepărtate niciun caz peste o lună deja cred că este cam mult.
+
+Mai sunt ocazii în care executi și la lichidități de-astea mai mari, dar dacă vreți să stați foarte safe, mai ales în partea când sunteți la început și învățați și testați [00:05:00] și așa mai departe, v-aș recomanda să rămâneți la lichidități un pic mai actuale. Cam asta este răspunsul, deci sper că au fost clare explicațiile când v-am vorbat de lichidități asta nu înseamnă că e greșit să lichiditate mai mare, Sau mică Nu înseamnă neapărat asta, dar v-am spus că vă poziționați într-o probabilitate care nu este neapărat în favoarea voastră.
+
+Vreau să mai adaug încă un lucru în discuția noastră din această lecție. Adaptabilitatea în piață. Știți că avem o lecție bazată pe acest lucru dar este foarte important să înțelegeți că piața este schimbătoare. Piața se schimbă constant și e greu să execuți un price model, adică să ai efectiv un model de execuție pe care să-l execuți pe același pattern la infinit și să funcționeze la infinit Nu există așa ceva.
+
+Scopul nostru este să ne adaptăm. El are mereu mici diferențe care se tot repetă Spre exemplu trei dimineții. Trei dimineții între sesiunea 10 și 12. Are perioade în care funcționează foarte frumos și foarte bine și e foarte simplu și are perioade precum a fost vara asta, super complexe în care îți stă prețul la all-time high, la maxim istoric, te încurcă, nu mai funcționează [00:06:00] lucrurile așa bine.
+
+Tu în momentele de genul ăsta trebuie să înveți să te adaptezi și mereu... Să știi pe ce te bazezi. Vezi că este o perioadă în care all time high este all time high și știi că lucrarea nu funcționează bine, Nici o problemă trecem pe alte grafice și nu facem have the day, slow the day, facem lichidități majore și locale.
+
+Ne merg cu majore și locale una, două trei luni profităm de pe ele, vedem că încep să mai funcționeze bine, Schimbăm înapoi pe have the day, slow the day, mereu jonglăm cu conceptele pe care le avem și pe statistica pe care o avem, Mereu jonglăm și cum ne dăm seama de schimbările din piață? Prin intermediul backtesting-ului.
+
+Backtesting-ul este Modalitatea și răspunsul pentru aceste lucruri. În momentul în care faci back testing, în momentul în care te uiți în urmă, înțelegi, vezi cum funcționează Faci săptămână de săptămână te uiți dar ce a funcționat săptămâna asta? Păi ia uite, săptămâna asta a mers foarte bine tipul ăsta de execuții.
+
+L-am mai avut în trecut? Da, uite suntem câștigători, hai să maxez următoarea perioadă pe asta. Deci mereu să vă adaptați și niciodată să nu mergeți cu gândul că doar am învățat un model, păi execuția poate sta la infinit și merge. Nu chiar, da, la bază așa trebuie să gândim. Trebuie să avem un model, dar trebuie să ne și adaptăm un pic la piață.
+
+Ok? Deci asta Asta vreau să exprim prin [00:07:00] acest mesaj pe care vreau să-l las la final de clip și pe care te rog să-ți-l notezi și să-l implementezi aici în mintea pentru că o să ai nevoie de el în drumul ăsta frumos al tradingului și în călătoria pe care urmează să o ai. Tradingul este cel mai greu business și este un business foarte frumos dar complicat care necesită multă luptă cu tine însuți.
+
+Multă luptă! Și consider că este unul din business-urile slash domeniile în care înveți cel mai mult și te cunoști cel mai bine. Te cunoști incredibil de bine pentru că o să treci prin stări de fericire de nu o să le poți controla și prin stări grele pe care nu o le poți controla. Important e să le controlăm, să ajungem toate să fie la fel, să avem aceași emoții.
+
+Chit cam un win, chit cam un lose. Uite, eu astăzi când filmează acest clip sunt pentru o zi cu o pierdere. Am avut o pierdere de, vreau să pun și alea pe UK100. O pierdere de undeva la 700, am și aici înregistrat, 794 de euro pierdere astăzi. Fix acum am avut-o, acum două ore sau ceva de genul, trei ore.
+
+Credeți că sunt supărat? Nu, nu sunt supărat, că face parte din joc. Am zile cu pierderi azi [00:08:00] am stat dimineață de la nu știu 10 până la 10 seară, 12 ore sunt la birou la lucru treaba am avut un singur te. Deci uite azi am avut o zi 10 ore, lucruri constant și i-am și pierdut 800 de euro. Credeți că sunt supărat?
+
+Nu, pentru că știu procesul pe termen lung și știu cum funcționează lucrurile. Deci cam asta este. Vă salut cu mare drag, ne vedem la lecțiile următoare, mult succes!
+

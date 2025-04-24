@@ -1,0 +1,100 @@
+### **Rezumat Lecția 1 Capitolul 4 – Introducere în Platforma TradingView**
+
+---
+
+#### **Introducere**
+
+Această lecție marchează începutul unui nou capitol dedicat **platformelor de analiză și execuție**. Este o lecție de tranziție de la partea teoretică spre partea practică. Se face o trecere în revistă completă a **TradingView**, platforma folosită de autor exclusiv pentru **analiza tehnică**, nu pentru execuția tranzacțiilor.
+
+---
+
+#### **Platforma TradingView – Informații generale**
+
+- **Site web:** [tradingview.com](https://www.tradingview.com)
+- **Cont:** gratuit, login cu Google recomandat
+- **Versiuni disponibile:**
+  - Gratuit (suficientă pentru trading)
+  - Pro (abonament lunar) – oferă funcții extra, dar **nu este necesar**
+- **Aplicație Desktop:** disponibilă, dar nu esențială
+
+---
+
+#### **Instrumente și Funcții Prezentate**
+
+##### **Setări inițiale:**
+- **Dark Mode, limba, layout-uri, timezone (UTC+2 București)**
+- Se recomandă activarea opțiunii **logarithmic scale (LOG)** și folosirea ocazională a **autoscale**
+
+##### **Timeframes:**
+- Se pot adăuga și personaliza (ex: 2H, 4H)
+- Favoritele se pot marca cu steluțe
+
+##### **Alerte:**
+- Click pe plusul din dreapta graficului pentru a adăuga alerte pe niveluri specifice
+- Alertele pot fi trimise pe telefon prin aplicație
+- Util: pentru a monitoriza prețuri fără a sta în fața ecranului
+
+---
+
+#### **Structura Platformei – Interfață și Organizare**
+
+- **Watchlist, calendar economic, alerte active, portofoliu, chat public**
+- **Order panel** (pentru demo trading, dar nu va fi utilizat)
+- **DOM (Depth of Market):** nu este relevant în această strategie
+- **Zona inferioară a graficului:** Auto / Log, timezone
+
+---
+
+#### **Personalizarea graficului**
+
+- **Culori personalizate pentru candele:** gri pentru creștere, negru pentru scădere
+  - Scop: **reducerea impactului emoțional**
+- **Modificare grafic:** click dreapta → Settings
+  - Ajustări la: body, wick, background, linii verticale, status bar etc.
+- **Recomandare:** păstrați graficul **clean**, simplu, fără „machiaj” inutil (make-up)
+
+---
+
+#### **Unelte importante din bara laterală**
+
+- **Cross (ținta), trendline, linie orizontală (horizontal line), ray**
+- **Rectangle (dreptunghiuri), path (trasee pentru marcare)**
+- **Long / Short position tools:** utile pentru simularea tranzacțiilor
+- **Bar Replay:** funcție premium – permite revenirea în timp pentru testarea strategiilor
+
+---
+
+#### **Recomandări de utilizare**
+
+- Nu este necesar să cunoașteți toată platforma.
+- Folosiți doar funcțiile utile pentru analiza tehnică în strategia dată.
+- Curățenie pe grafic = claritate în gândire.
+- Dacă doriți, explorați mai multe tutoriale TradingView pe YouTube.
+
+---
+
+#### **Diferența dintre DE30EUR și GER30**
+
+- **DE30EUR:** simbol oferit de OANDA, broker partener TradingView (recomandat)
+- **GER30:** echivalent, dar oferit de Global Prime
+- Ambele sunt indicele DAX – se pot folosi oricare dintre ele.
+
+---
+
+#### **Funcții avansate (plan Pro)**
+
+- **Bar Replay**
+- **Alerte nelimitate**
+- **Organizare superioară (liste, șabloane etc.)**
+
+---
+
+#### **Gânduri Finale**
+
+- Lecția a fost un tur rapid, dar complet, al platformei.
+- Recomandare: **revizionați clipul cu platforma deschisă și exersați**.
+- Nu este nevoie să înțelegeți totul de la început – se va reveni asupra fiecărei funcții pe măsură ce este folosită în strategie.
+
+---
+
+Acest rezumat oferă o hartă completă a utilizării TradingView pentru analiză tehnică. Este punctul de plecare pentru sesiunile aplicate din lecțiile următoare.

@@ -1,0 +1,92 @@
+### Rezumat Lecția 4 – Instrumente de Tranzacționare și Termeni Esențiali (Partea 2)
+
+---
+
+#### Introducere
+
+Această lecție continuă introducerea în limbajul trading-ului, concentrându-se pe **instrumentele reale de tranzacționare** și pe **termeni avansați** pe care traderii trebuie să-i cunoască. Sunt explicate noțiuni precum CFD, leverage, futures, prop firms și altele, oferindu-se o bază solidă înainte de începerea strategiei propriu-zise.
+
+---
+
+### Instrumente de Tranzacționare
+
+#### 1. **CFD (Contract for Difference)**
+- Permite realizarea de profit **atât pe creștere (long/buy)**, cât și pe **scădere (short/sell)**.
+- Exemplu de short: Bitcoin la 67.000 USD → short → închidere la 30.000 USD → profit din diferență.
+- **Long = Buy**, **Short = Sell** – termeni de bază.
+
+#### 2. **ETF (Exchange Traded Fund)**
+- Fond de investiții diversificat, care include bucăți din mai multe active.
+- Util pentru expunere diversificată în piață.
+
+#### 3. **Futures (Contracte Futures)**
+- Contracte standardizate pentru cumpărarea sau vânzarea unui activ la un preț și o dată viitoare prestabilită.
+- Folosite pentru speculație sau hedging (protejare împotriva riscului).
+- Vor fi utilizate direct în strategia de trading predată în mentorat.
+
+---
+
+### Termeni Cheie Explicați
+
+#### 4. **Leverage (Levier)**
+- Permite amplificarea pozițiilor față de capitalul propriu.
+- Ex: cu levier x5 → profitul și pierderea se multiplică de 5 ori.
+- Periculos fără gestionare corectă → poate duce la **margin call** (falimentul contului).
+
+#### 5. **Margin Call**
+- Se produce când pierderile ajung la nivelul capitalului disponibil.
+- Avertisment că pozițiile nu mai sunt susținute de fonduri.
+
+#### 6. **Spread**
+- Diferența dintre prețul de cumpărare și cel de vânzare.
+- Cost indirect al unei tranzacții.
+- Este **neglijabil** în strategia mentorului.
+
+---
+
+### Condiții de Piață
+
+#### 7. **Bull Market** – piață în creștere (optimism).
+#### 8. **Bear Market** – piață în scădere (pesimism).
+- Se pot face bani în ambele direcții prin long și short.
+
+#### 9. **Major News Event**
+- Evenimente macroeconomice care pot afecta drastic piața.
+- Exemple: CPI, rata șomajului, NFP.
+- **Regulă strictă**: NU se tranzacționează în timpul acestor evenimente.
+
+---
+
+### Infrastructura Trading-ului
+
+#### 10. **Broker**
+- Intermediarul dintre trader și piață.
+- În acest program: NU e nevoie să alegi un broker, deoarece se lucrează cu firme de finanțare care au infrastructura proprie.
+
+#### 11. **Prop Firm (Proprietary Firm)**
+- Firmă care oferă capital de tranzacționare unui trader în schimbul unui share din profit.
+- Mentorul tranzacționează **100% cu bani finanțați**.
+- Oportunitate imensă: zero bani proprii, zero risc personal.
+
+#### 12. **High Frequency Trading (HFT Software)**
+- Roboți automați care execută mii de tranzacții pe secundă.
+- Multe sunt schemuri, dar unele legitime pot fi achiziționate la prețuri mari (ex: 10.000+ euro).
+- Mentorul este interesat să testeze un astfel de software pe viitor.
+
+#### 13. **Demo Trading**
+- Exercițiu de simulare cu bani virtuali.
+- Util pentru testarea strategiei fără risc real.
+- Mentorul a folosit demo trading timp de 4 luni înainte de a trece pe bani reali.
+
+---
+
+### Sfaturi Practice
+
+- Dacă un termen nu este clar explicat în program, **căutarea pe Google sau YouTube** este recomandată.
+- Ce oferă mentorul este **puzzle-ul complet**: o strategie instituțională testată, livrată într-un mod structurat.
+
+---
+
+#### Concluzie
+
+Această lecție completează baza de termeni și instrumente esențiale în trading, pregătind cursantul pentru abordarea practică a strategiei. Este o lecție densă, dar extrem de valoroasă pentru înțelegerea completă a pieței și a mediului profesional în care urmează să se desfășoare activitatea de trading.

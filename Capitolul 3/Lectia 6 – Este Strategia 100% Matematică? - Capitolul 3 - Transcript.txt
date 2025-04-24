@@ -1,0 +1,35 @@
+Lectia 6
+===
+
+[00:00:00] Este această strategie 100% matematică? În acest clip vom dezbate acest subiect. Este un subiect foarte interesant pe care vreau să-l discut. Acest clip este mai mult ca o discuție În trecut m-am încăpățnat și am spus că această strategie este una matematică, este ușor pentru că o să vedeți că o avem reguli clare o să executăm pe baza, o să avem regulile, le bifăm, s-au întâmplat regulile executăm.
+
+Destul simplu, o vedeți că e foarte bine optimizată strategia și este extrem de bine structurată în așa fel încât să știi mereu când trebuie să intri și când trebuie să ieși din tranzacție. După ce m-am bătut în piepta ta timp că strategia asta este matematică, am ajuns la concluția că nu are cum o strategie să fie 100% matematică sau poate sunt excepții, dar nu vreau să vorbesc de acestea pentru că nu cunosc și eu vorbesc despre ceea văd și sunt sigur de asta.
+
+De ce nu este strategia asta 100% matematică Eu am descoperit două variabile care îmi [00:01:00] dovedesc contrariu credinței mele pe care am avut-o mult timp cu această strategie pe care o să învățez care este una incredibilă și care eu aveam impresia că este matematică și cu doar test execut și atât și o să meargă aici senzațional.
+
+Avem două variabile care trebuie luate în calcul. Prima este faptul că suntem oameni Nu suntem roboţi ca să fim 100% matematici 100% matematic ar trebui să ştii că nu ratezi nicio tranzacţie, execuţi totul perfect, totul ca la carte, totul pas cu pas, tot, tot tot tot tot dar n-ai cum pentru că o să ai o zi în care o să te mai doreşti pe tine stomacul, o mai doreşti capul, o vezi 30 de o vacanţă, 200 săptămâni ai avut o lună genială ai făcut un profit excelent Excelent sau ai făcut trei luni senzaționale și zici gata, vreau să fac o vacanță mă duc frumos mă relaxez o săptămână mă întorc înapoi la lucru.
+
+Tu făcând acea pauză din start nu mai ești matematic pentru că dacă vrei să fii matematic, ce faci Execuți [00:02:00] tot, nu există să ratezi o perioadă. Că poate perioada în care pleci tu mai vin încă nu știu câte seturi de câștiguri și fix când te-ai întors, te-ai pus pe executa nu mai merge treaba se strică tot și tu practic ai stricat toată matematica din spatele execuțiilor pentru că ai ratat-o la două săptămâni.
+
+Deci ăsta e un aspect. Îți mai zic că nu poți să fii prezent, te mai doare capul te mai doare nu știu, te mai doare nu știu cum, nu poți să ești supărat, ai o treabă undeva, trebuie să pleci cu contabil, trebuie pleci la ANAP să plătești taxe trebuie să pleci nu știu unde, în fine. Și de asta, ăsta e de părere că e o chestie care omoară matematica din spate și mai e un lucru Știrile.
+
+Au observat că sunt momente în care știrile au atât mare impact într-o zi încât efectiv strică piața cu totul și indiferent că o strategie matematică ce înseamnă că tu poți să execuți oricând fără să ții cont de nimic, a ok, dacă introduci și știrile și ții calcul de ele, poți numi strategia asta una matematică dar nu este 100%.
+
+În orice caz O să vedeți că este foarte plăcut să țineți regulile, să le notați. O să vedeți o avem în jur de 10-11 reguli de care ținem cont și [00:03:00] trebuie să se bifeze ca să executăm. O să știm exact punctele de exit, punctele de entry. Totul o să fie foarte, foarte clar pe partea asta și încercăm să ținem lucrurile cât mai matematice.
+
+Deci strategia este una... Este una matematică dar nu 100%. Asta este concluzia la care am ajuns și pe care vreau discut în acest clip. Deci este matematică dar nu 100%. Adică este perfectă prin punct de vedere matematic. Să poți să execuți tot, tot, tot și nu cred că ai cum să găsești o strategie. Să poți să execuți mereu decât dacă ești un robot, Cunosc un trader care este narratat, deci e la un nivel imens și execută totul matematic pas cu pas, dar acolo este vorba de a-ți dedica toată existența trading-ului.
+
+Să nu mai, persoana respectivă are 40 și un pic de ani, nu are familie face doar trading, doar asta face îniață până seara Îi ține cont doar de rezultate, nu se bucură de banii pe care îi face că ăsta își lucrează non-stop, deci nici în extrema aia să dai, ok? Da, poți să dai în extrema aia, dacă îți dorești să devii cel mai bun trader al lumii și nu te [00:04:00] interesează să te bucuri de viață și vrei să faci foarte mulți bani, foarte multe rezultate să fii insane pe o parte de optimizare eficiență și o pasiune de data, da, poți să faci asta.
+
+Dar părerea mea este că nu și-are rostul, putem să avem rezultate frumoase fiind calmi făcând două ore de trading pe zi Sau mai mult depinde de fiecare persoană și să avem rezultate frumoase și să ne bucurăm și de alte aspecte. Bun, ne vedem mai departe și vreau să vă fac așa un mic reminder și să vă transmit un lucru.
+
+Vreau să vă în primul rând să vă felicit că ați ajuns până aici să vă felicit pentru timpul acordat pe care l-ați dat până în acest punct mentoratului. Sunt extrem de mândru de fiecare în parte. Care fac parte în acest program și vă dedicați în timp să învățați și să vă dezvoltați, sunteți niște persoane minunate și vă felicit pentru lucrul ăsta, pentru că vreți să vă dezvoltați.
+
+Și vreau să mai menționez un lucru. Ați văzut că până acum capitolul 2 a fost cu niște powerpoint-uri, dar eu deja sunt pe grafici acum și fac clipurile astea cu fundal de grafic. De ce? Pentru că și clipurile trecute vreau să fie practic. Chiar dacă încă nu am intrat, nu [00:05:00] v-am învățat cum se folosesc mi-e place să folosim grafici o să vedeți că mare parte a inventurării e pe grafic sau e practic.
+
+Am trecut la viața eu sunt mare Fun să trec prin programe din acestea online, dar și fizice. Deci mereu mi-au plăcut cursurile, meditația, să merg la meditație, să învăț de la tot felul de oameni, să fac cursuri în toate domeniile. Am trecut prin tot felul de procese am cumpărat zeci de sute de cursuri.
+
+Mie îmi plac foarte mult, îmi place procesul ăsta să învăț, îmi place mult. Și am trecut prin noi extraordinar de bune, dar și prin ele mai slabe. Vă dați seama cum e orice produs. Și au fost cursuri prin care am trecut și programe. Prin care efectiv erau arătate doar imagini și PowerPoint-uri, adică era zero practică zero practică, cum să faci produs cu zero practică și aplicabilitate, mai ales în domeniul ăsta, în altele să zici că se mai poate dar aici de asta o să avem, o să vezi că o să lucrăm mult practic o să fie totul foarte aplicabil, o să luăm totul cu detalii cu statistică și O să vedeți că tot ceea ce spun nu sunt doar vorbe [00:06:00] că o să vedeți matematic cum funcționează lucrurile astea și care este rolul lor Adică totul este matematic, nici nu trebuie să mă credeți pe cuvânt și o să vedeți mai încolo.
+
+Bun, asta a fost cu acest clip, ne vedem mai departe, nu uitați să luați totul pas cu pas și treptat.
+

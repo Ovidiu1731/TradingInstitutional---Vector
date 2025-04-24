@@ -1,0 +1,95 @@
+### Rezumat Lecția 12 – Cum Funcționează Algoritmii Instituționali
+
+---
+
+#### Introducere
+
+Această lecție detaliază **modul în care marile instituții financiare folosesc algoritmi** pentru a executa și gestiona tranzacțiile în piață. Este o lecție esențială pentru înțelegerea logicii din spatele strategiei instituționale, oferind cursanților perspectiva de ansamblu asupra comportamentului „balenelor” din piață. Nu este necesară înțelegerea matematică exactă a algoritmilor, ci **logica lor operațională**.
+
+---
+
+### Cele 5 Tipuri Principale de Algoritmi Instituționali
+
+---
+
+#### 1. **Algoritmi de Execuție**
+
+- **Scop**: executarea unor ordine de volum mare **fără a influența semnificativ prețul**.
+- **Funcție principală**: maschează activitatea instituțiilor, dar **lasă urme vizibile** pe grafic (ex: gap-uri).
+- **Subtipuri**:
+  - **TWAP (Time Weighted Average Price)** – execută ordinele **uniform** în timp.
+  - **VWAP (Volume Weighted Average Price)** – execută ordinele în funcție de **volumul pieței**.
+- *Observație*: noi nu folosim acești algoritmi, dar învățăm să le **identificăm urmele** în piață.
+
+---
+
+#### 2. **Algoritmi de Market Making**
+
+- **Rol**: mențin lichiditatea în piață oferind **prețuri constante de cumpărare și vânzare**.
+- Pot fi atât **algoritmici**, cât și **umani** (market makeri).
+- Profitul vine din spread-uri mici, dar constante.
+- *Relevanță*: contribuie la stabilitatea și funcționarea eficientă a pieței → **un plus pentru traderii retail**.
+
+---
+
+#### 3. **Algoritmi de Arbitraj**
+
+- Exploatează **diferențele de preț** dintre piețe sau brokeri.
+- Ex: același activ (ex: S&P 500) poate avea prețuri ușor diferite la doi brokeri.
+- *Notă importantă*:
+  - **Este ilegal pentru traderii retail**.
+  - Poate duce la **banarea contului** sau pierderi masive.
+  - Folosit totuși de marile instituții în mod legal.
+
+---
+
+#### 4. **Algoritmi HFT (High Frequency Trading)**
+
+- Execută **mii de tranzacții pe secundă**.
+- Profituri mici per execuție, dar masive prin volum.
+- Necesită **infrastructură tehnologică extrem de performantă**.
+- Vizibili în piață – creează mișcări bruște și volum mare.
+- Mentorul a testat personal un HFT bot, dar **nu folosește roboți în tradingul live**.
+
+---
+
+#### 5. **Algoritmi de Trend Following**
+
+- Urmăresc **trendurile pieței** bazându-se pe analiză tehnică.
+- Intră pe direcția trendului și ajustează automat poziția până la inversare.
+- **Diferență față de retail**:
+  - Instituțiile pot detecta din timp apariția volumului.
+  - Traderii retail reacționează abia după confirmarea trendului.
+
+---
+
+### Impactul Algoritmilor în Piață
+
+---
+
+#### Avantaje pentru traderii retail:
+
+1. **Lichiditate crescută** – spread-uri mai mici, execuții mai rapide.
+2. **Eficiență a prețurilor** – prin arbitraj și execuții automate, prețurile se ajustează rapid la informație.
+3. **Acces la un mediu „curat”** – dacă înveți să recunoști urmele algoritmilor, poți profita de ele.
+
+---
+
+#### Riscuri și efecte secundare:
+
+- **Volatilitate ridicată** – mișcări rapide și bruște în momente cheie.
+- **Flash Crashes** – prăbușiri temporare cauzate de ordine automatizate.
+- **Manipulare** – se poate produce prin „stop loss hunt” și inducerea în eroare a participanților retail.
+
+---
+
+### Recomandări Final
+
+- Nu este nevoie să cunoști algoritmii în detaliu, ci **să le înțelegi logica și comportamentul vizibil în piață**.
+- Lecția poate fi revizitată după acumularea experienței – va avea sens sporit odată cu aplicarea practică.
+- **Strategia predată va imita în parte logica acestor algoritmi**, dar din perspectiva traderului individual.
+- **Nu grăbi parcurgerea lecțiilor** – învață pas cu pas, cu notițe și atenție la detalii.
+
+---
+
+Această lecție deschide oficial **ușa către înțelegerea comportamentului instituțional real** și pregătește cursantul pentru strategiile care vor fi prezentate ulterior, bazate pe logica acestor algoritmi și pe modul în care aceștia lasă „urme” în piață.

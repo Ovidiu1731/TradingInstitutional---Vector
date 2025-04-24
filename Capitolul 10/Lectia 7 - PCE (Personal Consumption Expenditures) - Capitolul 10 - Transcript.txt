@@ -1,0 +1,37 @@
+Lectia 7
+===
+
+[00:00:00] În această lecție vom discuta despre PCE sau despre Personal Consumption Expenditures. Hai să ne întreabă ce este PCE și ce reprezintă PCE sau Personal Consumption Expenditures În română cheltuielile de consum personal, este un indice utilizat pentru a măsura schimbările în prețurile bunurilor și serviciilor de consum în economia din Statele Unite ale Americii.
+
+Deci pe scurt vedem acest PC doar în Statele Unite ale Americii și practic măsoară schimbările de prețuri are bunurilor și serviciilor de consum. Asta este definiția destul de simplă Acesta este unul dintre cei mai importanti indicatori pentru a monitoriza inflația. Ține minte lucrul ăsta? PCE-ul este direct legat de CPI, de Consumer Price Index, de inflație, fiind preferat de Fed, respectiv Federal Reserve, ca măsură principală a inflației Mai ales în comparație cu [00:01:00] CPI, Consumer Price Index sau indicele prețurilor de consum.
+
+PCI este publicat lunar, deci apare în fiecare lună de către Biroul de Analiză Economică al Statelor Unite al Americii și este văzut ca un indicator cheie al presiunilor inflaționiste în economie. Poate foarte multe persoane să mă întrebați dar rar își tranzacționăm acest tip PC, levităm, ținem cont de el și așa mai departe.
+
+PC este o știre de care eu personal țin cont, o urmăresc dar nu evit tranzacționarea doar din cauza PC. Poate o oră înainte și o oră după așa mai procedez în momentul în am ozit cu PC, evit să fie o tranzacție o oră înainte o oră după. Iar în medie după calculele mele și statistică, am observat că din 12 luni de zile În medie cam 2-3 luni pe an afectează acest PCE piață, adică chiar este periculos și trebuie evitat, dar în mare parte este o știre care nu ne pune neapărat [00:02:00] probleme Dar trebuie să o înțelegem și o să vedeți exact de ce.
+
+Există două variante principale ale PCE. Indicele PCE general care măsoară. Toate bunurile și serviciile consumate și indicele PCE core sau de bază care exclude prețurile volatile ale alimentelor și energiei oferind o imagine mai stabilă a inflației fundamentale. De ce?
+
+Cum este calculat PCE și de ce este important? PCE este calculat luând în considerare prețurile bunurilor și serviciilor achiziționate de gospodării și ajustând aceste prețuri pentru a reflecta schimbările în comportamentul consumatorilor De exemplu dacă prețul unui produs crește și consumatorii încep să cumpere alternativă mai ieftină, [00:03:00] PCE va reflecta această ajustare, în timp ce CPI-1, aici e o diferență foarte importantă și vă rog să notați toate aceste aspecte ar fi foarte foarte de folos să faceți așa un document cu toate știrile și ce înseamnă fiecare bun.
+
+Această ajustare face ca PCI să fie considerat un indicator mai precis al puterii de cumpărare reale a consumatorilor și al inflației De ce este acest eveniment important pentru piețe? PCI-ul are un impact major asupra pieților financiare pentru că este direct legat de politica monetară a Fed, respectiv Federal Reserve.
+
+Federal Reserve urmărește În mod deosebit indicele PCE Core, țineți minte, deci avem două tipuri, PCE Core-ul urmărește Fed pentru a decide dacă inflație este în creștere și dacă este nevoie de intervenții pentru a o controla. Dacă PCE arată o creștere a inflației [00:04:00] peste ținta Fed-ului, în general de 2% asta este ținta Fed-ului de inflație, o cunoaștem, este standard, banca centrală poate decide să crească ratele dobânzilor pentru a reduce presiunea inflaționistă Pe de altă parte un indice PCE scăzut poate duce la rate ale dobânzilor mai mici pentru a stimula economia, iar un aspect foarte important.
+
+Bun. Ultimele rezultate ale PCE, aici o să discut pe scurt care au fost la momentul filmării acestui clip ultimele rezultate și pentru a oferi detalii actualizate privind PCE-ul este nevoie să verificăm cele mai recente rapoarte economice, însă general dacă PCE-ul de bază Crește peste așteptări, poate indica o presiune inflaționistă și prin urmare o probabilitate crescută ca Fedul să majoreze ratele dobânzilor Dacă PC-ul de bază este sub așteptări, Fedul ar putea decide să mențină sau chiar să scadă ratele dobânzilor de referință pentru a stimula [00:05:00] economia Trebuie să înțelegem aceste lucruri când ne vine știrea să știm și noi ce înseamnă că vedem ok PC-ul e bun A ieșit în creștere, este peste așteptările pieței, deci ne putem aștepta la acest lucru care majorare pe rata de mânză nu este un lucru pozitiv deci ne așteptăm la potențial de scădere în anumite piețe, pe exemplu pe Indy sau poți să fie sub așteptări PC-ului asta înseamnă că este bine, deci un potențial mai mare de creștere pe zona asta.
+
+Trebuie să învățăm să le interpretăm la modul de bază, nu acum să detaliem totul la cel mai mic detaliu pentru că o să ne încurcăm, dar trebuie să înțelegem baza, cum funcționează acest indicator economic. Implicații pentru piațe și investitori În zona de acțiuni, aici am încercat să vă fac un rezumat la ce implicații are în fiecare piață.
+
+În acțiuni în mod obișnuit, o creștere a PSI poate duce la o scădere a pieței de acțiuni, deoarece investitorii anticipează creșteri ale ratelor dobânzilor ceea poate duce la reducerea profiturilor companiilor și atracția acțiunilor. E foarte logic ce ai menționat aici [00:06:00] Cred că cu toți putem înțelege ce vrea să transmită.
+
+2. Pentru obligațiuni Ratele mai mari ale dobânzilor fac ca obligațiunile existente să devină mai puțin atractive, deci prețurile obligațiunilor pot scădea dacă PCI crește La valută o creștere a PCI poate duce la o întărire a dolarului american, deoarece ratele dobânzilor mai mari atrag investitori străini.
+
+Foarte important, ce înseamnă o întărire a dolarului? Deci dacă e o paritate între dolari și nu știu ce, vedeți cum faceți paritatea în așa fel încât să puteți estima direcția în care o va lua acea paritate. Criptomonede. Inflația și așteptările de creștere a dobânzor pot influența piața ei crypto, deoarece investitorii caută active alternative.
+
+Deci ies din zona de crypto. Totuși relația poate fi volatilă deoarece criptomonedele sunt și ele sensibile la riscuri macroeconomice și la sentimentul piaței. Mergem mai departe Ca o concluzie, [00:07:00] PC-ul este un indicator vital pentru investitori și pentru Federal Reserve, iar interpretarea lui poate ajuta în înțelegerea viitoarelor mișcări de pe piațile financiare.
+
+Deci nu îl vom vedea acum și gata direct știm ce facem. E cumva un detaliu un indicator prin care ne putem forma așteptări pentru următoarele zile. De asemenea Monitorizarea acestui indice îi ajută pe investitor să anticipeze deciziile de politică monetară și să ajusteze portofoliile în funcție de așteptările legate de inflație.
+
+De asemenea esență, PCI este un instrument esențial pentru înțelegerea sănătății economice și pentru a vedea dacă Fedul își va schimba cursul de acțiune în funcție de evoluțiile economice Inflații. Asta este PC-ul, asta consider că este tot ceea ce trebuie să știm pentru acest moment despre PC. Trebuie să înțelegem cum funcționează evenimentul, știm analiza fundamentală este foarte importantă pentru, în general, pentru trading, pentru investiții și acest PC nu vă va ajuta numai în tradingul activ, ci în investiții pe termen lung în zonă de [00:08:00] crypto în foarte multe sfere, să spun așa.
+
+Cam asta a fost lecția, sper că a fost noua de folos, nu uitați să luați notițe, să o înțelegeți cu adevărat și ne vedem la lecțiile următoare.
+

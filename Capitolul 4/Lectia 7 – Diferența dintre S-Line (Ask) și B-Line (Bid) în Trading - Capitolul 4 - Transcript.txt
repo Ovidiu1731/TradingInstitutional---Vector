@@ -1,0 +1,29 @@
+Lectia 7
+===
+
+[00:00:00] Bine v-am găsit la o nouă lecție! Astăzi discutăm despre S-Line vs. B-Line Ce înseamnă acești doi termeni În primul rând Ce sunt S-Line și Bid-Line? În tranzacționarea financiară, S-Line și Bid-Line sunt componente fundamentale ale prețului unui instrument financiar, reprezentând două valori distincte care alcătuesc spread-ul.
+
+Am vorbit știți despre spread în trecut. Diferența dintre cele două reprezintă spread-ul. Deci cam așa se definește diferența dintre S-Line și Bid-Line. O să vă și arăt vizualul nostru, nu e nimica complicată Aceste linii sunt folosite pentru a înțelege prețurile la care se poate cumpăra sau vinde un activ.
+
+Simplu S-Line sau prețul de vânzare. Reprezintă cel mai mic preț la care un vânzător este dispus să vândă activul. Asta reprezintă S-Line. Hai să vă și arăt S-Line-ul Suntem pe MetaTrader Linia [00:01:00] roșie este ESC line-ul, aceasta roșie de mai de sus, iar linia de jos este BID line-ul. S-Cline nu este zona la care acum, este zona în care practic dacă facem o poziție de cumpărare ni se va executa tranzacția, deci practic ni se va executa fix în acest punct, iar spread-ul este diferența dintre prețul actual, la care suntem și unde ni se va executa tranzacția cu cât liniile astea două mai apropiate, cu atât spread-ul Este mai mic.
+
+Ne întoarcem înapoi la treabă Dacă vrei să cumperi un instrument financiar acesta este prețul pe care îl vei plăti. Se mai numește și preț de cerere, ceea ce ați văzut acolo linia roșie. Este afișat de obicei peste prețul actual de piață. Cum ne putem folosi de S-Line? Dacă intențiezi să deschizi o poziție long de cumpărare, acesta se va executa la prețul S-C.
+
+Atunci când închizi o poziție de short, acesta se va închide la prețul S-C Bun, mergem mai departe. Bidline este cea mai mare preț pe care un cumpărător este [00:02:00] dispus să îl plătească pentru a achiziționa activul. Dacă vrei să vinzi un instrument financiar acesta este prețul la care se va executa ordinul.
+
+Se numește preț de ofertă, este afișat de obicei sub prețul actual de piață Stai să-l activăm. Deci ca să activați, vedeți așa, aveți Show Bid Price și Show Ask Price. Astea două sunt cele două și mai avem și zona de execuție. Ne întoarcem înapoi la treabă așa cum ne putem folosi de bid line dacă intenționați să deschideți o poziție de short de vânzare, acesta se va executa la prețul bid.
+
+Atunci când închizi o poziție de lungă acesta se va închide la prețul bid. Cam asta e tot ceea ce trebuie să știți despre spread-ul, dar diferența dintre ask și bid este denumită spread. Spread-ul reprezintă costul indirect al tranzacționării și variază în funcție de lichiditatea pieței și volatilitatea.
+
+În piețe lichide, cum ar fi Forexul, pe perec majore, spread-ul este mic În piețe mai puțin lichide spread-ul [00:03:00] poate fi mai mare Deci cu cât avem mai puțin volum de tranzacțioare, o să vedem o diferență mai mare între cele două linii Pentru că nu e suficient bani, suficient volum Iar mulți zic mama, dacă sunt mulți trader într-o piață, e rău Că dacă sunt prea mulți înseamnă că nu e o piață bună Din contră cu cât e mai mult volum, mai mulți trader, cu atât ai taxe mai mici comisioane mai mici spread mai mic Spread-ul e cumva o taxă invizibilă la fel ca și slippage-ul Pe care o plătești, adică practic chiar dacă prețul cuiva este la 1$, tu o să intri la 1.01$, dau un exemplu și plătești acea mică diferență de preț dar așa funcționează totul Acum, vizualizare pe grafic în platforme tranzacțioare, ESC și BID LINE sunt reprezentate grafic pentru a făi claritate.
+
+ESC LINE linia superioară mai mare decât prețul curent. BID LINE linia inferioară mai mică decât prețul curent da? Prețul pe piață vizibil, este, de obicei, prețul BID. Bun. Asta este în cazul nostru. Așa, strategii bazate pe S-Line aici am pus câteva lucruri de bază. Poți să calculare intrarilor și ieșirilor corecte asigure-te că e în considerare spread-ul pentru a seta corect ordinele de stop loss și de take profit.
+
+Decizii informate în piațe cu spread-ul mare, [00:04:00] în piațele mai puțin lichide, cum ar fi acțiuni sau criptomonede, spread-ul poate fi mai mare. În astfel de cazuri trebuie să ajustezi strategia în funcție de costurile mai mari asociale. Scalping și day trading, traderii care folosesc strategii pe termen scurt cum avem noi, dar una de intraday trading, ar trebui să fie conștienți de spread, deoarece costurile mici cumulate pot deveni semnificative de asta executați în zilele în care vedeți un spread decent, vedeți așa diferent să nu fie foarte mare, că dacă e foarte mare înseamnă că ori avem un bank holiday, ori lipsă de volumuri, mai bine evitați ziua.
+
+Practic pe asta se bază aceste două Nu pot să vă zic mă folosesc foarte mult de S-Cline și Bidline, dar le mai activez, m-am învățat cu ele oricum le activez mă mai uit așa orientativ, vă recomand să le țineți tot timpul active dacă nu vă deranjează pentru că o să vă ajute pe termenul. Un exemplu practic, pun pe recheie valutare, Bid-ul e 1.1050 și S-Cline-ul este 1.1052 deci spread-ul este de 0.02.
+
+S-ul undeva la 1 punct, mă rog punem, luăm doar 122-ul ăsta și cealaltă la 111, deci o diferență uite acum de 8 puncturețe, de-astea [00:05:00] micuțe, pips, de-astea 0.8, în fine. Deci înțelegeți ideea, asta este diferența de spread. O vedem cum arată, cred că este destul de clară. Bun, cam asta ar fi tot, uite mai adânc, dacă vrei să cumperi vei plăti.
+
+Prețul de ask. Dacă vrei să vinzi vei plăti bid-ul. Cam asta este tot. Nu este nimic complicat, nu este nimic a ieșit din comun, dar sunt niște detalii pe care trebuie să le cunoaștem și să le înțelegem. Cam asta ar fi lecția de astăzi Ne vedem la lecțiile următoare.
+

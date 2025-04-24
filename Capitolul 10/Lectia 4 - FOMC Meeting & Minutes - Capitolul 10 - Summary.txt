@@ -1,0 +1,102 @@
+**Rezumat Detaliat – Lecția 4: FOMC (Federal Open Market Committee)**
+
+---
+
+### Introducere
+
+Această lecție tratează unul dintre cele mai importante evenimente macroeconomice din calendarul fundamental: **ședințele FOMC**. Sunt explicate tipurile de FOMC, structura lor, impactul asupra piețelor și de ce sunt considerate „știri roșii”, adică evenimente cu **impact major asupra volatilității**. Lecția oferă o bază solidă pentru înțelegerea deciziilor de politică monetară ale Federal Reserve (Fed).
+
+---
+
+### Ce este FOMC?
+
+- **FOMC = Federal Open Market Committee** – comitetul Fed responsabil de stabilirea politicii monetare a SUA.
+- Se concentrează pe:
+  - **Stabilitatea prețurilor**
+  - **Piața muncii (ocupare deplină)**
+  - **Creșterea economică sustenabilă**
+
+---
+
+### Tipuri de FOMC
+
+1. **FOMC Meeting** (ședința principală)
+   - Se iau **deciziile oficiale** privind politica monetară.
+   - Are loc **de 8 ori pe an** (la aprox. 6 săptămâni).
+   - Este **eveniment major, de evitat complet** în ziua respectivă.
+
+2. **FOMC Minutes** (procesul-verbal)
+   - Publicat **la 3 săptămâni după meeting**.
+   - Rezumă discuțiile din ședință.
+   - **Volatilitate moderată**: poate fi evitat sau doar ocolit parțial (ex. cu 1 oră înainte/după).
+
+---
+
+### Ce se discută în cadrul FOMC?
+
+#### 1. **Revizuirea economică**
+- PIB (GDP), șomaj (Unemployment Rate), inflație (CPI), producție industrială.
+- Evoluția salariilor, cerere și ofertă.
+
+#### 2. **Situația piețelor financiare**
+- Condițiile interne și externe, cursul dolarului, dinamica dobânzilor.
+
+#### 3. **Perspective economice**
+- Previziuni pe următoarele 6 săptămâni.
+- Se stabilesc direcții și scenarii posibile.
+
+#### 4. **Analiza riscurilor**
+- Geopolitică, șocuri externe, instabilitate financiară.
+
+#### 5. **Decizii de politică monetară**
+- Rata dobânzii de referință (fundamentală pentru întregul sistem economic).
+- Programe de lichiditate: *quantitative easing* (relaxare) vs. *tightening* (restrângere).
+- Strategii privind achizițiile de active.
+
+#### 6. **Declarație publică**
+- Se pregătește comunicatul de presă oficial.
+- Tonul este analizat ca fiind **hawkish** (agresiv, indicând majorări) sau **dovish** (relaxat, indicând reduceri).
+
+#### 7. **Q&A (Întrebări și răspunsuri)**
+- De regulă ținut de **Jerome Powell** (președintele Fed).
+- Este analizat tonul discursului pentru semnale indirecte.
+
+---
+
+### Cum să abordezi zilele cu FOMC
+
+#### FOMC Meeting:
+- **Se evită complet** ziua întreagă.
+- Volatilitate extremă → risc ridicat → mișcări necontrolate.
+- Impactul poate persista **și în ziua următoare** (în 1-2 cazuri din 8).
+
+#### FOMC Minutes:
+- Se poate tranzacționa în ziua respectivă, dar cu **prudență crescută**.
+- Ideal: **nu se tranzacționează în apropierea publicării**.
+
+---
+
+### Răspunsul pieței la FOMC
+
+- În funcție de **deciziile luate și de tonul discursului**, piețele reacționează:
+  - **Majorarea dobânzii** → USD se întărește, bursele pot scădea.
+  - **Reducerea dobânzii** → USD se depreciază, bursele pot crește.
+- Tonul comunicatului (hawkish/dovish) este deseori mai important decât decizia numerică în sine.
+
+---
+
+### Sfaturi și Recomandări
+
+- Învață cum funcționează:
+  - **Rata dobânzii de referință** – influențează toate sectoarele financiare.
+  - **Lichiditatea în piață** – fluxurile de bani afectați de deciziile FOMC.
+- **Nu ignora ședințele FOMC** – sunt printre cele mai influente evenimente din an.
+- **Folosește informația pentru poziționări post-eveniment** – săptămânile după FOMC pot fi excelente pentru execuții, dacă direcția devine clară.
+
+---
+
+### Final Thoughts
+
+Această lecție evidențiază rolul central al FOMC în arhitectura economică a SUA și, implicit, a piețelor globale. Înțelegerea acestui eveniment este crucială pentru orice trader serios care dorește să combine analiza tehnică cu o înțelegere solidă a contextului macroeconomic.
+
+Această cunoaștere devine o **armă strategică** în investiții și în luarea deciziilor informate.

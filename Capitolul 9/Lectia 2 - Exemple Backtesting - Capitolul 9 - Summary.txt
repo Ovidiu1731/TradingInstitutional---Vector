@@ -1,0 +1,79 @@
+**Rezumat Detaliat – Lecția 2: Lichiditatea Majoră și Lichiditatea Minoră**
+
+---
+
+### Introducere
+
+Această lecție introduce două concepte esențiale pentru tranzacționarea pe întreaga zi: **lichiditatea majoră** și **lichiditatea minoră**. Sunt prezentate diferențele dintre ele, momentele potrivite de utilizare, modul în care se încadrează în strategia de tip trend reversal sau trend following, dar și exemple aplicate de execuție în piață.
+
+---
+
+### 1. Contextul Lecției
+
+- După ce ai învățat strategia pe intervalul 10–12, e timpul să te extinzi și pe restul zilei.
+- Tranzacționarea eficientă necesită **testarea mai multor intervale orare și piețe**.
+- Lichiditatea devine **confluența principală** în identificarea zonelor relevante pentru execuții.
+
+---
+
+### 2. Lichiditatea Majoră
+
+#### Definiție:
+- Zone evidente de pe grafic (vizibile clar pe M5) unde se află cele mai multe stop loss-uri.
+- De obicei, vârfuri sau minime importante – zone în care băncile lichidează ordinele retail.
+
+#### Caracteristici:
+- **Se tranzacționează contra trendului (counter trend)**.
+- Au un winrate mai mare decât zonele obișnuite.
+- Sunt tratate **precum High of the Day sau Low of the Day**, dar se pot aplica în orice moment al zilei.
+- Oferă **confluență** pentru execuții bazate pe: lichiditate luată → shift → gap → entry.
+
+#### Strategie:
+- Dacă prima execuție e pierzătoare (SL atins), **se reexecută** pe următoarea zonă majoră de lichiditate.
+- A doua execuție poate avea un RR extins (1:3, 1:4) pentru recuperarea pierderii + profit.
+
+#### Exemplu:
+- Marchez zonele majore pe 2–3 piețe și setez alarme → în momentul în care sunt atinse, analizez pentru semnal de intrare.
+
+---
+
+### 3. Lichiditatea Minoră
+
+#### Definiție:
+- Zone mai subtile formate în cadrul unei mișcări de trend, vizibile prin mici consolidări.
+- Acolo se poziționează SL-urile celor care intră în trend → bănci le lichidează și continuă direcția.
+
+#### Caracteristici:
+- **Se folosește doar în zile trendy, cu mișcare direcțională clară** (ex: uptrend constant).
+- Este un instrument pentru **tranzacționare în direcția trendului** (trend following).
+- Apare rar – doar câteva zile pe lună oferă un astfel de context.
+
+#### Execuție:
+1. Identifici consolidarea (lichiditatea minoră).
+2. Aștepți ca prețul să ia lichiditatea de jos (în uptrend).
+3. Cauți Market Structure Shift + Gap → entry.
+4. Stop Loss sub low-ul zonei; TP: minim RR 1:2.
+
+#### Exemplu concret:
+- Zi de luni cu uptrend constant.
+- Prețul formează consolidări → lichiditatea minoră este luată → se formează setup → intrare cu 0.5% risc.
+- Target potențial: RR 1:2 până la RR 1:12 (dacă țintești următoarea zonă cu lichiditate majoră).
+
+---
+
+### 4. Diferențe cheie între cele două tipuri de lichiditate
+
+Lichidate Majora: contra trend(trend reversal), evidenta(puncte clare pe M5), zilnic, oricand in zi
+Lichiditate Minora: cu trendul(trend following), subtila(in interiorul trendului), apare in zile trendy
+---
+
+### 5. Sfaturi și Concluzii
+
+- Nu este necesar să folosești lichiditatea minoră – dar e bine să știi că există și să o aplici ocazional.
+- Testează și adaptează strategia la contextul zilei – **nu toate tiparele funcționează mereu**.
+- Într-o zi de trend clar, poți face profituri mari dacă ești atent la zonele minore și execuți corect.
+- **Folosește stop loss-uri realiste** – nu extrem de strânse – pentru a evita ieșiri premature.
+
+---
+
+Această lecție completează înțelegerea tiparelor de lichiditate și oferă o flexibilitate suplimentară în tranzacționare. Cunoașterea diferenței între **lichiditate majoră și minoră** este esențială pentru a naviga eficient diversele contexte de piață.

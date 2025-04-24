@@ -1,0 +1,77 @@
+### **Rezumat Lecția 6 – Este Strategia 100% Matematică?**
+
+---
+
+#### **Introducere**
+
+Această lecție este o **discuție deschisă** despre natura strategiei de tranzacționare prezentate în program: este sau nu 100% matematică? Deși inițial autorul considera că da, realitatea și experiența personală au arătat că o strategie complet matematică nu este realistă pentru majoritatea traderilor umani.
+
+---
+
+#### **Concluzia principală**
+
+> **Strategia este matematică, dar nu 100%.**
+
+---
+
+#### **Argumente împotriva ideii de strategie 100% matematică**
+
+1. **Factorul uman**
+   - Traderii nu sunt roboți: intervin oboseala, sănătatea, starea emoțională, vacanțele.
+   - Orice pauză de la execuție afectează continuitatea matematică a strategiei.
+   - Ex: poți rata o serie de tranzacții profitabile chiar în perioada în care iei o pauză → **se dezechilibrează rezultatul general**.
+
+2. **Impactul știrilor**
+   - Uneori, știrile afectează piața într-atât de mult încât **deformează modelele logice și previzibile** ale pieței.
+   - Strategia trebuie ajustată pentru a **exclude tranzacționarea în zile cu știri puternice**, ceea ce o scoate din sfera „matematicii pure”.
+
+---
+
+#### **Ce înseamnă "strategie matematică" în acest context**
+
+- Strategia are **10–11 reguli clare și obiective**.
+- Execuția se face **doar când sunt bifate toate condițiile**.
+- Există reguli pentru:
+  - Punctul de intrare (entry)
+  - Punctul de ieșire (exit)
+  - Confirmări și validări
+
+---
+
+#### **Este posibil să existe o strategie 100% matematică?**
+
+- Da, dar ar necesita:
+  - Un nivel de dedicare extrem (ex: traderi care își dedică toată viața trading-ului).
+  - Execuție robotică, fără pauze și variații.
+  - Existența unui stil de viață **exclusiv orientat către performanță**.
+  
+  > Exemple rare: un trader cunoscut menționat, fără familie, 100% dedicat, execută totul la milimetru. Dar... nu este un model de viață echilibrată.
+
+---
+
+#### **Recomandarea autorului**
+
+- **Fii disciplinat, dar uman**.
+- Obține performanță în timp ce îți menții un stil de viață echilibrat.
+- 1–2 ore pe zi de tranzacționare pot fi suficiente pentru rezultate bune.
+- Ideal este să existe **un echilibru între eficiență și calitatea vieții**.
+
+---
+
+#### **Stilul cursului și abordarea practică**
+
+- Lecțiile anterioare au fost mai teoretice (cu PowerPoint-uri).
+- De acum, cursul se desfășoară **direct pe grafic**, în mod **practic și aplicabil**.
+- Autorul preferă un stil hands-on, cu explicații vizuale și demonstrații reale.
+
+---
+
+#### **Mesaj motivațional final**
+
+- Felicitări participanților care au ajuns până aici.
+- Apel la consecvență și învățare pas cu pas.
+- **Promisiune**: toate conceptele vor fi dovedite matematic și demonstrativ în lecțiile următoare.
+
+---
+
+Acest rezumat clarifică poziționarea realistă a strategiei: **una extrem de bine structurată, cu reguli clare**, dar inevitabil influențată de factori umani și externi. Este o strategie **matematică în execuție**, dar cu **flexibilitate în practică**.

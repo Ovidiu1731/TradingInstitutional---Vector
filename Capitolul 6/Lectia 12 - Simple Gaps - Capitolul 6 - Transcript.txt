@@ -1,0 +1,37 @@
+Lectia 12
+===
+
+[00:00:00] Bine v-am găsit la un nou clip despre gaps. Ce înseamnă gap-urile? Se traduc cumva, aici în română e mai complicat de tradus, nu știu, gaps, azi ziceu că e o gaură, un spațiu liber, ceva de genul. O să vă arăt este mult mai simplu. Există mai multe tipuri de gaps. Există trei tipuri Gapurile lăsate în urma nopții, în urma volumului O să vi le arăt eu, o să vi le arăt imediat Există simple gapurile și gapurile instituționale Aceste trei tipuri de gapuri Haideți să vă arăt primul tip de gap Despre care o să vorbim în acest clip Și totodată o să vorbim în acest clip și despre simple gap Iar în următorul clip vom discuta despre gapul instituțional Care e un pic separat și mai detaliat un pic acolo Deci hai să luăm un exemplu împreună Uite, vedeți cum vă uitați pe grafic și vedeți așa o gaură piață Chestia asta este un gap, doar gap, atât se numește noi nu vom folosi acest tip de gap în [00:01:00] analiza noastră deci nu îl vom folosi deloc Ce s-a întâmplat aici e că, practic, marketul s-a închis la ora asta și s-a deschis la ora 1 și ceva, vedeți a fost închis în perioada asta și fiind închis în perioada respectivă Practic nu ne arată prețul de închidere și ne printează direct pe ăla de deschidere și în zona asta aici nu vedem ce s-a mai întâmplat.
+
+Oricum e irrelevant, noi nu o să folosim. Dar vreau să vă arăt, ăsta e un tip de gap de care probabil ați auzit e foarte popular, deci toată lumea a auzit de el și mai departe Ia văd să nu fie prea încet microfonul. Așa Revenind, și acum mergem și la Simple Gap, adică ce vom folosi. Noi avem două concepte, deci primul ăsta l-am eliminat, ce v-am arătat acum, găurile în piață, nu ne vom uita la ele.
+
+Noi ne vom uita la cele două tipuri, Simple Gap și Fair Value Gap sau Gap Instituțional sau nu știu ce în fine, o să vorbim după de ele. Cum se marchează acestea? Hai să mergem pe, hai pe DAX să rămânem, faceți abstracție de analiza pe care o avem pe lângă. [00:02:00] Hai să faceți și ecranul mare, așa. Cum se marchează un gap?
+
+Hai prima oară să vă desineți că e mai simplu luăm ca exemplu o să desineți na, vă dați seama că nu desineți foarte bine, dar o să înțelegeți, deci asta este o candelă este o candelă de scădere, hai să le facem dacă tot tem profii, facem cu roșu ok, deci am avut o candelă de scădere, aici s-a închis candela, da, s-a deschis următoarea,
+
+Așa să știm că a fost până aici și până aici, și aici se deschide următoarea, care e una micuță. Ok, avem trei candele de scădere, după cum puteți observa wick-urile, da? Ei bine, un gap este spațiul Dintre acestea deci avem trei candele, iei candela 1 cu candela 3, marchiezi wick-urile, da, și ăsta este un gap, spațiu ăsta neînchis dintre candele.[00:03:00] 
+
+Ce se întâmplă aici? Gapul instituțional și gapul simplu arată fix la fel, deci ambele arată așa, doar că diferă instanța în care le găsești contextul în care le cauți diferă și o să discutăm o să înțelegeți foarte bine lucrul ăsta, dar până acolo... Ce este aici ce se întâmplă de fapt cu acest gap? Ăsta este punctul în care băncile caută să-și execute tranzacțiile.
+
+Ăsta este gap-ul instituțional. Noi acum vorbim de simple gap. Simple gap e ca o capcană. Sunt gap-uri aruncate în piață, multe de tot, dar băncile nu caută neapărat să execute tranzacții. Eu o vă învăț cum să identificați exact gap-urile alea în care băncile vor să execute tranzacțiile. Dar în cazul de față deci așa arată un gap și ce se întâmplă e că e o ordare neexecutată aici.
+
+În momentul în care piața generează o mișcare foarte, foarte puternică agresivă, Într-o direcție se bagă banii, un order aici, un order aici și se deschid toate orderele de vânzare. Da, astea sunt liniile cu ordere. [00:04:00] Dar la un moment dat, atât de puternice sunt mișcările încât nu mai e volum în piață. Și de asta aici rămâne această gaură, acest spațiu unde practic au rămas ordere plasate care nu au fost executate.
+
+Băncile ce fac de regulă e că după prețul în jos, întorc în această zonă ca să-și iau orderile și după continuă. Noi o să vrem să intrăm în acest lucru dar una peste alta hai să... Hai să mergem mai jos, să căutăm și pe live câteva gap-uri, uite o să luăm mișcarea asta de aici, vedeți aici nu este un gap, pentru că dacă ne uităm, ăsta e vârful, avem 3 candele, 1, 2, 3, vârful ăsta, nu avem aici încă unul de ăsta, vedeți că e jos de tot, deci nu se pupă nu se pupă bine, ok, mergem mai departe, ia uite aici, hop, ia fiți atenți că e un exemplu frumos, ia vedeți hop.
+
+Și hop, cand de la 1, cand de la 2, cand de la 3 avem bază ăsta cu vârful ăsta. Am marcat a rămas spațiu. Ce s-a întâmplat după? Deci aici practic ce ne dă semnalul ăsta e că băncile au lăsat ordere neînchise [00:05:00] aici. Ia vedeți ce se întâmplă, prețul vine în ele. Își execută tot și pleacă în direcție. Scopul nostru este să intrăm în mișcări de genul acesta.
+
+Așa o să intrăm noi. Să intrăm în poziții, pe exemplu de vânzare, bam, am pus stop-ul, am pus take profit-ul pac, am prins mișcare rapidă, am ieșit pac am luat profit-ul. Ideea este să intrăm o dată cu băncile. Ei au momente în care fac execuții depinde de time frame-uri, că pe time frame-uri mari au și execuții mai mari.
+
+Când duci pe time frame-uri mai mici vezi execuții mai mici Ok, hai să ne mai uităm pe aici după câteva ghepuri să mai găsim împreună așa unele neînchise. Hai să ne uităm chiar pe aici. Uite, uite un ghep mare, dar nu e că și ăsta a atins. Toate principiile care rămân sunt deschise. Ia uite, de aici, de aici până aici.
+
+Vedeți? Deci de la candela asta până aici. Astea sunt punctele în care a marcat ghepul. Asta e zona cu interes, prețul intră reacție și pleacă în jos. Ok, Stati sa ma gandesc daca n-am omis ceva, dupa cum puteti observa asa ca ultima notita, sunt puncte in care nu o [00:06:00] veti gasi gap-uri, unde bancile sunt foarte active.
+
+Uite, spre exemplu aici nu ai gap, nu stai ca ne-am uitat la exemplu asta, hai sa cautam un exemplu mai concret.
+
+Nici nu stiu unde sa gasim. In general sunt gap-urile in punctele de executie, sa mergem pe, a, sunt si pe 5 minute, e ok. Da, nu o să, nu știu dacă o găsesc acum, trebuie să iau un exemplu predefinit în care o să vedeți că totul este închis adică efectiv nu găsești punct în care să editezi, uite cum e aici, e perfect, mamă ce mi-a venit la fixe câți exemplu, ăstea vedeți aici, nu există niciun ghep în mișcarea asta, aici nu a existat deloc interes instituțional de vânzare, vedeți toate ghepurile sunt închise ia uitați aici bam, cu sus, bam, vedeți cum e închis, ăsta e un ghep complet, ia uite, îl închis.
+
+Nu ai ce să marchezi Nu ai spațiu între candelele astea Și nicăieri, uite aici ăsta închide complet Candela asta și așa mai departe Bun Cam asta ar fi. Mergem la următorul clip în care vom discuta despre gap-ul instituțional, cum se marchează, unde îl găsim și de fapt acela este [00:07:00] cel important. Eu aici v-am arătat ce nu o să folosim în clipul ăsta adică gauri aia în piață pe care v-am arătat-o respectiv unde v-o arătasem aici, v-o arătasem, da?
+
+Deci gauri de genul ăsta în piața asta nu le vom folosi niciodată da? Gaurile astea. Și asta ce ți mai indică Ți indică lipsă de volum De regulă dacă vezi spații de astea nu vrei să tranzacționezi pe un market care arată așa Că înseamnă că nu e volum de tranzacționare și o să ai spread-uri și comisioane mai mari Deci aveți grijă și la acest aspect Ne vedem la clipul următor
+

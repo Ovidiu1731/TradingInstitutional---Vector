@@ -1,0 +1,81 @@
+Lectia 2 liq
+===
+
+[00:00:00] Cred că foarte mulți dintre voi ați așteptat acest capitol. Începem analiza tehnică, începem regulile strategiei pas cu pas, de la absolut zero, începem să o structurăm și să o formăm. E timpul să devenim serioși. Prima lecție cu care vom începe este lichiditatea Puteți notați acolo lichiditatea. Ca o scurtă definiție, lichiditatea este unul din principalii factori pentru care piața se mișcă, este unul din punctele fundamentale, este foarte important.
+
+Fără lichiditate, piața nu ar avea mișcări și nu ar funcționa. Scrieți acolo, lichiditate egal bani, asta înseamnă lichiditate și la asta se referă. În momentul în care spunem că noi căutăm pe grafic zone cu lichiditate, înseamnă Că noi căutăm zone în care se află bani. Piețile financiare au fost construite în așa fel încât să [00:01:00] facă cât mai mulți bani.
+
+Asta e rolul din spate, așa funcționează. Pentru ce funcționează băncile? Pentru a genera profituri cât mai mari. Pentru ce funcționează algoritmii bancarii? La fel, pentru a genera profituri cât mai mari. O să vă creez un mod de viziune, un mod cu care să urmăriți piața în așa fel încât să înțelegeți exact ceea ce se întâmplă în spatele acestea.
+
+Sunt sigur că mulți dintre voi ați folosit diferite strategii fără să le înțelegeți cu adevărat. Adică ori ați luat una care avea 3-4 indicatori și le urmăreați și vedeați ce se întâmplă, încercați să găsiți o logică acolo. Ori ați făcut un supply-in-demand un fibonacci, un nu știu ce, luați de acolo și...
+
+Voi credeți că aveți o logică în spate, dar acum o să descoperiți după finalizarea acestei strategii și în momentul în care ați înțeles-o cu adevărat o să vă dați seama că băi, eu înțelegeam nimic atunci ce făceam întâi dinainte și acum înțeleg cu adevărat ce înseamnă o strategie și care e logica din spatele ei.
+
+Și îmi doresc ca toată lumea să ajungă în punctul în care să înțeleagă acest lucru. Ok. O să începem cu lichiditatea la modul general, după care o să avem patru lecții separate, în care o să facem toate tipurile de lichidități. Dar până acolo, [00:02:00] hai în primă fază să vă marchez lichiditatea la modul general, nu le clasificăm.
+
+Lichiditatea se află punctul în care se află cei mai mulți bani Sunt mai multe puncte în care se află mulți bani pe grafic și unde se strâng banii, ne punem întrebarea asta. Banii sunt strânși în zonele în care traderii își lasă stop loss-urile. Mulți o să mă întrebați Rares, dar ce este un stop loss?
+
+Că poate mulți nu știți. Stop loss-ul este, hai să vă exemplific printr-un desen, hai să-l facem de cumpărare, că mai simplu, că lumea la început nu o să fie obișnuită cu short-urile mai ales începători. Eu o să-l luăm aici Să zicem că noi în momentul de față ne aflăm în acest punct, nu știm ce se întâmplă mai departe și dorim să cumpărăm.
+
+Noi vom marca această cumpărătură în acest fel. Linia albă este punctul de execuție al cumpărării linia roșie este stop loss-ul pe care îl vom trage și o să vă explic imediat de ce a fost pus în acest punct, iar... Linia verde unde se oprește este Take Profit-ul adică punctul de profit. Vom discuta în clipurile următoare despre Take Profit.
+
+[00:03:00] În câteva clipuri o să avem clip dedicate Entry Stop Loss Take Profit și acolo o să le discutăm în detaliu Acum vă dau doar un exemplu. Ideea este următoarea. Linia albă este punctul în care am făcut cumpărarea. Linia roșie este punctul în care noi vom seta ca în cazul în care prețul o va lua în direcția asta, în punctul ăsta să ne iasă automat din tranzacție pentru că înseamnă că n-am avut Dreptate.
+
+E destul simplu că nu o să avem mereu dreptate. Iar în cazul în care o ia în sus trebuie să avem și un punct în care ni se închide profitul automat, să fim mulțumiți pentru tranzacția respectivă un target se mai numește. Ok, în acest caz să presupunem că am riscat 100 de euro ca să luăm 200 de euro profit.
+
+Am deschis aici tranzacția cu 100 de euro risc deci în cazul în care prețul venea până jos de tot, aici ni se închidea automat cu 100 de euro pierdere. În schimb dacă prețul acum m-a luat în caz de față aici ni s-a închis cu 200 de euro profit. Bun. Punctul de intrare e punctul 0. Aici este punctul se mai numește [00:04:00] și B.
+
+E sau break even, adică punct de zero, în care ieși pe zero, prescurtat BE. Vom discuta mai încolo și despre break even. Ok, ne întoarcem la lichidități. Revenind, tu poți să faci o cumpărare stop loss-ul. Unde sunt banii în această imagine? Păi destul de simplu Banii se află aici Pentru că aici este punctul în care tu vei fi scos din piață, piața îți lua banii, că tu aici ai luat bani de la piață corect Dacă ți-a închis cu 200 profit banii au intrat la tine în cont, deci tu ai luat bani de la piață dar aici piața ți luat ție banii deci unde sunt banii pe care interesează pe algoritmi, clar aici.
+
+Stop loss-urile se plasează în puncte cheie nu sunt puse la întâmplare Ok, mai există ceva de ăștia îngricatori de zic eu unde să le pui matematic, dar nu prea funcționează n-am găsit unul să funcționeze. De regulă traderii 90% din trader merg în funcție de high-uri și low-uri. Știți că am vorbit în... [00:05:00] În lecție trecută, despre high-uri și despre low-uri.
+
+Stop loss-urile de regulă sunt puse dacă tu ai făcut un buy, e pus la un low. Deci aici este un low, știți că vorbim semn de high-uri și low-uri, da? Ok, deci aici este un low și mai este un low aici. Deci stop loss-uri vom avea aici și aici, dar cele mai multe vor fi jos de tot, pentru că oamenii vor siguranță și caută punctul cel mai de jos, pentru că de multe ori prețul va veni, îți va lua zona asta și după pleacă în sus.
+
+Și practic ți-ai luat stop loss-ul, Și ți-a plecat fără trade, ți terminat trade-ul s-a închis așa dacă îl pui jos de tot, altă viață, pentru că a venit, l-a luat pe ăsta și e ok, tu ești mai acoperit de asta, vom vedea mai mulți bani jos de tot. De asta, aici este o zonă cu așa numită lichiditate, aici. Este o lichiditate pentru că aici sunt bani, aici sunt bani iar băncile sunt interesate de bani.
+
+V-am dat un exemplu simplu Cum se marchează și care e sensul din spate a lichidității, aici la zone cu lichiditate este cei mai mulți bani. Există zeci, sute de zone cu lichiditate, pe [00:06:00] toate time frame-urile, pe toate lucrurile, vom face acest aspect, adică vom bla și vă voi explica fiecare tip de lichiditate, unde se găsește și cum le găsiți.
+
+Dar hai să marcăm împreună câteva lichidități pe acest grafic, suntem pe cinci minute dar nu are relevanță marcăm. Spre exemplu începem cu extremele, în extreme sunt foarte mulți bani statistic, vorbim de ce nu văd ăsta în fine, ce are un... Hai să dăm un reload pentru că nu mai mi-apare, ok, o să pun o pauză la filmare pentru că nu știu de ce dar nu mai mi-apare ăsta.
+
+Gata, problemă rezolvată revenind, hai să marcăm deci în primul rând începem cu zonele extreme pe care le numim în momentul față L-I-Q. Cum am făcut această setare vreau să vă arăt în primă fază să vedeți, deci cum faci o setare. În primă fază trebuie să intriți colorezi cum dorești tu linia respectivă, [00:07:00] o am pus o albă te duci la setări, text, am scris L-I-Q de la Liquidity, Am pus aici culoarea respectivă da, 14 bold text și la middle să fie în mijloc.
+
+Odată ce mi-a plăcut cum a aratat mă duc aici la template și dau save as și pun denumirea și de acum mereu când o să pun o linie dacă mă duc și dau click pe ăsta. Îmi apare aici pot selectez LQ și mi-apare așa, vreau să schimb pe lichiditate locală, îmi schimb pe lichiditate locală, mă duc înapoi pe LQ, îmi schimb pe LQ.
+
+Asta dacă vreți să fiți optimizați. Revenim, deci asta este o variantă de lichiditate la extreme pe 15 minute. Uiteți pe exemplu o lichiditate foarte bună a fost asta de aici, care a fost luată în acest punct. Hai să notăm LIQ. După care o lichiditate importantă pe viitor va fi asta de aici unde sunt foarte mulți bănci și băncile își vor dori să ducă prețul în zonele astea.
+
+Și acum o să vă explic un pic cum funcționează logica din spate, dar hai să mai găsesc câteva variante de lichidități. [00:08:00] Le marchez aici cu voi. Punctele extreme, da? Și fiți atenți, hai să vă iau logica din spate ca să înțelegeți cum funcționează Vă marchez și pe asta.
+
+Deci cum funcționează? Băncile mereu vor merge în zonele în care sunt cele mai, cum să vă zic vouă sunt cei mai mulți bani. Banii cu cât mișcarea se mișcă cu atât se strâng mai mulți bani în punctul respectiv. Spre exemplu aici în momentul de față sunt în valoare de stop loss-uri strânse Nu pot să vă zic exact, câteva sute de milioane, dacă nu chiar miliarde că ideea e că DAX-ul ca și market cap-ul acțiunii, e 16.000.
+
+Să cunosc care e market cap-ul DAX-ul, chiar vreau să căutăm acum împreună, o pun o pauză și să caut. Uite, spre exemplu market cap-ul unui indice important al lui Dow Jones, avem market cap de 12 trilioane Este absolut imens. Pentru oamenii care cred că, și mă întreabă, Rares? [00:09:00] Cumva dacă intru eu cu 100 de euro în acest trade, băncile vor ști și vor merge pe prețul meu sau voi mișca piața?
+
+Tu ce crezi? Mare cheche de 12 trilioane cu 100 de euro ai tăi nici o scobitoare între discus, nici cu 1000, nici cu 10.000, nu ai cum să mișci piața. Deci o mișcare de genul ăsta, cum o vedem aici, puteți căutați că sunt indicatoare de volum care vă zic banii. Într-o mișcare de genul ăsta sute de milioane de euro într-o mișcare de genul ăsta, e o chestie imensă adică nu e ceva de 2000 de euro și ai mișcat piața.
+
+Deci nu funcționează așa, trebuie să zici cu sume enorme, absolut enorme. Deci să nu vă puneți problema, niciun, nicio nici voi, nici retailul nu mișcă piața așa de ușor și băncii nu vin după stop loss-ul tău sau lucruri de genul special pentru că vor cei 100 de euro alu costică. Nu, aceste băncii merg în zone în care ești mai mulți bani și dacă ți-a fost luat stop, puneai că zonele alea au fost mulți mai mulți oameni în afară tine care au avut stop-urile puse.
+
+În caz de față să ne [00:10:00] imaginăm a fi în punctul ăsta, dar s-au format cele, luăm lichiditățile mari, acum știu că sunt și detalii pe aici se pot găsi trade-uri din multe zone, dar ne luăm acum general, stai să dau lichidități. Ceva ce piața vine, sus de tot formează aici o nouă lichiditate, scoate bani de aici, că erau aici mai multe lichidități mai mici, scoate banii și vedeți direcția opusă, iau direct banii de aici deci iau stop-urile, vedeți cum se duc un pic sub linie.
+
+Mulți i-ar zice la asta supply and demand sau key levels, dar astea nu sunt key levels, iei pur și simplu lichiditate, băncile vin, iau banii. Celor de aici. Și nu mă au interes să mai împingă prețul în jos ca să ia ce? Că nu mai există bani înțelegeți? Și de asta schimbă direcția de preț acum pentru că unde sunt banii în momentul de față?
+
+Se vede clar aici și aici. Ce credeți o să fie din sezonul de astea două Ia vedeți, la fix. Vin în zonele astea și vă vedeți cum vine o explozie împinsă de bănci manipulată în așa fel încât să ia toți banii de aici și de aici, toți să lichideze după schimbă iar direcția iau toți banii de aici. Deci ăsta este jocul instituțional, jocul bancar cum plimbă din lichiditate în lichiditate.
+
+Asta se întâmplă pe time frame-uri un pic mai mari, pe time frame-uri mai mici e un pic mai diferit dar [00:11:00] vreau să înțelegeți conceptul de lichiditate Ok, să știți că toate piețele financiere funcționează pe această bază, de asta strategia asta nu va muri, ea este bazată pe lichiditatea și lichiditatea este un factor foarte important din strategia noastră și contează extrem de mult.
+
+Nu toţi să ştiţi că vom marca la fel lichidăţile mereu, pentru că da, pe astea mari sunt de acord că toţi o le vedem cam la fel, o să le avem toţi marcate cam aşa. Dar o să vedeţi când vine vorba de timeframe-uri mai mici de detalii, unii o să iau lichidate genul ăsta, alţii o să o ia pe asta, alţii o să o ia pe asta.
+
+Nu o să avem toţi la fel şi asta nu înseamnă că ceilalţi au greşit sau că tu ai greşit, trebuie să studiezi să vezi lichidate. În general, toţi o aveţi lichidăţi corecte dar ideea e cine le are pe alea calitative şi cine nu, că există acest concept de uite. Să luăm un exemplu Voi dacă te uiţi în graficul ăsta, Și lichiditatea asta e corectă?
+
+Și asta e corectă De acord cu mine, ambele sunt zone cu bani, pentru că sunt extreme din care au pornit mișcări puternice de s-au fost top plus-uri. Dar care e lichiditatea care va genera un rezultat cu o probabilitate [00:12:00] mare de câștig? Clar, asta. Asta este. Înțelegeți la ce mă refer? Deci chiar dacă știi traderul A și traderul B au avut lichidități marcate corect, traderul A este cel care are succes și traderul B este cel care nu are succes Pentru că traderul a ales să marcheze o lichiditate, da, corectă, conform regulilor, dar o lichiditate cu o probabilitate mai mare de câștig decât aceasta.
+
+Deci să aveți în minte acest lucru pentru că văd mulți oameni care se ceartă zic eu am dreptate, lichiditatea mea e bună după ce și alții, nu e a ta, e a mea lichiditatea bună. Nu trebuie să există discuții de genul ăsta. Este foarte important să înțelegem faptul că... În trading personalitatea își pune multă amprenta și deciziile trebuie luate pe bază de statistică la început veți greși, veți marca toate tipurile de lichidități unele corecte altele complet greșite și e perfect normal și vă recomand să testați tot ce se poate testa pe demo, să greșiți, să vă încurcați, să fie greu Ca să învățați cât mai mult să vă tăbăcească de muncă atunci când intrați pe live să nu mai fie lucruri noi de văzut.
+
+Asta e ideea. Înțelegeți că sunt mulți care zic, așa, și am greșit niciodată. Păi dacă n-ai greșit niciodată sunt destul de sigur [00:13:00] că n-ai învățat mai nimic dacă n-ai greșit. Pentru că n-ai cum. N-ai cum. Trebuie să le greșești să ardă ca să le înveți serios. Ok.
+
+Acum vreau să încheiem lecția despre lichidități cu cele patru tipuri de lichidități. Vă rog să vi le notați. Numărul unu Tip de lichidități se numesc high of the day și low of the day. Hai să le și scriu aici alături de voi să le notăm împreună 1. HOD slash LOD sau high of the day slash...
+
+Ok, în română maximul și minimul zilei, ăsta este primul tip de lichiditate, al doilea tip de lichiditate se numește lichiditate majoră, al treilea tip de lichiditate este [00:14:00] lichiditate, hai să zicem locală și al patrulea tip de lichiditate lichiditate minoră. Nu vă gândiți la prostii. Așa, astea sunt cele patru tipuri de lichidități.
+
+Have the dish love the day, lichiditate majoră lichiditate locală și lichiditate minoră. Astea sunt tipurile de lichidități și toate au un fundament în spate, o gândire în spate o logică în spate și anumite reguli. În următoarele clipuri vom lua la rând toate tipurile de lichidități și vom discuta despre ele.
+
+Ce părere aveți de asta? Le vom lua și le vom aprofunda. Hai să dăm drumul la treabă, tocmai aici am intrat în tehnică așa că e mult de lucru.
+

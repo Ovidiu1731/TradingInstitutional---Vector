@@ -1,0 +1,50 @@
+**Rezumat Lecția 3 – Two Gap Setup (TG) și Two Consecutive Gaps Setup (TCG)**
+
+---
+
+### Introducere
+
+În această lecție sunt explicate două dintre cele mai importante și profitabile setup-uri din strategie: **Two Gap Setup (TG)** și **Two Consecutive Gaps Setup (TCG)**. Deși ambele implică prezența a două gap-uri instituționale, diferența majoră constă în poziționarea acestora – fie dispersate (TG), fie consecutive (TCG). Este important să nu fie confundate între ele.
+
+---
+
+### Two Gap Setup (TG)
+
+- Format din două **gap-uri neconsecutive**, apărute în cadrul aceluiași context de shift și displacement.
+- După lichidarea unei zone de interes și apariția unui market structure shift, se identifică două gap-uri separate.
+- Se recomandă **execuția în al doilea gap format**, deoarece execuția în primul gap poate rata uneori intrarea.
+- Este un setup valid, profitabil, dar nu la fel de puternic ca TCG.
+
+---
+
+### Two Consecutive Gaps Setup (TCG)
+
+- Format din **două gap-uri apărute consecutiv**, unul imediat după celălalt.
+- Are nevoie de aceleași condiții: lichiditate luată, shift, displacement, gap-uri.
+- **Execuția recomandată** este, la fel ca la TG, în **al doilea gap**.
+- Este considerat **cel mai profitabil setup** din toată strategia, cu un **win rate de 68%** conform unei statistici realizate pe 500 de tranzacții.
+
+---
+
+### Exemplu de execuție
+
+- Se identifică shift-ul și displacement-ul.
+- Se marchează cele două gap-uri (consecutive sau nu).
+- Se plasează **entry-ul în al doilea gap**.
+- **Stop loss-ul** este plasat puțin peste/ sub punctul relevant.
+- **Take profit-ul** este ajustat în funcție de context, de obicei la 2R.
+
+---
+
+### Statistici și frecvență
+
+- Dintr-un total de **500 de tranzacții**, 12% au fost TG sau TCG (61 tranzacții).
+- Dintre acestea, **42 au fost câștigătoare**, **19 pierzătoare**, ceea ce rezultă într-un **win rate de 68%**.
+- TG și TCG sunt **setup-uri rare** – pot apărea doar o dată la 8–9 zile de trading.
+- Tocmai din acest motiv nu trebuie să vă bazați exclusiv pe ele, ci să le combinați cu alte setup-uri prezentate în strategie.
+
+---
+
+### Concluzie
+
+Two Consecutive Gaps Setup este setup-ul cu **cea mai mare rată de succes** din întreaga strategie, dar fiind rar, trebuie folosit în combinație cu celelalte. Execuția trebuie făcută cu rigurozitate, doar dacă sunt prezente toate confluențele. Lecția oferă o direcție clară pentru recunoașterea și aplicarea acestor două tipuri de setup-uri, care, deși similare ca structură, diferă esențial în detalii.

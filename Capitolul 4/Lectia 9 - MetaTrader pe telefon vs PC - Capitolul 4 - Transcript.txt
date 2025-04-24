@@ -1,0 +1,31 @@
+Lectia 9
+===
+
+[00:00:00] Salutare tuturor, în acest clip vom discuta despre un subiect care sunt sigur că este de interes pentru foarte multe persoane. Anume, cum să folosim metatrader trading views, le folosim de pe telefon, de pe calculator, de pe amândouă, cum le setăm, care e varianta mai bună și așa mai departe. O să fie o discuție liberă am ales să fiu pe desktop, o să punem ecranul aici să mă vedeți pe mine micuț într-un colț acolo.
+
+Este un clip mai mult de ascultat și de notat detaliile. Deci, în primul rând cum folosesc eu? Mie îmi place foarte mult să folosesc MetaTrader pe calculator și pe laptop, astea sunt variantele mele preferate pentru că văd clar ecranul pot să-mi pun calculatorul lângă, mă refer calculatorul, ca să înțelegeți la ce mă refer, mă refer la ăsta Deci pot să-mi pun calculatorul să am deja totul, am metatraderul mare, am calculatorul direct, am făcut 400 de euro împărțit la 52 de puncte am volum 762, am scris 762, am apăsat pe buton și am dat drum la [00:01:00] tranzacție.
+
+Instant. Pe telefon nu este chiar așa de simplu. Eu am folosit metatrader pe telefon. Cam prin perioada 2020-2021 și am ajuns la concluzia că nu îl mai folosesc și nu o să-l mai folosesc niciodată pentru că efectiv ajungeam să pierd tranzacții în cauza că nu îmi dădeam seama de niște greșeli stupide doar din faptul că executam pe interfație pe telefon, scrieam greșit loturile, executam fără să-mi dau seama, n-ar rămâneau cu 0.01 lot, nu mi se lua trade-ul, executam prea mult, deci atâtea probleme mi-a generat telefonul, mie personal vorbesc aici, încât nu mai execut pe el.
+
+Da, e bine să ai MetaTrader pe telefon, eu personal acum nu-l mai am, nu prea îl folosesc pe telefon și nici nu prea vreau să depindă telefon, dar da, e bine să-l ai pe telefon, e bine de ce? Pentru că poți să mai închizi tranzacții, să mai te uiți la diferite poziții să ții un istoric, e o variantă bună.
+
+Deci în cazul în care nu știți puteți să aveți MetaTrader-ul pe calculator [00:02:00] și puteți același cont să-l conectați și pe telefon Și da, acest lucru poate fi o variantă bună. Dacă sunteți, dacă lucrați de acasă sau de la un birou și e relaxant pentru voi să aveți un laptop, o tabletă sau un calculator, vă recomand să folosiți metateidul de pe calculator, tabletă și așa mai departe și să faceți managing din telefon, adică intrați pe telefon, scrieți bam, bam, bam, faceți operațiunea respectivă și după care vă...
+
+Vă întoarceți pe calculator sau irrelevant. Dar nu știu dacă aș recomanda să faceți trading doar de pe telefon. Instanța în care aș recomanda asta e unul dacă vă place. Am eu câțiva prieteni care fac doar de pe telefon și le ies Le iese, le merge. Deci nu e imposibil. Pentru mine e, pentru gustul meu nu-mi place, dar sunt oameni care le merge.
+
+Prin urmare puteți face asta. La fel, dacă aveți un job dinamic, nu puteți să aveți lângă voi un laptop și așa mai departe puteți să tranzacționați și de pe telefon, dar dacă vreți să o faceți profesionist, recomandarea mea este să stați la calculator, laptop și vă mai uitați la poziții și le mai... Mișcați și le mai închideți din telefon.[00:03:00] 
+
+Acum când vine vorba de alte platforme că poate nu toți alegeți să folosiți MetaTrader. Sunt foarte multe platforme sunt platforme incorporate, cum îți oferă, dacă nu mă știi, Interactive Brokers, mai există C-Trader, mai există TradingView pe care poți face trading și sunt sigur că mulți o să mă întrebați Rares, dar de ce nu folosești TradingView pentru a face traduri?
+
+Și răspunsul este simplu, TradingView, brokerii pe care îi oferă aceștia, au spread-uri imense, adică au comisioane și taxe atât de mari încât Dar nu mi se pare că merită cum să zic, investiția respectivă, adică să depozitezi bani în conturi respective, sunt foarte mari taxe. Le-am încercat, nu-mi place TradingView pentru când vine vorba de tranzacțiunea pe el dar de analize este de departe cel mai bun.
+
+E o mare diferență între TradingView și MetaTrader când vine vorba de analize, e mult mai clară pe TradingView și mult mai ușor de urmărit și mult mai plăcută. Ok, asta mai era discutat de asemenea mai există programe precum ProRealTime, sunt programe de astea, dar au de trei să plătești abonament lunar să le folosești în fine sunt [00:04:00] foarte multe, eu unul vă arăt ce folosesc și cei cei mai des întâlnit, puteți să folosiți ce programe doriți și în ce mod doriți.
+
+De asemenea TradingView, da, îl am și pe telefon, o să vi-l arăt, am TradingView chiar aici, uitați-l. Deci este la mine pe telefon și îl folosesc des, pe telefon chiar îl folosesc. Deci intru, îmi țin stați să intru pe un grafic, intru, îmi fac analiza, mă uit pe grafic, notez diferite lucruri când sunt plecat, când sunt în oraș cu un prieten, poate cu un trader, discutăm instanțe, ne uităm peste diferite trade-uri, ne uităm peste anumite execuții, mă uit peste portofolii, am tot felul de liste și cel mai important lucru, alertele.
+
+Eu îmi pun alerte pe TradingView pe calculator în zonele cu lichiditate Inca nu am discutat despre lichiditate, dar o sa invatati. În momentul în care îmi sună acea alertă face ding, îmi sună și pe telefon și știu ok, dacă cumva sunt până nu știu până jos să-mi fac ceva de mâncare sau am un apel un call și nu pot să fiu [00:05:00] atent la calculator, îmi vibrează telefonul și știu că este momentul să mă duc la calculator și să mă pregătesc pentru o execuție.
+
+Deci da, recomand TradingView să-l aveți și pe telefon și pe calculator și să le aveți conectate între ele. În orice caz nu aveți scurt Și la fel mă întreabă mulți la aici de monitoare de chestii nu știu ce, deci nu aveți voie de nu știu câte monitoare de nu știu câte nebunii, un monitor e suficient un laptop, la început nu aveți nevoie de multe lucruri, prima oară ați devenit profitabil și după vă apucați și faceți toate upgrade-urile și vă construiți birou, stație și așa mai departe în timp odată ce aveți rezultate, dar este mult de muncă până acolo, nu este ușor.
+
+Ne vedem la următoarele lecții.
+

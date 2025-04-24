@@ -1,0 +1,82 @@
+### **Rezumat Lecția 13 – Personalitatea în Trading și Capcana Schimbării Piețelor**
+
+---
+
+#### **Introducere**
+
+Lecția 13.1 se concentrează pe două subiecte psihologice esențiale în trading:
+1. **Rolul personalității în stilul de tranzacționare**.
+2. **Riscul schimbării impulsive a piețelor (market switching)**.
+
+Ambele teme sunt tratate dintr-o perspectivă profund practică, cu exemple reale și observații din experiența autorului.
+
+---
+
+### **1. Personalitatea în Trading**
+
+#### **Nu toți traderii sunt la fel**
+
+- Fiecare persoană are o personalitate diferită și va resimți tranzacționarea în mod propriu.
+- La început, e normal să **încerci să imiți exact modelul mentorului**. Este o etapă necesară.
+- Însă, în timp, este esențial să îți **adaptezi sistemul la stilul și caracterul tău personal**.
+
+#### **Adaptarea stilului propriu**
+
+- Exemplu personal: autorul are zile când se simte mai anxios sau obosit și, în acele momente:
+  - Scade riscul (ex. 0.5% în loc de 1%).
+  - Execută doar dacă se simte relaxat.
+- Alte zile, când are energie și încredere, **își asumă riscuri mai mari**, dar tot în mod controlat.
+
+#### **Sfat pentru începători**
+
+- Începe cu un sistem fix, cu doar două niveluri de risc: 1% și 0.5%.
+- Folosește 1% când totul se aliniază (condițiile de piață + starea ta).
+- Folosește 0.5% când nu ești 100% sigur sau când ai o zi proastă.
+- Abia după luni serioase de practică, poți începe să îți **adaptezi strategia cu elemente personale**.
+
+#### **Tranzacționarea nu este universală**
+
+- Unii traderi sunt mai pozitivi, alții mai negativi.
+- Unii execută mai des, alții mai rar.
+- Nu există un stil „corect” universal – important este să îl găsești pe al tău.
+- Traderii cei mai buni sunt **cei care se adaptează și își includ personalitatea în sistem**, nu cei care copiază la indigo.
+
+---
+
+### **2. Capcana Schimbării Pieței (Market Switching)**
+
+#### **Ce înseamnă această greșeală**
+
+- Ai două pierderi consecutive pe o piață (ex. DAX).
+- Te frustrezi și spui „gata, nu mai fac DAX”.
+- Te muți pe o altă piață (ex. US30) și acolo ai și un alt lose.
+- Între timp, DAX oferă oportunități de win-uri pe care le ratezi.
+- Te întorci pe DAX, dar fix când se întorc și pierderile.
+
+#### **Exemplu vizual explicat în lecție**
+
+- O lună de tranzacționare pe DAX cu:
+  - 7 win-uri
+  - 5 lose-uri
+- Cu un RR 1:2 = profit total de 9%.
+- Dacă te miști impulsiv între piețe, **ratați win-urile și iei doar lose-urile**.
+- Rezultatul: în loc să fii +9%, ești -4% → **diferență enormă doar din lipsa de disciplină.**
+
+---
+
+#### **Mesajul principal**
+
+- **Stick to your market!**
+- Nu schimba piața pe bază de impuls sau frustrare.
+- Analizează deciziile în mod calculat.
+- **Performanța vine din consistență, nu din diversitate haotică.**
+
+---
+
+#### **Concluzie**
+
+Această lecție atinge două puncte-cheie în dezvoltarea unui trader:
+1. Găsirea și asumarea stilului propriu prin înțelegerea personalității tale.
+2. Evitarea deciziilor impulsive prin păstrarea disciplinei față de piața pe care o tranzacționezi.
+
+Sunt două lecții rareori discutate în mod autentic și direct, dar absolut esențiale pentru obținerea consistenței în trading.

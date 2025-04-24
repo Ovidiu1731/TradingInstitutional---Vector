@@ -1,0 +1,77 @@
+### **Rezumat Lecția 14 – Stop Loss, Take Profit și Regulile de Execuție Pas cu Pas**
+
+---
+
+#### **Introducere**
+
+Această lecție oferă un ghid clar și aplicabil despre cum să setezi corect **Stop Loss-ul**, **Take Profit-ul** și cum să execuți o tranzacție respectând toate regulile strategiei. Este o lecție practică, esențială pentru implementarea concretă a cunoștințelor acumulate în lecțiile anterioare. Autorul oferă atât explicații tehnice, cât și sfaturi de finețe pentru a evita greșeli frecvente.
+
+---
+
+### **1. Stop Loss – Reguli și aplicare practică**
+
+#### ✅ Poziționare:
+- La **sell**: se plasează deasupra **ultimului high relevant**.
+- La **buy**: se plasează sub **ultimul low relevant**.
+- Dacă ai dubii între două high-uri, alegi cel care oferă mai multă siguranță vizuală.
+
+#### ✅ Spațiu de siguranță:
+- Se adaugă **1 sau 2 puncte peste nivelul respectiv**.
+- Scop: evitarea activării premature a SL din cauza mișcărilor fine ale pieței.
+
+> 🧠 Recomandare: poziționează SL-ul „vizual” cu puțin spațiu, nu la limită matematică. Această abordare îți va salva multe tranzacții în timp.
+
+---
+
+### **2. Take Profit – Setarea corectă a țintei**
+
+#### ✅ Alegerea RR (Risk:Reward):
+- Autorul folosește în prezent **RR 1:2** (ex: risc 100 EUR → profit 200 EUR).
+- În trecut a folosit și **RR 1:3**.
+- Alegerea depinde de:
+  - Win-rate-ul strategiei.
+  - Toleranța la risc.
+  - Obiectivele personale.
+
+> 📌 **Regula de bază**: Cu cât crește RR, cu atât scade win-rate-ul și invers.
+
+---
+
+### **3. Executarea completă a unui setup – Pas cu pas**
+
+1. **Verifici ziua**: fără știri majore → ✅
+2. **Interval orar corect**: între 10:15 – 12:00 → ✅
+3. **HOD/LOD lichidat** → ✅
+4. **MSS valid** → ✅
+5. **Displacement vizibil** → ✅
+6. **Gap în cadrul displacementului** → ✅
+7. **Execuție în gap**:
+   - Se poate face la **începutul gap-ului** (sigur), sau
+   - La **jumătatea gap-ului** (pentru optimizare).
+
+8. **Stop Loss**:
+   - La ultimul high/low relevant + 1 sau 2 puncte.
+9. **Take Profit**:
+   - La RR de 1:2 (se poate adapta).
+
+10. **Răbdare**:
+    - Nu închizi tranzacția prematur.
+    - Nu te panichezi dacă prețul fluctuează înainte de a ajunge în TP sau SL.
+    - Lași piața să-și facă treaba.
+
+---
+
+### **4. Sfaturi avansate și mindset**
+
+- Nu închide trade-uri doar pentru că a intrat puțin în pierdere.
+- Nu modifica poziția dacă nu ai un motiv clar, obiectiv.
+- Aceste reguli pot fi **adaptate în timp** în funcție de experiență.
+- La început este important să le **respecți ca atare** pentru a-ți forma disciplina.
+
+---
+
+### **Concluzie**
+
+Lecția oferă un **cadru complet de execuție** care integrează toate cunoștințele anterioare într-un proces practic, pas cu pas. Este o lecție de bază care trebuie revizitată frecvent, deoarece conține fundamentul disciplinei în trading. Dacă respecți aceste reguli, ai deja un avantaj major în fața celor care tranzacționează haotic.
+
+Este un punct de referință în strategie – scheletul pe care fiecare trader își va construi, în timp, propriul sistem optimizat.

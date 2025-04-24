@@ -1,0 +1,88 @@
+### **Rezumat Lecția 2 – Risk to Reward, Win Rate și Puterea Probabilităților**
+
+---
+
+#### **Introducere**
+
+Această lecție explică trei concepte fundamentale în trading:
+1. **Risk to Reward Ratio (RR)**
+2. **Rata de câștig (Win Rate)**
+3. **Probabilități**
+
+Acestea formează baza oricărei strategii profitabile și oferă traderului o perspectivă logică și matematică asupra modului în care poate obține rezultate consistente, chiar și cu un număr semnificativ de tranzacții pierzătoare.
+
+---
+
+#### **1. Rata de câștig (Win Rate)**
+
+- Se exprimă în procente și reprezintă numărul de tranzacții câștigătoare din totalul celor executate.
+- Exemplu: dacă ai 4 tranzacții câștigătoare din 10, ai un win rate de 40%.
+- Este o statistică importantă, dar **nu trebuie interpretată izolat**, fără să ții cont de raportul risk/reward.
+
+---
+
+#### **2. Risk to Reward Ratio (RR)**
+
+- Reprezintă raportul dintre suma riscată și potențialul câștig.
+- Exemplu simplu: dacă riști 100 EUR ca să câștigi 200 EUR, ai un RR de 1:2.
+- Este esențial să NU folosești un RR de 1:1, deoarece în acel caz ai nevoie de o rată de câștig foarte mare pentru a fi profitabil.
+- Autorul recomandă un RR de **între 1:2 și 1:3**, adaptat strategiei.
+
+---
+
+#### **3. Exercițiu practic – 4 tranzacții ipotetice**
+
+Într-o zi cu 4 tranzacții:
+- 2 au fost câștigătoare (una cu RR 1:2 și alta cu RR 1:3)
+- 2 au fost pierzătoare (cu RR de 1)
+- Rezultatul final este profit de **+3RR** (5 unități câștigate – 2 pierdute)
+
+**Concluzie:** cu doar 50% win rate (2 win din 4), traderul a fost profitabil.
+
+---
+
+#### **Puterea RR în raport cu Win Rate-ul**
+
+- Cu cât ai un RR mai mare, cu atât ai nevoie de un win rate mai mic pentru a fi profitabil:
+  - RR 1:1 → ai nevoie de peste 50% win rate
+  - RR 1:2 → ai nevoie de doar 33%
+  - RR 1:3 → suficient 25%
+  - RR 1:4 → ești profitabil chiar și cu 20% win rate
+- Practic, poți pierde **3 din 4 tranzacții** și totuși să fii pe profit.
+
+---
+
+#### **Probabilități și eșantionul statistic**
+
+- Trading-ul este un **joc al probabilităților**.
+- Niciodată nu știi dacă o tranzacție va fi câștigătoare sau pierzătoare.
+- Important este să **executi constant strategia** – rezultatele se văd în eșantioane mari (ex: 100+ tranzacții).
+- La fel ca la datul cu zarul – pe termen scurt poate părea random, dar pe termen lung se echilibrează.
+
+---
+
+#### **Algoritmul, nu intuiția, aduce rezultate**
+
+- Nu e nevoie să ai dreptate la fiecare tranzacție.
+- Important este **să te ții de strategie și să execuți mecanic**, fără emoție.
+- Nu contează dacă azi ai pierdut – ceea ce contează este **cum arată luna în ansamblu**.
+
+---
+
+#### **Mesaje cheie**
+
+- Trading-ul **nu este despre a avea dreptate**, ci despre **a executa corect** un sistem testat.
+- **Mindset-ul este decisiv**: trebuie să înțelegi și să accepți pierderile ca parte a procesului.
+- Puterea stă în **matematica și probabilitățile din spatele strategiei**, nu în previziunile tale.
+
+---
+
+#### **Concluzie**
+
+Această lecție este una dintre cele mai importante din întregul program. Oferă o perspectivă clară și logică asupra modului în care se construiește profitabilitatea în trading. Chiar și cu o rată de câștig scăzută, un trader disciplinat, care respectă raportul risc-recompensă, poate fi profitabil și constant.
+
+Este recomandat să revii de mai multe ori asupra acestei lecții și să o aprofundezi, deoarece înțelegerea completă a acestor concepte îți poate transforma radical performanțele în trading.
+
+--- 
+
+Un fundament solid pentru orice strategie de tranzacționare, care te învață să gândești ca un profesionist și să iei decizii pe baza logicii, nu a emoțiilor.

@@ -1,0 +1,87 @@
+### **Rezumat Lecția 6 – Lichiditatea Minoră: Susținerea Trendului și Execuția Începând cu Experiență**
+
+---
+
+#### **Introducere**
+
+Această lecție încheie seria celor patru tipuri de lichiditate discutate în cadrul strategiei și se concentrează pe **lichiditatea minoră** – un tip de lichiditate **folosit exclusiv pentru a susține trendul**. Spre deosebire de celelalte tipuri (care oferă adesea oportunități contra-trend), aceasta este **singura folosită pentru intrări în direcția trendului**.
+
+---
+
+### **1. Ce este lichiditatea minoră**
+
+- Lichiditatea minoră este o zonă în care prețul:
+  - Creează un „low” sau „high” mic (în funcție de trend).
+  - Este lichidat (adică este depășit ușor pentru a lua ordinele).
+  - Apoi își continuă trendul în aceeași direcție.
+- **Rolul său este de a furniza combustibil trendului** – nu de a-l schimba.
+
+---
+
+### **2. Când se folosește**
+
+- **Numai odată cu trendul** – este singurul tip de lichiditate folosit astfel.
+- Este recomandată **doar traderilor cu ceva experiență**:
+  - Nu este ușor de identificat corect la început.
+  - Necesită cunoașterea structurii pieței și înțelegerea contextului.
+- Ordinea recomandată în învățare:
+  1. HOD / LOD
+  2. Lichidități majore
+  3. Lichidități locale
+  4. **Lichidități minore (ultimele)**
+
+---
+
+### **3. Time frame-uri pentru identificare**
+
+- Se marchează pe:
+  - **1 minut** – ideal pentru claritate.
+  - **5 minute** – dacă zona este suficient de vizibilă.
+- Se aleg **low-urile în uptrend** sau **high-urile în downtrend**.
+
+---
+
+### **4. Exemplu real și execuție**
+
+- Exemplu oferit: **trade pe Nasdaq**, executat live în Challenge, postat și pe Instagram.
+- Setup:
+  - Trendul era ascendent (uptrend).
+  - Lichiditatea minoră a fost identificată sub un „low” de pe 1m.
+  - A fost lichidată → a urmat explozia în sus.
+- Trade-ul a fost închis la **RR de 1:2**, cu potențial de 1:5.
+- Timp total de execuție: **1 oră și 16 minute**.
+- Take profit-ul a fost plasat **fix sub o lichiditate locală**, pentru a evita posibile întoarceri.
+
+---
+
+### **5. Utilizare suplimentară: lichiditățile ca target**
+
+- Lichiditățile pot fi folosite nu doar pentru intrare, ci și ca **ieșire (take profit)**.
+- Strategia recomandă alegerea **unui punct logic și sigur de exit**, adesea în preajma altei lichidități (ex: o locală sau o majoră).
+
+---
+
+### **6. Dificultăți în aplicare și recomandări**
+
+- Este un tip de lichiditate **greu de masterat**:
+  - La început poate crea confuzie – nu știi exact care zonă e minoră validă.
+  - Se pot marca mai multe posibile zone și se observă care e lichidată prima.
+- Recomandare:
+  - La început **marchează mai multe**, apoi vezi care este luată și reacționează logic.
+  - Cu timpul, vei învăța să le recunoști din ce în ce mai rapid și corect.
+
+---
+
+### **7. Importanța practică**
+
+- Este un tip de lichiditate **riscantă**, dar **foarte eficientă** când este înțeleasă.
+- Autorul personal o folosește rar – în medie **2 trade-uri pe lună** cu lichiditate minoră.
+- Este considerată **opțională** pentru majoritatea traderilor – dar valoroasă pentru cei care simt confort în executarea în trend.
+
+---
+
+### **Concluzie**
+
+Lichiditatea minoră este **o unealtă avansată** în arsenalul unui trader, destinată celor care vor să intre în piață în direcția trendului și au deja un grad de experiență. Deși este mai greu de învățat și aplicat, oferă execuții foarte curate și profitabile atunci când este bine înțeleasă. Lecția încheie cu un apel la **practică și răbdare**, precum și cu îndemnul de a reviziona întreaga serie de lecții despre lichiditate pentru a construi o bază solidă înainte de trecerea la strategii.
+
+Această lecție finalizează cadrul teoretic al celor patru tipuri de lichiditate și deschide calea către integrarea acestora în **setup-uri complete de execuție**.

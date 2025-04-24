@@ -1,0 +1,97 @@
+### **Rezumat Lecția 5 – Cum Folosești Contul Demo și MetaTrader (FTMO)**
+
+---
+
+#### **Introducere**
+
+Această lecție este dedicată explicării modului în care se folosește contul demo (Free Trial) de pe platforma **FTMO**, în combinație cu aplicația de execuție **MetaTrader 4 (MT4)**. Accentul este pus pe familiarizarea cu interfața, setările de bază și pașii inițiali pentru a simula tranzacționarea în condiții reale, fără a risca bani.
+
+---
+
+#### **Ce este Free Trial-ul și cum îl folosești**
+
+- **Free Trial-ul FTMO** este un cont demo oferit gratuit, valabil 14 zile.
+- Simulează perfect un cont de finanțare real, cu aceleași reguli și interfață.
+- Nu presupune niciun cost și poți crea un număr nelimitat de astfel de conturi.
+- Scopul lui este **testarea strategiei** și acomodarea cu regulile înainte de a aplica pentru un cont real (challenge).
+
+**Recomandare:** Rulează 2–3 Free Trial-uri înainte de a aplica pentru un cont real.
+
+---
+
+#### **Configurarea contului demo**
+
+1. Intri pe site-ul FTMO și alegi opțiunea **Try for Free**.
+2. Selectezi moneda (recomandat euro), suma dorită (ex. 40.000 EUR) și platforma (ex. MetaTrader 4).
+3. Primești pe email datele contului (ID, parolă, server).
+4. Descarci platforma MT4 (varianta FTMO) și o instalezi.
+
+---
+
+#### **Conectarea la MetaTrader 4**
+
+- Deschizi MT4, mergi în meniul **File → Login to Trade Account**.
+- Introduci datele primite și alegi serverul corect.
+- După conectare, graficele implicite sunt 4 ferestre mici – se recomandă închiderea lor și folosirea uneia singure, personalizate.
+
+---
+
+#### **Cum adaugi și setezi instrumentul GR40 (DAX)**
+
+1. Apasă `Ctrl + U` → mergi la secțiunea **Cash CFD**, activează **GER40**.
+2. Apasă pe „+” din Market Watch și selectează **GR40** pentru a-l adăuga.
+3. Deschide graficul, mărește-l și personalizează-l din `Properties`.
+
+---
+
+#### **Setările recomandate pentru grafic**
+
+- Fundal alb.
+- Scoate grila (Grid).
+- Culori candele: verde pentru creștere, roșu pentru scădere.
+- Folosește doar vizualizarea Candlestick.
+- Opțional: setezi margini și culori după preferință.
+
+---
+
+#### **Utilizarea aplicației MT4**
+
+- MT4 este folosit **doar pentru execuția tranzacțiilor**, nu pentru analiză.
+- Analiza se face exclusiv pe TradingView (platformă mai modernă și intuitivă).
+- MT4 este o platformă veche, mai greu de utilizat vizual, dar stabilă pentru execuții.
+
+---
+
+#### **Executarea unei tranzacții**
+
+1. Alegi volumul dorit.
+2. Apeși **Buy** sau **Sell**.
+3. Tranzacția este deschisă instant.
+4. Levierul (ex: 1:30) înseamnă că fiecare punct în piață se multiplică de 30 ori în bani reali – deci și profitul, dar și riscul cresc.
+
+**Notă:** Calculul levierului și plasarea stop-loss-ului vor fi discutate în lecțiile următoare.
+
+---
+
+#### **Navigare în platformă și funcții suplimentare**
+
+- Graficele pot fi redimensionate cu scroll sau tragere cu mouse-ul.
+- Timeframe-urile pot fi schimbate de sus.
+- Există posibilitatea de a adăuga forme (ex: dreptunghiuri), dar nu sunt necesare în această etapă.
+
+---
+
+#### **În caz de nelămuriri**
+
+- Dacă ceva nu funcționează sau ai dubii despre platformă, caută pe YouTube tutoriale detaliate pentru **MetaTrader 4**.
+- Lecția acoperă toate funcțiile de care ai nevoie la început – scopul este **executarea tranzacțiilor, nu analiza tehnică**.
+
+---
+
+#### **Concluzie**
+
+MT4 este instrumentul prin care vei face tranzacțiile în contul FTMO (sau în orice cont de tip finanțat), dar toată analiza se va realiza pe TradingView. Lecția te ajută să înțelegi cum să te acomodezi cu platforma și să folosești contul demo într-un mod eficient și realist, fără costuri sau riscuri.
+
+--- 
+
+Acest rezumat oferă pașii esențiali pentru configurarea și utilizarea contului demo și a aplicației MT4 în cadrul sistemului FTMO, fiind o bază tehnică esențială pentru următoarele lecții aplicate.

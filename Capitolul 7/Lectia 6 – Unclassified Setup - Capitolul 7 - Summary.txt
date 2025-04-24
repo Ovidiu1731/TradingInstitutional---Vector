@@ -1,0 +1,51 @@
+**Rezumat Lecția 6 – Unclassified Setup (UNC)**
+
+---
+
+### Introducere
+
+Această lecție tratează un tip special de setup, denumit **Unclassified Setup (UNC)**. Este vorba despre tranzacții **atipice, rare și imposibil de încadrat** în categoriile clasice ale strategiei: OSG, TG, TCG, 3G, 3CG sau SLG.
+
+---
+
+### Ce este un Unclassified Setup?
+
+Un setup neclasificat este o formare de piață care:
+
+- Nu respectă structura clară a niciunui setup cunoscut.
+- Nu prezintă un **shift standard** sau îl prezintă prea târziu.
+- Poate conține mai multe leg-uri (ex. chiar și un al **treilea picior**).
+- Combină mai multe elemente (gap-uri, shift-uri, lichiditate) fără o ordine logică standard.
+
+Un exemplu concret:
+
+- A fost lichidat “half the day”
+- Nu a existat un shift imediat
+- Un posibil al doilea leg nu a oferit nici el un shift clar
+- În schimb, al **treilea leg** a adus un shift și un gap
+- A existat un alt gap anterior deja închis, iar structura generală a fost confuză
+
+---
+
+### De ce se notează totuși?
+
+Autorul subliniază că orice tranzacție executată trebuie **inclusă în statistică**, indiferent cât de atipică este. Pentru asta a fost creată o categorie separată – **Unclassified Setup**, în care sunt adunate toate aceste execuții neregulate.
+
+---
+
+### Statistici
+
+- **1%** din totalul tranzacțiilor (5 din 500) au fost UNC.
+- Nu se face **calcul statistic detaliat** pe aceste setup-uri din cauza numărului prea mic de cazuri.
+
+---
+
+### Recomandare
+
+Dacă întâlnești o situație **neclară, pe care nu o poți încadra logic** într-un setup cunoscut, **nu executa**. Este mai înțelept să eviți decât să forțezi o interpretare.
+
+---
+
+### Concluzie
+
+Unclassified Setup nu este un model de urmat, ci o categorie de **excepție**, utilă doar pentru completitudinea statisticii personale. Aceste tranzacții trebuie privite cu prudență și ideal evitate, mai ales de către traderii începători care nu au suficientă experiență pentru a naviga formele ambigue ale pieței.

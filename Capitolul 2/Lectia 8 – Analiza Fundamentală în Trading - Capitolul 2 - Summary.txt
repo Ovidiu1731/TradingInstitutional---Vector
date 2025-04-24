@@ -1,0 +1,109 @@
+### Rezumat Lecția 8 – Analiza Fundamentală în Trading: Ghid Practic
+
+---
+
+#### Introducere
+
+Această lecție oferă o **introducere completă în analiza fundamentală**, numită și analiza „pe știri”, explicând cum și de ce trebuie să interpretăm evenimentele economice, politice și geopolitice în contextul tranzacționării. Este o lecție densă, vitală pentru înțelegerea interacțiunii dintre știri și piețe și pentru evitarea zilelor riscante.
+
+---
+
+### Ce Este Analiza Fundamentală?
+
+- Reprezintă analiza **evenimentelor majore** care pot influența piețele financiare:
+  - **Economice** (CPI, PIB, șomaj etc.)
+  - **Politice și geopolitice**
+- Complementară analizei tehnice – împreună formează o strategie completă.
+- **Fără analiza fundamentală**, trading-ul devine periculos.
+
+---
+
+### Reguli Generale
+
+- Evenimentele sunt **clasificate în 3 categorii**:
+  - 🔴 Roșu = NU se tranzacționează.
+  - ⚪ Gri = Depinde / Subiectiv.
+  - 🟢 Verde = Se poate tranzacționa.
+- **Cele mai importante știri sunt cele pe USD**, care afectează toate piețele globale.
+  - Ex: Dacă SUA publică un CPI negativ, se poate simți în toată lumea.
+  - Inversul nu e valabil (ex: CPI pe euro nu afectează USD).
+
+---
+
+### Cum Să Folosești Calendarul Economic
+
+- **Investing.com** este recomandarea principală.
+  - Selectează doar știrile cu **3 steluțe** (impact major).
+  - Ajustează fusul orar pe România (**GMT+3**).
+  - Alege să vizualizezi știrile din săptămâna curentă și următoarea.
+
+---
+
+### Știrile Fundamentale Explicate
+
+#### 🔴 CPI (Consumer Price Index / Inflație)
+- Una dintre cele mai importante știri.
+- **Afectează sever piața** → se evită de către începători.
+- Apare lunar, pe fiecare monedă.
+
+#### 🔴 NFP (Non-Farm Payrolls)
+- Număr locuri de muncă noi adăugate în SUA.
+- Indicator esențial al sănătății economiei.
+- Afectează frecvent piața → de evitat pentru începători.
+
+#### 🟡 Unemployment Rate (Rata Șomajului)
+- Importantă pentru băncile centrale.
+- Cu cât șomajul e mai mic, cu atât economia e mai sănătoasă.
+- **Gri** – afectează piața doar în anumite condiții (ex: extreme istorice).
+
+#### 🟡 GDP (Produs Intern Brut)
+- Măsoară performanța economică a unei țări.
+- Poate influența bias-ul de piață pe termen lung.
+- Rar afectează intraday trading → gri.
+
+#### 🔴 FOMC (Federal Open Market Committee)
+- Ședințele în care se discută rata dobânzii de referință.
+- **Meeting** (principal) → extrem de riscant, de evitat total.
+- **Minutes** (rezumat) → poate fi mai blând, dar tot cu risc.
+
+#### 🟢 Retail Sales
+- Măsoară nivelul consumului.
+- În general, nu afectează grav piața.
+- Poate avea impact doar în cazuri **catastrofale**.
+
+#### 🟢 OPEC (pentru petrol și gaze)
+- Nu afectează trading-ul pe indici sau forex, decât dacă tranzacționezi petrol/gaz.
+
+#### 🟡 PMI (Purchasing Managers Index)
+- Percepția managerilor despre viitorul economic.
+- Poate fi important, dar de regulă e „calm”.
+- Recomandare: evită 1h înainte și după.
+
+---
+
+### Bank Holidays și Discursuri Oficiale
+
+#### 🔴 Bank Holiday
+- Când băncile sunt închise → **volum redus** → **trading interzis**.
+- Dacă este în SUA → evită orice.
+- Dacă este în UK/Europa → evită doar activele respective.
+
+#### 🔴 Discursuri:
+- **Jerome Powell (Fed)** și **Christine Lagarde (BCE)**.
+- Foarte imprevizibile → pot „exploda” piața fără avertisment.
+- **Evitați 1h înainte și 1h după** discursuri.
+
+---
+
+### Reguli de Executare
+
+- Începătorii trebuie să **evite știrile roșii complet**.
+- Chiar dacă uneori par „liniștite”, nu merită riscul.
+- Traderii avansați pot învăța să tranzacționeze chiar și în zilele cu știri, dar doar cu experiență solidă.
+- Se recomandă **studierea repetată a acestei lecții (de minim 5 ori)** în timpul mentoratului.
+
+---
+
+### Concluzie
+
+Această lecție este una dintre cele **mai importante din tot programul**, deoarece oferă cursantului **puterea de a filtra și de a evita zilele periculoase**. Înțelegerea și aplicarea corectă a analizei fundamentale crește dramatic rata de succes și asigură o gestionare mai eficientă a riscului în strategia de tip instituțional.

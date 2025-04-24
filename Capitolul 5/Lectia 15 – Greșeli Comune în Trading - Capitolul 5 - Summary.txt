@@ -1,0 +1,87 @@
+### **Rezumat Lecția 15 – Cele 10 Greșeli Comune în Trading și Tranziția către Execuția Tehnică**
+
+---
+
+#### **Introducere**
+
+Această lecție marchează finalul capitolului de psihologie din program, oferind un rezumat extrem de valoros sub forma a **10 greșeli frecvente comise de traderi**. Lecția funcționează ca o punte între partea psihologică și cea tehnică, pregătind terenul pentru execuția concretă a strategiei. Fiecare greșeală este explicată cu exemple și context personal, făcând lecția aplicabilă și ușor de reținut.
+
+---
+
+### **Cele 10 Greșeli Comune în Trading**
+
+#### **1. Tranzacționarea fără perioadă de demo sau testare**
+
+- Mulți sar direct pe conturi reale, fără să testeze strategia.
+- Recomandare: **minim 2 luni demo**, ideal 4–5 luni sau chiar mai mult.
+- Autorul a făcut **9 luni demo** înainte să pună primul leu în piață.
+
+#### **2. Alegerea unei platforme de tranzacționare greșite**
+
+- Pericolul vine din alegerea unor brokeri nesiguri sau neadecvați.
+- Soluție: folosește platforme validate (ex: MetaTrader, TradingView) și evită brokerii obscuri sau cei pentru avansați dacă ești la început.
+
+#### **3. Risc prea mare sau capital prea mare de la început**
+
+- Începătorii supraestimează abilitățile și pierd bani rapid.
+- Recomandare: începe cu **capital mic, riscuri mici, relaxare maximă**.
+- Sugestie pentru capital personal: folosește **doar 10% din suma totală disponibilă** la început.
+
+#### **4. Lipsa limitelor (pierderi/profituri/număr de tranzacții)**
+
+- Trebuie să ai limite zilnice/săptămânale:
+  - La pierdere: în bani sau în număr de trade-uri.
+  - La profit: oprește-te la un target.
+- Aceste limite trebuie să fie valabile și în viața personală (cafea, sport etc.)
+
+#### **5. Nerespectarea regulilor și lipsa asumării**
+
+- Mulți traderi dau vina pe piață în loc să-și asume greșelile.
+- Traderul matur analizează sincer dacă a greșit și unde.
+- **Sinceritatea cu tine însuți este esențială.**
+
+#### **6. Risk & Money Management slab sau haotic**
+
+- Nu varia riscul impulsiv între trade-uri.
+- La început: menține riscul constant (ex: doar 1% sau 0.5%).
+- Doar după ce ai statistici clare și experiență poți varia riscul în funcție de setup.
+
+#### **7. Lipsa unui stop loss**
+
+- Greșeală critică. Nu există trader profesionist fără stop loss.
+- Stop loss-ul e bariera ta de siguranță, punctul unde recunoști că ai greșit.
+- Lipsa stop loss-ului poate duce la pierderi uriașe.
+
+#### **8. Complicarea excesivă a tradingului**
+
+- Mulți se pierd în detalii, devin prea analitici și nu mai execută.
+- Trade-urile trebuie să fie clare și simple.
+- Nu confunda perfecționismul cu eficiența.
+
+#### **9. Învățarea din prea multe surse**
+
+- În trading, strategiile sunt personalizate.
+- Dacă înveți din surse multiple, cu stiluri opuse, creezi confuzie.
+- Recomandare: urmează **un singur mentor, o singură strategie**, și aprofundeaz-o până la capăt.
+
+#### **10. Pierderea controlului emoțional**
+
+- Emoțiile pot exploda brusc: un mic factor extern (oboseală, nervi, video negativ) poate declanșa un „circuit scurt”.
+- Rezultatul: overtrading, revenge trading, pierderi masive.
+- Controlul emoțional trebuie antrenat constant, este cheia longevității în trading.
+
+---
+
+#### **Mesaj Final**
+
+- Nu trebuie să crezi orbește nimic din ce ți se spune – **testează singur** pe cont demo și trage propriile concluzii.
+- Fiecare greșeală este validă pentru autor, dar poate unele nu se vor aplica perfect personalității tale.
+- Totuși, **ignorarea acestor principii duce aproape sigur la eșec**.
+
+---
+
+#### **Concluzie**
+
+Această lecție este o recapitulare valoroasă a întregului capitol de psihologie, oferind o hartă clară a celor mai periculoase capcane mentale și comportamentale din trading. Reprezintă o bază solidă pentru a începe partea tehnică cu mintea limpede, sistematizată și pregătită să execute strategic.
+
+Un moment de tranziție care îți poate salva contul – și în final, cariera de trader.

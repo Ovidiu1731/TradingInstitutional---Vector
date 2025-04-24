@@ -1,0 +1,75 @@
+### Rezumat Lecția 6 – Trading-ul NU este Joc de Noroc: Diferențe Fundamentale
+
+---
+
+#### Introducere
+
+Această lecție are rolul de a **demonta mitul conform căruia trading-ul este echivalentul unui cazinou**, explicând logic și matematic de ce afirmația este falsă. Lecția introduce conceptele de probabilitate, control asupra riscului și proces decizional în trading, în contrast cu sistemele de jocuri de noroc.
+
+---
+
+### Paralela Trading vs. Cazinou
+
+#### Cum funcționează cazinoul?
+
+- Exemplu folosit: **ruleta**.
+  - 36 zone roșii/negre + 2 verzi.
+  - Aparent 50-50 șanse → în realitate NU.
+  - **Probabilități reale**:
+    - Jucător: **47.4%**
+    - Cazinou: **52.6%**
+  - **Casino’s edge (marja de profit)**: 5.2%
+- Alte jocuri:
+  - **Blackjack**: șansa de câștig = ~42.22%, edge = ~8.42%
+  - **Aparate (sloturi)**: cele mai mici șanse posibile.
+- **Poker** este o excepție parțială – poate fi practicat strategic, cu învățare și probabilități.
+
+---
+
+### Esența trading-ului
+
+#### Tradingul real ≠ Gambling
+
+- În trading, **pornești de la o probabilitate de 50-50** (dacă alegi la întâmplare).
+- Diferența apare atunci când **folosești strategie, analiză, reguli, confluențe**:
+  - Poți crește șansa la 60–65% sau mai mult.
+  - Trading-ul îți permite să creezi un **edge propriu**, spre deosebire de cazinou unde edge-ul este mereu al casei.
+
+#### Exemplu de execuție strategică:
+
+1. Traderul găsește o zonă cu potențial de întoarcere.
+2. Adaugă 4–5 confluențe (criterii).
+3. Deschide poziția cu un **risk/reward 1:1** sau mai bun.
+4. Probabilitatea de reușită crește datorită analizei → **profit matematic pe termen lung**.
+
+---
+
+### Mesajul Cheie
+
+> **„În trading, îți creezi propriile probabilități. În cazinou, nu poți.”**
+
+- Trading-ul nu e garantat, dar **poate fi profitabil prin controlul variabilelor**.
+- În trading, **fiecare decizie este în mâinile tale**.
+- Gambling-ul este aleatoriu, trading-ul este calculat (sau ar trebui să fie).
+
+---
+
+### Mentalitate Corectă
+
+- Nu orice „om care face click pe buy/sell” este trader.
+- **A face trading fără strategie = gambling.**
+- **Trading-ul cu analiză, reguli și management al riscului ≠ gambling.**
+- Este un domeniu cu potențial uriaș, dar și cu riscuri mari dacă este abordat greșit.
+
+---
+
+### Concluzii
+
+- Cazinoul e construit să te facă să pierzi.
+- Tradingul, abordat corect, este o activitate **bazată pe probabilitate, disciplină și strategie**.
+- Nu confunda **acțiunea neinformată** cu **natura domeniului**.
+- Lecția pune bazele gândirii în probabilități, un pilon fundamental pentru următoarele capitole.
+
+---
+
+Această lecție este esențială pentru începători, întrucât corectează o prejudecată des întâlnită și setează o perspectivă realistă asupra modului în care funcționează tradingul profesionist.

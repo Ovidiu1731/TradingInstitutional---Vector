@@ -1,0 +1,60 @@
+** Rezumat Lecția 7 – Tranzacționarea în Perioadele de All-Time High (ATH)**  
+
+---
+
+### 1. Ce este All-Time High (ATH)?
+
+- ATH = momentul în care piața atinge un **nou maxim istoric**.
+- Reprezintă o **zonă necunoscută** pentru preț – nu există referințe în trecut.
+- Piața intră în **price discovery** → nu se știe până unde va merge.
+
+---
+
+### 2. De ce sunt dificile aceste perioade?
+
+- **Nu există lichidități vizibile deasupra** → nu ai repere pentru TP sau execuție.
+- Nu știi unde se va opri mișcarea – lipsă de istoric.
+- **Volatilitate crescută**, mișcări rapide și greu de anticipat.
+- **Instituțiile sunt mai puțin active**, retailul pompează artificial prețul (pe fond de știri sau sentimente).
+
+---
+
+### 3. Ce faci în perioadele de ATH?
+
+✅ Atenție sporită  
+✅ Nu te arunci în tranzacții doar pentru că setupul pare „corect”  
+✅ Evită vânzările forțate (poate exploda în sus în continuare)  
+✅ Poți căuta:
+- Setupuri pe **lichiditate minoră** (pentru trend continuation)
+- **Consolidări locale** pentru re-entry
+- Zone inferioare rămase neatinse (lichiditate în jos)
+
+---
+
+### 4. Exemple din piață:
+
+- Pe DAX, în 2023 au fost doar ~14 zile în ATH.
+- În 2024, începutul de an a adus deja multiple zile în ATH → raliu accelerat → **atenție sporită**.
+- Ex: în trecut puteai marca lichidități sus → acum nu ai unde, deoarece prețul e în necunoscut.
+
+---
+
+### 5. Strategii posibile:
+
+- **Caută setupuri de buy doar dacă ai confirmări clare**.
+- **Nu forța sell-uri** pe ATH fără validare (poți lua SL).
+- Poți urmări consolidări minore pentru intrări **cu trendul**.
+- Redu riscul sau **așteaptă corecții** pentru intrări mai clare.
+
+---
+
+### 6. Recomandări Finale:
+
+- Nu evita complet aceste zile, dar **joacă defensiv**.
+- Analizează mai atent, nu executa impulsiv.
+- Pe indici (DAX, NASDAQ, US30) → ATH = **perioade haotice**, necesită **calcul, răbdare și disciplină**.
+- După ATH, adesea urmează **corecții majore** – fii pregătit.
+
+---
+
+Această lecție te pregătește pentru momentele rare, dar intense, când piața atinge maxime istorice. Cu mindsetul potrivit și un plan clar, poți naviga eficient chiar și în aceste condiții extreme.

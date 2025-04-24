@@ -1,0 +1,109 @@
+### Rezumat Lecția 7 – Sesiunile de Tranzacționare: Cum, Când și De Ce?
+
+---
+
+#### Introducere
+
+Această lecție este una dintre cele mai valoroase din punct de vedere al **organizării strategice a zilei de tranzacționare**. Se explică în detaliu ce sunt sesiunile de tranzacționare, cum funcționează, care sunt cele mai relevante și cum ar trebui ele abordate în cadrul strategiei instituționale. Lecția conține inclusiv **prima regulă oficială a strategiei** și numeroase recomandări practice.
+
+---
+
+### Sesiuni Principale de Tranzacționare
+
+#### 1. **Sydney**  
+- Interval: 22:00 – 07:00 (ora României)  
+- **Neimportantă** pentru strategie.  
+- Volum foarte scăzut.
+
+#### 2. **Tokyo / Asia**  
+- Interval: 02:00 – 11:00  
+- Nu este folosită în strategie.  
+- Mentorul a testat-o în trecut, dar a renunțat din cauza oboselii și a eficienței scăzute.
+
+#### 3. **Londra**  
+- Interval: 10:00 – 19:00  
+- Market opening: **10:00**
+- **Cea mai importantă sesiune** pentru strategia predată.  
+- Prima parte a strategiei se va concentra **pe intervalul 10:15 – 12:00**.
+
+#### 4. **New York**  
+- Interval: 15:00 – 00:00  
+- Market opening: **16:30**  
+- Volatilitate extrem de mare după deschidere.  
+- Excelentă pentru execuții seara (16:45 – 22:00).  
+
+---
+
+### Primul Mare Avantaj: Fusul Orar din România
+
+- România are **cel mai bun fus orar din lume pentru trading**:
+  - Poți prinde ambele sesiuni – Londra și New York – în intervale rezonabile.
+  - Ai **flexibilitate maximă**: dimineață, după-amiază, seară.
+
+---
+
+### 📌 **Prima Regulă Oficială a Strategiei**
+
+> **NU se execută tranzacții:**
+> - Cu 15 minute înainte și 15 minute după market opening.
+>   - Londra: **09:45 – 10:15**
+>   - New York: **16:15 – 16:45**
+
+**Motiv:** algoritmii instituționali au nevoie de timp pentru calibrări → pot produce mișcări false.
+
+---
+
+### Recomandări și Flexibilitate
+
+- Începutul mentoratului: **execuții doar între 10:15 – 12:00**, pentru simplitate.
+- Ulterior, fiecare cursant își va alege propriul interval de execuție optim:
+  - În funcție de stil personal, energie, disponibilitate.
+  - Testarea este esențială – nu există „ora perfectă” universală.
+
+---
+
+### Pauza de Masă (Lunch Hour)
+
+- **Sesiunea Londra**:
+  - Pauza de masă nu are impact major (testată 2 ani).
+  - Se poate tranzacționa în continuare.
+
+- **Sesiunea New York**:
+  - Pauza de masă afectează semnificativ rata de succes.
+  - Rata de câștig scade de la ~61% la ~49%.
+  - **Recomandare:** evitați acest interval, mai ales la început.
+
+---
+
+### Extinderea Intervalelor Seara
+
+- Deși anterior se recomanda execuție doar până la 21:30, mentorul a observat performanță bună până la **22:00 – 22:30**.
+- După ora 22:30, execuțiile devin riscante (slippage, spread mare).
+
+---
+
+### Rezumat Intervalelor Relevante
+
+| Interval               | Status       |
+|------------------------|--------------|
+| 10:15 – 16:15          | Liber        |
+| 16:15 – 16:45          | **Evitat**   |
+| 16:45 – 19:00          | Liber        |
+| 19:00 – 20:00          | (Opțional) Pauză |
+| 20:00 – 22:00 (22:30)  | Liber        |
+| După 22:30             | **Evitat**   |
+
+---
+
+### Alte Clarificări
+
+- Dacă te prinde ora 16:15 într-o tranzacție deschisă:
+  - Poți închide manual.
+  - Poți lăsa să meargă cu TP/SL automat.
+  - Alegerea e personală, în funcție de contextul analizei.
+
+---
+
+### Concluzie
+
+Această lecție oferă **baza temporală esențială** a strategiei. Înțelegerea și respectarea sesiunilor și a momentelor-cheie din piață este esențială pentru eficiența execuțiilor. Este o lecție tehnică, dar extrem de strategică, care setează cadrul în care vor fi aplicate toate conceptele de analiză și execuție din lecțiile următoare.

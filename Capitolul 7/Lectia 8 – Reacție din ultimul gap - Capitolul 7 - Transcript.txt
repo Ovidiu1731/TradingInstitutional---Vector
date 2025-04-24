@@ -1,0 +1,29 @@
+Lectia 8
+===
+
+[00:00:00] În acest clip, sau mă rog în această lecție, despre un tip de intrare un pic mai atipic. Nu este chiar un setup, deci nu face parte din categoria de setup-uri, pentru că, momentan nu am suficiente statistici pentru acesta. Iar atâta timp cât nu am suficiente statistici nu vreau să-i dau încă un nume. Eu numesc această execuție totuși i-am zis cumva, dar încă nu este valid ca setup, deci încă nu avem reguli clare pentru el.
+
+Se numește last gap, execution last gap. Setup probabil se va numi când voi avea suficiente date. Ideea este următoarea. Dacă observați de foarte multe ori avem tranzacții, avem shift-ul, ne rămân două gap-uri în urmă, vine o mișcare puternică iar ulterior prețul se întoarce ne închide gap-urile și vedem reacții și mai puternice.
+
+Voi credeți că aici reacția asta imensă s-a întâmplat de nimic Nu, pentru că s-au închis gap-urile astea două de aici După aceea, vedeți rămân alte două ghepuri neînchise, prețul vine puternic în jos, se întoarce, le închide, iar [00:01:00] reacție masivă. După prețul vine, lasă ghep, intră prețul, iar reacție masivă. A observat tipul ăsta de comportament al piețorului în momentul în care avem un trend.
+
+Această posibilitate de execuție cu un gap-uri mai târziu o folosesc destul de rar pentru că încă nu o stăpânesc. O să încerc pe viitor să învăț execuțiile astea un pic mai bine și să le execut pentru că am văzut de foarte multe ori că mă uit, nu știu, la un trade. Spre exemplu hai să-l facem pe unul de aici.
+
+Vine aici undeva, asta e o lichiditate. Ni se ia lichiditatea prețul pleacă, ne lasă un gap aici. Ăsta este gap-ul zona asta. O hașurez. Prețul pleacă în jos, se întoarce nu lasă alte ghepuri decât aici să zicem, în fapt nu lasă nimic să zicem că am lăsat unul aici dar nu ne interesa că era destul de târziu ghepul respectiv și eu le vreau pe astea de aici.
+
+În fine și după se întoarce în ghepul ăsta și eu sunt pe grafic și pot să jur, deci îl văd cum intră zic mamă să vezi că asta e o execuție bună și avem reacții din el și [00:02:00] exact asta se întâmplă. Tipul ăsta de execuție este posibil de să executați aici late, dar încă nu am o statistică clară pe așa ceva.
+
+Deci trebuie și voi să experimentați tipul ăsta de intrare. Eu o să încerc pe viitor cât mai mult să-l testez și să-l experimentez și vi-l dau aici ca să-l sezizați când o să-l vedeți în grafice. De regulă se întâmplă foarte mult pe trenduri. V-am zis, uite aici e downtrend și vedeți cum avem ghepuri sus în care prețul se întoarce în ghepuri și tot continuă.
+
+Uite, dacă stau să căuz trostul, uite alt ghep aici închis și reacție în jos. După care, ia uite aici ghep 1 aici nu știu dacă ăsta a fost ăsta nu cred că a fost atins Nu a fost atins a fost ăsta de aici, următorul de mai de jos, ăsta, care a fost atins și prețul iar n-a reușit să-l spargă trece încoace și se întoarce iar, ia vedeți.
+
+Observați cum e ghep fix în punctul în care orderile continuă, până la un moment dat se duce nu o să mai tot meargă uite s întors mai sus, se ia și ghepul ăsta. Îl vedeți de aici. Ia uite, s-a întors [00:03:00] atingere, reacție masivă în jos și tot așa. Deci gap-urile sunt super importante pentru că acolo se întâmplă execuțiile băncioare Ideea este noi cum găsim cele mai bune gap-uri de execuție și de aia trebuie să punem și un pic de context în piață.
+
+Uneori să ne mai uităm și la direcția piaței să vedem cum arată, ce arată. Clar, contează și lichiditatea adică să fie avut o lichiditate de sus luată ca după să cauți tipul ăsta de intrare. Adică uiteți pe exemplu asta. N-ai avut nicio lichiditate luată, teoretic. Hai să zici că ai avut o pasta, uite aici poți să zici că ai extra confluențe uite hai să vă dau un exemplu.
+
+Să faci un trade la modul, ai avut lichiditatea asta de aici luată, după care după ce ai avut lichiditatea luată ai văzut gap-urile astea închise, ți-a făcut shift în zona asta, dar nu ți-a lăsat ți-a lăsat aici un mic gap, hai să zicem, ăsta așa, altul nu văd, făcea execuția după ce îți făcea shift aici în gap-ul de aici cu un stop de Să vedem cât are.
+
+Momentan 6 puncte până azi dacă un [00:04:00] IZI 7.6 și Take Profit 2. Deci uite asta e o posibilitate de execuție, să o gândești în felul ăsta. Înțelegeți puteți să-l luați ca extra confluență. Acum ce vă arăt aici este ceva foarte specific și ceva ce folosesc rar, deci nu este un caz de sănătălin Puteți să-l și ignorați dacă nu vă place rămâneți la ceea ce ați învățat.
+
+Eu vi-l arăt în cazul în care vreți să intrați în detalii să știți în ce ceva detalii. Asta e ceva de clip pe care le vizuezi când deja ai vreo trei luni strategia și deja ești experimentat și vrei să dezvolți în mai mare detaliu. Totul Deci cam asta este cu last gap setup, last gap reaction, se mai întâmplă de multe ori să vedem reacții de ultimele gap-uri sau din gap-uri lăsate de mai demult în care prețul vine, mai ales pe timeframes un pic mai mari, să aveți atenție la ele și în cazul în care doriți să le executați să le testați foarte bine înainte.
+

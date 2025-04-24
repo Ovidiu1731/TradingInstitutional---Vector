@@ -1,0 +1,76 @@
+### Rezumat Lecția 5 – Am Nevoie de un Calculator Puternic pentru Trading?
+
+---
+
+#### Introducere
+
+Această lecție răspunde unei întrebări frecvente și aparent tehnice: **Este necesar un calculator performant pentru a face trading?** Răspunsul mentorului este categoric: **NU.** Lecția demontează mituri legate de echipamente și oferă recomandări realiste, bazate pe experiența personală.
+
+---
+
+### Idei Principale
+
+#### 1. **Performanța în trading nu depinde de echipament**
+
+- Ceea ce te face profitabil este **mintea ta, nu calculatorul.**
+- Exemple:
+  - Traderi cu setup-uri scumpe (5 monitoare, PC-uri high-end) care pierd bani.
+  - Traderi cu un simplu laptop care sunt constant profitabili.
+- Nu te opri din a învăța doar pentru că „n-ai calculator bun”.
+
+---
+
+#### 2. **Regulă de aur: Nu investi în aparatură până nu ești profitabil**
+
+- Când faci primii bani din trading, **abia atunci are sens să investești**:
+  - Monitor(e)
+  - PC de gaming/performanță
+  - Alte accesorii
+- Mentorul a început pe un laptop vechi, fără probleme.
+
+---
+
+#### 3. **Ce contează cu adevărat?**
+
+- **Conexiunea la internet** – rapidă și stabilă.
+- **Simplitatea** – poți începe cu un singur monitor.
+- Upgrade-urile sunt pentru **confort și estetică**, nu pentru profit.
+
+---
+
+### Recomandări Tehnice
+
+#### 1. **Monitoare**
+- Rezoluție mare (ex: 2K) + refresh rate **minim 144Hz**.
+- Diferența este de confort vizual, nu de performanță în tranzacții.
+- Ideal după 1–2 ani de experiență.
+
+#### 2. **Calculator**
+- Nu e nevoie de configurații extreme.
+- Mentorul are acum un PC puternic, dar construit **treptat**.
+
+#### 3. **Componentă esențială: SSD**
+- **SSD-ul are impact major asupra vitezei generale.**
+- Upgrade recomandat pentru orice PC lent.
+- SSD > 10x mai rapid decât un HDD.
+- Variante: SSD clasic sau **M.2** (mai rapid).
+- Costuri reduse (~200 lei), dar impact semnificativ.
+
+---
+
+### Greșeală Comuna
+
+- Mulți investesc **mii de euro în „stația de trading”** fără să știe dacă le place domeniul.
+- Nu construi un birou complet până nu ai **siguranță, profitabilitate și claritate**.
+
+---
+
+#### Concluzie
+
+- **Focus pe învățare, nu pe hardware.**
+- Setup-ul ideal se construiește în timp, proporțional cu progresul tău ca trader.
+- **Nu echipamentul produce bani**, ci cunoștințele, disciplina și strategia.
+
+---
+
+Această lecție oferă claritate pentru începători și elimină o barieră mentală frecventă. Este un ghid util pentru optimizarea costurilor și concentrare pe ce contează cu adevărat în procesul de formare ca trader.

@@ -1,0 +1,90 @@
+**Rezumat Lecția 21 – Execuția pe bază de lichidități și tranzacționarea pe tot parcursul zilei**
+
+---
+
+### Introducere
+
+Această lecție continuă tema execuției bazate pe reguli, extinzând analiza de la “high of the day / low of the day” spre lichidități majore și locale care pot apărea oricând pe parcursul zilei. Se oferă o abordare flexibilă pentru tranzacționare, adaptabilă orarului fiecărui trader, și se exemplifică multiple scenarii concrete pe NASDAQ cu aplicații clare ale regulilor strategiei.
+
+---
+
+### Principalele concepte și reguli (recapitulare)
+
+1. **Zi fără știri majore**
+2. **Interval orar predefinit** – poate fi ales liber (ex: sesiunea de după-amiază)
+3. **Lichiditate luată** – marcăm zonele majore sau locale
+4. **Shift (schimbare de structură)**
+5. **Displacement (mișcare puternică de preț)**
+6. **Gap instituțional** – urme ale ordinelor instituționale
+7. **Execuție** – ideal la jumătatea gap-ului
+8. **Stop Loss** – puțin peste high/low-ul relevant
+9. **Take Profit** – 2R în general, ajustabil
+10. **Răbdare și respectarea planului**
+
+**Notă:** Ordinea regulilor 4–6 este flexibilă (pot apărea în orice ordine).
+
+---
+
+### Studii de caz – Execuții pe NASDAQ
+
+#### **Exemplu 1 – Lichiditate majoră la ora 17:50**
+- Lichiditate marcată, alertă setată
+- Apare **shift** clar, urmat de **gap**
+- **Execuție SELL** la jumătatea gap-ului
+- **TP** la 2R – atins după aproximativ 20 de minute
+- Observație: formațiunea de preț induce teamă; este o capcană clasică de “retail mindset” → importanța răbdării
+
+#### **Exemplu 2 – Lichiditate locală luată, dar fără shift**
+- Condițiile sunt aproape ideale, dar **lipsa shift-ului** face ca execuția să fie invalidă
+- Lecție: nu forța trade-uri fără toate condițiile esențiale
+
+#### **Exemplu 3 – Lichiditate locală luată cu shift + gap**
+- **Execuție BUY** cu SL de 20 de puncte, TP 2R
+- TP atins → tranzacție validă
+
+#### **Exemplu 4 – Lichiditate locală + execuție tipică**
+- Apare setup clasic: gap + shift + displacement
+- **Execuție BUY** până în high-ul anterior (TP 2R)
+- TP atins după 2 ore, tranzacție de noapte
+- Se subliniază că strategia este aplicabilă **la orice oră**, nu doar dimineața
+
+---
+
+### Strategii de targetare
+
+- **Lichiditate locală vs. majoră**:
+  - Lichiditățile **majore** au probabilitate mai mare de succes
+  - Cele **locale** pot fi profitabile dar mai volatile
+- **Targeturi progresive**:
+  - Se recomandă uneori parțiale: ex. închidere 70%, restul lăsat spre target extins
+  - Gap-urile pot semnala puncte de reacție → atenție la poziționarea TP
+
+---
+
+### Lecții psihologice și greșeli comune
+
+- Nu ieși prematur doar pentru că piața „pare” că merge împotriva ta
+- Evită deciziile bazate pe forme vizuale care induc teamă
+- Respectă planul până la capăt → unele mișcări sunt „capcane psihologice”
+- „Retail mindset” duce la pierderi din tranzacții care altfel ar fi fost câștigătoare
+
+---
+
+### Avantajul execuției pe bază de lichidități
+
+- **Flexibilitate orară**: poți tranzacționa oricând, în funcție de apariția lichidităților
+- **Exemplu de structurare**: într-o perioadă de 24h se pot găsi în medie 5 oportunități valide
+- Este eficient atât pentru traderii activi, cât și pentru cei care tranzacționează ocazional
+
+---
+
+### Concluzii
+
+- Lichiditățile majore sunt cele mai **puternice semnale** de tranzacționare, cu cel mai mare **win rate**
+- Strategia este **modulară**: se pot combina sesiuni de dimineață (high/low of the day) cu execuții pe lichiditate în restul zilei
+- **Alege stilul potrivit** pentru tine: conservator (stabil, probabilistic) sau agresiv (cu focus pe lichidități majore)
+- Toate deciziile trebuie să se bazeze pe **logică și structură**, nu pe impulsuri vizuale sau emoționale
+
+---
+
+Această lecție oferă o viziune completă asupra execuției pe baza lichidităților și deschide drumul către un stil de trading profesionist, logic și adaptabil.

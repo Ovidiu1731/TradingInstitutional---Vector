@@ -1,0 +1,87 @@
+### **Rezumat Lecția 12 – Simple Gap: Ce Este, Cum se Marchează și Cum se Folosește Corect**
+
+---
+
+#### **Introducere**
+
+Această lecție face parte din capitolul dedicat gap-urilor și prezintă în detaliu **Simple Gap**, unul dintre cele două tipuri de gap-uri folosite în strategie (celălalt fiind Institutional Gap, tratat în lecția următoare). Se clarifică, de asemenea, ce tipuri de gap-uri **nu** sunt relevante pentru strategia noastră, oferind o bază solidă pentru a înțelege ce anume trebuie marcat și urmărit.
+
+---
+
+### **1. Ce este un gap și ce tipuri există**
+
+- Gap = un **spațiu liber** între două candele, adică o zonă unde prețul **nu a lăsat urme de tranzacționare**.
+- Tipuri menționate:
+  1. **Gap-uri de deschidere (overnight gaps)** – NU sunt folosite.
+  2. **Simple Gaps** – da, folosite în strategie.
+  3. **Gap-uri instituționale (Fair Value Gaps)** – tratate separat.
+
+> ❌ Gap-urile de deschidere (gen "gaura din piață" de la închiderea și deschiderea sesiunii) **nu sunt relevante** în analiza noastră.
+
+---
+
+### **2. Ce este un Simple Gap**
+
+- Este **spațiul dintre două candele**, unde **nu se suprapun wick-urile** lor.
+- Apare de obicei **în mișcări rapide**, când băncile introduc ordine masive și **piața nu reușește să le execute pe toate**.
+- **Cauza**: lipsa de volum pe moment → rezultă un spațiu (gap) unde ordinele au fost plasate, dar **nu executate**.
+- Prețul are tendința să **revină în acel gap**, pentru a „executa ordinele rămase”.
+
+---
+
+### **3. Cum se marchează un Simple Gap**
+
+- Se identifică trei candele în secvență:
+  - **Candela 1 și Candela 3** sunt relevante.
+  - Se ia **wick-ul inferior și superior** al celor două.
+  - Dacă între ele rămâne **spațiu liber**, acela este Simple Gap-ul.
+- Exemple vizuale sunt explicate în lecție, dar regula de bază este: **dacă nu se „pupă” wick-urile între candele, avem un gap.**
+
+---
+
+### **4. Contextul și comportamentul pieței în jurul gap-urilor**
+
+- În zonele unde **băncile nu au apucat să execute toate ordinele**, prețul revine ulterior.
+- **Strategia noastră caută să intre exact în acel moment** – când prețul revine în gap pentru a umple ordinele rămase.
+- Gap-urile sunt marcate ca **zone de interes** – de obicei precedate sau urmate de mișcări clare.
+
+---
+
+### **5. Exemple practice**
+
+- Sunt prezentate exemple pe DAX și alte instrumente:
+  - Identificarea gap-ului.
+  - Reacția ulterioară a prețului – cum revine exact în zona respectivă.
+  - Confirmarea: mișcarea rapidă ce urmează validării gap-ului.
+
+- **Scenariu ideal**:
+  - Gapul este marcat.
+  - Prețul revine, reacționează la el.
+  - Intrăm în direcția mișcării inițiale.
+  - Se obține un trade rapid și curat, cu probabilitate mare de succes.
+
+---
+
+### **6. Când să nu folosești gap-ul**
+
+- Gap-ul trebuie să fie **vizibil și logic**.
+- Dacă între candele **wick-urile se ating sau se suprapun**, **nu este gap valid**.
+- Dacă vezi gap-uri mari și frecvente, poate fi un semn de **lipsă de volum în piață** → **nu tranzacționa pe acel instrument** (ex: spread-uri mari, execuție slabă).
+
+---
+
+### **7. Alte observații relevante**
+
+- Gap-urile **pot apărea și pe 5 minute**, nu doar pe 1 minut.
+- Nu toate gap-urile sunt relevante – unele sunt închise rapid și nu oferă oportunitate.
+- Gap-ul poate fi folosit ca:
+  - **Zonă de intrare** în poziție.
+  - **Confluență** suplimentară în cadrul strategiei.
+
+---
+
+### **Concluzie**
+
+Simple Gap-ul este un **instrument eficient și clar** în strategia de trading, folosit pentru a identifica zone unde instituțiile au lăsat ordine neexecutate. Lecția oferă reguli precise de identificare și utilizare, precum și exemple care ilustrează logica bancară din spatele fenomenului. Este o confluență importantă care, atunci când este aplicată corect, **crește considerabil șansa de a intra în același timp cu băncile**.
+
+Această lecție pregătește terenul pentru următoarea etapă – **gap-ul instituțional**, considerat și mai relevant din punct de vedere al execuției.

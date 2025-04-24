@@ -1,0 +1,37 @@
+Lectia 1
+===
+
+[00:00:00] Bine v-am găsit la un nou capitol, capitolul 3, un capitol dedicat introducerii în partea de tranzacționare. O vom lua cu cele mai de bază elemente în așa fel încât să construim corect de la zero. Tot ce trebuie să știm despre partea de tranzacționare. Chiar dacă ești o persoană experimentată te rog să vizionezi integral aceste clipuri, deoarece nu știi ce informații noi o să acoperi.
+
+Sunt foarte multe persoane care cred, cum eram și eu, pentru că răspund din chestia asta în experiență, credeam că știu atât de multe, credeam că știu tot ce se poate și despre trading și mereu urmărind materialele îmi dădeam seama că, uite chestia asta nu o știam, uite lucrul ăsta, nu știam aspectul ăsta, nu știam și așa mai departe.
+
+Deci urmăriți aceste clipuri pentru că e posibil să aflați lucruri de care nu știați. Și sunt sigur că o fie câteva acolo. Bun, hai să dăm drumul la treabă Suntem aici pe aplicația TradingView, o aplicație care este cam cea mai folosită aplicație pe partea de tranzacționare și pe partea de analiză de grafice.
+
+Totuși vă rog încă să nu vă bateți capul cu ea [00:01:00] pentru că în capitolul 4 vom discuta complet despre cum funcționează aplicația graficele, cum o folosim și așa mai departe În acest capitol doar trebuie să urmăriți nu trebuie să încercați să faceți și voi lucrurile pe care le fac eu. Momentan începem cu partea de urmărire a graficului.
+
+Și să ascultați ceea am de spus despre acestea Hai să începem cu tipurile de grafice. Ești pentru prima oară pe această aplicație și sunt sigur că recunoști tipul ăsta de grafic. Este un grafic crescător vedem de aici am avut o corecție în această zonă, prețul a început să crească după cum puteți observa și aici avem o creștere marcată după care câteva scăderi și așa mai departe Este un grafic clasic un grafic simplu pentru oameni care nu caută detalii Este un grafic folosit general și acesta se numește Area Chart pentru cei care nu știți de aici puteți schimba din aplicația TradingView tipul de grafic la care vă uitați Este un area chart sau îi se mai spune mountain chart, asta mai este denumirea tradițională pe care o are.
+
+Acum [00:02:00] este un tip de grafic foarte puțin folosit, este folosit în cadrul business-ului sau diferitoare produse când uiți la cât crește un produs sau business și așa mai departe pentru că nu este foarte detaliat este ca să arate o imagine generală. Este ok pentru investiții poate pe termen lung, dar n-aș folosi așa ceva sincer, niciodată și niciodată nu l-am folosit Folosit.
+
+Deci vi l-arăt să știți că există pentru că e important pentru cultura voastră generală ca și trader și investitor să știți de acest tip de grafic, dar nu îl vom folosi. Mergem mai departe Line chart este la fel ca mountain chart, doar că la mountain chart dacă vă uitați la area va arată și de desubt această culoare, la line nu vă mai arată.
+
+Avem line with marks, care nu cred că a mers, ba a mers, deci îmi arată că trebuie să dau zoom, ok. Aici vă mai arată puncte în momentele de schimbare de trend, direcție și mai departe continuare sau na, nu foarte relevant. După care avem bars. Bars-urile sunt un pic mai bune decât line chart-ul, dar totuși nu este [00:03:00] suficient, adică ne dă un pic mai multe informații.
+
+Dacă vă uitați aici, ăsta este punctul în care candela s-a deschis candela mă rog că nu suntem pe candelă, suntem pe bar, în care barul s-a deschis și s-a închis în acest punct. La celălalt nu ne spunea punct de deschidere și punct de închidere, aici avem și punct de deschidere și punct de închidere.
+
+Totuși nu aș folosi așa ceva, nu știu pe nimeni care folosește, dar vi l-am pus să știți. După care avem cel mai folosit tip de grafice și probabil cel pe care îl veți folosi mereu în mare parte din timp și acesta este Candles Chart. Această figură reprezintă o candelă se numește sau în român o lumânare pentru că arată ca o lumânare din aceea chinezească dacă vedeți.
+
+Ideea este următoarea. Acesta este cel mai folosit tip de grafic pentru că În spate lui care are cea mai multă informaţie. 98%, 99% în toţi investitori bănci, retail, instituţional şi a mai parte folosesc tipul ăsta de grafic. Ştiu că pe [00:04:00] internet este marketing în care spun unii că vezi doamne băncile folosesc nu ştiu cifre nu ştiu ce algoritm, nu ştiu ce chestie că au grafice, nu-i adevărat, au grafice în cadrul instituţiilor, pot să vă confirm acest lucru.
+
+Dacă există şi instituţii care nu au irrelevant alea cele mai mari, au şi analize pe candele. Bun. Revenind, graficul candelă e foarte important pentru că ne dă informații, ne dă punct de deschidurite, asta e o candelă de creștere. Prețul s-a deschis în acest punct, s-a închis în acest punct și ne dă cumva o informație destul de mare pentru că avem și punct maxim, punct minim, dar o să învățați despre astea un pic mai încolo.
+
+Ok, în regulă revenind mai departe vreau să... Să mergem la următorul tip de grafic, care este Hello Candles care practic sunt aceleași candere, doar desenate într-un anumit fel. Apână să plecăm vreau să vă arăt observați că eu am culorile un pic diferite, adică în mod normal un grafic are un verde puternic canderea de creștere și canderea de scădere un roșu [00:05:00] puternic.
+
+Eu mi-am făcut aceste culori deoarece pentru mine nu că arată de multe informații. Când mă uit la culorile astea verde și albe mă relaxează sunt niște culori care îmi plac. Levi le arăt aici din setări, astea sunt culoarele pe care le-am puse.
+
+V-am arătat să fiu oricum, cred că o să mă arăt și mai încolo, dar ideea e că am pus aceste culori pentru că mie îmi plac, simt că mă reprezintă simt că mă relaxează și nu-mi creează emoții. Asta e un pas foarte important. În cazul în care simți emoții, în momentul în care vezi o candlă puternică verde sau puternică roșie și te facă nu știu, îți dă emoții și așa mai departe, Recomandarea mea este să mergi pe niște culori care pe tine te fac să te simți calm, să te simți relaxat și de asta eu am culorile schimbate la grafic și am și background-ul schimbat, îl faceți de aici de la settings.
+
+Unde background? Aici la canvas și aveți background și eu-am pe negru solid. Ok, bun, mergem mai departe la următorul tip de video Grafice, oricum o să vă mai răsătărele astea când ajungem la [00:06:00] capitolul respectiv Mai avem step line, dar nu știu ce îmi folosește așa ceva, nu l-am văzut niciodată folosit Mai este haicăne și candles Astea sunt folosite și există strategii bazate pe tipul ăsta de candele Nu le-am folosit niciodată nicio strategie Dar să știți că există și acestea Și mă rog mai sunt tipurile astea de candele, care nu sunt, timpul ăsta de grafice, care nu sunt foarte populare Oricum noi rămânem la Candles, astea sunt cele mai importante Candles Line și Bars Cam astea sunt, mă rog area Bars și Candles sunt cele mai cunoscute Top 3 cele mai folosește mai ai Heikeneshi Care da, e destul de folosește și astea În rest nu m-aș merge pe nimic dar Recomandarea mea e să mergeți pe zona asta de Candles Ăăăă Bun, deci cam asta este, să știți că în următoarea lecție vom vorbi despre candele, vom discuta despre anatomia candelor și cum sunt acestea formate și cam asta ar fi, deci în acest clip am discutat am făcut o introducere în grafice și în tipurile de grafice, vă rog să vi le notați și să știți faptul că noi vom folosi candles, asta ne [00:07:00] interesează lumânările, sunt cele mai importante pentru noi și urmează să învățăm, să analizăm un grafic de genul ăsta și să-l citim.
+
+Mergem mai departe.
+

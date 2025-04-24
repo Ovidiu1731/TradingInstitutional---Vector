@@ -1,0 +1,59 @@
+Lectia 11
+===
+
+[00:00:00] Acum că ați învățat despre știri, despre analiză fundamentală despre diferențele între indici și forex și așa mai departe și am început să avem niște informații, este momentul să aflăm ce înseamnă trading-ul instituțional. În primul rând o să începem cu o mică diferență între trading-ul de retail și cel instituțional.
+
+Știți că există două tipuri de trading. Ce înseamnă Practic sunt traderii care lucrează de acasă din confortul personal, cu diferite tipuri de strategii De regulă când zici trader de retail, te gândești la cei trader care tranzacționează tot felul de indicatori tot felul de strategii pe care le găsim publice și așa mai departe ușor de accesat.
+
+Și tradingul instituțional de regulă e tradingul făcut din instituții cu strategii specializate și așa mai departe. Și o să luăm așa, o să luăm prima definiție Tradingul instituțional este realizat de mari entități financiare, cum ar fi băncile, fondurile de investiții, hedge funds și alte instituții financiare mari.
+
+[00:01:00] Acestea operează cu volume masive de capital și au acces la infrastructură tehnologică avansată La care ca o paranteză, noi de acasă e greu să avem acces și în general traderii de retail nu au acces la această tehnologie avansată. Dar nici măcar nu ai nevoie de ea dacă îți execuți bine strategia manuală, îți respecti regulile și așa mai departe.
+
+Această tehnologie avansată e ca un bonus care îți mai dă o mică marjă în plus, dar nu avem nevoie de ea neapărat. După cum am mai zis în trecușă o să mai tot zic pe viitor, noi suntem micul peștișor din spatele balenei mari. Balena mare este instituția noi vrem să fim un mic peștișor care urmează acea balenă mare și profităm împreună cu ea.
+
+Prindem resturile rămase de la ea dacă sunt foarte bune pentru un peștișor mic. De asemenea ei dețin date detaliate din piață și lichiditate ridicată, ceea ce le permite să facă tranzacții rapide și eficiente la o scară mare. După cum v-am zis, instituțiile sunt de regulă Dacă ne uităm ca și competitori instituții sunt versus traderi de acasă Sunt instituții [00:02:00] versus traderi de retail.
+
+Există instituții de genul. Există așa, fonduri de investiții de stat și fonduri de investiții private. Nu sunt împreună. Acolo există o oarecare... Concurență și între ele și ideea e care ia bani de la care și așa mai departe banii se tot plimbă și ei tot circulă. Și acum revenind la discuția de bază ce discutam aici noi suntem la bază trader de retail.
+
+Atâta timp cât tranzacționăm de acasă nu ne putem numi trader instituțional, trebuie să lucrezi în cadrul unei instituții clar. Dar noi ce o să facem este că o să folosim o strategie de tip instituțional folosită în cadrul Băncilor. Și practic o să încercăm să mimăm ce fac ei doar că de acasă din confort propriu și fără reguli puse, că în momentul în care ești angajat într-o instituție ești limitat la un salariu.
+
+Lucrezi pe bază salariu și comisiune evident. Dar ești limitat acolo, stresul e foarte mare că lucrezi cu banii oamenilor ești tras la răspundere mereu ai un program fix, adică nu e chiar așa când ești de acasă ești liniștit, ești în confortul tău și așa mai departe Pe de altă parte, traderii de retail sunt indivizi care tranzacționează pe [00:03:00] compropriu folosind capital limitat și infrastructură standard, de obicei prin platforme de brocaraj online.
+
+Ei nu au acces la aceleași date de înaltă calitate sau infrastructură de tranzacționare rapidă, prin urmare strategiile lor sunt limitate la nevoia de a lua decizii mai rapide pe bază de informațiile disponibile la public. Strategii clasice de indicator etc.. le știm, ne-am plictisit cu toți ideele și...
+
+Cu siguranță nu îți aduce rezultatele pe termen lung pe care ți le dorești. Cu toate că sunt și strategii publice care funcționează foarte bine, dar acolo trebuie să-ți menții foarte bine emoțiile. Dar o să discutăm mai încolo de ce înseamnă cu adevărat aceste emoții Bun, ia vreau să trag un pic prezentarea un pic mai așa.
+
+Știu că ești fața mea aici peste scris dar nu pierdeți nimica super important, să zic așa. Bun, în regulă mergem mai departe De ce nu aș lucra cu o instituție v-am spus? Eu nu aș lucra într-o instituție pentru că ești foarte limitat. Eu de acasă performez mult mai bine din perspectiva mea decât aș performa dintr-o instituție Am primit niște oferte, nu [00:04:00] senzaționale, dar niște oferte de trader de bază în cadrul unor instituții Oricum nu ai cum să începi ceva super de sus, adică pornești de jos.
+
+De la a monitoriza algoritmul în primă fază după ce a început și tu să ai aport, după ce a început și tu să executi și așa mai departe Și nu m-am dus la această ofertă, am primit să zic două una mai seriosă una mai așa și așa Nu mă le-am ales pentru că consider că m-ar fi limitat din ceea ce fac eu Instituții de financiare utilizează frecvent algoritmi sofisticați Aici vorbim despre cum operați la aceste instituții Deci folosesc algoritmi sofisticați pentru a realiza tranzacții la scală mare Acești algoritmi au rolul de a executa ordinele rapid, la prețuri cât mai eficiente reducând impactul tranzacției asupra pieței, evitând acel slippage.
+
+După cum știm, există slippage și spread, care sunt două taxe ascunse pe care noi când plătim începem direct tranzacția într-un mic minus, e ca o taxă pe care o plătim. Ei bine, ce fac băncile? Că ei evită prin algoritmilor acest slippage, adică au o taxă în minus care pe termen lung se [00:05:00] strânge și contează matematic.
+
+Instituțiile folosesc algoritmi pentru mai multe strategii Și aici eu o dau un exemplu de trei algoritme pe care îi folosesc la modul general. Folosesc așa, High Frequency Trading, în paranteză HFT se numește, care sunt practic tranzacții realizate la viteze extrem de rapide Vorbim de 15 tranzacții pe minut, 20 de tranzacții, 25 de tranzacții pe minut.
+
+Prin acestea ei profită de mici diferențe de preț prin tranzacții foarte, foarte multe și rapide. Există algoritmi care fac asta. De asemenea există arbitraj Arbitrajul practic este exploatarea discrepanților de preț dintre piețe diferite, prin arbitraj în general, dacă faci asta, câștigi cam orice ar fi.
+
+Ideea e că este ilegal și arbitrajul na, este folosit și de anumite bănci care au niște relații și așa mai departe dar noi ca și trader de retail, nu avem voie să folosim așa ceva și, cu siguranță, vom fi banați de pe orice platformă folosind arbitrajul. El există se poate face, cunosc și eu cam Două strategii de arbitraj cunosc, una am și [00:06:00] testat-o așa scurt și funcționează foarte bine, adică faci bani orice ar fi cu ele, efectiv profiți de pe urme de pe diferențe între broker și chestii genul ăsta.
+
+Sunt multe persoane care folosesc tehnici de arbitraj dar o să fii prins. E foarte imediat că ești văzut cu arbitrajul și schemele clasice de arbitraj sunt cunoscute și vei fi blocat de platformă ți se va închide contul, deci vă recomand niciodată să nu vă rezumați la arbitraj Așa dar evident că există instituții care fac asta și nu are cine ce să le facă.
+
+După care mai există market making, practic oferirea de lichiditate continuă pentru a facilita cumpărarea și vânzarea unei active. Există job-ul de market maker, există acest lucru cunosc și pe cineva care este market maker, foarte interesant, bagi lichiditate în piață anumite contracte și lucruri pe care trebuie să le faci Faci Asta este chiar un tip de strategie folosit pentru tranzacționare.
+
+Sunt diferite contracte între entități unii care sunt market maker, unii care manipulează prețul și împreună profită de pe urma acestora. În acest clip v-am prezentat ce este tradingul instituțional și câteva insight-uri din cadrul instituțiilor. În următorul clip o să discutăm despre, vă scrie aici, ce [00:07:00] este tradingul instituțional și, a, nu, nu, stai stai, mai avem aici ceva stați uitați-vă, scuzați, mai avem așa.
+
+Un alt aspect important al trading-ului instituțional este capacitatea acestora de a manipula lichiditatea pieței și instituțiile pieței și instituțiile mari pot ascunde intențiile lor de trading, plasând ordine mari în felul în care să nu perturbe piețele și să nu dezvăluie publicului direcția lor Dar totuși lasă urme vizibile.
+
+Deci o să vedeți că prin strategia pe care o să învățăm împreună o să puteți identifica în grafice instituțiile o să le vedeți mișcările din spate. Ei încearcă să le mascheze și da, le maschează dar nu atât de bine și niciodată nu o poată să mascheze perfect pentru că volumele care intră ei sunt mastodontice, imense, sunt mari și acele volume nu pot fi ascunse în piață Prin urmare o vedeți că prin strategia pe care o învățăm și o studiem, o să vedeți exact în piață urmele lăsate de bănci și faptul că ele sunt prezente acolo.
+
+Și acum vine întrebarea, pierd instituțiile vreodată bani? În clipurile viitoare o să vă zic concret cum arată [00:08:00] zilele instituțiilor de regulă dar da, pierd bani și instituțiile Și pot, cum să vă zic ei pierd bani și au diferite bani în clipurile viitoare am pregătit o discuție exact despre tematica asta, dar diferența lor față de noi constă în faptul că capacitatea lor de a absorbi pierderile este imensă pentru că ei sunt super diversificați au pierderi foarte mari, dar au câștiguri imense și calcule algoritmice foarte complexe Și cu siguranță nu o să fie o problemă.
+
+De asemenea au echipe de analizi, tehnologie avansate care gestionează riscul foarte eficient, au și mult mai eficient decât niște trader individuali cum suntem noi. Și cu toate acestea algoritmii poți să te ducă la pierdere și o să luăm două exemple notabile aici pe care le-am notat. Unul este falimentul Lemon Brothers pe care îl cunoaștem cu toții, da, Lemon Brothers care în timpul crizei financiare în 2008 a fost toată acea nebunie și vă recomand să vedeți filmul The Big Short.
+
+Care face referire exact la acest eveniment și e foarte, foarte bun. Deci vă recomand neapărat să-l vedeți. Și... De asemenea [00:09:00] vă recomand să urmăriți și acest caz, pierderile suferite de Knight Capital în 2012, când un algoritm defect a dus la pierderi de peste 440 de milioane de dolari în doar câteva minute.
+
+Iar un caz legendar și vă recomand să-l citiți și despre acesta să vedeți cum greșeala unui algoritm care și el poate să greșească vedeți deci până și băncile care au, cum să zic Niște sisteme super sofisticate și așa mai departe poate să ajungă la pierderi să spun așa. Deci cam asta ar fi ce am vrut să discutăm în acest clip.
+
+În următorul clip vom discuta despre cum funcționează algoritmii instituționali și care sunt tipurile de algoritmi și lucruri de genul ăsta. Deci stați pregătiți sper că ați luat notițe și ați înțeles până acum fiecare lecție în parte. Nu treceți mai departe prin lecții fără să le studiați cu atenție, să luați fiecare mic detaliu de acolo pentru că acesta o să conteze.
+
+Vă salut cu drag și ne vedem la clipurile următoare!
+

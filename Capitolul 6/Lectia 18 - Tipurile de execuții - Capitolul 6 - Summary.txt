@@ -1,0 +1,85 @@
+### **Rezumat Lecția 18 – Tipuri de Ordere: Market Order, Limit Order, Buy Stop și Sell Stop**
+
+---
+
+#### **Introducere**
+
+Lecția 18 prezintă **cele trei tipuri principale de ordine** prin care un trader poate executa o tranzacție: **Market Order**, **Limit Order**, și **Buy Stop / Sell Stop**. Este o lecție practică, dedicată înțelegerii modului în care se intră efectiv în piață. Autorul oferă explicații clare, exemple concrete și recomandări personale despre când și cum să fie folosite aceste metode.
+
+---
+
+### **1. Market Order – execuție instant**
+
+#### Ce este:
+- **Cel mai simplu și rapid tip de ordine**.
+- Se apasă pe butonul de „Buy” sau „Sell” din MetaTrader, iar tranzacția este executată **instant la prețul curent**.
+
+####  Cum se face:
+- Se setează lotul (calculat anterior).
+- Se apasă butonul de execuție.
+- După aceea se trage manual stop loss-ul și take profit-ul.
+
+#### Avantaje:
+- Viteză maximă de execuție.
+- Control total și direct.
+- Este metoda preferată de autor.
+
+####  Dezavantaje:
+- Dacă volumul din piață este slab, prețul se poate executa **mai sus sau mai jos decât zona dorită**.
+- Acest efect apare mai ales în perioade cu volatilitate scăzută sau în zile de sărbătoare (bank holidays).
+
+>  Sfaturi: Execută doar în **intervalele orare recomandate** pentru a evita slippage-ul.
+
+---
+
+### **2. Limit Order – execuție programată în avans**
+
+#### Ce este:
+- Plasezi un ordin din timp, care se va activa **automat** atunci când prețul atinge zona aleasă.
+- Nu este nevoie să fii prezent în fața calculatorului.
+
+#### Când se folosește:
+- În special pe **timeframe-uri mai mari** (5m, 15m, 1h).
+- Când ai făcut analiza dimineața și vrei să se activeze tranzacția automat mai târziu.
+
+#### Avantaje:
+- Nu necesită prezență constantă.
+- Ideal pentru traderii care nu pot sta la ecran toată ziua.
+
+#### Dezavantaje:
+- Uneori se poate executa la un preț mai puțin favorabil.
+- Necesită un setup foarte bine definit dinainte.
+
+---
+
+### **3. Buy Stop / Sell Stop – execuție condiționată pe continuare**
+
+#### Ce este:
+- Este un ordin care **se activează doar dacă prețul depășește un anumit nivel**:
+  - **Buy Stop**: intri într-o poziție de cumpărare după ce prețul urcă peste o zonă.
+  - **Sell Stop**: intri într-o poziție de vânzare după ce prețul scade sub o zonă.
+
+#### Când se folosește:
+- Pentru a intra **odată cu direcția trendului**.
+- După o reacție clară într-o zonă de interes (ex: după ce prețul a lichidat un gap).
+
+#### Avantaje:
+- Permite intrări pe breakout-uri.
+- Evită intrările premature.
+
+#### Dezavantaje:
+- Risc de „fakeout” – piața poate trece rapid peste zonă și apoi se întoarce.
+
+---
+
+### **4. Recomandări finale ale autorului**
+
+- **Market Order** este suficient pentru majoritatea situațiilor – simplu, eficient și direct.
+- Restul tipurilor de ordine pot fi testate pe conturi demo, **nu implică riscuri** și se pot învăța în **20 de minute de practică**.
+- Alegerea tipului de ordin ține de **stilul personal** și de **contextul setup-ului**.
+
+---
+
+### **Concluzie**
+
+Lecția 18 oferă un ghid practic, accesibil și esențial pentru orice trader începător sau intermediar. Înțelegerea modului de execuție este vitală pentru aplicarea strategiei în timp real. Fie că alegi simplitatea market order-ului sau flexibilitatea limit/stop order-elor, important este să știi **când și de ce le folosești**. Această lecție este baza comportamentului tehnic corect în execuția tranzacțiilor.

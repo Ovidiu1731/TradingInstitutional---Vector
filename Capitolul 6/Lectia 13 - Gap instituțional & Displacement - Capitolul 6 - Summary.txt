@@ -1,0 +1,92 @@
+### **Rezumat Lecția 13 – Gap Instituțional (Fair Value Gap / Imbalance) și Displacement: Definiție, Reguli și Aplicare**
+
+---
+
+#### **Introducere**
+
+Această lecție face parte din seria tehnică și tratează unul dintre cele mai puternice elemente ale strategiei: **Gap-ul Instituțional**, cunoscut și ca **Fair Value Gap (FVG)** sau **Imbalance**. În tandem cu acesta este analizat conceptul de **Displacement**, deoarece cele două apar întotdeauna împreună. Lecția clarifică modul în care aceste structuri apar, cum se marchează, cum se execută, și care sunt regulile ce trebuie îndeplinite pentru ca un gap să fie considerat valid.
+
+---
+
+### **1. Terminologie și clarificări**
+
+- Gap Instituțional = Fair Value Gap = Imbalance = Institutional Gap.
+- Diferențele de denumire provin din preferințele comunităților de traderi, dar **toate se referă la același concept**.
+- Autorul preferă termenul de **Gap Instituțional**, dar toate sunt acceptabile în cadrul lecției.
+
+---
+
+### **2. Poziționarea în cadrul strategiei**
+
+Gap-ul instituțional și displacement-ul sunt **a 5-a confluență** în strategia completă. Ele vin **după**:
+1. Zi fără știri majore.
+2. Interval orar corect (10:15–12:00).
+3. Lichiditate (HOD/LOD sau alt tip) lichidată.
+4. Market Structure Shift (MSS) valid.
+
+⚠️ Un **gap instituțional NU poate exista fără displacement**, și **un displacement NU este valid fără gap**. Ele sunt interdependente.
+
+---
+
+### **3. Ce este Displacement-ul**
+
+- Este o **mișcare rapidă, direcțională, clară**, care apare **după lichidarea unei zone** (ex: HOD/LOD).
+- Este mișcarea care **demonstrează prezența ordonată a instituțiilor**.
+- Displacement-ul conține un **gap vizibil între candele** → acela este gap-ul instituțional.
+
+---
+
+### **4. Cum identifici un Gap Instituțional**
+
+- Se caută o **mișcare clară, rapidă**, opusă zonei lichidate.
+- Între candelele acestei mișcări trebuie să existe **un spațiu liber** (fără overlap de wick-uri).
+- Acesta este **gap-ul în care băncile și-au lăsat ordinele neexecutate**, iar prețul va reveni adesea în el pentru a le "umple".
+
+---
+
+### **5. Reguli pentru validare**
+
+Pentru ca un gap instituțional să fie valid:
+- Trebuie să existe displacement.
+- Trebuie să fi fost lichidată o zonă de lichiditate înainte.
+- Trebuie să avem un MSS valid.
+- Trebuie să fim în intervalul orar corect.
+- Trebuie să nu fie știri majore în ziua respectivă.
+
+---
+
+### **6. Execuția în cadrul gap-ului**
+
+Există mai multe opțiuni:
+- **Execuție la începutul gap-ului** – recomandată pentru începători.
+- **Execuție la jumătatea gap-ului** – utilizată mai mult de traderii avansați.
+- Alegerea între ele depinde de:
+  - Dimensiunea gap-ului.
+  - Vizibilitatea lui.
+  - Tipul de piață (ex: DAX, US30, NASDAQ etc.).
+
+⚠️ Atenție: cu cât execuția este mai „optimizată”, cu atât **riști să ratezi trade-ul** dacă prețul nu revine suficient.
+
+---
+
+### **7. Exemple practice și analiză**
+
+Sunt prezentate două exemple clare:
+- Primul: scenariu ideal, în care toate regulile sunt respectate, iar prețul revine în gap și explodează în direcția dorită → **RR 1:8**.
+- Al doilea: set-up „frumos, dar cu pierdere” – demonstrând că și cele mai curate set-up-uri pot eșua.
+- Lecția subliniază: **perfecțiunea unui setup NU garantează profitul**, și uneori **trade-uri slabe dau rezultate foarte bune**.
+
+---
+
+### **8. Mesaje finale**
+
+- Nu complicați displacement-ul: este doar o mișcare puternică cu gap → simplu.
+- Nu contează dacă gap-ul apare **înainte** sau **după** MSS – important e ca toate condițiile să fie îndeplinite.
+- Gap-ul instituțional este unul dintre cele mai importante semnale pentru execuție, dar **trebuie folosit împreună cu restul regulilor**.
+- Strategia nu trebuie doar învățată, ci și **optimizată** în timp, în funcție de experiență și observarea comportamentului pieței.
+
+---
+
+### **Concluzie**
+
+Gap-ul instituțional este o unealtă extrem de puternică, care, atunci când este aplicată corect și în contextul potrivit, oferă **unele dintre cele mai profitabile tranzacții**. Lecția oferă nu doar definiții și exemple, ci și un ghid complet de aplicare practică și optimizare în execuție. Este un pilon central al strategiei predate în curs.

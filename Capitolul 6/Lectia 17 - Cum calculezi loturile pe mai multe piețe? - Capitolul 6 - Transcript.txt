@@ -1,0 +1,43 @@
+Lectia 17
+===
+
+[00:00:00] Bine v-am găsit la ultimul clip din miniseria de 3 clipuri despre lot size. Este important să discutăm mai multe detalii, de asta l-am împărțit în mai multe clipuri în așa fel încât să atingem fiecare mic detaliu. Prin aceste lecții o să încerc să intru în absolut tot ceea aveți nevoie pe partea asta de talent training.
+
+Nu vreau să existe probleme nu vreau să existe confuzii. Ei bine în acest clip o să discutăm despre cum se calculează lot size și pe diferite piațe. Noi ne-am uitat în trecut pe zona de Forex să vedem cum funcționează și pe zona de DAX. Ei bine cum funcționează pe UK100, pe US100, pe US30 ca să fim cât mai exacti cu calculul.
+
+Bun, în primul rând vreau să menționez încă câteva aspecte extra față de ce am discutat până acum. Trebuie să fiți conștienți de faptul că loturile nu au aceeași formulă de calcul pe toți brocării Spre exemplu există varianta să fie o formulă de calcul pe o companie de finanțare, pe compania X, pe compania Y să fie altă formulă pe compania Z să fie altă formulă.
+
+[00:01:00] Cum difere ele? Practic la cât împarți Pe exemplu noi dacă luăm DAX, exemplu DAX, vrem să riscăm 100 de euro și să avem un trade de 10 puncte Practic împărțim 100 de euro la 10 puncte și 10 sunt loturile rezultatul final. Dar e posibil ca același DAX pe altă companie de finanțare să fie 100 împărțit la în loc de 10 împărțit tot la 100.
+
+De ce? Pentru că se calculează diferit E mulțit cu 10, al doilea rezultat Deci în loc de 100 împărțit la 10, să fie 100 împărțit la 100 și să fie un lot pe altă platformă echivalentul la 10 loturi pe FTMOS, unde tranzacționez eu la momentul filmării acestui clip. Acum, de ce este important de menționat acest aspect?
+
+Vă rog înainte să începeți să tranzacționați pe orice fel de broker, să testați că formula de calcul este aceeași pe care vă dau aici. Pe majoritatea e la fel, dar trebuie să testați, spun lucrul ăsta în scenariul în care poate cine știe ajungeți la un broker la care nu dau la fel calculele. Și să știți de ce nu dau la fel și să știți să [00:02:00] calculați corect Nu e nimic a complica și să nu vă sperie niciodată aceste calcule o le învățați foarte repede Și nu o fie nimica complicat după prima lună de trading, o să le visați efectiv adică nu este nimica greu Acum o să discutăm despre cum se calculează pe UK100, pe US100 și pe US30.
+
+În primul rând că va trebui să luați în considerare moneda în care se exprimă activul ca să faci o conversie valutară Ce înseamnă asta? O să luăm aici următorul exemplu. Pentru a calcula corect trebuie să identifici moneda. Totul pleacă de la contul pe care îl alegi de finanțare, spre exemplu, sau contul pe care îl ai tu la brokerul tău.
+
+Trebuie să te uiți dacă îl ai în euro sau în dolari sau în ce moneda ai tu. Eu o să iau cazul pe care l-am ales Respectiv euro. Eu am ales să am conturile în euro pentru că în Europa este mult mai friendly pe partea asta de bănci. Adică în momentul în care te tragi banii în bancă din profituri e mult mai ușor.
+
+Cu dolar am observat că e mai complicat pentru mine iar la restul nu vorbim. Dar dacă tu ești din Marea Britanie spre exemplu și vrei să faci retragerile, [00:03:00] să-ți iei un cont în lire sterline și să lucrezi în lire sterline clar, asta este cea mai bună variantă pentru tine Dar pentru mine, euro am considerat că este cea mai bună variante De asta, în cazul în care vă întrebați de ce am conturile în euro, de asta le am în euro.
+
+E mult mai comod la retrageri. Și acum, în cazul în care aveți contul în euro, pe DAX lucrurile rămân simple, pentru că DAX este calculat în euro. Indicele Germaniei face parte în euro, pare moneda euro, deci aici nu schimbăm nimic Pur și simplu împărțim direct suma pe care vrem să o riscăm în euro, 200 de euro împărțit la 1 euro Numărul de puncte al stop loss-ului asta e tot la DAX efectiv împărțim 200 la 20, ne-a dat 10 loturi, asta este.
+
+Bun, dar la restul noi având contul în euro, trebuie să facem o mică conversie. Spre exemplu dacă vrem să tranzacționem pe UST, o să trebuiască să facem o conversie de la dolar la euro. Dacă suntem pe UK100 de la GBP la euro. Țineți minte nu faceți conversia la currency-ul în care aveți contul Spre exemplu dacă aveți în dolar contul de finanțare, atunci când tranzacționați US100 și US30, nu [00:04:00] mai faceți nicio conversie Împărțiți direct, adică vreți riscați 100 de dolari împărțiți 100 la numărul de puncte de stoplu și nu mai e o problemă Dar în schimb la euro, la DAX o trească să faceți conversia sau la GBP.
+
+Sper că este clar ceea am menționat. Bun. Și acum, o să vă exemple foarte simplu credeți-mă, nu e nimic complica nu vă speriați. Dacă vrei să riști 100 de euro, spre exemplu și activele sunt GBP și USD, activele nevorbind la UK100, la US100 și așa mai departe, tot ce trebuie să faci este să convertești suma pe care vrei să o riști în euro, dar în contul tău care prespune în chestie în euro, la moneda activului Simplu, dacă tu vrei să riști 100 de euro, iau cazul ăsta, convertești intripuția aplicației Se numește Currency, așa arată aplicația, asta scăpă și arăt, asta e aplicația și îmi convertește scriu direct euro și îmi zice în lei sau în dolar sau în ce vreau, bun.
+
+Tu trebuie să convertești 100 de euro în GBP, rapid. Nu e nimica complicat spre exemplu dacă tu ai făcut în GBP, ăsta este rezultatul 84 sau dacă vrei în dolari na, euro e mai mare ca dolarul, deci [00:05:00] 100 de euro egal cu 111 de dolari la momentul filmării, e posibil să nu fie așa în momentul în care tranzacționezi tu.
+
+Bun, faci această conversie rapidă și tot ceea ce faci este pur și simplu să împarți această sumă la numărul de pips de stop loss și gata Ți-a dat scenariul perfect de care ai nevoie Deci în loc să împarți direct 100 de euro riscul tău la numărul de puncte din stop loss Pur și simplu faci conversia asta și împarți conversia la numărul de puncte din stop loss și îți va da corect rezultatul Hai să luăm un exemplu concret Vrem să riscăm 200 de euro pips Pe NASDAQ, cum facem?
+
+Luăm 200, îl convertim în dolari 200 de euro înseamnă 222 de dolari și împărțim 222 de dolari la numărul de puncte de stop loss, 15 puncte și calculul final va da rezultatul. Manual, la început poate vi se pare greu să le calculați dar eu cel puțin m-am obișnuit acum, mă mișc foarte repede mi-a, nu știu, undeva la 15-16 secunde să calculez loturile și n-am nevoie de mai mult pentru gustul meu, prefer să rămân manual, dar vreau să vă spun că există [00:06:00] Si varianta, sa aveti, exista anumiti AI , platforme aplicatii pe care le puteti pune pe Metatrader si sa va calculezi automat tot ce inseamna partea de loturi, iti face instant totul.
+
+Exista varianta, asta eu nu o prezint in mentorat de ce? Pentru ca nu toate companiile o accepta, unele o accepta si nu e nici o problema, altele nu. Daca alegi o folosesti o poti gasi pe internet, fara niciun fel de problema sau poti sa te intreba in cadrul comunitatii si o te ajute membrii comunitatii care folosesc aceasta aplicatie, te ajuta ei cu ea.
+
+Eu nu o folosesc asta automatizată că nu vreau să am probleme după cu la retragere să-mi zică compania A că noi nu permitem folosirea acestor AI-uri și facea să-mi oprească retragerea Nu vreau să pățesc asta, există acest risc să-l știți la început unele companii nu au nicio problemă, te lasă fără probleme să folosești, altele sunt reticente.
+
+Deci întrebați înainte de toate suportul companiei, le scrieți, bună ziua vreau să folosesc aplicația X, mi-este permis acest lucru, ei dacă spun da, în regulă folosește-o Dacă nu sunt clar, mai bine nu o folosești. Și această variantă dar eu unul nu o folosesc [00:07:00] Deci repetăm, asta este formula finală, calculul poate să difere în funcție de broker, leverage sau companie de finanțare vreau să știți lucrul ăsta, eu vă dau standard ceea folosesc eu, acum e posibil dacă vă duceți un broker de până în Tanzania să fie un calcul diferit dar nu e iar nimica incredibil de complicat o să găsiți oricum Pe internet o variantă corectă dacă cele date de mine nu sunt.
+
+Dar eu am încercat să acopăr cam tot, adică să nu prea existe cazuri și scenarii ieșite în comun. Vreau să vă ajut cu absolut toate informații necesare. Final, felicitări! Asta e tot, știți tot ce aveți nevoie despre lot size. Dacă vă este ceva neclar puteți să reluați lecția încă o dată puteți să lăsați o întrebare mentorului dacă e ceva neclar și cu siguranță.
+
+O să fie totul foarte, foarte clar practicat și lucrurile nu o fie deloc complicate. Mulțumesc pentru atenția acordată la această lecție. Ne vedem la lecția următoare.
+

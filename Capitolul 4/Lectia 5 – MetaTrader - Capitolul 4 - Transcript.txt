@@ -1,0 +1,37 @@
+Lectia 5
+===
+
+[00:00:00] În acest clip vom vorbi despre free trial-ul pe FTMO, despre demo count, cum să folosiți MetaTrader și setările mele. Înainte să luați un challenge, vă recomand să treceți prin acest free trial de cel puțin 2-3 ori. Cum o să facem asta? În free trial-ul este același lucru ca și un challenge, doar că în loc de o lună ai 14 zile să-l completezi și ceva de genul ăsta O să citiți și o să vedeți toate lucrurile astea Dăm aici pe try for free, selectăm euro, spre exemplu să zicem că vrem 40.000 de euro sau dolari 50.000 de dolari un lucru pe care nu l-am menționat clipul trecut și mi-am dat seama că poate să fie un pic, să vă indic un pic în eroare.
+
+Contul de 50.000 de dolari este echivalentul contului 40.000 de euro, pentru că la perioada la care s-au stabilit valorile astea, euro era mult peste dolar. Acum în momentul în care filmez, dolarul este în paritate cu euro, dar să știți că uneori foloseam termenul de 40.000 de euro, uneori foloseam termenul de 50.000 de [00:01:00] dolari dar să știți că este același lucru, pur și simplu care în Siu diferă.
+
+Acum să vorbim în euro, suntem în Europa, vorbim în euro. Să zicem că vrem un cont de 40.000 de euro, îl selectăm așa Vă recomand să luați aici balance exact pentru contul pentru care vreți aplicați în viitor. Deci dacă vreți de 40.000, luați de 40.000 vreți de 80.000 80.000 sau 10.000. Trați aici, vă selectați FTM normal, MetaTrader 4 sau 5, ăsta e un pic mai volat, eu o vă prezint MetaTrader 4, sunt cam la fel.
+
+O să dați aici agree, dați și voi că nu vreți să dați subscribe la letter-ul lor să vă dea mesaje că nu are rost și dați pe start free trial. În momentul în o să dați o să vă dea un login account și o să vă dea o să vă dea mai multe detalii pe care voi o să le introduceți în aplicație. Bun, intrați la download aici pe site și luați...
+
+FTMO Quick Trade Manager MT4. Deci chestia asta de aici luați MT4-ul îl downloadați și [00:02:00] după care deschideți aplicația. Este aplicația MT4. O să vedeți că a voastră nu o să arate ca a mea doar să vă explic cum să ajungem la acest design. Deci din ce mi-amintesc eu, Aplicația voastră o să fie împărțită în patru grafice micuțe, care o să fie pe ecran.
+
+Prima oară vă conectați la cont, apăsați aici pe File și o dați Login to Trade Account. Eu nu o să fac lucrul ăsta pentru că o-mi apară pe ecran datele contului meu dacă o să apăs dar voi o să vedeți că o vă apară Trebuie să vă puneți datele de acolo din FTMO, login ID-ul, parola și să selectați serverul demo pe care vi-l arată și în Si in platforma NFT.MO Va alugati pe cont, o sa va bage in cont, odata ce v-a introdus in cont haideti sa ne punem DAX-ul pe ecran cum facem asta?
+
+Apasam tastele CTRL plus U deci CTRL si tasta U si o sa va apara ceva in genul asta va duceti la Cash CFD, click la [00:03:00] GER40 si apasati pe acest dolarel sa fie auriu odata ce ati facut asta, va duceti la În locul ăsta aici la plusul ăsta Case FD Și apăsați pe GR40 Și aici apăsați și o să mai introduc o dată Și o să vă apară ceva în genul ăsta Și acum facem setările Ca aici Deci o să vă apară aici așa GR40 Pe cealaltă puteți să închideți toate ferestrele Să vă rămână doar ăsta și îl faceți de aici Deci o să-l aveți ceva micuț Îl faceți mare Dați click dreapta, Properties Iar la Properties vrem așa Ne ducem la Colors Background-ul, mie îmi place alb.
+
+Foreground, astea nu mi-am gândit ce sunt. A, sunt marginile astea, da, le lăsăm negre. Grid. Îl scoatem, nu ne place grid-ul, sunt punctulețele astea, pătrățele astea, le vrem, le punem white. Bar-up, îl puneți ce culoare vă doriți voi, dacă vreți verde, eu am, mă știu, care parcă verdele ăsta, irrelevant, forest green.
+
+[00:04:00] Să zicem că candeliozele sunt roșii. La fel, bull candle trebuie să selectați tot să fie iar verde, același forest green ca mai devreme, nu mai știu care era forest green aici, după aceea iar crimson, parcă ăsta, nu e același, mă rog așa line graph ăsta, nu știu ce este exact, nu știu ce este ăsta volumes nu ne trebuie, line stop levels, asta e, dăm ok și acum graficul nostru s-a schimbat brusc vedem că acum suntem pe...
+
+Pe genul acela candele de nu ne plac, ne vrem candelste astea apasam pe candlestick si ne apare graficul. Va jucati voi cu designul, vi-l faceti cum vreti eu l-am facut aici unul basic, puteti sa il faceti si asa cum il am eu aici cu marginile negre, ca sa faceti marginile negre, uite va arat si setarile astea le aveti, astea sunt setarile mele de la graficul asta, bun.
+
+Ne întoarcem pe cel de test. [00:05:00] De fapt nici noi nu am ajuns încă vă arăt direct aici toate setele mele. Și la Common am toate astea așa. De ce nu folosim aplicația asta pentru analiză? O să vedeți că e o aplicație pare veche, nu se mișcă bine, e foarte greu de utilizat. Eu o folosesc doar să intru și să execut doar la butonul ăsta, mă uit.
+
+Altceva nu mă interesează nu umblu pe la grafice, dar le-am făcut un design să arate totuși decent. Ok Cum o să folosim aplicația? Cum intrați într-o tranzacție? Dacă vreți să executați o poziție de cumpărare, vă treceți aici volumul sau levierul. Levierul meu este în momentul de față X30. Na, 30 pus, adică la mine în loc ca un euro să valoreze un euro, un euro valorează 30 de euro, cum ar fi.
+
+Deci dacă graficul se mișcă cu un euro mai sus, în bani real pentru mine o însemne 30 de euro și invers în jos dacă se mișcă. 1 euro în jos înseamnă 30 euro pentru mine, variază, depinde uneori am levier mai mic, alteori mai mare, depinde. Ca să executăm o [00:06:00] tranzacție, ne trecem aici levierul pe care îl dorim, apăsăm pe buy sau pe sell și s-a executat tranzacția.
+
+O să intrăm pe viitor în detalii o să vă arăt cum se execută tranzacții live, cum ne punem stop-ul foarte rapid, cum se calculează levierul, o să discutăm mai încolo momentan doar vreau să vedeți aplicația și în principiu Cam astăzi nu știu dacă mai am ceva important să vă arăt pe aici puteți să puneți order-uri și din locul ăsta, dar o să vorbim pe viitor de celelalte zone mai în detaliu important este să aveți aplicația să aveți contul demo făcut și acum puteți să testați pe el, să apăsați pe buy, să vedeți ce se întâmplă pe sell, nu pierdeți nimic e totul gratis balanța este una fictivă, testați, apăsați acum pe butoane, setați-vă niște volume, jucați-vă cu ele, învățați-le și...
+
+Uitati-va la graficii ca sa mutati graficul sa il faceti mai mic sau mai mare, faceti asa de aici de jos, tineti apasat si trageti La fel, mai sus sau mai jos, sau cu scroll De aici schimbati time frame-urile [00:07:00] Daca vreti sa adaugati un time frame, nici ma stiu, customize Si aici dati remove si adaugati unele noi Aici am, pe exemplu, rectangle, dacă vreți să desinați, dar nu o să folosim asta pentru analiza, așa că nu are rost să vă mai umplu cu alte detalii Cam asta e.
+
+Atâta vreau să vorbim despre această platformă, o să o masterăm un pic mai încolo, dar este destul de ușor de utilizat odată ce ați făcut setările astea, sper că nu am omis nimica. În orice caz dacă ceva nu vă este clar, nu ați înțeles ceva, am omis eu poate am greșit eu cu ceva cu toate, că sper că nu s-a întâmplat asta, aveți YouTube, dați un search MT4MT4Tutorial și o găsiți tutoriale super îndetariate despre această platformă.
+
+Dar eu nu cred că vă trebuie mai mult decât v-am zis Da, doar intrăm, executăm și atât pe platforma asta. Analiza o să o facem pe TradingView. Spor
+
