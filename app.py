@@ -36,7 +36,9 @@ app.add_middleware(
 @app.post("/ask")
 async def ask_question(request: Request):
     body = await request.json()
-    question = body.get("question", "")
+    question = body.get("question") or body.get("query") or ""
+
+    print("📩 Incoming question:", question)
 
     if not question:
         return {"answer": "Întrebarea este goală."}
@@ -51,14 +53,16 @@ async def ask_question(request: Request):
         # Query Pinecone
         search_result = index.query(vector=embedding, top_k=6, include_metadata=True)
 
-        # Extract matched text chunks
         context_chunks = [match['metadata'].get('text', '') for match in search_result.get('matches', [])]
         context = "\n\n".join(context_chunks).strip()
+
+        print("📚 Retrieved context chunks:", len(context_chunks))
+        for i, chunk in enumerate(context_chunks):
+            print(f"— Chunk {i + 1}: {chunk[:100]}...")
 
         if not context:
             return {"answer": "Nu sunt sigur pe baza materialului disponibil. Îți recomand să verifici cu mentorul sau să întrebi un membru cu mai multă experiență."}
 
-        # Chat completion
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": f"{question}\n\nContext:\n{context}"}
@@ -71,6 +75,8 @@ async def ask_question(request: Request):
         )
 
         answer = chat_response.choices[0].message.content.strip()
+        print("✅ Final answer:", answer)
+
         return {"answer": answer}
 
     except Exception as e:
