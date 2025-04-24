@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_URL       = os.getenv("API_URL", "http://localhost:8000/ask")
+API_URL = os.getenv("API_URL", "https://web-production-4b33.up.railway.app/ask")
 
 intents = discord.Intents.default()
 intents.messages = True
