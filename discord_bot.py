@@ -21,24 +21,25 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    # Ignore the bot's own messages
     if message.author == client.user:
         return
 
-    # Only respond if mentioned
     if client.user.mentioned_in(message):
-        # strip out the mention and whitespace
+        # DEBUG LOGGING
+        print("Raw message content:", message.content)
+
         question = message.content.replace(f"<@{client.user.id}>", "").replace(f"<@!{client.user.id}>", "").strip()
+
+        # DEBUG LOGGING
+        print("Extracted question:", question)
 
         if not question:
             await message.channel.send("Întrebarea este goală.")
             return
 
-        # show typing indicator
         async with message.channel.typing():
             try:
                 async with aiohttp.ClientSession() as session:
-                    # send the user’s question under the "query" key
                     async with session.post(API_URL, json={"query": question}) as resp:
                         if resp.status == 200:
                             data   = await resp.json()
