@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_URL = os.getenv("CHATBOT_API_URL", "http://localhost:8000/ask")
+API_URL       = os.getenv("API_URL", "http://localhost:8000/ask")
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -21,24 +21,27 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    # Ignore bot's own messages
+    # Ignore the bot's own messages
     if message.author == client.user:
         return
 
-    # Check if bot is mentioned
+    # Only respond if mentioned
     if client.user.mentioned_in(message):
+        # strip out the mention and whitespace
         question = message.content.replace(f"<@{client.user.id}>", "").strip()
 
         if not question:
             await message.channel.send("Întrebarea este goală.")
             return
 
-        async with message.channel.typing():  # Show "is typing" indicator
+        # show typing indicator
+        async with message.channel.typing():
             try:
                 async with aiohttp.ClientSession() as session:
-                    async with session.post(API_URL, json={"question": question}) as resp:
+                    # send the user’s question under the "query" key
+                    async with session.post(API_URL, json={"query": question}) as resp:
                         if resp.status == 200:
-                            data = await resp.json()
+                            data   = await resp.json()
                             answer = data.get("answer", "Nu am găsit un răspuns.")
                         else:
                             answer = "A apărut o eroare la server. Încearcă din nou mai târziu."
