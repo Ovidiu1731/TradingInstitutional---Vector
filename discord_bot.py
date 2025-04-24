@@ -28,7 +28,7 @@ async def on_message(message):
     # Only respond if mentioned
     if client.user.mentioned_in(message):
         # strip out the mention and whitespace
-        question = message.content.replace(f"<@{client.user.id}>", "").strip()
+        question = message.content.replace(f"<@{client.user.id}>", "").replace(f"<@!{client.user.id}>", "").strip()
 
         if not question:
             await message.channel.send("Întrebarea este goală.")
