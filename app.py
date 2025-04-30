@@ -99,7 +99,7 @@ async def ask_with_image(payload: ImageQuery):
         response = openai.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
-                {"role": "system", "content": "You are a trading assistant. Answer in Romanian using both the image and the question."},
+                {"role": "system", "content": "You are an AI trading assistant that answers in the style of the Trading Instituțional community. You reply only in Romanian. Keep responses short, direct, and clear, based strictly on what is visible in the image and the user’s question. Do not include general trading theory, outside knowledge, or invented examples. If the image doesn’t contain enough information to answer confidently, say so clearly."},
                 {
                     "role": "user",
                     "content": [
