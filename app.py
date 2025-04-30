@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from openai import OpenAI
 from pinecone import Pinecone
 
-# Load .env
+# Load environment variables
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -23,10 +23,10 @@ openai = OpenAI(api_key=OPENAI_API_KEY)
 pinecone = Pinecone(api_key=PINECONE_API_KEY)
 index = pinecone.Index(PINECONE_INDEX_NAME)
 
-# Init FastAPI
+# Init FastAPI app
 app = FastAPI()
 
-# Enable CORS if needed
+# Allow CORS if needed
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -34,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ========= TEXT-ONLY QUESTION HANDLER ============
+# ========== TEXT-ONLY /ask ENDPOINT ==========
 @app.post("/ask")
 async def ask_question(request: Request):
     body = await request.json()
@@ -52,7 +52,7 @@ async def ask_question(request: Request):
             input=[question]
         ).data[0].embedding
 
-        # Query Pinecone
+        # Search Pinecone
         search_result = index.query(vector=embedding, top_k=6, include_metadata=True)
         context_chunks = [match['metadata'].get('text', '') for match in search_result.get('matches', [])]
         context = "\n\n".join(context_chunks).strip()
@@ -62,7 +62,9 @@ async def ask_question(request: Request):
             print(f"— Chunk {i + 1}: {chunk[:100]}...")
 
         if not context:
-            return {"answer": "Nu sunt sigur pe baza materialului disponibil. Îți recomand să verifici cu mentorul sau să întrebi un membru cu mai multă experiență."}
+            return {
+                "answer": "Nu sunt sigur pe baza materialului disponibil. Îți recomand să verifici cu mentorul sau să întrebi un membru cu mai multă experiență."
+            }
 
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
@@ -77,15 +79,14 @@ async def ask_question(request: Request):
 
         answer = chat_response.choices[0].message.content.strip()
         print("✅ Final answer:", answer)
-
         return {"answer": answer}
 
     except Exception as e:
-    print(f"❌ Vision ERROR: {e}")
-    return {"answer": f"A apărut o eroare la procesarea imaginii: {e}"}
+        print(f"❌ ERROR: {e}")
+        return {"answer": "A apărut o eroare internă. Încearcă din nou sau contactează administratorul."}
 
 
-# ========= IMAGE + TEXT QUESTION HANDLER ============
+# ========== IMAGE+TEXT /ask-image ENDPOINT ==========
 class ImageQuery(BaseModel):
     question: str
     image_url: str
@@ -93,6 +94,7 @@ class ImageQuery(BaseModel):
 @app.post("/ask-image")
 async def ask_with_image(payload: ImageQuery):
     print("🖼️ Received image-based question:", payload.question)
+
     try:
         response = openai.chat.completions.create(
             model="gpt-4-vision-preview",
@@ -108,10 +110,11 @@ async def ask_with_image(payload: ImageQuery):
             ],
             max_tokens=500
         )
+
         answer = response.choices[0].message.content.strip()
         print("✅ Vision model answer:", answer)
         return {"answer": answer}
 
     except Exception as e:
         print(f"❌ Vision ERROR: {e}")
-        return {"answer": "A apărut o eroare la procesarea imaginii. Asigură-te că linkul este valid și încearcă din nou."}
+        return {"answer": f"A apărut o eroare la procesarea imaginii: {e}"}
