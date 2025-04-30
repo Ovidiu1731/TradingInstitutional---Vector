@@ -3,6 +3,7 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from openai import OpenAI
 from pinecone import Pinecone
 
@@ -25,7 +26,7 @@ index = pinecone.Index(PINECONE_INDEX_NAME)
 # Init FastAPI
 app = FastAPI()
 
-# Enable CORS if needed (e.g. for frontend)
+# Enable CORS if needed
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,6 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ========= TEXT-ONLY QUESTION HANDLER ============
 @app.post("/ask")
 async def ask_question(request: Request):
     body = await request.json()
@@ -52,7 +54,6 @@ async def ask_question(request: Request):
 
         # Query Pinecone
         search_result = index.query(vector=embedding, top_k=6, include_metadata=True)
-
         context_chunks = [match['metadata'].get('text', '') for match in search_result.get('matches', [])]
         context = "\n\n".join(context_chunks).strip()
 
@@ -82,3 +83,35 @@ async def ask_question(request: Request):
     except Exception as e:
         print(f"❌ ERROR: {e}")
         return {"answer": "A apărut o eroare internă. Încearcă din nou sau contactează administratorul."}
+
+
+# ========= IMAGE + TEXT QUESTION HANDLER ============
+class ImageQuery(BaseModel):
+    question: str
+    image_url: str
+
+@app.post("/ask-image")
+async def ask_with_image(payload: ImageQuery):
+    print("🖼️ Received image-based question:", payload.question)
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4-vision-preview",
+            messages=[
+                {"role": "system", "content": "You are a trading assistant. Answer in Romanian using both the image and the question."},
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image_url", "image_url": {"url": payload.image_url}},
+                        {"type": "text", "text": payload.question}
+                    ]
+                }
+            ],
+            max_tokens=500
+        )
+        answer = response.choices[0].message.content.strip()
+        print("✅ Vision model answer:", answer)
+        return {"answer": answer}
+
+    except Exception as e:
+        print(f"❌ Vision ERROR: {e}")
+        return {"answer": "A apărut o eroare la procesarea imaginii. Asigură-te că linkul este valid și încearcă din nou."}
