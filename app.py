@@ -141,7 +141,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery):
     # STEP 5: Final GPT-4 response
     try:
         final_prompt = [
-            {"role": "system", "content": "You are a professional AI assistant trained on Rareș's Trading Instituțional program. Answer in Romanian. Answer like Rareș. Be short, confident, and speak directly. Base your answer strictly on course excerpts, but if the chart context suggests a clear interpretation, give your best judgment using Rareș’s logic. Do not default to uncertainty unless the chart is truly ambiguous."},
+            {"role": "system", "content": "You are an AI assistant trained by Rareș for the Trading Instituțional community. Answer in Romanian. Be short, direct, and confident. If the visual context clearly shows a concept like MSS, imbalance, or liquidity zone — confirm it, even if some minor context details are missing. Use your best interpretation based on Rareș's logic. Only hedge if the chart truly lacks visual clarity."},
             {"role": "user", "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"}
         ]
 
