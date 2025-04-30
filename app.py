@@ -3,9 +3,11 @@ from PIL import Image
 import requests
 from io import BytesIO
 import os
+import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from openai import OpenAI
 from pinecone import Pinecone
@@ -43,15 +45,43 @@ app.add_middleware(
 
 def extract_text_from_image(image_url: str) -> str:
     try:
-        response = requests.get(image_url)
+        response = requests.get(image_url, timeout=10)
         image = Image.open(BytesIO(response.content))
+        # Restrict image size to avoid memory issues
+        image.thumbnail((2000, 2000))
         text = pytesseract.image_to_string(image, lang="eng")
-        return text.strip()
+        # Sanitize strange unicode characters
+        sanitized_text = ''.join(char for char in text if ord(char) < 128)
+        return sanitized_text.strip()
     except Exception as e:
         print(f"❌ OCR error: {e}")
         return ""
 
-@app.post("/ask")
+def summarize_vision_data(vision_json: str) -> str:
+    try:
+        data = json.loads(vision_json)
+        summary = []
+        if data.get("MSS", False):
+            summary.append("MSS este vizibil")
+        else:
+            summary.append("MSS nu este prezent")
+        if data.get("imbalance", False):
+            summary.append("imbalance este prezent")
+        else:
+            summary.append("nu se observă imbalance")
+        if data.get("liquidity") == "taken":
+            summary.append("lichiditatea a fost luată")
+        elif data.get("liquidity") == "present":
+            summary.append("lichiditate marcată, dar nu luată")
+        else:
+            summary.append("nu se observă lichiditate clară")
+        # Add more fields if needed...
+        return ". ".join(summary) + "."
+    except Exception as e:
+        print(f"❌ Summary parsing error: {e}")
+        return "Nu s-au putut interpreta corect datele vizuale."
+
+@app.post("/ask", response_class=JSONResponse)
 async def ask_question(request: Request) -> Dict[str, str]:
     body = await request.json()
     question = body.get("question") or body.get("query") or ""
@@ -81,7 +111,7 @@ class ImageHybridQuery(BaseModel):
     question: str
     image_url: str
 
-@app.post("/ask-image-hybrid")
+@app.post("/ask-image-hybrid", response_class=JSONResponse)
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     try:
         vision_response = openai.chat.completions.create(
@@ -98,13 +128,28 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             ],
             max_tokens=300
         )
-        vision_json = vision_response.choices[0].message.content.strip()
+        
+        # Check if content exists
+        raw_content = vision_response.choices[0].message.content
+        if not raw_content:
+            raise ValueError("Vision model returned empty content.")
+            
+        try:
+            vision_data_raw = raw_content.strip()
+            vision_json = json.loads(vision_data_raw)  # to ensure it's valid JSON
+            print("📊 Extracted Vision Data:", json.dumps(vision_json))
+            vision_summary = summarize_vision_data(json.dumps(vision_json))  # pass back as string
+            print("📄 Vision Summary:", vision_summary)
+        except Exception as e:
+            print(f"❌ Vision JSON error: {e}")
+            vision_summary = "Datele vizuale nu au putut fi interpretate."
+            
         ocr_text = extract_text_from_image(payload.image_url)
     except Exception as e:
         print(f"❌ Vision error: {e}")
         return {"answer": "A apărut o eroare la extragerea informației din imagine."}
 
-    combined_query = f"Întrebare: {payload.question}\n\nContext vizual extras:\n{vision_json}\n\nText detectat în imagine (OCR):\n{ocr_text}"
+    combined_query = f"Întrebare: {payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat în imagine (OCR):\n{ocr_text}"
 
     try:
         embedding = openai.embeddings.create(model="text-embedding-ada-002", input=[combined_query]).data[0].embedding
@@ -129,11 +174,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             },
             {
                 "role": "user",
-                "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"
+                "content": f"{payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat:\n{ocr_text}\n\nFragmente din curs:\n{course_context}"
             }
         ]
         final_response = openai.chat.completions.create(
-            model="gpt-4-turbo", messages=final_prompt, temperature=0.4, max_tokens=300
+            model="gpt-4-turbo", messages=final_prompt, temperature=0.4, max_tokens=500
         )
         answer = final_response.choices[0].message.content.strip()
         return {"answer": answer}
