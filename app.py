@@ -135,18 +135,21 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             raise ValueError("Vision model returned empty content.")
             
         try:
-            raw_content = vision_response.choices[0].message.content.strip()
-
-
+            vision_data_raw = raw_content.strip()
+            
             print("🖼️ Raw vision response content:")
-            print(repr(raw_content))  # Shows what's actually returned
-
-
-            if not raw_content.startswith("{"):
+            print(repr(vision_data_raw))  # Shows what's actually returned
+            
+            # Remove code block markers if present
+            if vision_data_raw.startswith("```json") and vision_data_raw.endswith("```"):
+                vision_data_raw = vision_data_raw[7:-3].strip()
+            elif vision_data_raw.startswith("```") and vision_data_raw.endswith("```"):
+                vision_data_raw = vision_data_raw[3:-3].strip()
+                
+            if not vision_data_raw.startswith("{"):
                 raise ValueError("❌ Vision response is not valid JSON")
 
-
-            vision_json = json.loads(raw_content)
+            vision_json = json.loads(vision_data_raw)
             print("📊 Extracted Vision Data:", json.dumps(vision_json))
             vision_summary = summarize_vision_data(json.dumps(vision_json))  # pass back as string
             print("📄 Vision Summary:", vision_summary)
