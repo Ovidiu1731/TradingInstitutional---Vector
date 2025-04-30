@@ -97,7 +97,7 @@ async def ask_with_image(payload: ImageQuery):
 
     try:
         response = openai.chat.completions.create(
-            model="gpt-4-vision-preview",
+            model="gpt-4-turbo",
             messages=[
                 {"role": "system", "content": "You are a trading assistant. Answer in Romanian using both the image and the question."},
                 {
