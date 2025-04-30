@@ -173,7 +173,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     # STEP 5: Final GPT-4 response
     try:
         final_prompt = [
-            {"role": "system", "content": "You are an AI assistant trained by Rareș for the Trading Instituțional community. Answer in Romanian. Be short, direct, and confident. If the visual context clearly shows a concept like MSS, imbalance, or liquidity zone — confirm it, even if some minor context details are missing. Use your best interpretation based on Rareș's logic. Only hedge if the chart truly lacks visual clarity."},
+            {"role": "system", "content": "You are an AI assistant trained by Rareș for the Trading Instituțional community. Answer only in Romanian. Be short, direct, and confident — but always include a brief explanation that shows the logic behind your answer (max 2-3 sentences). Confirm a concept like MSS, imbalance, or liquidity if it’s visually clear, and explain why. Use Rareș's tone, avoid generic theory, and base the answer strictly on what’s visible and the course content."},
             {"role": "user", "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"}
         ]
 
