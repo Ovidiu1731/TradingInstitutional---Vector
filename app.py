@@ -135,10 +135,18 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             raise ValueError("Vision model returned empty content.")
             
         try:
-            vision_data_raw = raw_content.strip()
-            if not vision_data_raw:
-               raise ValueError("OpenAI returned empty vision response")
-            vision_json = json.loads(vision_data_raw)  # to ensure it's valid JSON
+            raw_content = vision_response.choices[0].message.content.strip()
+
+
+            print("🖼️ Raw vision response content:")
+            print(repr(raw_content))  # Shows what's actually returned
+
+
+            if not raw_content.startswith("{"):
+                raise ValueError("❌ Vision response is not valid JSON")
+
+
+            vision_json = json.loads(raw_content)
             print("📊 Extracted Vision Data:", json.dumps(vision_json))
             vision_summary = summarize_vision_data(json.dumps(vision_json))  # pass back as string
             print("📄 Vision Summary:", vision_summary)
