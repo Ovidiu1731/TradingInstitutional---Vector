@@ -1,11 +1,16 @@
+import pytesseract
+from PIL import Image
+import requests
+from io import BytesIO
 import os
 import json
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from openai import OpenAI
 from pinecone import Pinecone
+from typing import Dict, List, Any, Optional
 
 # Load .env
 load_dotenv()
@@ -14,9 +19,19 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENVIRONMENT")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 
+# Check for required environment variables
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY environment variable is required")
+if not PINECONE_API_KEY:
+    raise ValueError("PINECONE_API_KEY environment variable is required")
+
 # Load system prompt
-with open("system_prompt.txt", "r", encoding="utf-8") as f:
-    SYSTEM_PROMPT = f.read().strip()
+try:
+    with open("system_prompt.txt", "r", encoding="utf-8") as f:
+        SYSTEM_PROMPT = f.read().strip()
+except FileNotFoundError:
+    print("Warning: system_prompt.txt not found, using default prompt")
+    SYSTEM_PROMPT = "    SYSTEM_PROMPT = "You are an AI assistant trained by Rareș for the Trading Instituțional community. You reply only in Romanian. Use the same tone and terminology as Rareș. Be concise, confident, and practical. Avoid general trading theory or over-explaining. Base your answer strictly on the course materials and what is clearly visible in the image or context. When something is visible but not perfect, make a judgment call as Rareș would. If a concept is unclear, say so directly and ask for clarification or more context."
 
 # Init clients
 openai = OpenAI(api_key=OPENAI_API_KEY)
@@ -34,8 +49,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Utility function for OCR - moved outside the handler function
+def extract_text_from_image(image_url: str) -> str:
+    try:
+        response = requests.get(image_url)
+        image = Image.open(BytesIO(response.content))
+        text = pytesseract.image_to_string(image, lang="eng")
+        return text.strip()
+    except Exception as e:
+        print(f"❌ OCR error: {e}")
+        return ""
+
 @app.post("/ask")
-async def ask_question(request: Request):
+async def ask_question(request: Request) -> Dict[str, str]:
     body = await request.json()
     question = body.get("question") or body.get("query") or ""
 
@@ -91,7 +117,7 @@ class ImageHybridQuery(BaseModel):
     image_url: str
 
 @app.post("/ask-image-hybrid")
-async def ask_image_hybrid(payload: ImageHybridQuery):
+async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     print("🧠 Hybrid Vision Input:", payload.question, payload.image_url)
 
     # STEP 1: Visual Feature Extraction from image
@@ -111,13 +137,19 @@ async def ask_image_hybrid(payload: ImageHybridQuery):
             max_tokens=300
         )
         vision_json = vision_response.choices[0].message.content.strip()
+        ocr_text = extract_text_from_image(payload.image_url)
+        print("🧾 OCR Extracted Text:", ocr_text)
         print("📊 Extracted Vision Data:", vision_json)
     except Exception as e:
         print(f"❌ Vision error:", e)
         return {"answer": f"A apărut o eroare la extragerea informației din imagine: {e}"}
 
     # STEP 2: Build combined query
-    combined_query = f"Întrebare: {payload.question}\n\nContext vizual extras:\n{vision_json}"
+    combined_query = (
+    f"Întrebare: {payload.question}\n\n"
+    f"Context vizual extras:\n{vision_json}\n\n"
+    f"Text detectat în imagine (OCR):\n{ocr_text}"
+    )
 
     # STEP 3: Embed combined query
     try:
