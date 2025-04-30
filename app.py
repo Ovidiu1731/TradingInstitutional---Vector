@@ -125,7 +125,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         vision_response = openai.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
-                {"role": "system", "content": "You are a visual parser for charts in the Trading Instituțional community. Only describe what is visibly present — do not infer or name indicators unless they are clearly labeled. Do not mention any indicator not used in the course. Output only raw visual observations as structured JSON."},
+                {"role": "system", "content": "You are a chart parser trained to assist the Trading Instituțional program. Describe ONLY what is clearly labeled or visually present. Do NOT infer external indicators like LuxAlgo, RSI, etc. If something is not clearly marked, ignore it. Output simple JSON with neutral labels. Do not include explanations."},
                 {
                     "role": "user",
                     "content": [
@@ -173,7 +173,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     # STEP 5: Final GPT-4 response
     try:
         final_prompt = [
-            {"role": "system", "content": "You are an AI assistant trained by Rareș for the Trading Instituțional community. You reply only in Romanian. Use Rareș’s logic, tone, and definitions only — no external trading theories or indicators (e.g., LuxAlgo, RSI, MACD, etc.). Only refer to concepts from the course, and only if they are visible in the chart or described by the user. Do not say things like 'algorithm detected' or 'vision model said' — respond like a real trading mentor giving feedback. For an MSS to be valid, the presence of imbalance must be visible in the structure. Do not invert that logic. Respond concisely, but always justify your answer based on what you see."},
+            {"role": "system", "content": "You are an AI assistant trained by Rareș for the Trading Instituțional community. Respond only in Romanian. Use the same tone, logic, and structure Rareș would use. NEVER reference what the user 'mentions'. Only refer to what is visible in the chart or retrieved from course materials. Keep answers to 2–3 short sentences. Do not list criteria — just explain clearly if something is valid and why, in natural Romanian. Do not mention external tools like LuxAlgo or any indicators the user might have active on their chart. Never explain how the AI system works. Only give practical, visual feedback as if you are a trading mentor helping a student."},
             {"role": "user", "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"}
         ]
 
@@ -181,7 +181,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             model="gpt-4-turbo",
             messages=final_prompt,
             temperature=0.4,
-            max_tokens=500
+            max_tokens=300
         )
 
         answer = final_response.choices[0].message.content.strip()
