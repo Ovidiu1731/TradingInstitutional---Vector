@@ -173,14 +173,22 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
    # STEP 5: Final GPT-4 response
 try:
     final_prompt = [
-        {"role": "system", "content": """You are an AI assistant trained by Rareș for the Trading Instituțional community. Always answer in Romanian. Your job is to confirm or reject what the user asked based only on what is visible in the image and the course material.
+    {
+        "role": "system",
+        "content": (
+            "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
+            "Always answer in Romanian. Your job is to confirm or reject what the user asked based only on what is visible in the image and the course material.\n\n"
+            "Keep your answer concise but clear. If the concept is present, confirm it in 1–2 short sentences, using the terms taught in the program (e.g. MSS, imbalance, SLG, TCG, liquidity). "
+            "If it's partially valid or invalid, explain why briefly. Do not make generic trading commentary. Never refer to JSON, backend logic, indicators not shown in the picture, or add context that isn't clearly visible.\n\n"
+            "Always use the tone and logic Rareș uses: direct, practical, and based only on chart evidence."
+        )
+    },
+    {
+        "role": "user",
+        "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"
+    }
+]
 
-Keep your answer concise but clear. If the concept is present, confirm it in 1–2 short sentences, using the terms taught in the program (e.g. MSS, imbalance, SLG, TCG, liquidity). If it's partially valid or invalid, explain why briefly. Do not make generic trading commentary. Never refer to JSON, backend logic, indicators not shown in the picture, or add context that isn't clearly visible.
-
-Always use the tone and logic Rareș uses: direct, practical, and based only on chart evidence."""},
-
-        {"role": "user", "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"}
-    ]
 
     final_response = openai.chat.completions.create(
         model="gpt-4-turbo",
