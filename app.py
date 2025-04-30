@@ -99,7 +99,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery):
         vision_response = openai.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
-                {"role": "system", "content": "You are a visual parser. Look at the chart and extract ONLY relevant trading features in JSON format. Do not explain or analyze."},
+                {"role": "system", "content": "You are a visual parser trained on Trading Instituțional principles and course content. Extract relevant trading features in JSON format, and infer meaning when visible (e.g., timeframe, imbalance, liquidity type, MSS, etc). Always include what's visible, even if incomplete. No explanation, just JSON."},
                 {
                     "role": "user",
                     "content": [
@@ -141,7 +141,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery):
     # STEP 5: Final GPT-4 response
     try:
         final_prompt = [
-            {"role": "system", "content": "You are a professional AI assistant trained on Rareș's Trading Instituțional program. Answer in Romanian. Be direct, short, and only use information found in the course excerpts below. Do not invent or generalize."},
+            {"role": "system", "content": "You are a professional AI assistant trained on Rareș's Trading Instituțional program. Answer in Romanian. Answer like Rareș. Be short, confident, and speak directly. Base your answer strictly on course excerpts, but if the chart context suggests a clear interpretation, give your best judgment using Rareș’s logic. Do not default to uncertainty unless the chart is truly ambiguous."},
             {"role": "user", "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"}
         ]
 
