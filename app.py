@@ -1,3 +1,4 @@
+
 import pytesseract
 from PIL import Image
 import requests
@@ -7,7 +8,6 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from openai import OpenAI
 from pinecone import Pinecone
@@ -22,20 +22,17 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 if not OPENAI_API_KEY or not PINECONE_API_KEY:
     raise ValueError("Missing OpenAI or Pinecone API key")
 
-# Load system prompt
 try:
     with open("system_prompt.txt", "r", encoding="utf-8") as f:
         SYSTEM_PROMPT = f.read().strip()
 except FileNotFoundError:
     SYSTEM_PROMPT = "You are an AI assistant trained by Rareș for the Trading Instituțional community..."
 
-# Init clients
 openai = OpenAI(api_key=OPENAI_API_KEY)
 pinecone = Pinecone(api_key=PINECONE_API_KEY)
 index = pinecone.Index(PINECONE_INDEX_NAME)
 
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -45,14 +42,10 @@ app.add_middleware(
 
 def extract_text_from_image(image_url: str) -> str:
     try:
-        response = requests.get(image_url, timeout=10)
+        response = requests.get(image_url)
         image = Image.open(BytesIO(response.content))
-        # Restrict image size to avoid memory issues
-        image.thumbnail((2000, 2000))
         text = pytesseract.image_to_string(image, lang="eng")
-        # Sanitize strange unicode characters
-        sanitized_text = ''.join(char for char in text if ord(char) < 128)
-        return sanitized_text.strip()
+        return ''.join(char for char in text if ord(char) < 128).strip()
     except Exception as e:
         print(f"❌ OCR error: {e}")
         return ""
@@ -75,13 +68,12 @@ def summarize_vision_data(vision_json: str) -> str:
             summary.append("lichiditate marcată, dar nu luată")
         else:
             summary.append("nu se observă lichiditate clară")
-        # Add more fields if needed...
         return ". ".join(summary) + "."
     except Exception as e:
         print(f"❌ Summary parsing error: {e}")
         return "Nu s-au putut interpreta corect datele vizuale."
 
-@app.post("/ask", response_class=JSONResponse)
+@app.post("/ask")
 async def ask_question(request: Request) -> Dict[str, str]:
     body = await request.json()
     question = body.get("question") or body.get("query") or ""
@@ -111,7 +103,7 @@ class ImageHybridQuery(BaseModel):
     question: str
     image_url: str
 
-@app.post("/ask-image-hybrid", response_class=JSONResponse)
+@app.post("/ask-image-hybrid")
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     try:
         vision_response = openai.chat.completions.create(
@@ -128,39 +120,22 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             ],
             max_tokens=300
         )
-        
-        # Check if content exists
-        raw_content = vision_response.choices[0].message.content
-        if not raw_content:
-            raise ValueError("Vision model returned empty content.")
-            
-        try:
-            vision_data_raw = raw_content.strip()
-            
-            print("🖼️ Raw vision response content:")
-            print(repr(vision_data_raw))  # Shows what's actually returned
-            
-            # Remove code block markers if present
-            if vision_data_raw.startswith("```json") and vision_data_raw.endswith("```"):
-                vision_data_raw = vision_data_raw[7:-3].strip()
-            elif vision_data_raw.startswith("```") and vision_data_raw.endswith("```"):
-                vision_data_raw = vision_data_raw[3:-3].strip()
-                
-            if not vision_data_raw.startswith("{"):
-                raise ValueError("❌ Vision response is not valid JSON")
+        raw_content = vision_response.choices[0].message.content.strip()
+        print("🖼️ Raw vision response content:", raw_content)
 
-            vision_json = json.loads(vision_data_raw)
-            print("📊 Extracted Vision Data:", json.dumps(vision_json))
-            vision_summary = summarize_vision_data(json.dumps(vision_json))  # pass back as string
-            print("📄 Vision Summary:", vision_summary)
-        except Exception as e:
-            print(f"❌ Vision JSON error: {e}")
-            vision_summary = "Datele vizuale nu au putut fi interpretate."
-            
+        if raw_content.startswith("```json"):
+            raw_content = raw_content.removeprefix("```json").removesuffix("```").strip()
+        elif raw_content.startswith("```"):
+            raw_content = raw_content.removeprefix("```").removesuffix("```").strip()
+
+        vision_json = json.loads(raw_content)
+        print("📊 Parsed Vision JSON:", json.dumps(vision_json, indent=2))
+        vision_summary = summarize_vision_data(json.dumps(vision_json))
         ocr_text = extract_text_from_image(payload.image_url)
     except Exception as e:
-        print(f"❌ Vision error: {e}")
-        return {"answer": "A apărut o eroare la extragerea informației din imagine."}
+        print(f"❌ Vision JSON error: {e}")
+        vision_summary = "Datele vizuale nu au putut fi interpretate."
+        ocr_text = ""
 
     combined_query = f"Întrebare: {payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat în imagine (OCR):\n{ocr_text}"
 
