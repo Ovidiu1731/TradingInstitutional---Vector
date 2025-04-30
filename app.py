@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from openai import OpenAI
 from pinecone import Pinecone
 
-# Load environment variables
+# Load .env
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -23,10 +23,10 @@ openai = OpenAI(api_key=OPENAI_API_KEY)
 pinecone = Pinecone(api_key=PINECONE_API_KEY)
 index = pinecone.Index(PINECONE_INDEX_NAME)
 
-# Init FastAPI app
+# Init FastAPI
 app = FastAPI()
 
-# Allow CORS if needed
+# Enable CORS if needed (e.g. for frontend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -34,7 +34,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ========== TEXT-ONLY /ask ENDPOINT ==========
 @app.post("/ask")
 async def ask_question(request: Request):
     body = await request.json()
@@ -52,8 +51,9 @@ async def ask_question(request: Request):
             input=[question]
         ).data[0].embedding
 
-        # Search Pinecone
+        # Query Pinecone
         search_result = index.query(vector=embedding, top_k=6, include_metadata=True)
+
         context_chunks = [match['metadata'].get('text', '') for match in search_result.get('matches', [])]
         context = "\n\n".join(context_chunks).strip()
 
@@ -62,9 +62,7 @@ async def ask_question(request: Request):
             print(f"— Chunk {i + 1}: {chunk[:100]}...")
 
         if not context:
-            return {
-                "answer": "Nu sunt sigur pe baza materialului disponibil. Îți recomand să verifici cu mentorul sau să întrebi un membru cu mai multă experiență."
-            }
+            return {"answer": "Nu sunt sigur pe baza materialului disponibil. Îți recomand să verifici cu mentorul sau să întrebi un membru cu mai multă experiență."}
 
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
@@ -79,6 +77,7 @@ async def ask_question(request: Request):
 
         answer = chat_response.choices[0].message.content.strip()
         print("✅ Final answer:", answer)
+
         return {"answer": answer}
 
     except Exception as e:
@@ -86,35 +85,77 @@ async def ask_question(request: Request):
         return {"answer": "A apărut o eroare internă. Încearcă din nou sau contactează administratorul."}
 
 
-# ========== IMAGE+TEXT /ask-image ENDPOINT ==========
-class ImageQuery(BaseModel):
+# ========= IMAGE + TEXT HYBRID HANDLER ============
+class ImageHybridQuery(BaseModel):
     question: str
     image_url: str
 
-@app.post("/ask-image")
-async def ask_with_image(payload: ImageQuery):
-    print("🖼️ Received image-based question:", payload.question)
+@app.post("/ask-image-hybrid")
+async def ask_image_hybrid(payload: ImageHybridQuery):
+    print("🧠 Hybrid Vision Input:", payload.question, payload.image_url)
 
+    # STEP 1: Visual Feature Extraction from image
     try:
-        response = openai.chat.completions.create(
+        vision_response = openai.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
-                {"role": "system", "content": "You are an AI trading assistant that answers in the style of the Trading Instituțional community. You reply only in Romanian. Keep responses short, direct, and clear, based strictly on what is visible in the image and the user’s question. Do not include general trading theory, outside knowledge, or invented examples. If the image doesn’t contain enough information to answer confidently, say so clearly."},
+                {"role": "system", "content": "You are a visual parser. Look at the chart and extract ONLY relevant trading features in JSON format. Do not explain or analyze."},
                 {
                     "role": "user",
                     "content": [
                         {"type": "image_url", "image_url": {"url": payload.image_url}},
-                        {"type": "text", "text": payload.question}
+                        {"type": "text", "text": "Extract: timeframe (TF), any indicators, presence of MSS, BOS, imbalance, and visible zone types (support/resistance, liquidity zones, etc). Output JSON only."}
                     ]
                 }
             ],
+            max_tokens=300
+        )
+        vision_json = vision_response.choices[0].message.content.strip()
+        print("📊 Extracted Vision Data:", vision_json)
+    except Exception as e:
+        print(f"❌ Vision error:", e)
+        return {"answer": f"A apărut o eroare la extragerea informației din imagine: {e}"}
+
+    # STEP 2: Build combined query
+    combined_query = f"Întrebare: {payload.question}\n\nContext vizual extras:\n{vision_json}"
+
+    # STEP 3: Embed combined query
+    try:
+        embedding = openai.embeddings.create(
+            model="text-embedding-ada-002",
+            input=[combined_query]
+        ).data[0].embedding
+    except Exception as e:
+        print(f"❌ Embedding error:", e)
+        return {"answer": "A apărut o eroare la generarea embedding-ului."}
+
+    # STEP 4: Search Pinecone
+    try:
+        search_result = index.query(vector=embedding, top_k=6, include_metadata=True)
+        context_chunks = [match['metadata'].get('text', '') for match in search_result.get('matches', [])]
+        course_context = "\n\n".join(context_chunks).strip()
+    except Exception as e:
+        print(f"❌ Pinecone error:", e)
+        return {"answer": "A apărut o eroare la căutarea în materialele cursului."}
+
+    # STEP 5: Final GPT-4 response
+    try:
+        final_prompt = [
+            {"role": "system", "content": "You are a professional AI assistant trained on Rareș's Trading Instituțional program. Answer in Romanian. Be direct, short, and only use information found in the course excerpts below. Do not invent or generalize."},
+            {"role": "user", "content": f"{combined_query}\n\nFragmente din curs:\n{course_context}"}
+        ]
+
+        final_response = openai.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=final_prompt,
+            temperature=0.4,
             max_tokens=500
         )
 
-        answer = response.choices[0].message.content.strip()
-        print("✅ Vision model answer:", answer)
+        answer = final_response.choices[0].message.content.strip()
+        print("✅ Final answer:", answer)
         return {"answer": answer}
 
     except Exception as e:
-        print(f"❌ Vision ERROR: {e}")
-        return {"answer": f"A apărut o eroare la procesarea imaginii: {e}"}
+        print(f"❌ GPT-4 final response error:", e)
+        return {"answer": "A apărut o eroare la generarea răspunsului final."}
