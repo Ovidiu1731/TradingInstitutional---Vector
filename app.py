@@ -81,8 +81,8 @@ async def ask_question(request: Request):
         return {"answer": answer}
 
     except Exception as e:
-        print(f"❌ ERROR: {e}")
-        return {"answer": "A apărut o eroare internă. Încearcă din nou sau contactează administratorul."}
+    print(f"❌ Vision ERROR: {e}")
+    return {"answer": f"A apărut o eroare la procesarea imaginii: {e}"}
 
 
 # ========= IMAGE + TEXT QUESTION HANDLER ============
