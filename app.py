@@ -78,10 +78,40 @@ def extract_text_from_image(image_url: str) -> str:
         return ""
 
 
+def extract_json_from_text(text: str) -> str:
+    """Extract JSON from text that might contain markdown code blocks or other text."""
+    # Try to find JSON inside markdown code blocks first
+    json_pattern = r"```(?:json)?\s*([\s\S]*?)```"
+    match = re.search(json_pattern, text)
+    if match:
+        return match.group(1).strip()
+    
+    # If no code blocks, try to find anything that looks like JSON
+    if text.strip().startswith("{") and text.strip().endswith("}"):
+        return text.strip()
+    
+    # Return a default valid JSON if nothing else works
+    return '{"MSS": false, "imbalance": false, "liquidity": false}'
+
+
 def summarize_vision_data(raw_json: str) -> str:
     """Convert Vision JSON → concise Romanian bullet points (never invert flags)."""
     try:
-        data = json.loads(raw_json)
+        # Handle potential empty JSON
+        if not raw_json.strip():
+            return "Nu s-au putut interpreta datele vizuale."
+            
+        # Try to parse the JSON
+        try:
+            data = json.loads(raw_json)
+        except json.JSONDecodeError:
+            # If direct parsing fails, try to sanitize the JSON string
+            raw_json = extract_json_from_text(raw_json)
+            try:
+                data = json.loads(raw_json)
+            except json.JSONDecodeError:
+                # If still fails, return a default response
+                return "Nu s-au putut interpreta corect datele vizuale."
 
         def _flag(key: str) -> bool:
             # Check multiple possible keys for the same concept
@@ -197,8 +227,21 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         "trade", "tranzacție", "tranzactie", "setup", "intrare", "ce parere", "ce părere", "cum arata"
     ])
     
+    # Initialize defaults for error handling
+    vision_summary = "Datele vizuale nu au putut fi interpretate."
+    json_block = '{"MSS": false, "imbalance": false, "liquidity": false}'
+    ocr_text = ""
+    
     # 1️⃣ Vision parsing
     try:
+        # Verify image URL is accessible before sending to OpenAI
+        try:
+            img_response = requests.head(payload.image_url, timeout=5)
+            img_response.raise_for_status()
+        except Exception as img_err:
+            print(f"❌ Image URL access error: {img_err}")
+            return {"answer": "Nu am putut accesa imaginea. Verificați URL-ul și încercați din nou."}
+        
         vision_resp = openai.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
@@ -226,8 +269,9 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                             "1. MSS (Market Structure Shift) - horizontal lines with arrows or labels\n"
                             "2. Imbalance/FVG (Fair Value Gap) - ANY distinctly colored or highlighted zones that contrast with the background, or visible price gaps\n"
                             "3. Liquidity areas - zones marked for price targets\n"
-                            "Output JSON with presence flags for each element. Remember that traders use different color schemes - "
-                            "focus on areas with distinct color contrast rather than specific colors. Any area highlighted with a "
+                            "Output JSON with presence flags for each element like this format: "
+                            '{"MSS": true/false, "imbalance": true/false, "liquidity": true/false}. '
+                            "Focus on areas with distinct color contrast. Any area highlighted with a "
                             "different color than the main chart is likely an imbalance/FVG even without explicit labels."
                         )},
                     ],
@@ -236,23 +280,31 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             max_tokens=300,
         )
 
-        raw_json = vision_resp.choices[0].message.content.strip()
-        if raw_json.startswith("```json"):
-            raw_json = raw_json.removeprefix("```json").removesuffix("```").strip()
-        elif raw_json.startswith("```"):
-            raw_json = raw_json.removeprefix("```").removesuffix("```").strip()
-
-        vision_dict = json.loads(raw_json)
-        vision_json = json.dumps(vision_dict, ensure_ascii=False)
+        # Get the raw response content
+        raw_response = vision_resp.choices[0].message.content.strip()
+        
+        # Extract JSON from the response
+        raw_json = extract_json_from_text(raw_response)
+        
+        # Ensure we have valid JSON
+        try:
+            vision_dict = json.loads(raw_json)
+            vision_json = json.dumps(vision_dict, ensure_ascii=False)
+        except json.JSONDecodeError:
+            # If JSON is still invalid, use a default structure
+            vision_dict = {"MSS": False, "imbalance": False, "liquidity": False}
+            vision_json = json.dumps(vision_dict, ensure_ascii=False)
+        
+        # Create summary and JSON block
         vision_summary = summarize_vision_data(vision_json)
         json_block = f"```json\n{vision_json}\n```"  # fed to model only
+        
+        # Extract OCR text
         ocr_text = extract_text_from_image(payload.image_url)
 
     except Exception as err:
         print(f"❌ Vision parsing error: {err}")
-        vision_summary = "Datele vizuale nu au putut fi interpretate."
-        json_block = ""
-        ocr_text = ""
+        # Defaults already set
 
     # 2️⃣ Vector search
     combo_query = f"Întrebare: {payload.question}\n\n{vision_summary}\n\nOCR:\n{ocr_text}"
