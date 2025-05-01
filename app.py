@@ -84,15 +84,34 @@ def summarize_vision_data(raw_json: str) -> str:
         data = json.loads(raw_json)
 
         def _flag(key: str) -> bool:
+            # Check multiple possible keys for the same concept
+            keys_to_check = [key]
+            if key == "imbalance":
+                keys_to_check.extend(["FVG", "fvg", "fair_value_gap", "fairValueGap", "gap"])
+            elif key == "MSS":
+                keys_to_check.extend(["mss", "marketStructureShift", "market_structure_shift"])
+            
+            # Check in top level and nested objects
             nested = data.get("presence", {}) if isinstance(data.get("presence"), dict) else {}
-            return bool(nested.get(key)) or bool(data.get(key))
+            zones = data.get("zones", {}) if isinstance(data.get("zones"), dict) else {}
+            
+            # Return True if any key is found with a truthy value
+            for check_key in keys_to_check:
+                if bool(data.get(check_key)) or bool(nested.get(check_key)) or check_key in str(zones):
+                    return True
+            
+            # Also check for visual imbalance detection (colored zones)
+            if key == "imbalance" and (data.get("colored_zones", False) or data.get("red_zones", False)):
+                return True
+                
+            return False
 
-        # Imbalance present only when explicitly marked true in JSON
+        # Imbalance present when explicitly marked true in JSON or visual patterns found
         imbalance_present = _flag("imbalance")
 
         bullets = [
             "✅ MSS este prezent" if _flag("MSS") else "❌ MSS nu este prezent",
-            "✅ Imbalance este prezent" if imbalance_present else "❌ Imbalance nu este prezent",
+            "✅ Imbalance/FVG este prezent" if imbalance_present else "❌ Imbalance/FVG nu este prezent",
         ]
 
         # Liquidity present if imbalance flag OR dedicated liquidity boolean
@@ -160,10 +179,15 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 {
                     "role": "system",
                     "content": (
-                        "You are a chart parser for the Trading Instituțional program. "
-                        "Describe ONLY what is clearly labeled or visually present. "
-                        "Do NOT infer external indicators like LuxAlgo, RSI, etc. "
-                        "Output simple JSON. No explanations."
+                        "You are an expert chart parser for the Trading Instituțional program specialized in identifying key market structures. "
+                        "IMPORTANT: Analyze the visual patterns in the chart, not just text labels. "
+                        "Look for these key elements:\n"
+                        "1. MSS (Market Structure Shift): Look for labels or horizontal lines with price structure breaks\n"
+                        "2. Imbalance/FVG (Fair Value Gap): Look for colored zones (often red/green/blue) between candles, or gaps in price action\n"
+                        "3. Liquidity: Look for horizontal lines or zones where price has been accumulated\n\n"
+                        "Even if these elements aren't explicitly labeled with text, identify them based on visual patterns. "
+                        "Red/maroon colored zones often represent imbalance/FVG areas. "
+                        "Output simple JSON with presence flags for each element (true/false)."
                     ),
                 },
                 {
@@ -171,8 +195,12 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                     "content": [
                         {"type": "image_url", "image_url": {"url": payload.image_url}},
                         {"type": "text", "text": (
-                            "Extract: timeframe (TF), any indicators, presence of MSS, imbalance, "
-                            "and visible zone types. Output JSON only."
+                            "Analyze the chart and identify: \n"
+                            "1. MSS (Market Structure Shift) - horizontal lines with arrows or labels\n"
+                            "2. Imbalance/FVG (Fair Value Gap) - colored zones (especially red/maroon areas) or price gaps\n"
+                            "3. Liquidity areas - zones marked for price targets\n"
+                            "Output JSON with presence flags for each element. If you see colored zones (red/blue/green), "
+                            "they likely represent imbalance/FVG even without explicit labels."
                         )},
                     ],
                 },
