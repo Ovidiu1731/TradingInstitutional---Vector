@@ -1,4 +1,3 @@
-
 import pytesseract
 from PIL import Image
 import requests
@@ -155,7 +154,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "content": (
                     "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
                     "Always answer in Romanian. Use the same tone, terms, and judgment logic Rareș teaches in the program.\n\n"
-                    "Your goal is to validate or reject the setup based on what’s visible — such as MSS, SLG, liquidity, imbalance, etc.\n\n"
+                    "Your goal is to validate or reject the setup based on what's visible — such as MSS, SLG, liquidity, imbalance, etc.\n\n"
                     "- Dacă MSS este vizibil, confirmă-l cu încredere, chiar dacă nu este prezent BOS sau imbalance.\n"
                     "- Dacă imbalance lipsește, menționează-l, dar nu respinge setup-ul decât dacă este esențial.\n"
                     "- Dacă setup-ul este valid dar a dus la un loss, subliniază că logica a fost corectă.\n"
@@ -163,20 +162,20 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                     "Keep answers concise, confirm setups when clear, and do not reject trades just because they failed. "
                     "Avoid generic commentary and do not refer to technical terms like 'JSON' or 'backend'."
                 )
-        },
-        {
-            "role": "user",
-            "content": f"{payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat:\n{ocr_text}\n\nFragmente din curs:\n{course_context}"
-        }
-    ]
-    final_response = openai.chat.completions.create(
-        model="gpt-4-turbo",
-        messages=final_prompt,
-        temperature=0.4,
-        max_tokens=500
-    )
-    answer = final_response.choices[0].message.content.strip()
-    return {"answer": answer}
-except Exception as e:
-    print(f"❌ GPT-4 final response error: {e}")
-    return {"answer": "A apărut o eroare la generarea răspunsului final."}
+            },
+            {
+                "role": "user",
+                "content": f"{payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat:\n{ocr_text}\n\nFragmente din curs:\n{course_context}"
+            }
+        ]
+        final_response = openai.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=final_prompt,
+            temperature=0.4,
+            max_tokens=500
+        )
+        answer = final_response.choices[0].message.content.strip()
+        return {"answer": answer}
+    except Exception as e:
+        print(f"❌ GPT-4 final response error: {e}")
+        return {"answer": "A apărut o eroare la generarea răspunsului final."}
