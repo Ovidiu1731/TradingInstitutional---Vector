@@ -1,3 +1,4 @@
+# code
 import os
 import re
 import json
@@ -247,10 +248,9 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             logging.debug(f"Checking image URL accessibility: {payload.image_url}")
             img_response = requests.head(payload.image_url, timeout=10, allow_redirects=True)
             img_response.raise_for_status()
-            # Check content type if possible
             content_type = img_response.headers.get('Content-Type', '').lower()
             if not content_type.startswith('image/'):
-                 logging.warning(f"URL {payload.image_url} does not appear to be an image (Content-Type: {content_type}). Proceeding anyway.")
+                logging.warning(f"URL {payload.image_url} does not appear to be an image (Content-Type: {content_type}). Proceeding anyway.")
             logging.info("Image URL is accessible.")
         except requests.exceptions.RequestException as img_err:
             logging.error(f"❌ Image URL access error: {img_err}")
@@ -259,6 +259,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         # Call GPT-4 Vision for analysis
         try:
             logging.info("Starting GPT-4 Vision analysis...")
+            # This prompt remains focused on simple presence detection for robustness
             vision_system_prompt = (
                 "You are an expert chart parser specialized in the Trading Instituțional methodology. "
                 "Analyze the visual patterns in the provided chart image. Focus ONLY on identifying the presence of: "
@@ -298,15 +299,12 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             json_string = extract_json_from_text(raw_response_content)
             try:
                 vision_dict = json.loads(json_string)
-                # Basic validation of expected keys and types
                 expected_keys = {"MSS", "imbalance", "liquidity"}
                 if not all(key in vision_dict and isinstance(vision_dict[key], bool) for key in expected_keys):
                     logging.warning(f"Vision JSON has unexpected structure: {vision_dict}. Attempting to use anyway.")
-                    # Ensure default keys exist even if structure is odd
                     vision_dict = {k: vision_dict.get(k, False) for k in expected_keys}
 
                 logging.info(f"Successfully parsed Vision JSON: {vision_dict}")
-                # Create keywords for embedding query
                 visual_keywords = " ".join([k for k, v in vision_dict.items() if isinstance(v, bool) and v])
                 logging.debug(f"Visual keywords extracted: '{visual_keywords}'")
 
@@ -316,7 +314,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
         except (APIError, RateLimitError) as e:
             logging.error(f"OpenAI Vision API error: {e}")
-            # Don't raise HTTPException here, try to proceed without vision data or with defaults
             vision_dict = {"error": "Vision API unavailable", "MSS": False, "imbalance": False, "liquidity": False}
         except Exception as e:
             logging.error(f"Unexpected error during Vision processing: {e}")
@@ -324,8 +321,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
         # Run OCR (runs even if vision fails, might still be useful)
         ocr_text = extract_text_from_image(payload.image_url)
-        # Optional: Basic OCR cleaning
-        # ocr_text = re.sub(r'\n+', '\n', ocr_text).strip() # Remove excessive newlines
 
     except HTTPException:
          raise # Re-raise validation/network errors related to image access
@@ -336,18 +331,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
     # --- 2️⃣ Vector Search ---
     try:
-        # Strategy 1: Question + Visual Keywords + OCR (Current Implementation)
-        # Adjust relevance based on content length/presence
+        # Construct query using question, visual keywords (if any), and OCR (if substantial)
         query_parts = [f"Question: {payload.question}"]
-        if visual_keywords: query_parts.append(f"Key Visual Elements: {visual_keywords}")
+        if visual_keywords: query_parts.append(f"Key Visual Elements Identified: {visual_keywords}")
         if len(ocr_text) > 10: query_parts.append(f"OCR Text Snippet: {ocr_text[:200]}") # Limit OCR length
         combo_query = " ".join(query_parts)
-
-        # Strategy 2: Question + OCR Only (Alternative - uncomment to test)
-        # combo_query = f"Question: {payload.question} OCR: {ocr_text}"
-
-        # Strategy 3: Question Only (Alternative - uncomment to test)
-        # combo_query = payload.question
 
         logging.info(f"Constructed embedding query (first 200 chars): {combo_query[:200]}...")
 
@@ -357,7 +345,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         query_embedding = emb_response.data[0].embedding
         logging.info("Generated embedding for combined query.")
 
-        matches = index.query(vector=query_embedding, top_k=5, include_metadata=True) # Reduced top_k
+        matches = index.query(vector=query_embedding, top_k=5, include_metadata=True) # top_k=5 seems reasonable
         retrieved_matches = matches.get("matches", [])
         course_context = "\n\n---\n\n".join(
              m["metadata"].get("text", "") for m in retrieved_matches if m["metadata"].get("text")
@@ -365,12 +353,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         logging.info(f"Pinecone query returned {len(retrieved_matches)} matches. Context length: {len(course_context)}")
         if not course_context:
              logging.warning("Pinecone query returned no relevant context for the hybrid query.")
-             # Don't return yet, let the final LLM try without specific context
+             # Let the final LLM try without specific context, providing general info or fallback
 
     except (APIError, RateLimitError) as e:
         logging.error(f"OpenAI Embedding API error during hybrid search: {e}")
-        # Proceed without context, maybe notify user?
-        course_context = "[Eroare: Nu s-a putut genera embedding pentru căutare]"
+        course_context = "[Eroare: Nu s-a putut genera embedding pentru căutare context]"
     except PineconeException as e:
         logging.error(f"Pinecone query error during hybrid search: {e}")
         course_context = "[Eroare: Nu s-a putut căuta în materialele de curs]"
@@ -386,44 +373,51 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         if vision_dict.get("error"):
             visual_evidence_parts.append(f"Analiza vizuală nu a putut fi completată ({vision_dict['error']}).")
         else:
-            if vision_dict.get("MSS"): visual_evidence_parts.append("MSS este prezent")
-            else: visual_evidence_parts.append("MSS NU este prezent") # Explicitly state absence
-            if vision_dict.get("imbalance"): visual_evidence_parts.append("Imbalance/FVG este prezent")
-            else: visual_evidence_parts.append("Imbalance/FVG NU este prezent")
-            if vision_dict.get("liquidity"): visual_evidence_parts.append("Lichiditate este vizibilă")
-            else: visual_evidence_parts.append("Lichiditate NU este vizibilă")
+            # State presence/absence explicitly based on Vision JSON
+            visual_evidence_parts.append(f"MSS: {'prezent' if vision_dict.get('MSS') else 'NU este prezent'}")
+            visual_evidence_parts.append(f"Imbalance/FVG: {'prezent' if vision_dict.get('imbalance') else 'NU este prezent'}")
+            visual_evidence_parts.append(f"Lichiditate: {'vizibilă' if vision_dict.get('liquidity') else 'NU este vizibilă'}")
 
         visual_evidence_str = ". ".join(visual_evidence_parts)
         logging.debug(f"Visual evidence string for prompt: {visual_evidence_str}")
 
-        # Refine system prompt with clearer instructions
+        # ***** MODIFIED SECTION START *****
+        # Refined system prompt with clearer instructions, especially for MSS type differentiation
         final_system_prompt = SYSTEM_PROMPT_CORE + (
             "\n\n--- Additional Instructions for Image Analysis ---\n"
-            "1. You are provided with Visual Analysis Results derived directly from the user's chart image. **Treat these results as the ground truth** for what is visible in the image.\n"
-            "2. You are also given OCR text (potentially noisy) and relevant Course Material context.\n"
-            "3. Answer the User's Question concisely (2-3 sentences max). Synthesize information from the Visual Analysis, Course Material, and the Question.\n"
-            "4. **Prioritize the Visual Analysis Results** when confirming the presence/absence of elements like MSS, Imbalance, or Liquidity in the *specific chart provided*.\n"
-            "5. Refer to Course Material for definitions and rules, but confirm specifics based on the Visual Analysis.\n"
-            "6. **Crucially: NEVER mention 'BOS' or 'Break of Structure'.** Use only 'MSS' (Market Structure Shift) as per Trading Instituțional rules.\n"
-            "7. If asked for an opinion on a trade/setup ('ce parere', 'e corect?', etc.), provide a direct evaluation based on the Visual Analysis and Course rules. Do NOT refuse.\n"
-            "8. Maintain Rareș's direct, helpful, and concise tone. Avoid filler phrases like 'Based on the analysis...'. Be direct."
-            # Removed overly strict sentence/word count for now, focusing on concise instruction
+            "1. You are provided with **Visual Analysis Results** derived directly from the user's chart image. Treat these results as ground truth for what the vision model detected.\n"
+            "2. You are also given **OCR text** (potentially noisy) and relevant **Course Material Context** retrieved based on the question and image content.\n"
+            "3. Answer the User's Question concisely (target 2-3 sentences, but be flexible if explanation is needed). Synthesize information from the Visual Analysis, Course Material, OCR (if relevant), and the Question.\n"
+            "4. **Prioritize the Visual Analysis Results** for confirming the *presence* or *absence* of elements like MSS, Imbalance, or Liquidity in the specific chart. Note that the basic visual analysis typically confirms only *presence*, not specific sub-types (like 'MSS Normal' vs 'MSS Agresiv').\n"
+            "5. Refer to **Course Material** for definitions, rules, and concepts.\n"
+            "6. **Handling MSS Type Questions ('Normal' vs 'Agresiv'):** If the user asks to differentiate between 'MSS Normal' and 'MSS Agresiv', and the Visual Analysis confirms 'MSS' is present:\n"
+            "    - Explicitly state that the basic visual analysis confirmed MSS *presence*.\n"
+            "    - Consult the **Course Material Context** provided for the specific definitions and rules that differentiate these types (especially the 'single-candle making low/high' rule for 'MSS Agresiv').\n"
+            "    - Clearly **explain this differentiating rule** from the course material to the user.\n"
+            "    - Based on the rule, if you can reasonably infer the type from the image described contextually or from OCR, state your conclusion (Normal or Aggressive). \n"
+            "    - **If uncertain** about applying the rule visually from your position, **state the rule clearly** and tell the user **what they should look for** in the chart (e.g., 'Verifică dacă break-ul structural a fost format de o singură lumânare care a creat minimul/maximul pentru a confirma dacă este un MSS Agresiv conform definiției.').\n"
+            "    - **CRITICAL:** Do **NOT** invent justifications or link unrelated concepts (like general liquidity rules or standard validation procedures) to the MSS type unless the Course Material *specifically* states they are part of the *definition differentiating* Normal from Aggressive MSS.\n"
+            "7. **Crucially: NEVER mention 'BOS' or 'Break of Structure'.** Use only 'MSS' (Market Structure Shift) as per Trading Instituțional rules.\n"
+            "8. If asked for an opinion on a trade/setup ('ce parere', 'e corect?', etc.), provide a direct evaluation based *only* on the Visual Analysis results and Course Material rules provided. Do NOT refuse to answer or be overly vague. Base the evaluation on confirmed elements.\n"
+            "9. Maintain Rareș's direct, helpful, and concise tone. Avoid filler phrases like 'Based on the analysis...'. Be direct."
         )
+        # ***** MODIFIED SECTION END *****
 
         # Construct user message clearly separating inputs
         user_message_parts = [
             f"User Question: {payload.question}\n",
-            f"--- Visual Analysis Results (from the image): ---\n{visual_evidence_str}\n",
-            f"--- Course Material Context: ---",
-            f"{course_context if course_context else 'N/A'}\n"
+            f"--- Visual Analysis Results (from image scan): ---\n{visual_evidence_str}\n",
+            f"--- Relevant Course Material Context: ---",
+            f"{course_context if course_context else 'Niciun context specific din curs nu a fost găsit pentru această combinație.'}\n" # Provide fallback message
         ]
         if len(ocr_text) > 5: # Only include OCR if it's non-trivial
              user_message_parts.extend([
                  f"--- Text from Image (OCR - may contain errors): ---",
                  f"{ocr_text}\n"
              ])
+        # Add task clarification focusing on using the provided info
         user_message_parts.append(
-            f"--- Task ---\nAnswer the User Question based *primarily* on the Visual Analysis Results and Course Material Context provided. Be concise and direct (2-3 sentences max)."
+            f"--- Task ---\nAnswer the User Question based *primarily* on the Visual Analysis Results and Course Material Context provided. Follow all instructions in the System Prompt, especially regarding MSS types and trade evaluations. Be concise and direct."
         )
         user_msg = "\n".join(user_message_parts)
 
@@ -439,7 +433,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 {"role": "user", "content": user_msg},
             ],
             temperature=temp,
-            max_tokens=250 # Allow slightly more room than text-only
+            max_tokens=300 # Increased slightly from 250 for potentially more explanation
         )
 
         answer = gpt_resp.choices[0].message.content.strip()
@@ -455,23 +449,30 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         answer = re.sub(r"\n{2,}", "\n", answer).strip()
 
         # --- Fallback for Trade Evaluations ---
-        # If it's an evaluation, and the answer is still too short/generic after filtering
+        # This fallback remains focused on general validity based on vision_dict,
+        # as the prompt modification is intended to improve the main LLM's handling of MSS types.
         if is_trade_evaluation and (not answer or len(answer) < 30 or "nu pot oferi" in answer.lower() or "nu am informații" in answer.lower()):
-            logging.warning("GPT-4 answer for trade evaluation was too short or generic. Applying fallback.")
+            logging.warning("GPT-4 answer for trade evaluation was too short or generic/refused. Applying fallback based on Vision data.")
             # Base fallback on the *validated* vision_dict
             mss_ok = vision_dict.get("MSS", False)
             imb_ok = vision_dict.get("imbalance", False)
-            liq_ok = vision_dict.get("liquidity", False) # Use if needed
+            # liq_ok = vision_dict.get("liquidity", False) # Use if needed for more complex fallback
 
+            # Simplified fallback based on core rules often checked
             if mss_ok and imb_ok:
-                answer = "Confirm că în chart se văd MSS și Imbalance/FVG conform analizei vizuale. Din punct de vedere tehnic și al regulilor Trading Instituțional, setup-ul pare corect."
+                answer = "Confirm că în chart se văd MSS și Imbalance/FVG conform analizei vizuale. Din punct de vedere tehnic și al regulilor Trading Instituțional, setup-ul pare să aibă elementele de bază necesare."
             elif mss_ok and not imb_ok:
-                answer = "Confirm prezența MSS conform analizei vizuale, dar Imbalance/FVG nu este clar vizibil sau lipsește. Verifică dacă acesta este prezent conform regulilor înainte de a considera intrarea."
+                answer = "Confirm prezența MSS conform analizei vizuale, dar Imbalance/FVG nu este clar vizibil sau lipsește conform scanării. Verifică dacă acesta este prezent conform regulilor înainte de a considera intrarea."
             elif not mss_ok:
-                answer = "Conform analizei vizuale, MSS (Market Structure Shift) esențial pentru intrare nu este (încă) prezent în acest chart. Așteaptă confirmarea MSS conform regulilor."
+                answer = "Conform analizei vizuale, MSS (Market Structure Shift) esențial pentru intrare nu este (încă) prezent sau confirmat în acest chart. Așteaptă confirmarea MSS conform regulilor."
             else: # Default fallback if vision analysis had errors or didn't find key elements
-                 answer = "Analiza vizuală nu a confirmat clar elementele cheie (MSS, Imbalance). Asigură-te că respecți toate regulile Trading Instituțional înainte de a intra într-o tranzacție."
+                 answer = "Analiza vizuală nu a confirmat clar elementele cheie necesare (MSS, Imbalance). Asigură-te că respecți toate regulile Trading Instituțional înainte de a intra într-o tranzacție."
             logging.info(f"Applied fallback answer: {answer}")
+
+        # Ensure *some* answer is returned
+        if not answer:
+             logging.error("Generated answer was empty even after potential fallback.")
+             answer = "Nu am putut genera un răspuns specific. Te rog reformulează sau verifică imaginea."
 
         logging.info(f"Final Answer Prepared: {answer[:200]}...")
         return {"answer": answer}
