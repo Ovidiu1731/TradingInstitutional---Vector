@@ -19,7 +19,8 @@ from pinecone import Pinecone, PineconeException
 # ---------------------------------------------------------------------------
 # LOGGING SETUP
 # ---------------------------------------------------------------------------
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Changed level to DEBUG to ensure the new log message is captured
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # ---------------------------------------------------------------------------
 # ENVIRONMENT & GLOBALS
@@ -170,6 +171,9 @@ async def ask_question(request: Request) -> Dict[str, str]:
                 m["metadata"].get("text", "") for m in matches if m["metadata"].get("text")
             ).strip()
             logging.info(f"Pinecone query returned {len(matches)} matches. Context length: {len(context)}")
+            # ***** ADDED LOGGING FOR TEXT-ONLY CONTEXT DEBUGGING AS WELL *****
+            logging.debug(f"DEBUG TXT - Retrieved Course Context Content:\n---\n{context[:1000]}...\n---") # Log first 1000 chars
+            # *******************************************************************
             if not context:
                 logging.warning("Pinecone query returned no relevant context.")
                 return {"answer": "Nu am găsit informații relevante în materialele de curs pentru a răspunde la această întrebare."}
@@ -351,9 +355,17 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
              m["metadata"].get("text", "") for m in retrieved_matches if m["metadata"].get("text")
         ).strip()
         logging.info(f"Pinecone query returned {len(retrieved_matches)} matches. Context length: {len(course_context)}")
+
+        # ***** ADDED DEBUG LOGGING LINE FOR CONTEXT CONTENT *****
+        # Using logging.debug now as it might be very verbose. Ensure overall logging level is DEBUG.
+        logging.debug(f"DEBUG - Retrieved Course Context Content:\n---\n{course_context}\n---")
+        # ********************************************************
+
         if not course_context:
              logging.warning("Pinecone query returned no relevant context for the hybrid query.")
-             # Let the final LLM try without specific context, providing general info or fallback
+             # Provide a fallback message instead of empty string
+             course_context = "[Eroare: Niciun context specific din curs nu a fost găsit pentru această combinație.]"
+
 
     except (APIError, RateLimitError) as e:
         logging.error(f"OpenAI Embedding API error during hybrid search: {e}")
@@ -381,17 +393,14 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         visual_evidence_str = ". ".join(visual_evidence_parts)
         logging.debug(f"Visual evidence string for prompt: {visual_evidence_str}")
 
-       # ***** MODIFIED SECTION START (Refinement based on feedback) *****
-        # Refined system prompt with even clearer instructions on handling MSS types and context
+        # Using the refined system prompt from the previous iteration focused on context handling
         final_system_prompt = SYSTEM_PROMPT_CORE + (
             "\n\n--- Additional Instructions for Image Analysis ---\n"
-            # ... (Points 1-5 remain the same as the previous version) ...
             "1. You are provided with **Visual Analysis Results** derived directly from the user's chart image. Treat these results as ground truth for what the vision model detected.\n"
             "2. You are also given **OCR text** (potentially noisy) and relevant **Course Material Context** retrieved based on the question and image content.\n"
             "3. Answer the User's Question concisely (target 2-3 sentences, but be flexible if explanation is needed). Synthesize information from the Visual Analysis, Course Material, OCR (if relevant), and the Question.\n"
             "4. **Prioritize the Visual Analysis Results** for confirming the *presence* or *absence* of elements like MSS, Imbalance, or Liquidity in the specific chart. Note that the basic visual analysis typically confirms only *presence*, not specific sub-types (like 'MSS Normal' vs 'MSS Agresiv').\n"
             "5. Refer to **Course Material** for definitions, rules, and concepts.\n"
-
             "6. **Handling MSS Type Questions ('Normal' vs 'Agresiv'):** If the user asks to differentiate between 'MSS Normal' and 'MSS Agresiv', and the Visual Analysis confirms 'MSS' is present:\n"
             "    - Explicitly state that the basic visual analysis confirmed MSS *presence* but cannot determine the *type*.\n"
             "    - Consult the **Course Material Context** provided for definitions and rules differentiating these types.\n"
@@ -399,21 +408,20 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             "    - Explain *this structural rule* clearly.\n"
             "    - If the Course Material *also* mentions conditions for *using* an MSS Agresiv (like validation rules, liquidity context, favorable conditions), you may mention these **briefly and separately**, explicitly stating they are conditions for *usage/application* rather than *identification*, ONLY IF relevant to the broader context or a follow-up question seems implied. **Do NOT present usage conditions as part of the primary definition for identification.**\n"
             "    - Apply the structural rule: If you can reasonably infer the type based on the structural rule and image context, state it. \n"
-            "    - **If uncertain** about applying the structural rule visually, **state the structural rule clearly** and tell the user **what structural feature they should look for** (e.g., 'Verifică dacă break-ul structural a fost format de o singură lumânare care a creat minimul/maximul pentru a confirma dacă este un MSS Agresiv conform definiției structurale.').\n"
+            "    - **If uncertain** about applying the structural rule visually from your position, **state the structural rule clearly** and tell the user **what structural feature they should look for** (e.g., 'Verifică dacă break-ul structural a fost format de o singură lumânare care a creat minimul/maximul pentru a confirma dacă este un MSS Agresiv conform definiției structurale.').\n"
             "    - **CRITICAL:** Do **NOT** invent justifications or wrongly apply usage conditions (like liquidity) as the reason for identification.\n"
-
             "7. **Crucially: NEVER mention 'BOS' or 'Break of Structure'.** Use only 'MSS' (Market Structure Shift) as per Trading Instituțional rules.\n"
             "8. If asked for an opinion on a trade/setup ('ce parere', 'e corect?', etc.), provide a direct evaluation based *only* on the Visual Analysis results and Course Material rules provided. Do NOT refuse to answer or be overly vague. Base the evaluation on confirmed elements.\n"
             "9. Maintain Rareș's direct, helpful, and concise tone. Avoid filler phrases like 'Based on the analysis...'. Be direct."
         )
-        # ***** MODIFIED SECTION END *****
 
         # Construct user message clearly separating inputs
         user_message_parts = [
             f"User Question: {payload.question}\n",
             f"--- Visual Analysis Results (from image scan): ---\n{visual_evidence_str}\n",
             f"--- Relevant Course Material Context: ---",
-            f"{course_context if course_context else 'Niciun context specific din curs nu a fost găsit pentru această combinație.'}\n" # Provide fallback message
+            # Use the variable directly, which now includes a fallback message if it was empty
+            f"{course_context}\n"
         ]
         if len(ocr_text) > 5: # Only include OCR if it's non-trivial
              user_message_parts.extend([
@@ -438,7 +446,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 {"role": "user", "content": user_msg},
             ],
             temperature=temp,
-            max_tokens=300 # Increased slightly from 250 for potentially more explanation
+            max_tokens=300 # Increased slightly for potentially more explanation
         )
 
         answer = gpt_resp.choices[0].message.content.strip()
@@ -454,16 +462,12 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         answer = re.sub(r"\n{2,}", "\n", answer).strip()
 
         # --- Fallback for Trade Evaluations ---
-        # This fallback remains focused on general validity based on vision_dict,
-        # as the prompt modification is intended to improve the main LLM's handling of MSS types.
+        # This fallback remains focused on general validity based on vision_dict
         if is_trade_evaluation and (not answer or len(answer) < 30 or "nu pot oferi" in answer.lower() or "nu am informații" in answer.lower()):
             logging.warning("GPT-4 answer for trade evaluation was too short or generic/refused. Applying fallback based on Vision data.")
-            # Base fallback on the *validated* vision_dict
             mss_ok = vision_dict.get("MSS", False)
             imb_ok = vision_dict.get("imbalance", False)
-            # liq_ok = vision_dict.get("liquidity", False) # Use if needed for more complex fallback
 
-            # Simplified fallback based on core rules often checked
             if mss_ok and imb_ok:
                 answer = "Confirm că în chart se văd MSS și Imbalance/FVG conform analizei vizuale. Din punct de vedere tehnic și al regulilor Trading Instituțional, setup-ul pare să aibă elementele de bază necesare."
             elif mss_ok and not imb_ok:
