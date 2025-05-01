@@ -53,21 +53,22 @@ def summarize_vision_data(vision_json: str) -> str:
     try:
         data = json.loads(vision_json)
         summary = []
-        if data.get("MSS", False):
-            summary.append("MSS este vizibil")
+
+        # Key structure flags
+        summary.append("✅ MSS este prezent" if data.get("presence", {}).get("MSS") else "❌ MSS nu este prezent")
+        summary.append("✅ Imbalance este prezent" if data.get("presence", {}).get("imbalance") else "❌ Imbalance nu este prezent")
+        summary.append("✅ BOS este prezent" if data.get("presence", {}).get("BOS") else "❌ BOS nu este prezent")
+
+        # Zone visibility
+        demand_visible = data.get("zones", {}).get("demand_zone", {}).get("visible", False)
+        supply_visible = data.get("zones", {}).get("supply_zone", {}).get("visible", False)
+        if demand_visible or supply_visible:
+            summary.append("✅ Lichiditate este vizibilă")
         else:
-            summary.append("MSS nu este prezent")
-        if data.get("imbalance", False):
-            summary.append("imbalance este prezent")
-        else:
-            summary.append("nu se observă imbalance")
-        if data.get("liquidity") == "taken":
-            summary.append("lichiditatea a fost luată")
-        elif data.get("liquidity") == "present":
-            summary.append("lichiditate marcată, dar nu luată")
-        else:
-            summary.append("nu se observă lichiditate clară")
-        return ". ".join(summary) + "."
+            summary.append("❌ Nu se observă lichiditate")
+
+        return "\n".join(summary)
+
     except Exception as e:
         print(f"❌ Summary parsing error: {e}")
         return "Nu s-au putut interpreta corect datele vizuale."
@@ -154,12 +155,12 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "content": (
                     "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
                     "Always answer in Romanian. Use the same tone, terms, and judgment logic Rareș teaches in the program.\n\n"
-                    "Your goal is to validate or reject the setup based on what's visible — such as MSS, SLG, liquidity, imbalance, etc.\n\n"
-                    "- Dacă MSS este vizibil, confirmă-l cu încredere, chiar dacă nu este prezent BOS sau imbalance.\n"
-                    "- Dacă imbalance lipsește, menționează-l, dar nu respinge setup-ul decât dacă este esențial.\n"
-                    "- Dacă setup-ul este valid dar a dus la un loss, subliniază că logica a fost corectă.\n"
-                    "- Dacă utilizatorul cere validarea unui loss, pune accent pe calitatea deciziei, nu doar pe rezultat.\n\n"
-                    "Keep answers concise, confirm setups when clear, and do not reject trades just because they failed. "
+                    "Your job is to confirm or reject the setup based strictly on the visual summary, OCR text, and course context.\n\n"
+                    "✅ If MSS is prezent, start by confirming it directly, even if imbalance or BOS are absent.\n"
+                    "✅ If imbalance is missing, mention it briefly, but don't reject the setup unless it's critical.\n"
+                    "✅ If the trade looks valid but was a loss, mention that the logic was still correct.\n\n"
+                    "✅If the user asks for validation of a loss, emphasize the quality of the decision, not just the outcome.\n\n"
+                    "Keep answers short and specific. Maximum 2 short paragraphs. Avoid generic commentary, and do not explain JSON or backend logic. Use Rareș’s tone: direct, competent, practical."
                     "Avoid generic commentary and do not refer to technical terms like 'JSON' or 'backend'."
                 )
             },
