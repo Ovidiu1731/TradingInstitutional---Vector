@@ -211,12 +211,23 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     try:
         system_prompt = (
             SYSTEM_PROMPT_CORE
-            + "\n\nReguli suplimentare:\n"
-            + "- MSS NU este indicator; este schimbare de structură necesară înainte de intrare.\n"
-            + "- BOS NU este criteriu de intrare; e doar confirmare post‑trade. Lipsa BOS nu invalidează setup‑ul.\n"
-            + "- Nu menționa procesul intern, JSON, cod, API sau backend.\n"
-            + "- Confirmă/infimă elementele cu ✅/❌ apoi maximum 30 de cuvinte explicație.\n"
-            + "- Evită sfaturi generice (risk management, mindset etc.) dacă nu sunt cerute explicit."
+            + "
+
+Reguli suplimentare:
+"
+            + "- Răspunde direct la întrebare; evită formulări de genul ‘nu pot oferi’.
+"
+            + "- MSS NU este indicator; este schimbare de structură necesară înainte de intrare.
+"
+            + "- BOS NU este criteriu de intrare; e doar confirmare post‑trade. Lipsa BOS nu invalidează setup‑ul.
+"
+            + "- Nu menționa procesul intern, JSON, cod, API sau backend.
+"
+            + "- Structură răspuns: (1) Descrie elementele cheie observate (max 25 cuvinte). (2) Evaluează trade‑ul în max 25 cuvinte.
+"
+            + "- Nu depăși două propoziții în total; nu adăuga avertismente generice.
+"
+        )
         )
 
         user_msg = (
