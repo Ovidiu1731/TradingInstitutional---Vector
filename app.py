@@ -231,7 +231,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 {"role": "user", "content": user_msg},
             ],
             temperature=0.3,
-            max_tokens=300,
+            max_tokens=200,
         )
         return {"answer": resp.choices[0].message.content.strip()}
 
