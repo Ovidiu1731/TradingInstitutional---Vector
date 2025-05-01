@@ -149,27 +149,34 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         return {"answer": "A apărut o eroare la căutarea în materialele cursului."}
 
     try:
-        final_prompt = [
-            {
-                "role": "system",
-                "content": (
-                    "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
-                    "Always answer in Romanian. Your job is to confirm or reject what the user asked based only on what is visible in the image and the course material.\n\n"
-                    "Keep your answer concise but clear. If the concept is present, confirm it in 1–2 short sentences using the terms taught (e.g. MSS, imbalance, SLG, TCG, liquidity). "
-                    "If it's partially valid or invalid, explain briefly. No generic commentary. Never refer to JSON, backend logic, or anything not in the image.\n\n"
-                    "Use Rareș's tone and logic: direct, practical, and based only on visual chart evidence."
-                )
-            },
-            {
-                "role": "user",
-                "content": f"{payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat:\n{ocr_text}\n\nFragmente din curs:\n{course_context}"
-            }
-        ]
-        final_response = openai.chat.completions.create(
-            model="gpt-4-turbo", messages=final_prompt, temperature=0.4, max_tokens=500
-        )
-        answer = final_response.choices[0].message.content.strip()
-        return {"answer": answer}
-    except Exception as e:
-        print(f"❌ GPT-4 final response error: {e}")
-        return {"answer": "A apărut o eroare la generarea răspunsului final."}
+    final_prompt = [
+        {
+            "role": "system",
+            "content": (
+                "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
+                "Always answer in Romanian. Use the same tone, terms, and judgment logic Rareș teaches in the program.\n\n"
+                "Your goal is to validate or reject the setup based on what’s visible — such as MSS, SLG, liquidity, imbalance, etc.\n\n"
+                "- Dacă MSS este vizibil, confirmă-l cu încredere, chiar dacă nu este prezent BOS sau imbalance.\n"
+                "- Dacă imbalance lipsește, menționează-l, dar nu respinge setup-ul decât dacă este esențial.\n"
+                "- Dacă setup-ul este valid dar a dus la un loss, subliniază că logica a fost corectă.\n"
+                "- Dacă utilizatorul cere validarea unui loss, pune accent pe calitatea deciziei, nu doar pe rezultat.\n\n"
+                "Keep answers concise, confirm setups when clear, and do not reject trades just because they failed. "
+                "Avoid generic commentary and do not refer to technical terms like 'JSON' or 'backend'."
+            )
+        },
+        {
+            "role": "user",
+            "content": f"{payload.question}\n\nSumar vizual:\n{vision_summary}\n\nText detectat:\n{ocr_text}\n\nFragmente din curs:\n{course_context}"
+        }
+    ]
+    final_response = openai.chat.completions.create(
+        model="gpt-4-turbo",
+        messages=final_prompt,
+        temperature=0.4,
+        max_tokens=500
+    )
+    answer = final_response.choices[0].message.content.strip()
+    return {"answer": answer}
+except Exception as e:
+    print(f"❌ GPT-4 final response error: {e}")
+    return {"answer": "A apărut o eroare la generarea răspunsului final."}
