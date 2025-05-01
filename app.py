@@ -13,22 +13,36 @@ from openai import OpenAI
 from pinecone import Pinecone
 from pydantic import BaseModel
 
+"""
+app.py – FastAPI backend for the Trading Instituțional Discord bot
+-----------------------------------------------------------------
+• /ask                 → text‑only questions answered from course material
+• /ask-image-hybrid    → text + chart screenshot (vision, OCR, vector search)
+
+Major revisions 2025‑04‑30:
+✓ Robust `summarize_vision_data()` (flat or nested JSON)
+✓ System prompt rules enforce: MSS ≠ indicator, BOS ≠ entry‑gate, no backend talk
+✓ JSON block fed to the model but never referenced in the reply
+"""
+
 # ---------------------------------------------------------------------------
-# ENVIRONMENT & GLOBALS
+# ENV & GLOBALS
 # ---------------------------------------------------------------------------
+
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 
-if not OPENAI_API_KEY or not PINECONE_API_KEY:
+if not (OPENAI_API_KEY and PINECONE_API_KEY):
     raise ValueError("Missing OpenAI or Pinecone API key(s)")
 
+# Core system prompt (Rareș’s tone, loaded from file if it exists)
 try:
     with open("system_prompt.txt", "r", encoding="utf-8") as f:
-        SYSTEM_PROMPT = f.read().strip()
+        SYSTEM_PROMPT_CORE = f.read().strip()
 except FileNotFoundError:
-    SYSTEM_PROMPT = (
+    SYSTEM_PROMPT_CORE = (
         "You are an AI assistant trained by Rareș for the Trading Instituțional community."
     )
 
@@ -39,10 +53,11 @@ index = pinecone.Index(PINECONE_INDEX_NAME)
 # ---------------------------------------------------------------------------
 # FASTAPI BOILERPLATE
 # ---------------------------------------------------------------------------
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Discord gateway performs OPTIONS‑preflight
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -65,12 +80,11 @@ def extract_text_from_image(image_url: str) -> str:
 
 
 def summarize_vision_data(raw_json: str) -> str:
-    """Convert the vision JSON to concise Romanian bullet points that *never* flip a flag."""
+    """Return concise Romanian bullet points that *never* invert the booleans."""
     try:
         data = json.loads(raw_json)
 
         def _flag(key: str) -> bool:
-            """Return True if the key is truthy in either supported schema."""
             nested = data.get("presence", {}) if isinstance(data.get("presence"), dict) else {}
             return bool(nested.get(key)) or bool(data.get(key))
 
@@ -93,10 +107,10 @@ def summarize_vision_data(raw_json: str) -> str:
 
     except Exception as err:
         print(f"❌ Summary parsing error: {err}")
-        return "Nu s-au putut interpreta corect datele vizuale."
+        return "Nu s‑au putut interpreta corect datele vizuale."
 
 # ---------------------------------------------------------------------------
-# ROUTES
+# ROUTES – TEXT ONLY
 # ---------------------------------------------------------------------------
 
 @app.post("/ask")
@@ -107,39 +121,26 @@ async def ask_question(request: Request) -> Dict[str, str]:
         return {"answer": "Întrebarea este goală."}
 
     try:
-        embedding = (
-            openai.embeddings.create(
-                model="text-embedding-ada-002", input=[question]
-            ).data[0].embedding
-        )
-        results = index.query(vector=embedding, top_k=6, include_metadata=True)
-        context = "\n\n".join(
-            match["metadata"].get("text", "") for match in results.get("matches", [])
-        ).strip()
+        emb = openai.embeddings.create(model="text-embedding-ada-002", input=[question]).data[0].embedding
+        results = index.query(vector=emb, top_k=6, include_metadata=True)
+        context = "\n\n".join(m["metadata"].get("text", "") for m in results.get("matches", [])).strip()
 
         if not context:
             return {"answer": "Nu sunt sigur pe baza materialului disponibil."}
 
-        messages = [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {
-                "role": "user",
-                "content": f"{question}\n\nContext:\n{context}",
-            },
+        msgs = [
+            {"role": "system", "content": SYSTEM_PROMPT_CORE},
+            {"role": "user", "content": f"{question}\n\nContext:\n{context}"},
         ]
-        chat_resp = openai.chat.completions.create(
-            model="gpt-3.5-turbo", messages=messages, temperature=0.4
-        )
-        answer = chat_resp.choices[0].message.content.strip()
-        return {"answer": answer}
+        resp = openai.chat.completions.create(model="gpt-3.5-turbo", messages=msgs, temperature=0.4)
+        return {"answer": resp.choices[0].message.content.strip()}
 
     except Exception as err:
-        print(f"❌ /ask endpoint error: {err}")
+        print(f"❌ /ask error: {err}")
         return {"answer": "A apărut o eroare internă."}
 
-
 # ---------------------------------------------------------------------------
-# IMAGE‑HYBRID ROUTE
+# ROUTES – IMAGE HYBRID
 # ---------------------------------------------------------------------------
 
 class ImageHybridQuery(BaseModel):
@@ -149,9 +150,10 @@ class ImageHybridQuery(BaseModel):
 
 @app.post("/ask-image-hybrid")
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
-    """Endpoint that merges visual, OCR, and vector‑retrieved course context."""
+    """Merge chart vision, OCR, vector search and produce a terse Rareș‑style answer."""
+    # 1️⃣ GPT‑4 Vision: parse the chart
     try:
-        vision_resp = openai.chat.completions.create(
+        vision = openai.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
                 {
@@ -166,94 +168,72 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 {
                     "role": "user",
                     "content": [
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": payload.image_url},
-                        },
-                        {
-                            "type": "text",
-                            "text": (
-                                "Extract: timeframe (TF), any indicators, presence of MSS, BOS, "
-                                "imbalance, and visible zone types. Output JSON only."
-                            ),
-                        },
+                        {"type": "image_url", "image_url": {"url": payload.image_url}},
+                        {"type": "text", "text": (
+                            "Extract: timeframe (TF), any indicators, presence of MSS, BOS, "
+                            "imbalance, and visible zone types. Output JSON only."
+                        )},
                     ],
                 },
             ],
             max_tokens=300,
         )
 
-        raw_json = vision_resp.choices[0].message.content.strip()
-        print("🖼️ Raw vision response:", raw_json)
-
-        # Clean fenced blocks if present
+        raw_json = vision.choices[0].message.content.strip()
         if raw_json.startswith("```json"):
             raw_json = raw_json.removeprefix("```json").removesuffix("```").strip()
         elif raw_json.startswith("```"):
             raw_json = raw_json.removeprefix("```").removesuffix("```").strip()
 
         vision_dict = json.loads(raw_json)
-        vision_json_str = json.dumps(vision_dict, ensure_ascii=False)
-        vision_summary = summarize_vision_data(vision_json_str)
-        json_block = f"```json\n{vision_json_str}\n```"
+        vision_json = json.dumps(vision_dict, ensure_ascii=False)
+        vision_summary = summarize_vision_data(vision_json)
+        json_block = f"```json\n{vision_json}\n```"  # sent to model only
         ocr_text = extract_text_from_image(payload.image_url)
 
     except Exception as err:
         print(f"❌ Vision parsing error: {err}")
         vision_summary = "Datele vizuale nu au putut fi interpretate."
-        json_block = ""  # keep prompt short if we failed
+        json_block = ""
         ocr_text = ""
 
-    # Build combined query for embedding search (use summary, not full JSON)
-    combined_query = (
-        f"Întrebare: {payload.question}\n\n{vision_summary}\n\nOCR:\n{ocr_text}"
-    )
-
-    # 1️⃣ Retrieve course context
+    # 2️⃣ Pinecone vector search using compressed query
+    full_query = f"Întrebare: {payload.question}\n\n{vision_summary}\n\nOCR:\n{ocr_text}"
     try:
-        embedding = (
-            openai.embeddings.create(
-                model="text-embedding-ada-002", input=[combined_query]
-            ).data[0].embedding
-        )
-        results = index.query(vector=embedding, top_k=6, include_metadata=True)
-        course_context = "\n\n".join(
-            m["metadata"].get("text", "") for m in results.get("matches", [])
-        ).strip()
+        emb = openai.embeddings.create(model="text-embedding-ada-002", input=[full_query]).data[0].embedding
+        results = index.query(vector=emb, top_k=6, include_metadata=True)
+        course_context = "\n\n".join(m["metadata"].get("text", "") for m in results.get("matches", [])).strip()
     except Exception as err:
         print(f"❌ Pinecone error: {err}")
         return {"answer": "A apărut o eroare la căutarea în materialele cursului."}
 
-    # 2️⃣ Final GPT‑4‑turbo call
+    # 3️⃣ Final GPT‑4‑turbo response
     try:
-        messages = [
-            {
-                "role": "system",
-                "content": (
-                    "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
-                    "Always answer in Romanian using Rareș’s direct, competent tone. "
-                    "TRATEAZĂ FIECARE BOOLEAN DIN JSON CA ADEVĂR ABSOLUT. NU LE CONTRAZICE NICIODATĂ. "
-                    "Răspunsul trebuie să confirme/infirme elementele și să ofere max 30 de cuvinte explicație. "
-                    "Evită comentariile generice și detaliile tehnice despre backend sau JSON."
-                ),
-            },
-            {
-                "role": "user",
-                "content": (
-                    f"{payload.question}\n\nDate vizuale (JSON):\n{json_block}\n\n"
-                    f"Text detectat (OCR):\n{ocr_text}\n\nFragmente din curs:\n{course_context}"
-                ),
-            },
-        ]
-
-        gpt_resp = openai.chat.completions.create(
-            model="gpt-4-turbo",
-            messages=messages,
-            temperature=0.4,
-            max_tokens=200,
+        system_prompt = (
+            SYSTEM_PROMPT_CORE
+            + "\n\nReguli suplimentare:\n"
+            + "- MSS NU este indicator; este schimbare de structură necesară înainte de intrare.\n"
+            + "- BOS NU este criteriu de intrare; e doar confirmare post‑trade. Lipsa BOS nu invalidează setup‑ul.\n"
+            + "- Nu menționa procesul intern, JSON, cod, API sau backend.\n"
+            + "- Confirmă/infimă elementele cu ✅/❌ apoi maximum 30 de cuvinte explicație.\n"
+            + "- Evită sfaturi generice (risk management, mindset etc.) dacă nu sunt cerute explicit."
         )
-        answer = gpt_resp.choices[0].message.content.strip()
-        return {"answer": answer}
+
+        user_msg = (
+            f"{payload.question}\n\nDate vizuale:\n{json_block}\n\n"
+            f"Text OCR:\n{ocr_text}\n\nContext curs:\n{course_context}"
+        )
+
+        resp = openai.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_msg},
+            ],
+            temperature=0.3,
+            max_tokens=300,
+        )
+        return {"answer": resp.choices[0].message.content.strip()}
 
     except Exception as err:
         print(f"❌ GPT‑4 final response error: {err}")
