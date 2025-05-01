@@ -19,7 +19,7 @@ from pinecone import Pinecone, PineconeException
 # ---------------------------------------------------------------------------
 # LOGGING SETUP
 # ---------------------------------------------------------------------------
-# Keep level DEBUG for now
+# Keep level DEBUG for detailed diagnostics
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # ---------------------------------------------------------------------------
@@ -47,7 +47,7 @@ except FileNotFoundError:
         "Emulate Rareș's direct, concise teaching style. Be helpful and accurate according to the course rules."
     )
 
-# Define the core structural definition here to avoid repetition
+# Define the core structural definition here for injection workaround
 MSS_AGRESIV_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Agresiv: Este o rupere de structură formată dintr-o singură lumânare care face low/high."
 
 # SDK clients
@@ -83,31 +83,31 @@ app.add_middleware(
 
 def extract_text_from_image(image_url: str) -> str:
     """Download an image and return ASCII-cleaned OCR text, or empty string on failure."""
-    # ... (function remains the same as before) ...
     try:
         logging.info(f"Attempting OCR for image URL: {image_url}")
-        resp = requests.get(image_url, timeout=15) # Increased timeout
+        resp = requests.get(image_url, timeout=15)
         resp.raise_for_status()
         img = Image.open(BytesIO(resp.content))
-        text = pytesseract.image_to_string(img, lang="eng") # Ensure tesseract + eng lang pack installed
+        text = pytesseract.image_to_string(img, lang="eng")
         cleaned_text = "".join(ch for ch in text if ord(ch) < 128).strip()
         logging.info(f"OCR successful. Extracted text length: {len(cleaned_text)}")
         logging.debug(f"OCR Text (first 100 chars): {cleaned_text[:100]}")
         return cleaned_text
     except requests.exceptions.RequestException as err:
+        # Log network errors specifically for OCR
         logging.error(f"❌ OCR failed: Network error accessing image URL {image_url}: {err}")
         return ""
     except pytesseract.TesseractNotFoundError:
         logging.error("❌ OCR failed: pytesseract executable not found. Ensure it's installed and in PATH.")
         return ""
     except Exception as err:
-        logging.error(f"❌ OCR failed: Unexpected error processing image {image_url}: {err}")
+        # Log other unexpected errors during OCR
+        logging.exception(f"❌ OCR failed: Unexpected error processing image {image_url}: {err}") # Use logging.exception
         return ""
 
 
 def extract_json_from_text(text: str) -> str:
     """Extract JSON string from text that might contain markdown code blocks or other text."""
-    # ... (function remains the same as before) ...
     logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
     json_pattern = r"```(?:json)?\s*(\{[\s\S]*?\})\s*```"
     match = re.search(json_pattern, text, re.MULTILINE | re.DOTALL)
@@ -131,7 +131,6 @@ def extract_json_from_text(text: str) -> str:
 @app.post("/ask", response_model=Dict[str, str])
 async def ask_question(request: Request) -> Dict[str, str]:
     """Handles text-only questions answered strictly from course material."""
-    # ... (route remains the same as before, including DEBUG logging) ...
     try:
         body = await request.json()
         question = body.get("question", "").strip()
@@ -140,6 +139,8 @@ async def ask_question(request: Request) -> Dict[str, str]:
             return {"answer": "Te rog să specifici o întrebare."}
 
         logging.info(f"Received /ask request. Question: '{question[:100]}...'")
+        question_lower = question.lower() # Check lowercase once
+        is_mss_agresiv_text_q = question_lower == "ce este un mss agresiv"
 
         # 1. Get Embedding
         try:
@@ -150,45 +151,54 @@ async def ask_question(request: Request) -> Dict[str, str]:
             logging.error(f"OpenAI Embedding API error: {e}")
             raise HTTPException(status_code=503, detail="Serviciul OpenAI (Embeddings) nu este disponibil momentan.")
         except Exception as e:
-            logging.error(f"Unexpected error during embedding generation: {e}")
+            logging.exception(f"Unexpected error during embedding generation: {e}") # Use logging.exception
             raise HTTPException(status_code=500, detail="A apărut o eroare la procesarea întrebării.")
 
         # 2. Query Pinecone
+        context = "" # Initialize context
         try:
             results = index.query(vector=query_embedding, top_k=5, include_metadata=True)
             matches = results.get("matches", [])
             context = "\n\n---\n\n".join(m["metadata"].get("text", "") for m in matches if m["metadata"].get("text")).strip()
             logging.info(f"Pinecone query returned {len(matches)} matches. Context length: {len(context)}")
-            logging.debug(f"DEBUG TXT - Retrieved Course Context Content:\n---\n{context[:1000]}...\n---") # Log first 1000 chars
+            logging.debug(f"DEBUG TXT - Retrieved Course Context Content:\n---\n{context[:1000]}...\n---")
+
             if not context:
                 logging.warning("Pinecone query returned no relevant context.")
-                # Check if it's the specific MSS Agresiv question
-                if question.lower() == "ce este un mss agresiv":
-                     logging.info("Specific question 'ce este un mss agresiv' detected, providing hardcoded definition.")
-                     return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă."} # Add advice
+                if is_mss_agresiv_text_q:
+                     logging.info("Specific question 'ce este un mss agresiv' detected, providing hardcoded definition as context was empty.")
+                     # Provide definition and advice directly
+                     return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă."}
                 return {"answer": "Nu am găsit informații relevante în materialele de curs pentru a răspunde la această întrebare."}
-            # Inject structural definition if question is exactly "ce este un mss agresiv" and context might be mixed
-            if question.lower() == "ce este un mss agresiv" and MSS_AGRESIV_STRUCTURAL_DEFINITION not in context:
-                 logging.info("Injecting core MSS Agresiv structural definition into context for specific text query.")
-                 context = f"{MSS_AGRESIV_STRUCTURAL_DEFINITION}\n\n---\n\n{context}"
+            # Inject structural definition if question is exactly "ce este un mss agresiv" and context might be mixed/missing it
+            if is_mss_agresiv_text_q and MSS_AGRESIV_STRUCTURAL_DEFINITION.lower() not in context.lower():
+                 logging.info("Injecting core MSS Agresiv structural definition into context for specific text query as it seems missing.")
+                 context = f"{MSS_AGRESIV_STRUCTURAL_DEFINITION}\n\n---\n\n{context}" # Prepend
 
         except PineconeException as e:
             logging.error(f"Pinecone query error: {e}")
+            if is_mss_agresiv_text_q: # Still provide definition if query failed for this specific Q
+                 logging.info("Pinecone failed for 'ce este un mss agresiv', providing hardcoded definition.")
+                 return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă."}
             raise HTTPException(status_code=503, detail="Serviciul de căutare (Pinecone) nu este disponibil momentan.")
         except Exception as e:
-            logging.error(f"Unexpected error during Pinecone query: {e}")
+            logging.exception(f"Unexpected error during Pinecone query: {e}") # Use logging.exception
+            if is_mss_agresiv_text_q: # Still provide definition if query failed for this specific Q
+                 logging.info("Unexpected error during Pinecone query for 'ce este un mss agresiv', providing hardcoded definition.")
+                 return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă."}
             raise HTTPException(status_code=500, detail="A apărut o eroare la căutarea informațiilor.")
 
         # 3. Generate Answer
         try:
-            # Use the potentially modified context
             system_message = SYSTEM_PROMPT_CORE + "\n\nAnswer ONLY based on the provided Context."
-             # Add the hardcoded definition directly for the specific question to ensure it's used
-            if question.lower() == "ce este un mss agresiv":
-                 user_message = f"Question: {question}\n\nContext:\n{MSS_AGRESIV_STRUCTURAL_DEFINITION.replace('Definiție Structurală MSS Agresiv: ', '')}\n\n---\n\n{context}" # Prioritize hardcoded def
+            # For the specific question, ensure the user message emphasizes the core definition first
+            if is_mss_agresiv_text_q:
+                 # We prepend the definition to the context itself now, so just pass the modified context
+                 user_message = f"Question: {question}\n\nContext:\n{context}"
+                 # Add specific advice to the end if not already in answer? Or rely on context containing it.
+                 # Let's rely on the system prompt / context having the advice.
             else:
                  user_message = f"Question: {question}\n\nContext:\n{context}"
-
 
             logging.debug(f"Sending to GPT-3.5. System: {system_message[:200]}... User: {user_message[:200]}...")
             response = openai.chat.completions.create(
@@ -198,6 +208,11 @@ async def ask_question(request: Request) -> Dict[str, str]:
                 max_tokens=300
             )
             answer = response.choices[0].message.content.strip()
+
+            # Ensure the specific advice for MSS Agresiv is included if it's that question
+            if is_mss_agresiv_text_q and "dacă ești la început" not in answer.lower():
+                 answer += " Dacă ești la început, este recomandat în program să nu-l folosești încă."
+
             logging.info("Successfully generated answer using GPT-3.5-turbo.")
             logging.debug(f"Generated Answer (raw): {answer[:200]}...")
             return {"answer": answer}
@@ -206,7 +221,7 @@ async def ask_question(request: Request) -> Dict[str, str]:
             logging.error(f"OpenAI Chat API error (GPT-3.5): {e}")
             raise HTTPException(status_code=503, detail="Serviciul OpenAI (Chat) nu este disponibil momentan.")
         except Exception as e:
-            logging.error(f"Unexpected error during GPT-3.5 answer generation: {e}")
+            logging.exception(f"Unexpected error during GPT-3.5 answer generation: {e}") # Use logging.exception
             raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului.")
 
     except HTTPException:
@@ -237,12 +252,12 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     trade_evaluation_keywords = ["trade", "tranzacție", "tranzactie", "setup", "intrare", "ce parere", "ce părere", "cum arata", "valid", "corect", "evalua"]
     is_trade_evaluation = any(keyword in payload.question.lower() for keyword in trade_evaluation_keywords)
     logging.info(f"Is trade evaluation request: {is_trade_evaluation}")
-    question_lower = payload.question.lower() # For checks later
+    question_lower = payload.question.lower()
     is_mss_agresiv_question = "mss" in question_lower and ("agresiv" in question_lower or "agresivă" in question_lower)
 
     # --- 1️⃣ Vision Analysis & OCR ---
     try:
-        # ... (Image URL check remains the same) ...
+        # Verify image URL accessibility first
         try:
             logging.debug(f"Checking image URL accessibility: {payload.image_url}")
             img_response = requests.head(payload.image_url, timeout=10, allow_redirects=True)
@@ -255,15 +270,44 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             logging.error(f"❌ Image URL access error: {img_err}")
             raise HTTPException(status_code=400, detail="Nu am putut accesa imaginea furnizată. Verifică URL-ul.")
 
-        # ... (Vision Call remains the same) ...
+        # Call GPT-4 Vision for analysis
         try:
             logging.info("Starting GPT-4 Vision analysis...")
-            vision_system_prompt = "..." # Same as before
-            vision_user_prompt = "..." # Same as before
-            vision_resp = openai.chat.completions.create(...) # Same call as before
+            vision_system_prompt = (
+                "You are an expert chart parser specialized in the Trading Instituțional methodology. "
+                "Analyze the visual patterns in the provided chart image. Focus ONLY on identifying the presence of: "
+                "1. MSS (Market Structure Shift): Look for clear price structure breaks, often marked by labels or horizontal lines. "
+                "2. Imbalance/FVG (Fair Value Gap): Identify ANY distinctly colored zones OR highlighted rectangular areas between candles that contrast sharply with the chart background, OR visible price gaps. What matters is COLOR/HIGHLIGHT CONTRAST indicating a specific zone, not the specific color itself. "
+                "3. Liquidity: Identify zones marked (e.g., horizontal lines/zones) as potential price targets or areas where price accumulated/reversed. "
+                "Output *ONLY* a valid JSON object containing boolean flags for each element: 'MSS', 'imbalance', 'liquidity'. Example: {\"MSS\": true, \"imbalance\": false, \"liquidity\": true}. "
+                "Do NOT include explanations, confidence scores, or any other keys in the JSON."
+            )
+            vision_user_prompt = (
+                "Analyze the provided trading chart image based on the Trading Instituțional methodology. "
+                "Identify the presence (true/false) of MSS, Imbalance/FVG (any distinct colored/highlighted zone or gap), and Liquidity zones. "
+                "Output *only* the JSON object with boolean flags: {\"MSS\": ..., \"imbalance\": ..., \"liquidity\": ...}"
+            )
+
+            vision_resp = openai.chat.completions.create(
+                model="gpt-4-turbo",
+                messages=[
+                    {"role": "system", "content": vision_system_prompt},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "image_url", "image_url": {"url": payload.image_url}},
+                            {"type": "text", "text": vision_user_prompt},
+                        ],
+                    },
+                ],
+                max_tokens=150,
+                temperature=0.1
+            )
+
             raw_response_content = vision_resp.choices[0].message.content.strip()
             logging.info("GPT-4 Vision analysis completed.")
             logging.debug(f"Raw Vision Response: {raw_response_content}")
+
             json_string = extract_json_from_text(raw_response_content)
             try:
                 vision_dict = json.loads(json_string)
@@ -274,22 +318,31 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 logging.info(f"Successfully parsed Vision JSON: {vision_dict}")
                 visual_keywords = " ".join([k for k, v in vision_dict.items() if isinstance(v, bool) and v])
                 logging.debug(f"Visual keywords extracted: '{visual_keywords}'")
+
             except json.JSONDecodeError as json_err:
                  logging.error(f"❌ Failed to decode JSON from Vision response: {json_err}. Raw string: '{json_string}'")
                  vision_dict = {"error": "Invalid JSON structure from vision model", "MSS": False, "imbalance": False, "liquidity": False}
-        except (APIError, RateLimitError) as e:
-            logging.error(f"OpenAI Vision API error: {e}")
-            vision_dict = {"error": "Vision API unavailable", "MSS": False, "imbalance": False, "liquidity": False}
-        except Exception as e:
-            logging.error(f"Unexpected error during Vision processing: {e}")
-            vision_dict = {"error": "Unexpected vision processing error", "MSS": False, "imbalance": False, "liquidity": False}
 
+        except (APIError, RateLimitError) as e:
+            # Log specific OpenAI API errors during Vision call
+            logging.error(f"OpenAI Vision API error: {e}")
+            vision_dict = {"error": f"Vision API error: {e}", "MSS": False, "imbalance": False, "liquidity": False} # Include error detail potentially
+        except Exception as e:
+            # ***** MODIFIED LOGGING HERE *****
+            # Use logging.exception to capture the full traceback for unexpected Vision errors
+            logging.exception(f"Unexpected error during Vision processing: {e}")
+            vision_dict = {"error": "Unexpected vision processing error", "MSS": False, "imbalance": False, "liquidity": False}
+            # ********************************
+
+        # Run OCR regardless of vision success/failure
         ocr_text = extract_text_from_image(payload.image_url)
 
     except HTTPException:
-         raise
+         raise # Re-raise validation/network errors related to image access
     except Exception as e:
+        # Catch-all for stage 1 (URL check, Vision call block, OCR call)
         logging.exception(f"Unhandled exception during Vision/OCR stage: {e}")
+        # Allow proceeding with default/error values for vision_dict and ocr_text
 
     # --- 2️⃣ Vector Search ---
     try:
@@ -305,23 +358,18 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         retrieved_matches = matches.get("matches", [])
         course_context = "\n\n---\n\n".join(m["metadata"].get("text", "") for m in retrieved_matches if m["metadata"].get("text")).strip()
         logging.info(f"Pinecone query returned {len(retrieved_matches)} matches. Context length: {len(course_context)}")
-        logging.debug(f"DEBUG - Retrieved Course Context Content:\n---\n{course_context}\n---") # Keep logging context
+        logging.debug(f"DEBUG - Retrieved Course Context Content:\n---\n{course_context}\n---")
 
-        # ***** START: INJECT MSS AGRESIV DEFINITION WORKAROUND *****
+        # Inject definition workaround
         if is_mss_agresiv_question:
-            # Check if the precise structural definition is already likely present
             if MSS_AGRESIV_STRUCTURAL_DEFINITION.lower() not in course_context.lower():
                  logging.info("Injecting core MSS Agresiv structural definition into context as it seems missing.")
-                 # Prepend the definition, clearly marking it. Add extra newlines for separation.
                  course_context = f"{MSS_AGRESIV_STRUCTURAL_DEFINITION}\n\n---\n\n{course_context}"
             else:
                  logging.debug("Core MSS Agresiv structural definition already found in retrieved context. No injection needed.")
-        # ***** END: INJECT MSS AGRESIV DEFINITION WORKAROUND *****
-
 
         if not course_context:
              logging.warning("Pinecone query returned no relevant context for the hybrid query.")
-             # If context is empty, provide error message, but still add definition if relevant
              course_context = "[Eroare: Niciun context specific din curs nu a fost găsit pentru această combinație.]"
              if is_mss_agresiv_question:
                  course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}"
@@ -330,22 +378,25 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     except (APIError, RateLimitError) as e:
         logging.error(f"OpenAI Embedding API error during hybrid search: {e}")
         course_context = "[Eroare: Nu s-a putut genera embedding pentru căutare context]"
-        if is_mss_agresiv_question: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}" # Add definition even on error
+        if is_mss_agresiv_question: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}"
     except PineconeException as e:
         logging.error(f"Pinecone query error during hybrid search: {e}")
         course_context = "[Eroare: Nu s-a putut căuta în materialele de curs]"
-        if is_mss_agresiv_question: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}" # Add definition even on error
+        if is_mss_agresiv_question: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}"
     except Exception as e:
-        logging.exception(f"Unexpected error during vector search stage: {e}")
+        logging.exception(f"Unexpected error during vector search stage: {e}") # Use logging.exception
         course_context = "[Eroare: Problemă neașteptată la căutarea contextului]"
-        if is_mss_agresiv_question: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}" # Add definition even on error
+        if is_mss_agresiv_question: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}"
 
 
     # --- 3️⃣ Final Answer Generation (GPT-4) ---
     try:
         visual_evidence_parts = []
+        # Provide clearer feedback if vision analysis failed
         if vision_dict.get("error"):
-            visual_evidence_parts.append(f"Analiza vizuală nu a putut fi completată ({vision_dict['error']}).")
+            vision_error_msg = vision_dict['error']
+            logging.warning(f"Vision analysis failed: {vision_error_msg}") # Log warning
+            visual_evidence_parts.append(f"Analiza vizuală nu a putut fi completată ({vision_error_msg}).")
         else:
             visual_evidence_parts.append(f"MSS: {'prezent' if vision_dict.get('MSS') else 'NU este prezent'}")
             visual_evidence_parts.append(f"Imbalance/FVG: {'prezent' if vision_dict.get('imbalance') else 'NU este prezent'}")
@@ -353,7 +404,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         visual_evidence_str = ". ".join(visual_evidence_parts)
         logging.debug(f"Visual evidence string for prompt: {visual_evidence_str}")
 
-        # Use the refined system prompt focused on context handling
+        # Use the same refined system prompt
         final_system_prompt = SYSTEM_PROMPT_CORE + (
             "\n\n--- Additional Instructions for Image Analysis ---\n"
              # ... (Points 1-9 remain the same as the previous refined version) ...
@@ -363,25 +414,24 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
              "4. **Prioritize the Visual Analysis Results**... Note that the basic visual analysis typically confirms only *presence*...\n"
              "5. Refer to **Course Material** for definitions, rules, and concepts.\n"
              "6. **Handling MSS Type Questions ('Normal' vs 'Agresiv'):** If the user asks to differentiate...\n"
-             "    - Explicitly state that the basic visual analysis confirmed MSS *presence* but cannot determine the *type*.\n"
+             "    - Explicitly state that the basic visual analysis confirmed MSS *presence* but cannot determine the *type* (or state if analysis failed).\n" # Added note about failure
              "    - Consult the **Course Material Context** provided...\n"
              "    - **VERY IMPORTANT for Identification:** ...**focus primarily on the CORE STRUCTURAL DEFINITION** (e.g., the 'single-candle making low/high' rule for 'MSS Agresiv'). \n"
              "    - Explain *this structural rule* clearly.\n"
              "    - If the Course Material *also* mentions conditions for *using* an MSS Agresiv...mention these **briefly and separately**, explicitly stating they are conditions for *usage/application*...\n"
-             "    - Apply the structural rule: If you can reasonably infer the type based on the structural rule and image context, state it. \n"
-             "    - **If uncertain**...**state the structural rule clearly** and tell the user **what structural feature they should look for**...\n"
+             "    - Apply the structural rule: If you can reasonably infer the type based on the structural rule and image context (and if visual analysis didn't fail), state it. \n" # Added check for vision failure
+             "    - **If uncertain or if visual analysis failed**...**state the structural rule clearly** and tell the user **what structural feature they should look for**...\n" # Combined conditions
              "    - **CRITICAL:** Do **NOT** invent justifications or wrongly apply usage conditions...\n"
              "7. **Crucially: NEVER mention 'BOS'... Use only 'MSS'...\n"
              "8. If asked for an opinion on a trade/setup...provide a direct evaluation...\n"
              "9. Maintain Rareș's direct, helpful, and concise tone...\n"
         )
 
-        # Construct user message using the potentially modified context
         user_message_parts = [
             f"User Question: {payload.question}\n",
-            f"--- Visual Analysis Results (from image scan): ---\n{visual_evidence_str}\n",
-            f"--- Relevant Course Material Context (Definition possibly injected): ---", # Note context source
-            f"{course_context}\n" # Use the potentially modified context
+            f"--- Visual Analysis Results (from image scan): ---\n{visual_evidence_str}\n", # Includes potential error message now
+            f"--- Relevant Course Material Context (Definition possibly injected): ---",
+            f"{course_context}\n"
         ]
         if len(ocr_text) > 5:
              user_message_parts.extend([
@@ -389,7 +439,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                  f"{ocr_text}\n"
              ])
         user_message_parts.append(
-            f"--- Task ---\nAnswer the User Question based *primarily* on the Visual Analysis Results and Course Material Context provided. Follow all instructions in the System Prompt, especially regarding MSS types and trade evaluations. Be concise and direct."
+            f"--- Task ---\nAnswer the User Question based *primarily* on the Visual Analysis Results and Course Material Context provided. Follow all instructions in the System Prompt, especially regarding MSS types and trade evaluations. If Visual Analysis failed, state that clearly and rely solely on context and definitions. Be concise and direct." # Added instruction for vision failure
         )
         user_msg = "\n".join(user_message_parts)
 
@@ -400,10 +450,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
         gpt_resp = openai.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "system", "content": final_system_prompt},
-                {"role": "user", "content": user_msg},
-            ],
+            messages=[{"role": "system", "content": final_system_prompt}, {"role": "user", "content": user_msg}],
             temperature=temp,
             max_tokens=300
         )
@@ -412,14 +459,25 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         logging.info("Successfully generated final answer using GPT-4.")
         logging.debug(f"Raw GPT-4 Answer: {answer}")
 
-        # ... (Post-Filtering remains the same) ...
         answer = re.sub(r"^(Analizând|Pe baza|Conform|Based on)[^.]*\.\s*", "", answer, flags=re.IGNORECASE).strip()
         answer = re.sub(r"\bBOS\b|\bBreak of Structure\b", "MSS", answer, flags=re.IGNORECASE)
         answer = re.sub(r"\n{2,}", "\n", answer).strip()
 
-        # ... (Fallback Logic remains the same) ...
         if is_trade_evaluation and (not answer or len(answer) < 30 or "nu pot oferi" in answer.lower() or "nu am informații" in answer.lower()):
-             # ... fallback logic ...
+             # Fallback logic needs to consider vision failure
+             if vision_dict.get("error"):
+                  answer = f"Nu pot evalua setup-ul deoarece analiza vizuală a imaginii a eșuat ({vision_dict['error']}). Te rog asigură-te că imaginea este clară și reîncearcă sau verifică manual conform regulilor."
+             else:
+                mss_ok = vision_dict.get("MSS", False)
+                imb_ok = vision_dict.get("imbalance", False)
+                if mss_ok and imb_ok:
+                    answer = "Confirm că în chart se văd MSS și Imbalance/FVG conform analizei vizuale. Din punct de vedere tehnic și al regulilor Trading Instituțional, setup-ul pare să aibă elementele de bază necesare."
+                elif mss_ok and not imb_ok:
+                    answer = "Confirm prezența MSS conform analizei vizuale, dar Imbalance/FVG nu este clar vizibil sau lipsește conform scanării. Verifică dacă acesta este prezent conform regulilor înainte de a considera intrarea."
+                elif not mss_ok:
+                    answer = "Conform analizei vizuale, MSS (Market Structure Shift) esențial pentru intrare nu este (încă) prezent sau confirmat în acest chart. Așteaptă confirmarea MSS conform regulilor."
+                else:
+                     answer = "Analiza vizuală nu a confirmat clar elementele cheie necesare (MSS, Imbalance). Asigură-te că respecți toate regulile Trading Instituțional înainte de a intra într-o tranzacție."
              logging.info(f"Applied fallback answer: {answer}")
 
         if not answer:
@@ -433,7 +491,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         logging.error(f"OpenAI Chat API error (GPT-4): {e}")
         raise HTTPException(status_code=503, detail="Serviciul OpenAI (Chat) nu este disponibil momentan pentru generarea răspunsului final.")
     except Exception as e:
-        logging.exception(f"Unexpected error during final GPT-4 answer generation stage: {e}")
+        logging.exception(f"Unexpected error during final GPT-4 answer generation stage: {e}") # Use logging.exception
         raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului final.")
 
 # Optional: Add a root endpoint for health checks
