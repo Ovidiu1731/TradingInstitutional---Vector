@@ -87,22 +87,43 @@ def summarize_vision_data(raw_json: str) -> str:
             # Check multiple possible keys for the same concept
             keys_to_check = [key]
             if key == "imbalance":
-                keys_to_check.extend(["FVG", "fvg", "fair_value_gap", "fairValueGap", "gap"])
+                keys_to_check.extend([
+                    "FVG", "fvg", "fair_value_gap", "fairValueGap", "gap", 
+                    "colored_zone", "colored_zones", "distinct_zone", "distinct_zones", 
+                    "highlighted_zone", "highlighted_zones", "contrast", "contrasting_zone", 
+                    "contrasting_zones", "colored_area", "highlighted_area"
+                ])
             elif key == "MSS":
-                keys_to_check.extend(["mss", "marketStructureShift", "market_structure_shift"])
+                keys_to_check.extend([
+                    "mss", "marketStructureShift", "market_structure_shift", 
+                    "structure_shift", "structure_break", "break_of_structure"
+                ])
             
             # Check in top level and nested objects
             nested = data.get("presence", {}) if isinstance(data.get("presence"), dict) else {}
             zones = data.get("zones", {}) if isinstance(data.get("zones"), dict) else {}
+            visual = data.get("visual", {}) if isinstance(data.get("visual"), dict) else {}
             
             # Return True if any key is found with a truthy value
             for check_key in keys_to_check:
-                if bool(data.get(check_key)) or bool(nested.get(check_key)) or check_key in str(zones):
+                # Check in multiple possible locations and formats
+                if any([
+                    bool(data.get(check_key)), 
+                    bool(nested.get(check_key)),
+                    bool(visual.get(check_key)),
+                    check_key in str(zones),
+                    check_key in str(data)
+                ]):
                     return True
             
-            # Also check for visual imbalance detection (colored zones)
-            if key == "imbalance" and (data.get("colored_zones", False) or data.get("red_zones", False)):
-                return True
+            # Also check for visual imbalance detection using any color terms
+            if key == "imbalance":
+                color_terms = ["color", "zone", "highlight", "area", "contrast", "distinct"]
+                json_str = str(data).lower()
+                # If any color-related term is found in the JSON
+                for term in color_terms:
+                    if term in json_str:
+                        return True
                 
             return False
 
@@ -183,10 +204,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                         "IMPORTANT: Analyze the visual patterns in the chart, not just text labels. "
                         "Look for these key elements:\n"
                         "1. MSS (Market Structure Shift): Look for labels or horizontal lines with price structure breaks\n"
-                        "2. Imbalance/FVG (Fair Value Gap): Look for colored zones (often red/green/blue) between candles, or gaps in price action\n"
+                        "2. Imbalance/FVG (Fair Value Gap): Look for ANY distinctly colored zones or highlighted areas between candles that contrast with the background, or visible gaps in price action\n"
                         "3. Liquidity: Look for horizontal lines or zones where price has been accumulated\n\n"
                         "Even if these elements aren't explicitly labeled with text, identify them based on visual patterns. "
-                        "Red/maroon colored zones often represent imbalance/FVG areas. "
+                        "Traders use various color schemes - what matters is COLOR CONTRAST, not specific colors. "
+                        "Any zone highlighted with a distinct color different from the background is likely an imbalance/FVG. "
                         "Output simple JSON with presence flags for each element (true/false)."
                     ),
                 },
@@ -197,10 +219,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                         {"type": "text", "text": (
                             "Analyze the chart and identify: \n"
                             "1. MSS (Market Structure Shift) - horizontal lines with arrows or labels\n"
-                            "2. Imbalance/FVG (Fair Value Gap) - colored zones (especially red/maroon areas) or price gaps\n"
+                            "2. Imbalance/FVG (Fair Value Gap) - ANY distinctly colored or highlighted zones that contrast with the background, or visible price gaps\n"
                             "3. Liquidity areas - zones marked for price targets\n"
-                            "Output JSON with presence flags for each element. If you see colored zones (red/blue/green), "
-                            "they likely represent imbalance/FVG even without explicit labels."
+                            "Output JSON with presence flags for each element. Remember that traders use different color schemes - "
+                            "focus on areas with distinct color contrast rather than specific colors. Any area highlighted with a "
+                            "different color than the main chart is likely an imbalance/FVG even without explicit labels."
                         )},
                     ],
                 },
