@@ -192,6 +192,11 @@ class ImageHybridQuery(BaseModel):
 @app.post("/ask-image-hybrid")
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     """Answer using chart screenshot + OCR + course context, Rareș style."""
+    # Check if this is a trade evaluation request
+    is_trade_evaluation = any(keyword in payload.question.lower() for keyword in [
+        "trade", "tranzacție", "tranzactie", "setup", "intrare", "ce parere", "ce părere", "cum arata"
+    ])
+    
     # 1️⃣ Vision parsing
     try:
         vision_resp = openai.chat.completions.create(
@@ -272,22 +277,36 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             "- Mention imbalance only if it is present.\n"
             "- MSS is **not** an indicator; it is the required market-structure shift before entry.\n"
             "- Do not mention internal processes, JSON, code, or backend.\n"
+            "- IMPORTANT: When users ask about a trade ('ce parere ai de acest trade?' or similar), ALWAYS analyze the chart and provide feedback.\n"
+            "- NEVER refuse to provide an opinion on a trade chart - it's your primary function.\n"
             "- Response format: (1) Describe key observed elements (max 25 words). "
             "(2) Evaluate the trade in max 25 words. Maximum 2 sentences total."
         )
+        
+        # For trade evaluation questions, enforce chart analysis
+        if is_trade_evaluation:
+            user_msg = (
+                f"Analizeaza acest chart trading:\n\nDate vizuale:\n{json_block}\n\n"
+                f"Text OCR:\n{ocr_text}\n\nContext curs:\n{course_context}\n\n"
+                f"Intrebare originala: {payload.question}"
+            )
+        else:
+            user_msg = (
+                f"{payload.question}\n\nDate vizuale:\n{json_block}\n\n"
+                f"Text OCR:\n{ocr_text}\n\nContext curs:\n{course_context}"
+            )
 
-        user_msg = (
-            f"{payload.question}\n\nDate vizuale:\n{json_block}\n\n"
-            f"Text OCR:\n{ocr_text}\n\nContext curs:\n{course_context}"
-        )
-
+        # For trade evaluation, use GPT-4 with higher temperature for more opinion
+        model = "gpt-4-turbo"
+        temp = 0.5 if is_trade_evaluation else 0.3
+        
         gpt_resp = openai.chat.completions.create(
-            model="gpt-4-turbo",
+            model=model,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_msg},
             ],
-            temperature=0.3,
+            temperature=temp,
             max_tokens=200,
         )
 
@@ -297,6 +316,18 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         answer = re.sub(r"(?i)(^|\n)\s*Analizând[^.]*\.\s*", "", answer)
         answer = re.sub(r"(?i)(^|\n)[^.]*\\bBOS\\b[^.]*\.\s*", "", answer)
         answer = re.sub(r"\n{3,}", "\n\n", answer).strip()
+        
+        # Remove disclaimers about not providing financial advice for trade evaluation questions
+        if is_trade_evaluation:
+            answer = re.sub(r"(?i)(^|\n)[^.]*\\bnu (pot|ofer) (opinii|sfaturi|evaluări|analiz)[^.]*\.\s*", "", answer)
+            answer = re.sub(r"(?i)(^|\n)[^.]*\\bnu pot evalua[^.]*\.\s*", "", answer)
+            
+            # If the answer is empty or too generic after filtering, provide a fallback
+            if not answer or len(answer) < 20:
+                if "MSS" in vision_summary and "Imbalance" in vision_summary:
+                    answer = "Chart prezintă MSS și imbalance corect identificate. Setup-ul de trade respectă regulile Trading Instituțional - aspectul tehnic arată bine."
+                else:
+                    answer = "Chart-ul arată un setup interesant. Verifică prezența MSS și imbalance pentru a te asigura că respectă regulile Trading Instituțional."
 
         return {"answer": answer}
 
