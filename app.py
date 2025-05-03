@@ -79,6 +79,7 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # HELPERS
 # ---------------------------------------------------------------------------
+# Keep extract_text_from_image and extract_json_from_text as they were in the previous version
 
 def extract_text_from_image(image_url: str) -> str:
     """Download an image and return ASCII-cleaned OCR text, or empty string on failure."""
@@ -134,7 +135,6 @@ def extract_json_from_text(text: str) -> Optional[str]: # Return Optional[str]
 
     logging.warning("Could not extract valid-looking JSON object from text.")
     return None # Return None if no valid JSON found
-
 
 # ---------------------------------------------------------------------------
 # ROUTES – TEXT ONLY
@@ -242,9 +242,8 @@ async def ask_question(request: Request) -> Dict[str, str]:
         logging.exception(f"Unhandled exception in /ask endpoint: {e}")
         raise HTTPException(status_code=500, detail="A apărut o eroare internă neașteptată.")
 
-
 # ---------------------------------------------------------------------------
-# ROUTES – IMAGE HYBRID (REVISED)
+# ROUTES – IMAGE HYBRID (REVISED AGAIN FOR DIRECTION/OUTCOME)
 # ---------------------------------------------------------------------------
 
 class ImageHybridQuery(BaseModel):
@@ -262,11 +261,10 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     course_context: str = ""
 
     # --- Keywords for logic branching ---
-    trade_evaluation_keywords = ["trade", "tranzacție", "tranzactie", "setup", "intrare", "ce parere", "ce părere", "cum arata", "valid", "corect", "evalua"]
-    is_trade_evaluation = any(keyword in payload.question.lower() for keyword in trade_evaluation_keywords)
-    logging.info(f"Is trade evaluation request: {is_trade_evaluation}")
+    trade_evaluation_keywords = ["trade", "tranzacție", "tranzactie", "setup", "intrare", "ce parere", "ce părere", "cum arata", "valid", "corect", "evalua", "rezultat"] # Added "rezultat"
+    is_trade_evaluation_or_result_q = any(keyword in payload.question.lower() for keyword in trade_evaluation_keywords)
+    logging.info(f"Is trade evaluation/result request: {is_trade_evaluation_or_result_q}")
     question_lower = payload.question.lower()
-    # Check if the question is specifically asking to classify MSS type
     is_mss_type_question = "mss" in question_lower and ("normal" in question_lower or "agresiv" in question_lower or "agresivă" in question_lower)
     logging.info(f"Is MSS type classification question: {is_mss_type_question}")
 
@@ -286,33 +284,37 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             logging.error(f"❌ Image URL access error: {img_err}")
             raise HTTPException(status_code=400, detail="Nu am putut accesa imaginea furnizată. Verifică URL-ul.")
 
-        # --- Call GPT-4 Vision for DETAILED analysis ---
+        # --- Call GPT-4 Vision for DETAILED analysis (including direction) ---
         try:
             logging.info("Starting DETAILED GPT-4 Vision analysis...")
-            # --- NEW STAGE 1 PROMPT ---
+            # --- UPDATED STAGE 1 PROMPT ---
             detailed_vision_system_prompt = (
                 "You are an expert Trading Instituțional chart analyst. Your task is to meticulously analyze the provided candlestick chart image "
                 "and output a structured JSON object containing your detailed observations. Focus ONLY on the visual elements present."
                 "\nGuidelines:"
                 "\n1. Identify the primary pattern or area of interest if possible (e.g., potential MSS, consolidation, trend)."
                 "\n2. **MSS Analysis:** If a potential MSS (Market Structure Shift - break of a recent swing high/low) is visible:"
+                "   - Note the direction of the break (e.g., 'break of high', 'break of low')."
                 "   - Describe the swing point (high or low) that was broken."
                 "   - **Crucially, describe the candles forming that specific swing point:** Count them and note their type (e.g., '2 bullish, 2 bearish candles form the high')."
                 "   - Based ONLY on that candle structure, state if it visually corresponds to the rule for 'normal' or 'aggressive' MSS (e.g., 'normal' if multi-candle, 'aggressive' if single-candle). Use 'unknown' if unclear."
                 "\n3. **Displacement/FVG Analysis:** Identify and describe any clear price gaps between candles (FVGs) or zones of strong imbalance, especially near potential MSS points. Note their location and approximate size relative to surrounding candles. Assess 'quality' as 'not visible', 'minor', 'moderate', or 'significant' based purely on visual clarity/size."
                 "\n4. **Liquidity Analysis:** Describe any visible horizontal lines, zones, or clear areas of prior highs/lows that might represent liquidity targets or pools."
-                "\n5. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP'). List them."
-                "\n6. **Output Format:** Return ONLY a single, valid JSON object containing keys: 'analysis_possible' (boolean), 'primary_pattern' (string), 'mss_analysis' (object: 'is_present' (bool), 'broken_swing_point_description' (string), 'broken_swing_point_structure' (string), 'visual_mss_type' (string: 'normal'/'aggressive'/'unknown')), 'displacement_analysis' (object: 'fvg_detected' (bool), 'description' (string), 'visual_quality' (string)), 'liquidity_analysis' (string), 'ocr_text' (list of strings). Use null or descriptive strings (e.g., 'Not observed') if a feature isn't clearly visible or analysis failed for a sub-part."
-                "\nDo NOT add any commentary or explanation outside the JSON structure."
+                "\n5. **Trade Setup Analysis:** If standard trade setup elements (Entry line/level, Stop Loss zone/line (often red), Take Profit zone/line (often green)) are visible:"
+                "   - Describe their positions relative to each other and the current price."
+                "   - Identify the implied **trade_direction**: 'long' (TP above Entry, SL below), 'short' (TP below Entry, SL above), or 'undetermined'."
+                "\n6. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP'). List them."
+                "\n7. **Output Format:** Return ONLY a single, valid JSON object containing keys: 'analysis_possible' (boolean), 'primary_pattern' (string), 'mss_analysis' (object: 'is_present' (bool), 'break_direction' (string), 'broken_swing_point_description' (string), 'broken_swing_point_structure' (string), 'visual_mss_type' (string: 'normal'/'aggressive'/'unknown')), 'displacement_analysis' (object: 'fvg_detected' (bool), 'description' (string), 'visual_quality' (string)), 'liquidity_analysis' (string), 'trade_setup_present' (bool), 'trade_direction' (string: 'long'/'short'/'undetermined'), 'ocr_text' (list of strings). Use null or descriptive strings (e.g., 'Not observed') if a feature isn't clearly visible or analysis failed for a sub-part."
+                "\nDo NOT add any commentary, **predictions, or assessments of trade outcome (win/loss)** outside the JSON structure." # Added restriction
              )
 
             detailed_vision_user_prompt = (
                 "Analyze this trading chart image according to the Trading Instituțional methodology detailed in the system prompt. "
-                "Provide your findings ONLY as a structured JSON object."
+                "Focus on visual facts. Determine the implied trade direction if possible. Do not predict outcome. Provide your findings ONLY as a structured JSON object."
             )
 
             vision_resp = openai.chat.completions.create(
-                model="gpt-4.1", # Ensure this model has up-to-date vision capabilities
+                model="gpt-4.1", # Using recommended gpt-4.1
                 messages=[
                     {"role": "system", "content": detailed_vision_system_prompt},
                     {
@@ -323,9 +325,9 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                         ],
                     },
                 ],
-                max_tokens=1000, # Increased for detailed JSON
-                temperature=0.2, # Low temp for factual visual description
-                response_format={"type": "json_object"} # Request JSON output
+                max_tokens=1200, # Slightly increased just in case
+                temperature=0.2,
+                response_format={"type": "json_object"}
             )
 
             # --- Process the response (expecting JSON directly) ---
@@ -335,7 +337,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
             try:
                 detailed_vision_analysis = json.loads(raw_response_content)
-                # Basic validation (can be expanded)
                 if not isinstance(detailed_vision_analysis, dict) or 'analysis_possible' not in detailed_vision_analysis:
                      logging.warning("Vision JSON structure might be invalid. Setting error.")
                      detailed_vision_analysis = {"error": "Invalid JSON structure received from vision model", "raw_response": raw_response_content}
@@ -344,7 +345,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
             except json.JSONDecodeError as json_err:
                  logging.error(f"❌ Failed to decode JSON from Vision response: {json_err}.")
-                 # Try the extractor as a fallback
                  fallback_json_string = extract_json_from_text(raw_response_content)
                  if fallback_json_string:
                      try:
@@ -369,18 +369,15 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
     except HTTPException:
         raise # Re-raise validation/network errors related to image access
     except Exception as e:
-        # Catch-all for stage 1 (URL check, Vision call block, OCR call)
         logging.exception(f"Unhandled exception during Vision/OCR stage: {e}")
-        # Allow proceeding with default/error values for detailed_vision_analysis and ocr_text
-        if "error" not in detailed_vision_analysis: # Ensure error state is set
+        if "error" not in detailed_vision_analysis:
              detailed_vision_analysis = {"error": "Unhandled exception in Vision/OCR stage"}
 
-    # --- 2️⃣ Vector Search (Largely unchanged, might refine query later) ---
+    # --- 2️⃣ Vector Search (Unchanged for now) ---
     try:
         query_parts = [f"Question: {payload.question}"]
-        # Optionally add keywords derived from detailed_vision_analysis if needed
-        # Example: if detailed_vision_analysis.get('mss_analysis', {}).get('is_present'): query_parts.append("MSS visually detected")
         if len(ocr_text) > 10: query_parts.append(f"OCR Text Snippet: {ocr_text[:200]}") # Use OCR text if significant
+        # Maybe add identified direction later? e.g., if 'trade_direction' == 'short': query_parts.append("Visually identified short setup elements.")
         combo_query = " ".join(query_parts)
 
         logging.info(f"Constructed embedding query (first 200 chars): {combo_query[:200]}...")
@@ -394,9 +391,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         logging.debug(f"DEBUG - Retrieved Course Context Content:\n---\n{course_context}\n---")
 
         # Inject definition workaround (keep for specific MSS Agresiv questions)
-        # Check if it's an MSS Type question OR exactly "ce este un mss agresiv"
         is_mss_agresiv_definition_needed = is_mss_type_question or question_lower == "ce este un mss agresiv"
-
         if is_mss_agresiv_definition_needed:
             if MSS_AGRESIV_STRUCTURAL_DEFINITION.lower() not in course_context.lower():
                 logging.info("Injecting core MSS Agresiv structural definition into context as it seems missing.")
@@ -423,45 +418,33 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         course_context = "[Eroare: Problemă neașteptată la căutarea contextului]"
         if is_mss_agresiv_definition_needed: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}"
 
-    # --- 3️⃣ Final Answer Generation (GPT-4 - REVISED PROMPT LOGIC) ---
+    # --- 3️⃣ Final Answer Generation (GPT-4.1 - REVISED PROMPT LOGIC AGAIN) ---
     try:
         # --- Prepare the visual analysis report string ---
-        # Handle potential errors reported from Stage 1 first
-        if detailed_vision_analysis.get("error"):
-            vision_error_msg = detailed_vision_analysis['error']
-            logging.warning(f"Vision analysis stage reported an error: {vision_error_msg}")
-            visual_analysis_report_str = f"**Analiza Vizuală a Eșuat:** {vision_error_msg}\n(Răspunsul se va baza doar pe contextul din curs și OCR, dacă există)."
-        else:
-             # Convert the detailed analysis dict to a readable string for the prompt
-             # Using JSON dump for easy formatting, can be refined later
-             try:
-                 visual_analysis_report_str = json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False)
-             except Exception:
-                  visual_analysis_report_str = str(detailed_vision_analysis) # Fallback to string representation
+        visual_analysis_report_str = "[Eroare la formatarea raportului vizual]" # Default error
+        try:
+             visual_analysis_report_str = json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False)
+        except Exception:
+             visual_analysis_report_str = str(detailed_vision_analysis) # Fallback
         logging.debug(f"Detailed Visual Analysis Report string for prompt:\n{visual_analysis_report_str}")
 
-        # --- Define the NEW system prompt instructions for final synthesis ---
-        # Keep SYSTEM_PROMPT_CORE and add NEW instructions
+
+        # --- Define the UPDATED system prompt instructions for final synthesis ---
         final_system_prompt = SYSTEM_PROMPT_CORE + (
             "\n\n--- Additional Instructions for Image Analysis ---\n"
-            "1. You are provided with a **Detailed Visual Analysis Report** (in JSON format or as text) derived from the user's image. This report contains observations about patterns like MSS, displacement, liquidity, and structure details (like candle counts).\n"
-            "2. You are also given **Relevant Course Material Context** retrieved via vector search and possibly **OCR text** read from the image.\n"
+            "1. You are provided with a **Detailed Visual Analysis Report** (JSON format) from the user's image, containing observations about visual patterns (MSS structure, displacement, liquidity, OCR, trade direction etc.).\n"
+            "2. You are also given **Relevant Course Material Context** (retrieved via RAG) and possibly **OCR text**.\n"
             "3. **Answer the User's Question** by synthesizing information from ALL provided sources.\n"
-            "4. **PRIORITIZE the Detailed Visual Analysis Report** for visual facts about the specific chart shown. Trust its observations about presence, structure, and descriptions unless it explicitly states an error or uncertainty.\n"
-            "5. Use the **Course Material Context** to understand the definitions, rules, and strategic implications of the observed visual patterns (e.g., what defines a 'normal' vs 'aggressive' MSS, what constitutes 'quality' displacement).\n"
-            "6. **Combine Visuals and Rules:** Directly compare the specific visual details reported (e.g., 'broken_swing_point_structure', 'displacement_description') with the rules and definitions from the course context.\n"
-            "7. **Handling MSS Type Questions ('Normal' vs 'Agresiv'):**\n"
-            "   - Look at the 'mss_analysis' section in the visual report.\n"
-            "   - Check the reported 'broken_swing_point_structure' (e.g., candle count/description).\n"
-            "   - Check the reported 'visual_mss_type' (normal/aggressive/unknown).\n"
-            "   - Compare the reported structure against the 'single-candle rule' (or other rules) for Aggressive MSS found in the Course Material Context.\n"
-            "   - If the visual report provides a clear structure description and type ('normal'/'aggressive'), explain the classification based on that visual evidence and the rule.\n"
-            "   - If the visual report indicates 'unknown' type or if the structure description is unclear/missing, state that the visual analysis couldn't definitively classify the type and explain the rule the user should apply visually.\n"
-            "8. **Handling Displacement Quality:** If asked about displacement quality, use the 'displacement_analysis' -> 'visual_quality' field from the report and combine it with any rules about quality found in the Course Material Context.\n"
-            "9. **Trade Evaluations:** If asked for an opinion on a trade/setup, provide an evaluation based on how well the observed visual elements (from the report) align with the entry criteria and rules described in the Course Material Context. Avoid definitive predictions of success/failure.\n"
-            "10. **Acknowledge Limitations:** If the Visual Analysis Report indicates an error ('error' key present or 'analysis_possible' is false), state clearly that the visual analysis could not be performed reliably and base the answer primarily on the Course Material Context and OCR.\n"
-            "11. **Crucially: NEVER mention 'BOS'... Use only 'MSS'...\n"
-            "12. Maintain Rareș's direct, helpful, and concise tone...\n"
+            "4. **PRIORITIZE the Detailed Visual Analysis Report** for visual facts about the specific chart shown. Trust its observations unless it explicitly states an error or high uncertainty ('unknown', 'undetermined', 'not observed').\n"
+            "5. Use the **Course Material Context** to get definitions, rules, and strategic implications.\n"
+            "6. **Combine Visuals and Rules:** Directly compare visual details from the report (e.g., `broken_swing_point_structure`, `visual_mss_type`, `trade_direction`, `displacement_analysis`) with rules from the course context.\n"
+            "7. **Handling MSS Type Questions ('Normal' vs 'Agresiv'):** Explain the classification based on the `visual_mss_type` and `broken_swing_point_structure` reported, comparing it explicitly to the rule (e.g., single-candle vs multi-candle) from the course context. If type is 'unknown' or structure unclear in the report, state that and explain the rule the user should apply visually.\n"
+            "8. **Handling Trade Direction:** When discussing a trade setup, incorporate the `trade_direction` ('long'/'short'/'undetermined') reported in the visual analysis.\n"
+            "9. **Trade Evaluations / Opinions:** Evaluate trade setups by comparing the observed visual elements (MSS type, displacement quality, liquidity context, trade direction) reported in the visual analysis against the strategy rules from the course context. Explain *why* it aligns or doesn't align.\n"
+            "10. **CRITICAL - DO NOT PREDICT OUTCOME:** **NEVER state or imply whether a trade shown in a static image was a win or loss (profit/take profit hit or loss/stop loss hit)** unless the image *unequivocally shows the final price action reaching the TP or SL marker*. If the user asks about the result ('rezultat'), state clearly that the outcome cannot be determined from the setup image, but you can evaluate the setup's structure based on the rules.\n"
+            "11. **Acknowledge Limitations:** If the Visual Analysis Report contains an 'error' key or 'analysis_possible' is false, state clearly that visual analysis failed and base the answer primarily on course context and OCR.\n"
+            "12. **Crucially: NEVER mention 'BOS'... Use only 'MSS'...\n"
+            "13. Maintain Rareș's direct, helpful, and concise tone...\n"
         )
 
         # --- Construct the final user message ---
@@ -477,44 +460,46 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 f"{ocr_text}\n"
             ])
         user_message_parts.append(
-            f"--- Task ---\nAnswer the User Question by carefully integrating the Detailed Visual Analysis Report with the Course Material Context, following all instructions in the System Prompt. "
+            f"--- Task ---\nAnswer the User Question by carefully integrating the Detailed Visual Analysis Report with the Course Material Context, following all instructions in the System Prompt (especially regarding trade outcomes - do NOT predict profit/loss from setup). "
             "Explain your reasoning by linking visual observations to course rules. Be concise and direct."
         )
         user_msg = "\n".join(user_message_parts)
 
-        logging.debug(f"Sending to GPT-4. System Prompt (start): {final_system_prompt[:200]}... User Message (start): {user_msg[:300]}...")
+        logging.debug(f"Sending to GPT-4.1. System Prompt (start): {final_system_prompt[:200]}... User Message (start): {user_msg[:300]}...")
 
         # Determine model and temperature
-        model = "gpt-4.1" # Use a powerful model for synthesis
-        temp = 0.4 if is_trade_evaluation else 0.2 # Slightly more creative for eval, more factual otherwise
+        model = "gpt-4.1" # Using recommended gpt-4.1
+        temp = 0.3 # Keep temperature relatively low for factual application of rules to visuals
 
         gpt_resp = openai.chat.completions.create(
             model=model,
             messages=[{"role": "system", "content": final_system_prompt}, {"role": "user", "content": user_msg}],
             temperature=temp,
-            max_tokens=400 # Allow slightly longer answers if needed for explanation
+            max_tokens=450 # Increased slightly for potentially more detailed explanations
         )
 
         answer = gpt_resp.choices[0].message.content.strip()
-        logging.info("Successfully generated final answer using GPT-4.")
-        logging.debug(f"Raw GPT-4 Answer: {answer}")
+        logging.info("Successfully generated final answer using GPT-4.1.")
+        logging.debug(f"Raw GPT-4.1 Answer: {answer}")
 
         # --- Post-processing (same as before) ---
         answer = re.sub(r"^(Analizând|Pe baza|Conform|Based on)[^.]*\.\s*", "", answer, flags=re.IGNORECASE).strip()
         answer = re.sub(r"\bBOS\b|\bBreak of Structure\b", "MSS", answer, flags=re.IGNORECASE)
         answer = re.sub(r"\n{2,}", "\n", answer).strip()
 
-        # --- REVISED Fallback Logic (Simpler for now) ---
-        # If the main answer is too short or seems like a canned refusal,
-        # check if the vision analysis itself failed.
+        # --- REVISED Fallback Logic ---
         if not answer or len(answer) < 20 or "nu pot oferi" in answer.lower() or "nu am informații" in answer.lower():
              if detailed_vision_analysis.get("error"):
                  answer = f"Nu am putut analiza imaginea din cauza unei erori ({detailed_vision_analysis.get('error', 'necunoscută')}). Te rog verifică imaginea sau încearcă din nou."
                  logging.info(f"Applied fallback answer due to vision error: {answer}")
              else:
-                 answer = "Nu am putut genera un răspuns specific bazat pe informațiile disponibile. Ai putea te rog să reformulezi întrebarea?"
-                 logging.warning(f"Applying generic fallback as generated answer was short/uninformative. Vision analysis did not report error. Analysis dump: {detailed_vision_analysis}")
-
+                 # If user asked about result, give specific fallback
+                 if "rezultat" in question_lower:
+                      answer = "Nu pot determina rezultatul final (profit sau pierdere) al unei tranzacții dintr-o imagine statică a setup-ului. Pot doar evalua dacă elementele setup-ului respectă regulile vizual."
+                      logging.info("Applied specific fallback for 'rezultat' question.")
+                 else:
+                      answer = "Nu am putut genera un răspuns specific bazat pe informațiile disponibile. Ai putea te rog să reformulezi întrebarea?"
+                      logging.warning(f"Applying generic fallback as generated answer was short/uninformative. Vision analysis did not report error. Analysis dump: {detailed_vision_analysis}")
 
         if not answer: # Final check if still empty
             logging.error("Generated answer was empty even after potential fallback.")
@@ -524,10 +509,10 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         return {"answer": answer}
 
     except (APIError, RateLimitError) as e:
-        logging.error(f"OpenAI Chat API error (GPT-4): {e}")
+        logging.error(f"OpenAI Chat API error (GPT-4.1): {e}")
         raise HTTPException(status_code=503, detail="Serviciul OpenAI (Chat) nu este disponibil momentan pentru generarea răspunsului final.")
     except Exception as e:
-        logging.exception(f"Unexpected error during final GPT-4 answer generation stage: {e}")
+        logging.exception(f"Unexpected error during final GPT-4.1 answer generation stage: {e}")
         raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului final.")
 
 # Optional: Add a root endpoint for health checks
