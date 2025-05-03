@@ -292,54 +292,73 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "You are an expert Trading Instituțional chart analyst. Your task is to meticulously analyze the provided candlestick chart image "
                 "and output a structured JSON object containing your detailed observations. Focus ONLY on the visual elements present."
                 "\nGuidelines:"
-                "\n1. Identify the primary pattern or area of interest if possible (e.g., potential MSS, consolidation, trend)."
                 
-                "\n2. **Trade Direction Critical Analysis:** FIRST, carefully examine the chart for colored zones/boxes:"
-                "   - RED zone/box typically indicates resistance or target area for shorts"
-                "   - GREEN/BLUE/TEAL zone/box typically indicates support or target area for longs"
-                "   - Determine if the trade is likely SHORT (selling, expecting price to go down) or LONG (buying, expecting price to go up)"
-                "   - Use colored zones, arrows, and the overall price action context to determine direction BEFORE analyzing patterns"
+                "\n1. **Candlestick Direction Fundamentals FIRST:**"
+                "   - BLUE/GREEN candles are BULLISH (price closed HIGHER than it opened)"
+                "   - RED candles are BEARISH (price closed LOWER than it opened)"
+                "   - Look at the COLORS of the candles in the chart to determine their direction"
+                "   - Note: in some charts, hollow candles are bullish and filled candles are bearish"
                 
-                "\n3. **MSS Analysis:** If a potential MSS (Market Structure Shift - break of a recent swing high/low) is visible:"
-                "   - First identify if it's a break of HIGH (price breaking above previous structure) or LOW (price breaking below previous structure)"
-                "   - For breaks of HIGH: Check if price is making higher highs (bullish context)"
-                "   - For breaks of LOW: Check if price is making lower lows (bearish context)"
-                "   - Confirm if the direction of the MSS matches the suspected trade direction"
-                "   - **Crucially, describe the candles forming that specific swing point:** Count them and note their type"
-                "   - Based ONLY on that candle structure, state if it visually corresponds to the rule for 'normal' or 'aggressive' MSS"
+                "\n2. **High vs Low Break Identification:**"
+                "   - A break of HIGH occurs when price moves UPWARD through a previous resistance level"
+                "   - A break of LOW occurs when price moves DOWNWARD through a previous support level"
+                "   - ALWAYS verify if the break is of HIGH or LOW by looking at the DIRECTION of the movement"
+                "   - For a break of HIGH: newer candles are ABOVE older candles forming resistance"
+                "   - For a break of LOW: newer candles are BELOW older candles forming support"
                 
-                "\n4. **Displacement/FVG Analysis:** Always match displacement direction with trade direction:"
-                "   - For suspected SHORT trades: Look for BEARISH displacement (price moving down, creating gaps)"
-                "   - For suspected LONG trades: Look for BULLISH displacement (price moving up, creating gaps)"
-                "   - Check if displacement direction confirms the suspected trade direction"
+                "\n3. **MSS Analysis & Classification:**"
+                "   - MSS Agresiv DEFINITION: Structure break formed by a SINGLE candle making a new high or low"
+                "   - MSS Normal DEFINITION: Structure break formed by MULTIPLE candles making a new high or low"
+                "   - For EACH potential MSS, count the EXACT number of candles involved in breaking the structure"
+                "   - If only ONE candle breaks the structure -> MSS Agresiv"
+                "   - If TWO OR MORE candles break the structure -> MSS Normal"
                 
-                "\n5. **Liquidity Analysis:** Describe any visible horizontal lines, zones, or clear areas of prior highs/lows that might represent liquidity targets or pools."
+                "\n4. **Trade Direction Analysis:** Based on the MSS type and other context:"
+                "   - SHORT trades involve breaks of LOW (price expected to move DOWN)"
+                "   - LONG trades involve breaks of HIGH (price expected to move UP)"
+                "   - Use labeled arrows, zones, and MSS context to confirm direction"
                 
-                "\n6. **Trade Setup & Outcome Analysis:** When analyzing colored zones and price action:"
-                "   - For SHORT trades: Entry is typically near the top of a red zone, with price expected to move DOWN toward a teal/blue target"
-                "   - For LONG trades: Entry is typically near the bottom of a green/blue zone, with price expected to move UP toward a target"
-                "   - Check price movement AFTER the entry point to determine outcome"
-                "   - For SHORT trades hitting SL: Price moves UP instead of expected DOWN movement"
-                "   - For LONG trades hitting SL: Price moves DOWN instead of expected UP movement"
+                "\n5. **Displacement Analysis:** Ensure consistency with candle direction:"
+                "   - BEARISH displacement shows price moving DOWN, creating gaps (should align with SHORT trades)"
+                "   - BULLISH displacement shows price moving UP, creating gaps (should align with LONG trades)"
                 
-                "\n7. **Price Movement After Setup:** Pay special attention to direction consistency in your analysis:"
-                "   - If you identify a SHORT trade, displacement should be BEARISH, and a win would show price moving DOWN"
-                "   - If you identify a LONG trade, displacement should be BULLISH, and a win would show price moving UP"
-                "   - CROSS-CHECK your trade_direction, displacement_analysis, and trade_outcome fields for consistency"
+                "\n6. **Critical Color Interpretation:**"
+                "   - Do NOT rely solely on red/green colored zones for direction"
+                "   - FOCUS on the ACTUAL PRICE MOVEMENT direction and structure breaks"
+                "   - EXPLICITLY state if candles breaking structure are BULLISH (blue/green) or BEARISH (red)"
                 
-                "\n8. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP', 'WIN', 'LOSS'). List them."
+                "\n7. **MSS Label Analysis:**"
+                "   - Look for 'MSS' labels or arrows in the chart"
+                "   - Note the direction the MSS arrow points (UP for breaks of high, DOWN for breaks of low)"
+                "   - Match the arrow direction with your identified break type"
                 
-                "\n9. **Output Format:** Return a valid JSON with keys: 'analysis_possible', 'trade_direction', 'primary_pattern', 'mss_analysis' (including 'break_type' which should be 'high' or 'low'), 'displacement_analysis' (including 'direction' which should be 'bullish' or 'bearish'), 'liquidity_analysis', 'trade_setup', 'price_movement_after_entry', 'trade_outcome'"
-                "\nDo NOT add any commentary outside the JSON structure."
+                "\n8. **Final Cross-Check:**"
+                "   - After your analysis, VERIFY that:"
+                "   - Your identified 'break_type' (high/low) is consistent with the candle direction (bullish/bearish)"
+                "   - For break of HIGH: expect predominantly BULLISH candles (blue/green)"
+                "   - For break of LOW: expect predominantly BEARISH candles (red)"
+                "   - If you see inconsistency, re-evaluate your analysis"
+                
+                "\n9. **Output Format:** Return a valid JSON with these MANDATORY fields:"
+                "   - 'analysis_possible': boolean"
+                "   - 'candle_colors': Description of candle colors in the chart (e.g., 'blue/green for bullish, red for bearish')"
+                "   - 'break_identification': Must include the SPECIFIC direction ('break of high' or 'break of low')"
+                "   - 'candle_direction': Must specify if the breaking candle is 'bullish' or 'bearish'"
+                "   - 'mss_analysis': Include 'break_type' ('high' or 'low'), 'breaking_candle_count' (number), and 'structure_description'"
+                "   - 'mss_type': Must be either 'agresiv' (1 candle) or 'normal' (2+ candles)"
+                "   - 'displacement_analysis': Include 'direction' ('bullish' or 'bearish')"
+                "   - 'trade_direction': Should match break direction ('long' for break of high, 'short' for break of low)"
+                "   - Additional fields for price movement, liquidity, etc. as appropriate"
             )
 
             detailed_vision_user_prompt = (
-                "Analyze this trading chart image according to the Trading Instituțional methodology detailed in the system prompt. "
-                "First determine if this is a SHORT or LONG trade based on visible elements. "
-                "For SHORT trades, look for breaks of LOW and bearish displacement. "
-                "For LONG trades, look for breaks of HIGH and bullish displacement. "
-                "Ensure your analysis is consistent with the identified trade direction. "
-                "Provide your findings ONLY as a structured JSON object."
+                "Analyze this trading chart image according to the Trading Instituțional methodology. "
+                "Pay special attention to candle colors and direction of movement when determining if it's a break of HIGH or break of LOW. "
+                "For MSS classification, count the EXACT number of candles involved in breaking structure - ONE candle means MSS Agresiv, "
+                "TWO OR MORE candles means MSS Normal. "
+                "Ensure your analysis is directionally consistent: breaks of HIGH should involve BULLISH candles and upward movement, "
+                "while breaks of LOW should involve BEARISH candles and downward movement. "
+                "Provide your complete analysis as a structured JSON object with ALL required fields."
             )
 
             vision_resp = openai.chat.completions.create(
@@ -374,31 +393,49 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
                      # Check for consistency between fields
                      if detailed_vision_analysis.get("analysis_possible", False):
-                         trade_direction = detailed_vision_analysis.get("trade_direction", "undetermined")
+                         break_identification = detailed_vision_analysis.get("break_identification", "").lower()
+                         candle_direction = detailed_vision_analysis.get("candle_direction", "").lower()
+                         trade_direction = detailed_vision_analysis.get("trade_direction", "").lower()
                          mss_analysis = detailed_vision_analysis.get("mss_analysis", {})
                          displacement_analysis = detailed_vision_analysis.get("displacement_analysis", {})
                          
                          # Extract key information
-                         mss_break_type = mss_analysis.get("break_type", "").lower() if isinstance(mss_analysis, dict) else ""
+                         break_type = mss_analysis.get("break_type", "").lower() if isinstance(mss_analysis, dict) else ""
+                         if not break_type and "high" in break_identification:
+                             break_type = "high"
+                         elif not break_type and "low" in break_identification:
+                             break_type = "low"
+                         
                          displacement_direction = displacement_analysis.get("direction", "").lower() if isinstance(displacement_analysis, dict) else ""
                          
-                         # Log possible inconsistencies for debugging
-                         if trade_direction == "long" and "low" in mss_break_type:
-                             logging.warning(f"Possible inconsistency: LONG trade with break of LOW reported")
-                         if trade_direction == "short" and "high" in mss_break_type:
-                             logging.warning(f"Possible inconsistency: SHORT trade with break of HIGH reported")
-                         if trade_direction == "long" and "bearish" in displacement_direction:
-                             logging.warning(f"Possible inconsistency: LONG trade with BEARISH displacement")
-                         if trade_direction == "short" and "bullish" in displacement_direction:
-                             logging.warning(f"Possible inconsistency: SHORT trade with BULLISH displacement")
+                         # Log possible inconsistencies
+                         if "high" in break_type and "bearish" in candle_direction:
+                             logging.warning(f"❌ DIRECTIONAL INCONSISTENCY: Break of HIGH with BEARISH candle")
+                             detailed_vision_analysis["direction_inconsistency"] = "high_break_bearish_candle"
                          
-                         # If inconsistencies are found, add a flag to alert the final analysis
-                         has_direction_inconsistency = (
-                             (trade_direction == "long" and ("low" in mss_break_type or "bearish" in displacement_direction)) or
-                             (trade_direction == "short" and ("high" in mss_break_type or "bullish" in displacement_direction))
-                         )
-                         if has_direction_inconsistency:
-                             detailed_vision_analysis["direction_consistency_warning"] = True
+                         if "low" in break_type and "bullish" in candle_direction:
+                             logging.warning(f"❌ DIRECTIONAL INCONSISTENCY: Break of LOW with BULLISH candle")
+                             detailed_vision_analysis["direction_inconsistency"] = "low_break_bullish_candle"
+                         
+                         if "high" in break_type and trade_direction == "short":
+                             logging.warning(f"❌ DIRECTIONAL INCONSISTENCY: Break of HIGH with SHORT trade direction")
+                             detailed_vision_analysis["direction_inconsistency"] = "high_break_short_trade"
+                         
+                         if "low" in break_type and trade_direction == "long":
+                             logging.warning(f"❌ DIRECTIONAL INCONSISTENCY: Break of LOW with LONG trade direction")
+                             detailed_vision_analysis["direction_inconsistency"] = "low_break_long_trade"
+                         
+                         if "high" in break_type and "bearish" in displacement_direction:
+                             logging.warning(f"❌ DIRECTIONAL INCONSISTENCY: Break of HIGH with BEARISH displacement")
+                             detailed_vision_analysis["direction_inconsistency"] = "high_break_bearish_displacement"
+                         
+                         if "low" in break_type and "bullish" in displacement_direction:
+                             logging.warning(f"❌ DIRECTIONAL INCONSISTENCY: Break of LOW with BULLISH displacement")
+                             detailed_vision_analysis["direction_inconsistency"] = "low_break_bullish_displacement"
+                         
+                         # Set flag for inconsistencies
+                         if detailed_vision_analysis.get("direction_inconsistency"):
+                             logging.warning(f"⚠️ Direction inconsistencies found in vision analysis: {detailed_vision_analysis.get('direction_inconsistency')}")
 
             except json.JSONDecodeError as json_err:
                  logging.error(f"❌ Failed to decode JSON from Vision response: {json_err}.")
@@ -437,6 +474,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         # Add identified direction to improve context retrieval
         if detailed_vision_analysis.get("trade_direction") in ["long", "short"]:
             query_parts.append(f"Trade direction: {detailed_vision_analysis.get('trade_direction')}")
+        
+        # Add MSS type if available
+        if detailed_vision_analysis.get("mss_type") in ["agresiv", "normal"]:
+            query_parts.append(f"MSS type: {detailed_vision_analysis.get('mss_type')}")
+            
         combo_query = " ".join(query_parts)
 
         logging.info(f"Constructed embedding query (first 200 chars): {combo_query[:200]}...")
@@ -491,38 +533,64 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         # --- Define the UPDATED system prompt instructions for final synthesis ---
         final_system_prompt = SYSTEM_PROMPT_CORE + (
             "\n\n--- Additional Instructions for Image Analysis ---\n"
-            "1. You are provided with a **Detailed Visual Analysis Report** (JSON format) from the user's image, containing observations about visual patterns (MSS structure, displacement, liquidity, trade direction, and potential outcome).\n"
-            "2. You are also given **Relevant Course Material Context** (retrieved via RAG) and possibly **OCR text**.\n"
-            "3. **Answer the User's Question** by synthesizing information from ALL provided sources.\n"
-            "4. **PRIORITIZE the Detailed Visual Analysis Report** for visual facts about the specific chart shown. Trust its observations unless it explicitly states an error or high uncertainty.\n"
-            "5. Use the **Course Material Context** to get definitions, rules, and strategic implications.\n"
-            "6. **Combine Visuals and Rules:** Directly compare visual details from the report with trading rules from the course material.\n"
-            "7. **Direction Consistency Check:** Be EXTREMELY careful about direction consistency in your analysis:\n"
-            "   - SHORT trades should have breaks of LOW, BEARISH displacement, and price moving DOWN for a win\n"
-            "   - LONG trades should have breaks of HIGH, BULLISH displacement, and price moving UP for a win\n"
-            "   - If the Visual Analysis Report contains a 'direction_consistency_warning' flag, be extra cautious about potential misinterpretation\n"
-            "8. **Handling MSS Type Questions:** Explain the classification based on the `visual_mss_type` and `broken_swing_point_structure` reported, comparing it explicitly to the definitions in course materials.\n"
-            "9. **Handling Trade Direction:** When discussing a trade setup, clearly state whether it's a LONG setup (buying, expecting price to rise) or SHORT setup (selling, expecting price to fall).\n"
-            "10. **Evaluating Trade Setups:** When asked to evaluate a setup, consider ALL of these factors while maintaining direction consistency:\n"
-            "    - Whether the setup follows the course trading rules (as determined by comparing visual elements to course material)\n"
-            "    - The quality of the MSS structure (normal vs. aggressive, and how well it matches the definition)\n"
-            "    - The quality of the displacement (if visible and analyzed in report)\n"
-            "    - The position relative to liquidity (if visible and analyzed in report)\n"
-            "11. **Trade Outcome Analysis:** If the image shows price action after entry and `price_movement_after_entry` and `trade_outcome` fields have meaningful values:\n"
-            "    - For SHORT trades: Price should move DOWN for a win, UP for a loss\n"
-            "    - For LONG trades: Price should move UP for a win, DOWN for a loss\n"
-            "    - Report whether the trade appears to have won (hit TP) or lost (hit SL) according to the visual analysis\n" 
-            "    - IMPORTANT: Even if a trade appears to have lost, evaluate if the setup was valid according to course rules\n"
-            "    - Explain: A losing trade can still have a valid setup if it followed all rules, as trading is probabilistic\n"
-            "12. **When Outcome is Undetermined:** If `trade_outcome` is 'undetermined' or missing, clearly state that you cannot determine the final outcome from the image.\n"
-            "13. **Always use MSS, not BOS:** Never mention 'BOS'... Use only 'MSS'\n"
-            "14. Maintain Rareș's direct, helpful, and concise tone\n"
+            "1. You are provided with a **Detailed Visual Analysis Report** from the user's chart image.\n"
+            "2. You are also given **Relevant Course Material Context** and possibly **OCR text**.\n"
+            
+            "\n3. **CRITICAL DIRECTIONAL VERIFICATION:** Before answering:"
+            "   - Check if the vision analysis shows a break of HIGH or break of LOW"
+            "   - Verify if breaking candle(s) are described as BULLISH or BEARISH"
+            "   - For breaks of HIGH: candles should generally be BULLISH (blue/green)"
+            "   - For breaks of LOW: candles should generally be BEARISH (red)"
+            "   - If you detect inconsistency (e.g., break of high with bearish candle), CORRECT it in your response"
+            
+            "\n4. **MSS Type Determination:**"
+            "   - MSS Agresiv: ALWAYS defined by a SINGLE candle breaking structure"
+            "   - MSS Normal: ALWAYS defined by MULTIPLE (2+) candles breaking structure"
+            "   - Count the candles involved in breaking the structure from the analysis"
+            
+            "\n5. **When Asked About MSS Classification:**"
+            "   - For MSS Agresiv: Emphasize it's formed by ONE candle breaking structure"
+            "   - For MSS Normal: Emphasize it's formed by MULTIPLE candles breaking structure"
+            "   - Always specify if it's a break of HIGH (upward) or LOW (downward)"
+            "   - Always specify if the breaking candle is BULLISH (blue/green) or BEARISH (red)"
+            
+            "\n6. **Direction Consistency Check:** Be EXTREMELY careful about direction consistency in your analysis:"
+            "   - SHORT trades should have breaks of LOW, BEARISH displacement, and price moving DOWN for a win"
+            "   - LONG trades should have breaks of HIGH, BULLISH displacement, and price moving UP for a win"
+            "   - If the Visual Analysis Report contains a 'direction_inconsistency' flag, be extra cautious and CORRECT the inconsistency"
+            
+            "\n7. **Handling MSS Type Questions:** When answering about MSS type:"
+            "   - Only consider the NUMBER OF CANDLES breaking structure (not their color or direction)"
+            "   - ONE candle breaking = MSS Agresiv"
+            "   - TWO OR MORE candles breaking = MSS Normal"
+            "   - Make sure to also state the correct direction (break of high or low) and candle color (bullish or bearish)"
+            
+            "\n8. **Critical Corrections for Common Errors:**"
+            "   - If you see 'high_break_bearish_candle' flag: Correct by noting that a break of high typically involves bullish candles"
+            "   - If you see 'low_break_bullish_candle' flag: Correct by noting that a break of low typically involves bearish candles"
+            "   - If you see 'high_break_short_trade' flag: Correct by noting that breaks of high typically align with long trades"
+            "   - If you see 'low_break_long_trade' flag: Correct by noting that breaks of low typically align with short trades"
+            
+            "\n9. **Evaluating Trade Setups:** When asked to evaluate a setup, consider ALL of these factors while maintaining direction consistency:"
+            "   - Whether the setup follows the course trading rules (as determined by comparing visual elements to course material)"
+            "   - The quality of the MSS structure (normal vs. aggressive, and how well it matches the definition)"
+            "   - The quality of the displacement (if visible and analyzed in report)"
+            "   - The position relative to liquidity (if visible and analyzed in report)"
+            
+            "\n10. **Trade Outcome Analysis:** If the image shows price action after entry:"
+            "    - For SHORT trades: Price should move DOWN for a win, UP for a loss"
+            "    - For LONG trades: Price should move UP for a win, DOWN for a loss"
+            "    - Report whether the trade appears to have won (hit TP) or lost (hit SL) according to the visual analysis"
+            "    - IMPORTANT: Even if a trade appears to have lost, evaluate if the setup was valid according to course rules"
+            
+            "\n11. **Always use MSS, not BOS:** Never mention 'BOS'... Use only 'MSS'\n"
+            "\n12. Maintain Rareș's direct, helpful, and concise tone\n"
         )
 
         # --- Construct the final user message ---
         user_message_parts = [
             f"User Question: {payload.question}\n",
-            f"--- Detailed Visual Analysis Report (from image scan): ---\n{visual_analysis_report_str}\n", # Pass the detailed report string
+            f"--- Detailed Visual Analysis Report (from image scan): ---\n{visual_analysis_report_str}\n",
             f"--- Relevant Course Material Context (Definition possibly injected): ---",
             f"{course_context}\n"
         ]
@@ -531,9 +599,22 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 f"--- Text from Image (OCR - may contain errors): ---",
                 f"{ocr_text}\n"
             ])
+        
+        # Add special instructions for MSS type questions
+        if is_mss_type_question:
+            user_message_parts.append(
+                f"--- Special Instructions for MSS Type Question ---\n"
+                f"This question is specifically about MSS classification. Remember:\n"
+                f"1. MSS Agresiv = EXACTLY ONE candle breaking structure\n"
+                f"2. MSS Normal = TWO OR MORE candles breaking structure\n"
+                f"3. Also confirm if it's a break of HIGH (upward) or LOW (downward)\n"
+                f"4. Also note if breaking candle(s) are BULLISH (blue/green) or BEARISH (red)\n"
+            )
+        
         user_message_parts.append(
             f"--- Task ---\nAnswer the User Question by carefully integrating the Detailed Visual Analysis Report with the Course Material Context, following all instructions in the System Prompt."
-            "ENSURE DIRECTION CONSISTENCY in your analysis (SHORT trades: breaks of LOW, bearish displacement, price moves DOWN for win; LONG trades: breaks of HIGH, bullish displacement, price moves UP for win)."
+            "ENSURE DIRECTION CONSISTENCY in your analysis. If the vision analysis has directional inconsistencies, correct them in your answer."
+            "Be especially careful with MSS classification based on candle count, and matching breaking candle color with break direction."
             "Explain your reasoning by linking visual observations to course rules. Be concise and direct."
         )
         user_msg = "\n".join(user_message_parts)
@@ -560,6 +641,35 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         answer = re.sub(r"\bBOS\b|\bBreak of Structure\b", "MSS", answer, flags=re.IGNORECASE)
         answer = re.sub(r"\n{2,}", "\n", answer).strip()
 
+        # --- Add directional correction if needed ---
+        mss_analysis = detailed_vision_analysis.get("mss_analysis", {})
+        break_type = mss_analysis.get("break_type", "").lower() if isinstance(mss_analysis, dict) else ""
+        if not break_type and "break_identification" in detailed_vision_analysis:
+            if "high" in detailed_vision_analysis.get("break_identification", "").lower():
+                break_type = "high"
+            elif "low" in detailed_vision_analysis.get("break_identification", "").lower():
+                break_type = "low"
+                
+        candle_direction = detailed_vision_analysis.get("candle_direction", "").lower()
+        direction_inconsistency = detailed_vision_analysis.get("direction_inconsistency", "")
+
+        # Check for mismatched candle and break directions
+        if direction_inconsistency and any(word in answer.lower() for word in ["agresiv", "normal", "mss"]):
+            correction = ""
+            if "high_break_bearish_candle" in direction_inconsistency:
+                correction = "\n\nNotă importantă: În mod normal, o ruptură de HIGH (nivel superior) este realizată de lumânări predominant BULLISH (verzi/albastre), nu bearish."
+            elif "low_break_bullish_candle" in direction_inconsistency:
+                correction = "\n\nNotă importantă: În mod normal, o ruptură de LOW (nivel inferior) este realizată de lumânări predominant BEARISH (roșii), nu bullish."
+            elif "high_break_short_trade" in direction_inconsistency:
+                correction = "\n\nNotă importantă: De obicei, o ruptură de HIGH (nivel superior) este asociată cu tranzacții LONG (cumpărare), nu short."
+            elif "low_break_long_trade" in direction_inconsistency:
+                correction = "\n\nNotă importantă: De obicei, o ruptură de LOW (nivel inferior) este asociată cu tranzacții SHORT (vânzare), nu long."
+            
+            # Only add correction if it doesn't already exist in the answer
+            if correction and not any(c.lower() in answer.lower() for c in ["notă importantă", "corectie", "corecție", "trebuie menționat"]):
+                answer += correction
+                logging.warning(f"Added directional correction to answer due to detected mismatch: {direction_inconsistency}")
+
         # --- ENHANCED Fallback Logic with Outcome Handling ---
         if not answer or len(answer) < 20 or "nu pot oferi" in answer.lower() or "nu am informații" in answer.lower():
             if detailed_vision_analysis.get("error"):
@@ -580,6 +690,24 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                         answer = f"Din analiza vizuală, această tranzacție {direction_text} pare să fie {result}, deoarece prețul a atins {'nivelul de Take Profit' if outcome == 'win' else 'nivelul de Stop Loss'}. "
                         answer += "Totuși, evaluarea unui setup nu depinde doar de rezultat, ci de respectarea regulilor din curs la momentul intrării în piață. Chiar și un trade valid conform regulilor poate fi pierzător din cauza naturii probabilistice a tradingului."
                     logging.info(f"Applied specific fallback for outcome question, using detected outcome: {outcome}")
+                # Special handling for MSS type questions
+                elif is_mss_type_question:
+                    mss_type = detailed_vision_analysis.get("mss_type", "").lower()
+                    breaking_candle_count = mss_analysis.get("breaking_candle_count", 0) if isinstance(mss_analysis, dict) else 0
+                    
+                    if mss_type == "agresiv" or breaking_candle_count == 1:
+                        answer = "Acesta este un MSS agresiv, deoarece structura este ruptă de o singură lumânare. " 
+                        answer += f"Se poate observa o ruptură de {'HIGH (nivel superior)' if break_type == 'high' else 'LOW (nivel inferior)'} "
+                        answer += f"realizată de o lumânare {'bullish (verde/albastră)' if 'bullish' in candle_direction else 'bearish (roșie)'}, "
+                        answer += "exact cum este definit MSS agresiv în program."
+                    elif mss_type == "normal" or breaking_candle_count > 1:
+                        answer = "Acesta este un MSS normal, deoarece structura este ruptă de mai multe lumânări. "
+                        answer += f"Se poate observa o ruptură de {'HIGH (nivel superior)' if break_type == 'high' else 'LOW (nivel inferior)'} "
+                        answer += f"realizată de {breaking_candle_count} lumânări {'predominant bullish (verzi/albastre)' if 'bullish' in candle_direction else 'predominant bearish (roșii)'}."
+                    else:
+                        answer = "Nu pot determina cu certitudine dacă este un MSS agresiv sau normal din imaginea furnizată. Pentru o clasificare corectă, ar trebui să pot identifica clar numărul de lumânări care rup structura."
+                    
+                    logging.info(f"Applied specific fallback for MSS type question, using detected type: {mss_type}, candle count: {breaking_candle_count}")
                 else:
                     answer = "Nu am putut genera un răspuns specific bazat pe informațiile disponibile. Ai putea te rog să reformulezi întrebarea?"
                     logging.warning(f"Applying generic fallback as generated answer was short/uninformative. Vision analysis did not report error. Analysis dump: {detailed_vision_analysis}")
