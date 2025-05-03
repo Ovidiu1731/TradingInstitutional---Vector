@@ -243,7 +243,7 @@ async def ask_question(request: Request) -> Dict[str, str]:
         raise HTTPException(status_code=500, detail="A apărut o eroare internă neașteptată.")
 
 # ---------------------------------------------------------------------------
-# ROUTES – IMAGE HYBRID (REVISED AGAIN FOR DIRECTION/OUTCOME)
+# ROUTES – IMAGE HYBRID (REVISED WITH IMPROVED VISUAL ANALYSIS)
 # ---------------------------------------------------------------------------
 
 class ImageHybridQuery(BaseModel):
@@ -271,7 +271,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
     # --- 1️⃣ Detailed Vision Analysis & OCR ---
     try:
-        # --- Verify image URL accessibility first (same as before) ---
+        # --- Verify image URL accessibility first ---
         try:
             logging.debug(f"Checking image URL accessibility: {payload.image_url}")
             img_response = requests.head(payload.image_url, timeout=10, allow_redirects=True)
@@ -284,10 +284,10 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             logging.error(f"❌ Image URL access error: {img_err}")
             raise HTTPException(status_code=400, detail="Nu am putut accesa imaginea furnizată. Verifică URL-ul.")
 
-        # --- Call GPT-4 Vision for DETAILED analysis (including direction) ---
+        # --- Call GPT-4 Vision for DETAILED analysis (including direction and outcome) ---
         try:
             logging.info("Starting DETAILED GPT-4 Vision analysis...")
-            # --- UPDATED STAGE 1 PROMPT ---
+            # --- UPDATED STAGE 1 PROMPT WITH ENHANCED INSTRUCTIONS ---
             detailed_vision_system_prompt = (
                 "You are an expert Trading Instituțional chart analyst. Your task is to meticulously analyze the provided candlestick chart image "
                 "and output a structured JSON object containing your detailed observations. Focus ONLY on the visual elements present."
@@ -297,20 +297,27 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "   - Note the direction of the break (e.g., 'break of high', 'break of low')."
                 "   - Describe the swing point (high or low) that was broken."
                 "   - **Crucially, describe the candles forming that specific swing point:** Count them and note their type (e.g., '2 bullish, 2 bearish candles form the high')."
-                "   - Based ONLY on that candle structure, state if it visually corresponds to the rule for 'normal' or 'aggressive' MSS (e.g., 'normal' if multi-candle, 'aggressive' if single-candle). Use 'unknown' if unclear."
-                "\n3. **Displacement/FVG Analysis:** Identify and describe any clear price gaps between candles (FVGs) or zones of strong imbalance, especially near potential MSS points. Note their location and approximate size relative to surrounding candles. Assess 'quality' as 'not visible', 'minor', 'moderate', or 'significant' based purely on visual clarity/size."
+                "   - Based ONLY on that candle structure, state if it visually corresponds to the rule for 'normal' or 'aggressive' MSS (e.g., 'normal' if multi-candle, 'aggressive' if single-candle)."
+                "\n3. **Displacement/FVG Analysis:** Identify and describe any clear price gaps between candles (FVGs) or zones of strong imbalance, especially near potential MSS points. Note their size and quality."
                 "\n4. **Liquidity Analysis:** Describe any visible horizontal lines, zones, or clear areas of prior highs/lows that might represent liquidity targets or pools."
-                "\n5. **Trade Setup Analysis:** If standard trade setup elements (Entry line/level, Stop Loss zone/line (often red), Take Profit zone/line (often green)) are visible:"
-                "   - Describe their positions relative to each other and the current price."
-                "   - Identify the implied **trade_direction**: 'long' (TP above Entry, SL below), 'short' (TP below Entry, SL above), or 'undetermined'."
-                "\n6. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP'). List them."
-                "\n7. **Output Format:** Return ONLY a single, valid JSON object containing keys: 'analysis_possible' (boolean), 'primary_pattern' (string), 'mss_analysis' (object: 'is_present' (bool), 'break_direction' (string), 'broken_swing_point_description' (string), 'broken_swing_point_structure' (string), 'visual_mss_type' (string: 'normal'/'aggressive'/'unknown')), 'displacement_analysis' (object: 'fvg_detected' (bool), 'description' (string), 'visual_quality' (string)), 'liquidity_analysis' (string), 'trade_setup_present' (bool), 'trade_direction' (string: 'long'/'short'/'undetermined'), 'ocr_text' (list of strings). Use null or descriptive strings (e.g., 'Not observed') if a feature isn't clearly visible or analysis failed for a sub-part."
-                "\nDo NOT add any commentary, **predictions, or assessments of trade outcome (win/loss)** outside the JSON structure." # Added restriction
-             )
+                "\n5. **Trade Setup Analysis:** If standard trade setup elements are visible, analyze them in detail:"
+                "   - **Entry Point/Line:** Describe its position relative to recent price action."
+                "   - **Stop Loss (SL):** Identify its position (often marked in red) and relationship to swing points."
+                "   - **Take Profit (TP):** Locate target level(s) (often marked in green)."
+                "   - **Trade Direction:** Determine 'long' (TP above Entry, SL below), 'short' (TP below Entry, SL above), or 'undetermined'."
+                "   - **Current Price vs. Targets:** Note if price appears to have reached SL, TP, or neither yet."
+                "\n6. **Price Movement After Setup:** If the chart shows price action after an apparent entry:"
+                "   - Describe the subsequent price movement (e.g., 'price moved strongly upward after entry', 'price retraced to SL level')."
+                "   - Note if price visibly reached either the SL or TP levels."
+                "   - If determinable, state the trade outcome: 'win' (hit TP), 'loss' (hit SL), or 'undetermined' (neither clearly hit)."
+                "\n7. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP', 'WIN', 'LOSS'). List them."
+                "\n8. **Output Format:** Return ONLY a single, valid JSON object containing keys: 'analysis_possible' (boolean), 'primary_pattern', 'mss_analysis', 'displacement_analysis', 'liquidity_analysis', 'trade_setup', 'trade_direction', 'price_movement_after_entry', 'trade_outcome', 'ocr_text'"
+                "\nDo NOT add any commentary outside the JSON structure."
+            )
 
             detailed_vision_user_prompt = (
                 "Analyze this trading chart image according to the Trading Instituțional methodology detailed in the system prompt. "
-                "Focus on visual facts. Determine the implied trade direction if possible. Do not predict outcome. Provide your findings ONLY as a structured JSON object."
+                "Focus on visual facts. Determine the implied trade direction if possible. If visible, analyze price movement after entry and determine outcome. Provide your findings ONLY as a structured JSON object."
             )
 
             vision_resp = openai.chat.completions.create(
@@ -325,7 +332,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                         ],
                     },
                 ],
-                max_tokens=1200, # Slightly increased just in case
+                max_tokens=1500, # Increased for more detailed analysis including outcome
                 temperature=0.2,
                 response_format={"type": "json_object"}
             )
@@ -373,11 +380,13 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         if "error" not in detailed_vision_analysis:
              detailed_vision_analysis = {"error": "Unhandled exception in Vision/OCR stage"}
 
-    # --- 2️⃣ Vector Search (Unchanged for now) ---
+    # --- 2️⃣ Vector Search ---
     try:
         query_parts = [f"Question: {payload.question}"]
         if len(ocr_text) > 10: query_parts.append(f"OCR Text Snippet: {ocr_text[:200]}") # Use OCR text if significant
-        # Maybe add identified direction later? e.g., if 'trade_direction' == 'short': query_parts.append("Visually identified short setup elements.")
+        # Add identified direction to improve context retrieval
+        if detailed_vision_analysis.get("trade_direction") in ["long", "short"]:
+            query_parts.append(f"Trade direction: {detailed_vision_analysis.get('trade_direction')}")
         combo_query = " ".join(query_parts)
 
         logging.info(f"Constructed embedding query (first 200 chars): {combo_query[:200]}...")
@@ -418,7 +427,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         course_context = "[Eroare: Problemă neașteptată la căutarea contextului]"
         if is_mss_agresiv_definition_needed: course_context += f"\n\n---\n\n{MSS_AGRESIV_STRUCTURAL_DEFINITION}"
 
-    # --- 3️⃣ Final Answer Generation (GPT-4.1 - REVISED PROMPT LOGIC AGAIN) ---
+    # --- 3️⃣ Final Answer Generation (GPT-4.1 - ENHANCED PROMPT WITH OUTCOME ANALYSIS) ---
     try:
         # --- Prepare the visual analysis report string ---
         visual_analysis_report_str = "[Eroare la formatarea raportului vizual]" # Default error
@@ -432,19 +441,26 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         # --- Define the UPDATED system prompt instructions for final synthesis ---
         final_system_prompt = SYSTEM_PROMPT_CORE + (
             "\n\n--- Additional Instructions for Image Analysis ---\n"
-            "1. You are provided with a **Detailed Visual Analysis Report** (JSON format) from the user's image, containing observations about visual patterns (MSS structure, displacement, liquidity, OCR, trade direction etc.).\n"
+            "1. You are provided with a **Detailed Visual Analysis Report** (JSON format) from the user's image, containing observations about visual patterns (MSS structure, displacement, liquidity, trade direction, and potential outcome).\n"
             "2. You are also given **Relevant Course Material Context** (retrieved via RAG) and possibly **OCR text**.\n"
             "3. **Answer the User's Question** by synthesizing information from ALL provided sources.\n"
-            "4. **PRIORITIZE the Detailed Visual Analysis Report** for visual facts about the specific chart shown. Trust its observations unless it explicitly states an error or high uncertainty ('unknown', 'undetermined', 'not observed').\n"
+            "4. **PRIORITIZE the Detailed Visual Analysis Report** for visual facts about the specific chart shown. Trust its observations unless it explicitly states an error or high uncertainty.\n"
             "5. Use the **Course Material Context** to get definitions, rules, and strategic implications.\n"
-            "6. **Combine Visuals and Rules:** Directly compare visual details from the report (e.g., `broken_swing_point_structure`, `visual_mss_type`, `trade_direction`, `displacement_analysis`) with rules from the course context.\n"
-            "7. **Handling MSS Type Questions ('Normal' vs 'Agresiv'):** Explain the classification based on the `visual_mss_type` and `broken_swing_point_structure` reported, comparing it explicitly to the rule (e.g., single-candle vs multi-candle) from the course context. If type is 'unknown' or structure unclear in the report, state that and explain the rule the user should apply visually.\n"
-            "8. **Handling Trade Direction:** When discussing a trade setup, incorporate the `trade_direction` ('long'/'short'/'undetermined') reported in the visual analysis.\n"
-            "9. **Trade Evaluations / Opinions:** Evaluate trade setups by comparing the observed visual elements (MSS type, displacement quality, liquidity context, trade direction) reported in the visual analysis against the strategy rules from the course context. Explain *why* it aligns or doesn't align.\n"
-            "10. **CRITICAL - DO NOT PREDICT OUTCOME:** **NEVER state or imply whether a trade shown in a static image was a win or loss (profit/take profit hit or loss/stop loss hit)** unless the image *unequivocally shows the final price action reaching the TP or SL marker*. If the user asks about the result ('rezultat'), state clearly that the outcome cannot be determined from the setup image, but you can evaluate the setup's structure based on the rules.\n"
-            "11. **Acknowledge Limitations:** If the Visual Analysis Report contains an 'error' key or 'analysis_possible' is false, state clearly that visual analysis failed and base the answer primarily on course context and OCR.\n"
-            "12. **Crucially: NEVER mention 'BOS'... Use only 'MSS'...\n"
-            "13. Maintain Rareș's direct, helpful, and concise tone...\n"
+            "6. **Combine Visuals and Rules:** Directly compare visual details from the report with trading rules from the course material.\n"
+            "7. **Handling MSS Type Questions:** Explain the classification based on the `visual_mss_type` and `broken_swing_point_structure` reported, comparing it explicitly to the definitions in course materials.\n"
+            "8. **Handling Trade Direction:** When discussing a trade setup, clearly state whether it's a long or short setup based on the `trade_direction` field.\n"
+            "9. **Evaluating Trade Setups:** When asked to evaluate a setup, consider ALL of these factors:\n"
+            "   - Whether the setup follows the course trading rules (as determined by comparing visual elements to course material)\n"
+            "   - The quality of the MSS structure (normal vs. aggressive, and how well it matches the definition)\n"
+            "   - The quality of the displacement (if visible and analyzed in report)\n"
+            "   - The position relative to liquidity (if visible and analyzed in report)\n"
+            "10. **Trade Outcome Analysis:** If the image shows price action after entry and `price_movement_after_entry` and `trade_outcome` fields have meaningful values:\n"
+            "   - Report whether the trade appears to have won (hit TP) or lost (hit SL) according to the visual analysis\n" 
+            "   - IMPORTANT: Even if a trade appears to have lost, evaluate if the setup was valid according to course rules\n"
+            "   - Explain: A losing trade can still have a valid setup if it followed all rules, as trading is probabilistic\n"
+            "11. **When Outcome is Undetermined:** If `trade_outcome` is 'undetermined' or missing, clearly state that you cannot determine the final outcome from the image.\n"
+            "12. **Always use MSS, not BOS:** Never mention 'BOS'... Use only 'MSS'\n"
+            "13. Maintain Rareș's direct, helpful, and concise tone\n"
         )
 
         # --- Construct the final user message ---
@@ -460,7 +476,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 f"{ocr_text}\n"
             ])
         user_message_parts.append(
-            f"--- Task ---\nAnswer the User Question by carefully integrating the Detailed Visual Analysis Report with the Course Material Context, following all instructions in the System Prompt (especially regarding trade outcomes - do NOT predict profit/loss from setup). "
+            f"--- Task ---\nAnswer the User Question by carefully integrating the Detailed Visual Analysis Report with the Course Material Context, following all instructions in the System Prompt."
             "Explain your reasoning by linking visual observations to course rules. Be concise and direct."
         )
         user_msg = "\n".join(user_message_parts)
@@ -487,19 +503,27 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         answer = re.sub(r"\bBOS\b|\bBreak of Structure\b", "MSS", answer, flags=re.IGNORECASE)
         answer = re.sub(r"\n{2,}", "\n", answer).strip()
 
-        # --- REVISED Fallback Logic ---
+        # --- ENHANCED Fallback Logic with Outcome Handling ---
         if not answer or len(answer) < 20 or "nu pot oferi" in answer.lower() or "nu am informații" in answer.lower():
-             if detailed_vision_analysis.get("error"):
-                 answer = f"Nu am putut analiza imaginea din cauza unei erori ({detailed_vision_analysis.get('error', 'necunoscută')}). Te rog verifică imaginea sau încearcă din nou."
-                 logging.info(f"Applied fallback answer due to vision error: {answer}")
-             else:
-                 # If user asked about result, give specific fallback
-                 if "rezultat" in question_lower:
-                      answer = "Nu pot determina rezultatul final (profit sau pierdere) al unei tranzacții dintr-o imagine statică a setup-ului. Pot doar evalua dacă elementele setup-ului respectă regulile vizual."
-                      logging.info("Applied specific fallback for 'rezultat' question.")
-                 else:
-                      answer = "Nu am putut genera un răspuns specific bazat pe informațiile disponibile. Ai putea te rog să reformulezi întrebarea?"
-                      logging.warning(f"Applying generic fallback as generated answer was short/uninformative. Vision analysis did not report error. Analysis dump: {detailed_vision_analysis}")
+            if detailed_vision_analysis.get("error"):
+                answer = f"Nu am putut analiza imaginea din cauza unei erori ({detailed_vision_analysis.get('error', 'necunoscută')}). Te rog verifică imaginea sau încearcă din nou."
+                logging.info(f"Applied fallback answer due to vision error: {answer}")
+            else:
+                # If user asked about result/outcome
+                if any(term in question_lower for term in ["rezultat", "câștigat", "castigat", "pierdut", "outcome", "win", "loss"]):
+                    outcome = detailed_vision_analysis.get("trade_outcome", "undetermined")
+                    if outcome == "undetermined":
+                        answer = "Nu pot determina cu certitudine rezultatul final al acestei tranzacții din imaginea furnizată. Pentru a evalua corect rezultatul, ar trebui să văd întreaga mișcare a prețului până la atingerea SL sau TP. Pot însă evalua dacă setup-ul respectă regulile din curs, indiferent de rezultatul final."
+                    else:
+                        # We have a determined outcome, but answer was still rejected - create a better one
+                        direction = detailed_vision_analysis.get("trade_direction", "undetermined")
+                        result = "câștigătoare" if outcome == "win" else "pierzătoare"
+                        answer = f"Din analiza vizuală, această tranzacție {direction} pare să fie {result}, deoarece prețul a atins {'nivelul de Take Profit' if outcome == 'win' else 'nivelul de Stop Loss'}. "
+                        answer += "Totuși, evaluarea unui setup nu depinde doar de rezultat, ci de respectarea regulilor din curs la momentul intrării în piață. Chiar și un trade valid conform regulilor poate fi pierzător din cauza naturii probabilistice a tradingului."
+                    logging.info(f"Applied specific fallback for outcome question, using detected outcome: {outcome}")
+                else:
+                    answer = "Nu am putut genera un răspuns specific bazat pe informațiile disponibile. Ai putea te rog să reformulezi întrebarea?"
+                    logging.warning(f"Applying generic fallback as generated answer was short/uninformative. Vision analysis did not report error. Analysis dump: {detailed_vision_analysis}")
 
         if not answer: # Final check if still empty
             logging.error("Generated answer was empty even after potential fallback.")
