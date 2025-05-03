@@ -312,7 +312,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             )
 
             vision_resp = openai.chat.completions.create(
-                model="gpt-4-turbo", # Ensure this model has up-to-date vision capabilities
+                model="gpt-4.1", # Ensure this model has up-to-date vision capabilities
                 messages=[
                     {"role": "system", "content": detailed_vision_system_prompt},
                     {
@@ -485,7 +485,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         logging.debug(f"Sending to GPT-4. System Prompt (start): {final_system_prompt[:200]}... User Message (start): {user_msg[:300]}...")
 
         # Determine model and temperature
-        model = "gpt-4-turbo" # Use a powerful model for synthesis
+        model = "gpt-4.1" # Use a powerful model for synthesis
         temp = 0.4 if is_trade_evaluation else 0.2 # Slightly more creative for eval, more factual otherwise
 
         gpt_resp = openai.chat.completions.create(
