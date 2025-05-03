@@ -4,11 +4,13 @@ import aiohttp
 import asyncio
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_URL       = os.getenv("API_URL", "http://localhost:8000/ask")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app")  # Update to your actual Railway URL
 
+# Set up intents
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
@@ -21,30 +23,46 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    # Ignore the bot's own messages
     if message.author == client.user:
         return
 
-    # Only respond if mentioned
     if client.user.mentioned_in(message):
-        # strip out the mention and whitespace
-        question = message.content.replace(f"<@{client.user.id}>", "").strip()
+        # DEBUG
+        print("Raw message content:", message.content)
+
+        question = message.content.replace(f"<@{client.user.id}>", "").replace(f"<@!{client.user.id}>", "").strip()
+        print("Extracted question:", question)
 
         if not question:
             await message.channel.send("Întrebarea este goală.")
             return
 
-        # show typing indicator
         async with message.channel.typing():
             try:
+                # Check for image
+                if message.attachments:
+                    image_url = message.attachments[0].url
+                    endpoint = f"{API_BASE_URL}/ask-image-hybrid"
+                    payload = {
+                        "question": question,
+                        "image_url": image_url
+                    }
+                    print("📷 Routing to /ask-image-hybrid:", image_url)
+                else:
+                    endpoint = f"{API_BASE_URL}/ask"
+                    payload = {
+                        "question": question
+                    }
+                    print("💬 Routing to /ask (text-only)")
+
                 async with aiohttp.ClientSession() as session:
-                    # send the user’s question under the "query" key
-                    async with session.post(API_URL, json={"query": question}) as resp:
+                    async with session.post(endpoint, json=payload) as resp:
                         if resp.status == 200:
-                            data   = await resp.json()
+                            data = await resp.json()
                             answer = data.get("answer", "Nu am găsit un răspuns.")
                         else:
-                            answer = "A apărut o eroare la server. Încearcă din nou mai târziu."
+                            answer = f"A apărut o eroare la server. Cod: {resp.status}"
+
             except Exception as e:
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
