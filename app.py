@@ -293,31 +293,53 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "and output a structured JSON object containing your detailed observations. Focus ONLY on the visual elements present."
                 "\nGuidelines:"
                 "\n1. Identify the primary pattern or area of interest if possible (e.g., potential MSS, consolidation, trend)."
-                "\n2. **MSS Analysis:** If a potential MSS (Market Structure Shift - break of a recent swing high/low) is visible:"
-                "   - Note the direction of the break (e.g., 'break of high', 'break of low')."
-                "   - Describe the swing point (high or low) that was broken."
-                "   - **Crucially, describe the candles forming that specific swing point:** Count them and note their type (e.g., '2 bullish, 2 bearish candles form the high')."
-                "   - Based ONLY on that candle structure, state if it visually corresponds to the rule for 'normal' or 'aggressive' MSS (e.g., 'normal' if multi-candle, 'aggressive' if single-candle)."
-                "\n3. **Displacement/FVG Analysis:** Identify and describe any clear price gaps between candles (FVGs) or zones of strong imbalance, especially near potential MSS points. Note their size and quality."
-                "\n4. **Liquidity Analysis:** Describe any visible horizontal lines, zones, or clear areas of prior highs/lows that might represent liquidity targets or pools."
-                "\n5. **Trade Setup Analysis:** If standard trade setup elements are visible, analyze them in detail:"
-                "   - **Entry Point/Line:** Describe its position relative to recent price action."
-                "   - **Stop Loss (SL):** Identify its position (often marked in red) and relationship to swing points."
-                "   - **Take Profit (TP):** Locate target level(s) (often marked in green)."
-                "   - **Trade Direction:** Determine 'long' (TP above Entry, SL below), 'short' (TP below Entry, SL above), or 'undetermined'."
-                "   - **Current Price vs. Targets:** Note if price appears to have reached SL, TP, or neither yet."
-                "\n6. **Price Movement After Setup:** If the chart shows price action after an apparent entry:"
-                "   - Describe the subsequent price movement (e.g., 'price moved strongly upward after entry', 'price retraced to SL level')."
-                "   - Note if price visibly reached either the SL or TP levels."
-                "   - If determinable, state the trade outcome: 'win' (hit TP), 'loss' (hit SL), or 'undetermined' (neither clearly hit)."
-                "\n7. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP', 'WIN', 'LOSS'). List them."
-                "\n8. **Output Format:** Return ONLY a single, valid JSON object containing keys: 'analysis_possible' (boolean), 'primary_pattern', 'mss_analysis', 'displacement_analysis', 'liquidity_analysis', 'trade_setup', 'trade_direction', 'price_movement_after_entry', 'trade_outcome', 'ocr_text'"
+                
+                "\n2. **Trade Direction Critical Analysis:** FIRST, carefully examine the chart for colored zones/boxes:"
+                "   - RED zone/box typically indicates resistance or target area for shorts"
+                "   - GREEN/BLUE/TEAL zone/box typically indicates support or target area for longs"
+                "   - Determine if the trade is likely SHORT (selling, expecting price to go down) or LONG (buying, expecting price to go up)"
+                "   - Use colored zones, arrows, and the overall price action context to determine direction BEFORE analyzing patterns"
+                
+                "\n3. **MSS Analysis:** If a potential MSS (Market Structure Shift - break of a recent swing high/low) is visible:"
+                "   - First identify if it's a break of HIGH (price breaking above previous structure) or LOW (price breaking below previous structure)"
+                "   - For breaks of HIGH: Check if price is making higher highs (bullish context)"
+                "   - For breaks of LOW: Check if price is making lower lows (bearish context)"
+                "   - Confirm if the direction of the MSS matches the suspected trade direction"
+                "   - **Crucially, describe the candles forming that specific swing point:** Count them and note their type"
+                "   - Based ONLY on that candle structure, state if it visually corresponds to the rule for 'normal' or 'aggressive' MSS"
+                
+                "\n4. **Displacement/FVG Analysis:** Always match displacement direction with trade direction:"
+                "   - For suspected SHORT trades: Look for BEARISH displacement (price moving down, creating gaps)"
+                "   - For suspected LONG trades: Look for BULLISH displacement (price moving up, creating gaps)"
+                "   - Check if displacement direction confirms the suspected trade direction"
+                
+                "\n5. **Liquidity Analysis:** Describe any visible horizontal lines, zones, or clear areas of prior highs/lows that might represent liquidity targets or pools."
+                
+                "\n6. **Trade Setup & Outcome Analysis:** When analyzing colored zones and price action:"
+                "   - For SHORT trades: Entry is typically near the top of a red zone, with price expected to move DOWN toward a teal/blue target"
+                "   - For LONG trades: Entry is typically near the bottom of a green/blue zone, with price expected to move UP toward a target"
+                "   - Check price movement AFTER the entry point to determine outcome"
+                "   - For SHORT trades hitting SL: Price moves UP instead of expected DOWN movement"
+                "   - For LONG trades hitting SL: Price moves DOWN instead of expected UP movement"
+                
+                "\n7. **Price Movement After Setup:** Pay special attention to direction consistency in your analysis:"
+                "   - If you identify a SHORT trade, displacement should be BEARISH, and a win would show price moving DOWN"
+                "   - If you identify a LONG trade, displacement should be BULLISH, and a win would show price moving UP"
+                "   - CROSS-CHECK your trade_direction, displacement_analysis, and trade_outcome fields for consistency"
+                
+                "\n8. **OCR:** Extract any clearly visible text labels written on the chart (like 'MSS', 'FVG', 'SL', 'TP', 'WIN', 'LOSS'). List them."
+                
+                "\n9. **Output Format:** Return a valid JSON with keys: 'analysis_possible', 'trade_direction', 'primary_pattern', 'mss_analysis' (including 'break_type' which should be 'high' or 'low'), 'displacement_analysis' (including 'direction' which should be 'bullish' or 'bearish'), 'liquidity_analysis', 'trade_setup', 'price_movement_after_entry', 'trade_outcome'"
                 "\nDo NOT add any commentary outside the JSON structure."
             )
 
             detailed_vision_user_prompt = (
                 "Analyze this trading chart image according to the Trading Instituțional methodology detailed in the system prompt. "
-                "Focus on visual facts. Determine the implied trade direction if possible. If visible, analyze price movement after entry and determine outcome. Provide your findings ONLY as a structured JSON object."
+                "First determine if this is a SHORT or LONG trade based on visible elements. "
+                "For SHORT trades, look for breaks of LOW and bearish displacement. "
+                "For LONG trades, look for breaks of HIGH and bullish displacement. "
+                "Ensure your analysis is consistent with the identified trade direction. "
+                "Provide your findings ONLY as a structured JSON object."
             )
 
             vision_resp = openai.chat.completions.create(
@@ -349,6 +371,34 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                      detailed_vision_analysis = {"error": "Invalid JSON structure received from vision model", "raw_response": raw_response_content}
                 else:
                      logging.info(f"Successfully parsed detailed Vision JSON.")
+
+                     # Check for consistency between fields
+                     if detailed_vision_analysis.get("analysis_possible", False):
+                         trade_direction = detailed_vision_analysis.get("trade_direction", "undetermined")
+                         mss_analysis = detailed_vision_analysis.get("mss_analysis", {})
+                         displacement_analysis = detailed_vision_analysis.get("displacement_analysis", {})
+                         
+                         # Extract key information
+                         mss_break_type = mss_analysis.get("break_type", "").lower() if isinstance(mss_analysis, dict) else ""
+                         displacement_direction = displacement_analysis.get("direction", "").lower() if isinstance(displacement_analysis, dict) else ""
+                         
+                         # Log possible inconsistencies for debugging
+                         if trade_direction == "long" and "low" in mss_break_type:
+                             logging.warning(f"Possible inconsistency: LONG trade with break of LOW reported")
+                         if trade_direction == "short" and "high" in mss_break_type:
+                             logging.warning(f"Possible inconsistency: SHORT trade with break of HIGH reported")
+                         if trade_direction == "long" and "bearish" in displacement_direction:
+                             logging.warning(f"Possible inconsistency: LONG trade with BEARISH displacement")
+                         if trade_direction == "short" and "bullish" in displacement_direction:
+                             logging.warning(f"Possible inconsistency: SHORT trade with BULLISH displacement")
+                         
+                         # If inconsistencies are found, add a flag to alert the final analysis
+                         has_direction_inconsistency = (
+                             (trade_direction == "long" and ("low" in mss_break_type or "bearish" in displacement_direction)) or
+                             (trade_direction == "short" and ("high" in mss_break_type or "bullish" in displacement_direction))
+                         )
+                         if has_direction_inconsistency:
+                             detailed_vision_analysis["direction_consistency_warning"] = True
 
             except json.JSONDecodeError as json_err:
                  logging.error(f"❌ Failed to decode JSON from Vision response: {json_err}.")
@@ -447,20 +497,26 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             "4. **PRIORITIZE the Detailed Visual Analysis Report** for visual facts about the specific chart shown. Trust its observations unless it explicitly states an error or high uncertainty.\n"
             "5. Use the **Course Material Context** to get definitions, rules, and strategic implications.\n"
             "6. **Combine Visuals and Rules:** Directly compare visual details from the report with trading rules from the course material.\n"
-            "7. **Handling MSS Type Questions:** Explain the classification based on the `visual_mss_type` and `broken_swing_point_structure` reported, comparing it explicitly to the definitions in course materials.\n"
-            "8. **Handling Trade Direction:** When discussing a trade setup, clearly state whether it's a long or short setup based on the `trade_direction` field.\n"
-            "9. **Evaluating Trade Setups:** When asked to evaluate a setup, consider ALL of these factors:\n"
-            "   - Whether the setup follows the course trading rules (as determined by comparing visual elements to course material)\n"
-            "   - The quality of the MSS structure (normal vs. aggressive, and how well it matches the definition)\n"
-            "   - The quality of the displacement (if visible and analyzed in report)\n"
-            "   - The position relative to liquidity (if visible and analyzed in report)\n"
-            "10. **Trade Outcome Analysis:** If the image shows price action after entry and `price_movement_after_entry` and `trade_outcome` fields have meaningful values:\n"
-            "   - Report whether the trade appears to have won (hit TP) or lost (hit SL) according to the visual analysis\n" 
-            "   - IMPORTANT: Even if a trade appears to have lost, evaluate if the setup was valid according to course rules\n"
-            "   - Explain: A losing trade can still have a valid setup if it followed all rules, as trading is probabilistic\n"
-            "11. **When Outcome is Undetermined:** If `trade_outcome` is 'undetermined' or missing, clearly state that you cannot determine the final outcome from the image.\n"
-            "12. **Always use MSS, not BOS:** Never mention 'BOS'... Use only 'MSS'\n"
-            "13. Maintain Rareș's direct, helpful, and concise tone\n"
+            "7. **Direction Consistency Check:** Be EXTREMELY careful about direction consistency in your analysis:\n"
+            "   - SHORT trades should have breaks of LOW, BEARISH displacement, and price moving DOWN for a win\n"
+            "   - LONG trades should have breaks of HIGH, BULLISH displacement, and price moving UP for a win\n"
+            "   - If the Visual Analysis Report contains a 'direction_consistency_warning' flag, be extra cautious about potential misinterpretation\n"
+            "8. **Handling MSS Type Questions:** Explain the classification based on the `visual_mss_type` and `broken_swing_point_structure` reported, comparing it explicitly to the definitions in course materials.\n"
+            "9. **Handling Trade Direction:** When discussing a trade setup, clearly state whether it's a LONG setup (buying, expecting price to rise) or SHORT setup (selling, expecting price to fall).\n"
+            "10. **Evaluating Trade Setups:** When asked to evaluate a setup, consider ALL of these factors while maintaining direction consistency:\n"
+            "    - Whether the setup follows the course trading rules (as determined by comparing visual elements to course material)\n"
+            "    - The quality of the MSS structure (normal vs. aggressive, and how well it matches the definition)\n"
+            "    - The quality of the displacement (if visible and analyzed in report)\n"
+            "    - The position relative to liquidity (if visible and analyzed in report)\n"
+            "11. **Trade Outcome Analysis:** If the image shows price action after entry and `price_movement_after_entry` and `trade_outcome` fields have meaningful values:\n"
+            "    - For SHORT trades: Price should move DOWN for a win, UP for a loss\n"
+            "    - For LONG trades: Price should move UP for a win, DOWN for a loss\n"
+            "    - Report whether the trade appears to have won (hit TP) or lost (hit SL) according to the visual analysis\n" 
+            "    - IMPORTANT: Even if a trade appears to have lost, evaluate if the setup was valid according to course rules\n"
+            "    - Explain: A losing trade can still have a valid setup if it followed all rules, as trading is probabilistic\n"
+            "12. **When Outcome is Undetermined:** If `trade_outcome` is 'undetermined' or missing, clearly state that you cannot determine the final outcome from the image.\n"
+            "13. **Always use MSS, not BOS:** Never mention 'BOS'... Use only 'MSS'\n"
+            "14. Maintain Rareș's direct, helpful, and concise tone\n"
         )
 
         # --- Construct the final user message ---
@@ -477,6 +533,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             ])
         user_message_parts.append(
             f"--- Task ---\nAnswer the User Question by carefully integrating the Detailed Visual Analysis Report with the Course Material Context, following all instructions in the System Prompt."
+            "ENSURE DIRECTION CONSISTENCY in your analysis (SHORT trades: breaks of LOW, bearish displacement, price moves DOWN for win; LONG trades: breaks of HIGH, bullish displacement, price moves UP for win)."
             "Explain your reasoning by linking visual observations to course rules. Be concise and direct."
         )
         user_msg = "\n".join(user_message_parts)
@@ -512,13 +569,15 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 # If user asked about result/outcome
                 if any(term in question_lower for term in ["rezultat", "câștigat", "castigat", "pierdut", "outcome", "win", "loss"]):
                     outcome = detailed_vision_analysis.get("trade_outcome", "undetermined")
+                    trade_direction = detailed_vision_analysis.get("trade_direction", "undetermined")
+                    
                     if outcome == "undetermined":
                         answer = "Nu pot determina cu certitudine rezultatul final al acestei tranzacții din imaginea furnizată. Pentru a evalua corect rezultatul, ar trebui să văd întreaga mișcare a prețului până la atingerea SL sau TP. Pot însă evalua dacă setup-ul respectă regulile din curs, indiferent de rezultatul final."
                     else:
                         # We have a determined outcome, but answer was still rejected - create a better one
-                        direction = detailed_vision_analysis.get("trade_direction", "undetermined")
+                        direction_text = "short (vânzare)" if trade_direction == "short" else "long (cumpărare)" if trade_direction == "long" else trade_direction
                         result = "câștigătoare" if outcome == "win" else "pierzătoare"
-                        answer = f"Din analiza vizuală, această tranzacție {direction} pare să fie {result}, deoarece prețul a atins {'nivelul de Take Profit' if outcome == 'win' else 'nivelul de Stop Loss'}. "
+                        answer = f"Din analiza vizuală, această tranzacție {direction_text} pare să fie {result}, deoarece prețul a atins {'nivelul de Take Profit' if outcome == 'win' else 'nivelul de Stop Loss'}. "
                         answer += "Totuși, evaluarea unui setup nu depinde doar de rezultat, ci de respectarea regulilor din curs la momentul intrării în piață. Chiar și un trade valid conform regulilor poate fi pierzător din cauza naturii probabilistice a tradingului."
                     logging.info(f"Applied specific fallback for outcome question, using detected outcome: {outcome}")
                 else:
