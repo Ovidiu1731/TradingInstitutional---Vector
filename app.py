@@ -978,3 +978,4 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n1. You are provided with a Visual Analysis Report (JSON) focused on DISPLACEMENT visible in the user's chart."
                 "\n2. You also have Course Material Context about displacement in trading."
                 "\n3. Your task is to ONLY evaluate the displacement characteristics and answer the user's specific question."
+            )
