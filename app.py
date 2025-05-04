@@ -1010,7 +1010,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
         # --- Define the system prompt based on query type ---
         final_system_prompt = SYSTEM_PROMPT_CORE  # Initialize with core prompt as default
-        
+
         if query_info["type"] == "liquidity":
             final_system_prompt += (
                 "\n\n--- Instructions for Liquidity Zone Analysis ---"
@@ -1103,71 +1103,72 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n8. If there are inconsistencies in the setup (e.g., direction mismatch), point them out clearly."
                 "\n9. NEVER contradict the chart's visual elements (color zones, MSS placement, candle colors) in your analysis."
             )
-                # --- User prompt for final answer generation ---
-                try:
-                    final_user_prompt = (
-                        f"Question: {payload.question}\n\n"
-                        f"Visual Analysis Report:\n{visual_analysis_report_str}\n\n"
-                        f"Course Context:\n{course_context}"
-                    )
+
+        # --- User prompt for final answer generation ---
+        try:
+            final_user_prompt = (
+                f"Question: {payload.question}\n\n"
+                f"Visual Analysis Report:\n{visual_analysis_report_str}\n\n"
+                f"Course Context:\n{course_context}"
+            )
+
+            logging.debug(f"Final system prompt length: {len(final_system_prompt)}")
+            logging.debug(f"Final user prompt length: {len(final_user_prompt)}")
+
+            # Send to OpenAI for final response
+            chat_completion = openai.chat.completions.create(
+                model=COMPLETION_MODEL,
+                messages=[
+                    {"role": "system", "content": final_system_prompt},
+                    {"role": "user", "content": final_user_prompt}
+                ],
+                temperature=0.3,
+                max_tokens=800
+            )
+            
+            final_answer = chat_completion.choices[0].message.content.strip()
+            
+            # Respond to the user
+            return {
+                "answer": final_answer,
+                "session_id": session_id
+            }
+            
+        except (APIError, RateLimitError) as e:
+            logging.error(f"OpenAI Chat API error during final generation: {e}")
+            error_msg = "Nu am putut genera un răspuns final. Serviciul OpenAI nu este disponibil momentan."
+            return {"answer": error_msg, "session_id": session_id}
+        except Exception as e:
+            logging.exception(f"Unexpected error during final answer generation: {e}")
+            error_msg = "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou."
+            return {"answer": error_msg, "session_id": session_id}
+            
+    except Exception as e:
+        logging.exception(f"Unhandled exception in image-hybrid response generation: {e}")
+        error_msg = "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou."
+        return {"answer": error_msg, "session_id": session_id}
+
+# --- Health check endpoint ---
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint to verify the service is running."""
+    try:
+        # Check OpenAI API connection
+        openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
+        # Check Pinecone connection (simple query)
+        test_vector = [0.0] * 1536  # Empty vector for test
+        index.query(vector=test_vector, top_k=1)
         
-                    logging.debug(f"Final system prompt length: {len(final_system_prompt)}")
-                    logging.debug(f"Final user prompt length: {len(final_user_prompt)}")
-        
-                    # Send to OpenAI for final response
-                    chat_completion = openai.chat.completions.create(
-                        model=COMPLETION_MODEL,
-                        messages=[
-                            {"role": "system", "content": final_system_prompt},
-                            {"role": "user", "content": final_user_prompt}
-                        ],
-                        temperature=0.3,
-                        max_tokens=800
-                    )
-                    
-                    final_answer = chat_completion.choices[0].message.content.strip()
-                    
-                    # Respond to the user
-                    return {
-                        "answer": final_answer,
-                        "session_id": session_id
-                    }
-                    
-                except (APIError, RateLimitError) as e:
-                    logging.error(f"OpenAI Chat API error during final generation: {e}")
-                    error_msg = "Nu am putut genera un răspuns final. Serviciul OpenAI nu este disponibil momentan."
-                    return {"answer": error_msg, "session_id": session_id}
-                except Exception as e:
-                    logging.exception(f"Unexpected error during final answer generation: {e}")
-                    error_msg = "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou."
-                    return {"answer": error_msg, "session_id": session_id}
-                    
-            except Exception as e:
-                logging.exception(f"Unhandled exception in image-hybrid response generation: {e}")
-                error_msg = "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou."
-                return {"answer": error_msg, "session_id": session_id}
-        
-        # --- Health check endpoint ---
-        @app.get("/health")
-        async def health_check():
-            """Simple health check endpoint to verify the service is running."""
-            try:
-                # Check OpenAI API connection
-                openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
-                # Check Pinecone connection (simple query)
-                test_vector = [0.0] * 1536  # Empty vector for test
-                index.query(vector=test_vector, top_k=1)
-                
-                return {
-                    "status": "healthy",
-                    "openai": "connected",
-                    "pinecone": "connected",
-                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
-                }
-            except Exception as e:
-                logging.error(f"Health check failed: {e}")
-                return {
-                    "status": "unhealthy",
-                    "error": str(e),
-                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
-                }
+        return {
+            "status": "healthy",
+            "openai": "connected",
+            "pinecone": "connected",
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    except Exception as e:
+        logging.error(f"Health check failed: {e}")
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
