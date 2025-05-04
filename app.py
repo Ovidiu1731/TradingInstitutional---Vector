@@ -134,6 +134,26 @@ class FeedbackModel(BaseModel):
     query_type: Optional[str] = "unknown"
     analysis_data: Optional[Dict] = None
 
+@app.post("/feedback")
+async def submit_feedback(feedback_data: FeedbackModel) -> Dict[str, str]:
+    """Record user feedback about answer quality"""
+    success = log_feedback(
+        feedback_data.session_id,
+        feedback_data.question,
+        feedback_data.answer,
+        feedback_data.feedback,
+        feedback_data.query_type,
+        feedback_data.analysis_data
+    )
+    
+    if success:
+        return {"status": "success", "message": "Feedback înregistrat cu succes. Mulțumim!"}
+    else:
+        raise HTTPException(
+            status_code=500,
+            detail="Nu am putut înregistra feedback-ul. Te rugăm să încerci din nou mai târziu."
+        )
+
 # ---------------------------------------------------------------------------
 # QUERY TYPE IDENTIFICATION
 # ---------------------------------------------------------------------------
@@ -958,23 +978,3 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n1. You are provided with a Visual Analysis Report (JSON) focused on DISPLACEMENT visible in the user's chart."
                 "\n2. You also have Course Material Context about displacement in trading."
                 "\n3. Your task is to ONLY evaluate the displacement characteristics and answer the user's specific question."
-                "\n4. Focus on the direction of displacement (bullish/bearish) and its strength."
-                "\n5. Mention any FVGs (Fair Value Gaps) created by the displacement if visible."
-                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n7. Explain how displacement relates to trade direction: bearish displacement for SHORT trades, bullish for LONG trades."
-                "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
-                "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
-            )
-        elif query_info["type"] == "fvg":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-        "\n\n--- Instructions for FVG Analysis ---"
-        "\n1. You are provided with a Visual Analysis Report (JSON) focused on FVGs (Fair Value Gaps) visible in the user's chart."
-        "\n2. You also have Course Material Context about FVGs in trading."
-        "\n3. Your task is to ONLY evaluate the FVG characteristics and answer the user's specific question."
-        "\n4. Focus on identifying FVGs, their direction (bullish/bearish), and quality."
-        "\n5. Explain that FVGs are created when price moves impulsively, leaving areas where no trading has occurred."
-        "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-        "\n7. Relate FVGs to the overall trade direction: bearish FVGs for SHORT trades, bullish FVGs for LONG trades."
-        "\n8. Be concise, direct, and focus ONLY on the FVG aspects of the chart."
-        "\n9. Expected response for FVG questions: Identify FVGs, their direction, quality, and implications for the trade."
-    )
