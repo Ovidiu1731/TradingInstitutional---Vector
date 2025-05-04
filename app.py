@@ -892,189 +892,177 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         if minimal_definitions: course_context += "\n\nDefiniții de Bază:\n" + "\n".join(minimal_definitions)
 
 
-# --- 3️⃣ Final Answer Generation ---
-try:
-    # --- 3.1 Build the visual analysis report string safely ---
-    # (Use the potentially validated detailed_vision_analysis dictionary)
+# ---------------------------------------------------------------------------
+# ask_image_hybrid  – wrapper that processes one image/‑question request
+# ---------------------------------------------------------------------------
+def ask_image_hybrid(
+    payload,
+    course_context: str,
+    detailed_vision_analysis: dict | str,
+    query_info: dict,
+    session_id: str,
+) -> dict:
+    """
+    Build prompts from the vision analysis & course context,
+    call OpenAI, and return the final answer plus session_id.
+    """
+
+    # --- 3️⃣ Final Answer Generation ---
     try:
-        # Ensure analysis data is a dictionary before trying to dump
-        if isinstance(detailed_vision_analysis, dict):
-            visual_analysis_report_str = json.dumps(
-                detailed_vision_analysis, indent=2, ensure_ascii=False
-            )
-        else:
-            # Handle case where vision analysis failed and returned an error string/dict
+        # --- 3.1 Build the visual analysis report string safely ---
+        try:
+            if isinstance(detailed_vision_analysis, dict):
+                visual_analysis_report_str = json.dumps(
+                    detailed_vision_analysis, indent=2, ensure_ascii=False
+                )
+            else:
+                visual_analysis_report_str = json.dumps(
+                    {
+                        "error": "Visual analysis data is not a valid dictionary.",
+                        "raw_data": str(detailed_vision_analysis),
+                    },
+                    ensure_ascii=False,
+                )
+                logging.error(
+                    "Vision analysis result was not a dict, cannot format as JSON "
+                    "for final prompt."
+                )
+        except Exception as json_dump_err:
+            logging.exception("Error dumping visual analysis to JSON string.")
             visual_analysis_report_str = json.dumps(
                 {
-                    "error": "Visual analysis data is not a valid dictionary.",
-                    "raw_data": str(detailed_vision_analysis),
+                    "error": "Could not format visual analysis.",
+                    "details": str(json_dump_err),
                 },
                 ensure_ascii=False,
             )
-            logging.error(
-                "Vision analysis result was not a dict, cannot format as JSON for final prompt."
+
+        logging.debug(
+            "Final Visual Analysis Report string for prompt:\n%s",
+            visual_analysis_report_str,
+        )
+
+        # --- 3.2 System‑prompt factory (MODIFIED for evaluation handling) ---
+        def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
+            BASE = SYSTEM_PROMPT_CORE
+
+            PROMPTS = {
+                "liquidity": (
+                    "\n--- Instructions for Liquidity Zone Analysis Response ---\n"
+                    "Focus your answer *only* on the liquidity analysis provided in the report and context."
+                ),
+                "trend": (
+                    "\n--- Instructions for Trend Analysis Response ---\n"
+                    "Focus your answer *only* on the trend analysis provided."
+                ),
+                "mss_classification": (
+                    "\n--- Instructions for MSS Classification Response ---\n"
+                    "Explain the MSS classification based *only* on the pivot structure analysis provided. "
+                    "Reference the course definitions."
+                ),
+                "displacement": (
+                    "\n--- Instructions for Displacement Analysis Response ---\n"
+                    "Describe the displacement and any FVGs based on the analysis provided."
+                ),
+                "fvg": (
+                    "\n--- Instructions for FVG Analysis Response ---\n"
+                    "Describe the identified FVGs and their potential implications based on the analysis and context."
+                ),
+                "trade_evaluation": (
+                    "\n--- Instructions for Trade Setup Evaluation Response ---\n"
+                    "1. Provide an **objective analysis** based on the Trading Instituțional methodology.\n"
+                    "2. Do **not** begin by saying you don't give opinions.\n"
+                    "3. Summarize key elements from the Visual Analysis Report:\n"
+                    "   • trade_direction  • mss_type  • displacement/FVGs  • liquidity_zones  • validator notes\n"
+                    "4. Relate findings to the Course Context (confluence/divergence).\n"
+                    "5. Conclude with the standard reminder that you don’t give personal advice."
+                ),
+                "general": (
+                    "\n--- Instructions for General Query Response ---\n"
+                    "Answer by synthesizing the Visual Analysis Report and Course Context. "
+                    "If the question implicitly asks for an evaluation, follow the Trade Setup Evaluation instructions."
+                ),
+            }
+
+            effective_type = (
+                "trade_evaluation"
+                if query_type == "general" and requires_full_analysis
+                else query_type
             )
+            chosen = PROMPTS.get(effective_type, PROMPTS["trade_evaluation"])
+            return BASE + "\n\n" + chosen.strip()
 
-    except Exception as json_dump_err:
-        logging.exception("Error dumping visual analysis to JSON string.")
-        visual_analysis_report_str = json.dumps(
-            {
-                "error": "Could not format visual analysis.",
-                "details": str(json_dump_err),
-            },
-            ensure_ascii=False,
+        final_system_prompt = _build_system_prompt(
+            query_info["type"], query_info.get("requires_full_analysis", False)
         )
 
-    logging.debug(
-        "Final Visual Analysis Report string for prompt:\n%s",
-        visual_analysis_report_str,
-    )
+        # --- 3.3 Craft user prompt ---
+        final_user_prompt = (
+            f"User Question: {payload.question}\n\n"
+            f"Visual Analysis Report (JSON):\n```json\n{visual_analysis_report_str}\n```\n\n"
+            f"Retrieved Course Context:\n{course_context}\n\n"
+            "Task: The user asked: '{payload.question}'. Respond in Romanian with a **structured technical analysis** "
+            "of the setup shown in the image, strictly following Trading Instituțional methodology. Present objective "
+            "findings first, then conclude with the disclaimers specified in the system prompt."
+        )
 
-    # --- 3.2 System‑prompt factory (MODIFIED for evaluation handling) ---
-    # (Defined within the request‑handler scope to access SYSTEM_PROMPT_CORE and query_info if needed)
-    def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
-        """Build the final system prompt with specific instructions based on query type."""
-        BASE = SYSTEM_PROMPT_CORE  # Base prompt defined globally
+        logging.debug("Final System prompt length: %d", len(final_system_prompt))
+        logging.debug("Final User prompt length: %d", len(final_user_prompt))
+        logging.debug(
+            "Final User prompt (first 500 chars): %s", final_user_prompt[:500] + "..."
+        )
 
-        # Specific instructions for handling different query types in the FINAL response generation
-        PROMPTS = {
-            "liquidity": (
-                "\n--- Instructions for Liquidity Zone Analysis Response ---\n"
-                "Focus your answer *only* on the liquidity analysis provided in the report and context."
-            ),
-            "trend": (
-                "\n--- Instructions for Trend Analysis Response ---\n"
-                "Focus your answer *only* on the trend analysis provided."
-            ),
-            "mss_classification": (
-                "\n--- Instructions for MSS Classification Response ---\n"
-                "Explain the MSS classification based *only* on the pivot structure analysis provided. "
-                "Reference the course definitions."
-            ),
-            "displacement": (
-                "\n--- Instructions for Displacement Analysis Response ---\n"
-                "Describe the displacement and any FVGs based on the analysis provided."
-            ),
-            "fvg": (
-                "\n--- Instructions for FVG Analysis Response ---\n"
-                "Describe the identified FVGs and their potential implications based on the analysis and context."
-            ),
-            "trade_evaluation": (
-                "\n--- Instructions for Trade Setup Evaluation Response ---\n"
-                "1. The user asked for an evaluation/opinion. Your primary goal is to provide an **objective analysis** "
-                "based on the Trading Instituțional methodology, using the Visual Analysis Report and Course Context.\n"
-                "2. **Do NOT start by saying you don't give opinions.** Instead, directly present your analysis findings "
-                "in a structured manner.\n"
-                "3. Summarize the key elements from the 'Visual Analysis Report':\n"
-                "   • The determined `trade_direction` (mention if validated by risk box position).\n"
-                "   • The classified `mss_type` (mention basis in pivot structure).\n"
-                "   • Key findings from `displacement_analysis` and `fvg_analysis`.\n"
-                "   • Mention relevant `liquidity_zones`.\n"
-                "   • Note any consistency warnings or validator notes (`_validator_note`).\n"
-                "4. Relate these findings to the principles in the 'Course Context'. Does the setup appear to align with "
-                "the rules described? Highlight potential points of confluence or divergence based *only* on the provided info.\n"
-                "5. **Conclude** the analysis by stating this is a technical assessment based on the course methodology "
-                "and visual data. *Then*, you can add the standard reminder that you don't provide personal opinions or "
-                "financial advice, and the user should make their own decision, consulting mentors or the community for "
-                "subjective feedback if needed."
-            ),
-            # General type needs specific handling based on context
-            "general": (
-                "\n--- Instructions for General Query Response ---\n"
-                "Address the user's specific question by synthesizing information from the Visual Analysis Report and "
-                "Course Context. If the question strongly implies evaluation or asks 'what do you think', follow the "
-                "'Trade Setup Evaluation Response' guidelines above."
-            ),
-        }
-
-        # Determine effective type: if 'general' looks like an eval, use eval instructions
-        effective_query_type = query_type
-        if query_type == "general" and requires_full_analysis:
-            effective_query_type = "trade_evaluation"
-            logging.debug(
-                "General query requires full analysis, using 'trade_evaluation' system prompt instructions."
+        # --- 3.4 OpenAI call ---
+        try:
+            chat_completion = openai.chat.completions.create(
+                model=COMPLETION_MODEL,
+                messages=[
+                    {"role": "system", "content": final_system_prompt},
+                    {"role": "user", "content": final_user_prompt},
+                ],
+                temperature=0.3,
+                max_tokens=800,
             )
+            final_answer = chat_completion.choices[0].message.content.strip()
+            logging.info(
+                "Final answer generated successfully using %s.", COMPLETION_MODEL
+            )
+            logging.debug("Final Answer (raw): %s...", final_answer[:300])
 
-        # Default to trade_evaluation instructions if type is unknown
-        chosen_instructions = PROMPTS.get(
-            effective_query_type, PROMPTS["trade_evaluation"]
-        )
+            return {
+                "answer": final_answer,
+                "session_id": session_id,
+            }
 
-        return BASE + "\n\n" + chosen_instructions.strip()
+        except (APIError, RateLimitError) as e:
+            logging.error("OpenAI Chat API error (%s): %s", COMPLETION_MODEL, e)
+            return {
+                "answer": (
+                    "Nu am putut genera un răspuns final. "
+                    f"Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan."
+                ),
+                "session_id": session_id,
+                "error": str(e),
+            }
+        except Exception as e_final:
+            logging.exception("Unexpected error during final answer generation")
+            return {
+                "answer": (
+                    "A apărut o eroare la generarea răspunsului final. "
+                    "Te rugăm să încerci din nou."
+                ),
+                "session_id": session_id,
+                "error": str(e_final),
+            }
 
-    # Build the final system prompt
-    final_system_prompt = _build_system_prompt(
-        query_info["type"], query_info.get("requires_full_analysis", False)
-    )
-
-    # --- 3.3 Craft user prompt (MODIFIED Task Description) ---
-    final_user_prompt = (
-        f"User Question: {payload.question}\n\n"
-        f"Visual Analysis Report (JSON):\n```json\n{visual_analysis_report_str}\n```\n\n"
-        f"Retrieved Course Context:\n{course_context}\n\n"
-        "Task: The user asked: '{payload.question}'. Respond in Romanian by generating a **structured technical analysis** "
-        "of the setup shown in the image. Synthesize the findings from the 'Visual Analysis Report' and the 'Course Context', "
-        "strictly following the Trading Instituțional methodology and the specific instructions for this query type in the "
-        "system prompt. Present the objective findings first (structure, direction, key levels based on report/context), "
-        "then conclude with the appropriate disclaimers as instructed in the system prompt."
-    )
-
-    logging.debug("Final System prompt length: %d", len(final_system_prompt))
-    logging.debug("Final User prompt length: %d", len(final_user_prompt))
-    logging.debug(
-        "Final User prompt (first 500 chars): %s", final_user_prompt[:500] + "..."
-    )
-
-    # --- 3.4 OpenAI call ---
-    try:
-        chat_completion = openai.chat.completions.create(
-            model=COMPLETION_MODEL,
-            messages=[
-                {"role": "system", "content": final_system_prompt},
-                {"role": "user", "content": final_user_prompt},
-            ],
-            temperature=0.3,  # Keep temperature relatively low for consistency
-            max_tokens=800,  # Keep reasonable token limit
-        )
-        final_answer = chat_completion.choices[0].message.content.strip()
-        logging.info("Final answer generated successfully using %s.", COMPLETION_MODEL)
-        logging.debug("Final Answer (raw): %s...", final_answer[:300])
-
-        # Return including session_id for feedback linkage
-        return {
-            "answer": final_answer,
-            "session_id": session_id,
-            # Intentionally not returning analysis_data here – it's logged via /feedback endpoint
-        }
-
-    except (APIError, RateLimitError) as e:
-        logging.error("OpenAI Chat API error (%s): %s", COMPLETION_MODEL, e)
+    except Exception as e_gen:
+        logging.exception("Unhandled exception in final response generation stage")
         return {
             "answer": (
-                "Nu am putut genera un răspuns final. "
-                f"Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan."
-            ),
-            "session_id": session_id,
-            "error": str(e),
-        }
-    except Exception as e_final:
-        logging.exception("Unexpected error during final answer generation")
-        return {
-            "answer": (
-                "A apărut o eroare la generarea răspunsului final. "
+                "A apărut o eroare neașteptată la procesarea răspunsului. "
                 "Te rugăm să încerci din nou."
             ),
             "session_id": session_id,
-            "error": str(e_final),
+            "error": str(e_gen),
         }
 
-except Exception as e_gen:
-    logging.exception("Unhandled exception in final response generation stage")
-    return {
-        "answer": (
-            "A apărut o eroare neașteptată la procesarea răspunsului. "
-            "Te rugăm să încerci din nou."
-        ),
-        "session_id": session_id,
-        "error": str(e_gen),
-    }
