@@ -1009,107 +1009,103 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         logging.debug(f"Visual Analysis Report string for prompt:\n{visual_analysis_report_str}")
 
 
-        # --- Define the system prompt based on query type ---
-        if query_info["type"] == "liquidity":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Liquidity Zone Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on LIQUIDITY ZONES visible in the user's chart."
-                "\n2. You also have Course Material Context providing rules about liquidity in trading."
-                "\n3. Your task is to ONLY evaluate the liquidity zones marked in the chart and answer the user's specific question."
-                "\n4. DO NOT analyze or mention MSS, displacement, or trade setups unless directly relevant to liquidity."
-                "\n5. Focus on confirming if the liquidity zones are correctly identified and how they relate to the Trading Instituțional methodology."
-                "\n6. For liquidity questions, explain: Liquidity is where stop orders accumulate, creating potential targets for price to move toward."
-                "\n7. Mention that high-quality liquidity zones are those most visible on the chart, where many stop orders may be gathered."
-                "\n8. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n9. Be concise, direct, and focus ONLY on the liquidity aspects of the chart."
-                "\n10. Expected response for liquidity questions: Confirm if zones are valid, mention quality criteria, give brief guidance."
-            )
-        elif query_info["type"] == "trend":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Trend Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on TREND DIRECTION visible in the user's chart."
-                "\n2. You also have Course Material Context about trend following strategies."
-                "\n3. Your task is to ONLY evaluate the trend characteristics and answer the user's specific question."
-                "\n4. DO NOT analyze or mention MSS, displacement, or specific trade setups unless directly relevant to trend."
-                "\n5. Focus on confirming if there is a clear trend, its direction (bullish/bearish), and strength."
-                "\n6. For trend questions with minor liquidity mentioned, explain how minor liquidity helps sustain trends."
-                "\n7. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n8. Be concise, direct, and focus ONLY on the trend aspects of the chart."
-                "\n9. Expected response for trend questions: Confirm trend direction (bullish/bearish/sideways), mention strength, give brief guidance."
-            )
-        if query_info["type"] == "mss_classification" or query_info["requires_mss_analysis"]:
-            detailed_vision_system_prompt = (
-                "You are an expert Trading Instituțional chart analyst specializing in MSS classification. "
-                "Analyze this chart with STRICT ATTENTION to the following critical criteria:"
-        
-                "\n\n**CRITICAL MSS CLASSIFICATION RULES:**"
-                "\n1. MSS (Market Structure Shift) occurs where a higher low (in downtrend) or lower high (in uptrend) is broken"
-                "\n2. To properly classify MSS, you MUST analyze the STRUCTURE that's being broken:"
-                "   - MSS Agresiv: The structure being broken (the last higher lower or lower high) does NOT have at least 2 bearish + 2 bullish candles"
-                "   - MSS Normal: The structure being broken (the last higher lower or lower high) DOES have at least 2 bearish + 2 bullish candles"
-                "\n3. Count ALL candles in the structure being broken, not just the breaking candle(s)"
-                "\n4. IMPORTANT: Look at the ENTIRE structure area, not just the final candle that breaks through"
-                "\n5. The MSS area is typically indicated by an arrow or label on the chart"
-        
-                "\n\nOutput a structured JSON with these fields:"
-                "\n1. 'analysis_possible': boolean"
-                "\n2. 'mss_location': Where is MSS labeled on the chart"
-                "\n3. 'structure_candle_composition': Detailed description of ALL candles forming the structure that's being broken"
-                "\n4. 'structure_candle_count': EXACT INTEGER count of ALL candles in the structure being broken"
-                "\n5. 'has_minimum_structure': Boolean indicating if the structure has at least 2 bearish + 2 bullish candles"
-                "\n6. 'mss_type': MUST be EXACTLY 'agresiv' (insufficient structure) or 'normal' (sufficient structure)"
-                "\n7. 'break_direction': 'upward' (breaking a high) or 'downward' (breaking a low)"
-                "\n8. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
-                "\n9. 'trade_direction': Determine if this is a 'short' or 'long' trade based on the break direction"
-                "   - downward break = short trade, upward break = long trade"
-        
-                "\n\nTHE STRUCTURE COMPOSITION AND TRADE DIRECTION ARE CRITICAL - analyze these with utmost precision."
-            )
-        elif query_info["type"] == "displacement":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Displacement Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on DISPLACEMENT visible in the user's chart."
-                "\n2. You also have Course Material Context about displacement in trading."
-                "\n3. Your task is to ONLY evaluate the displacement characteristics and answer the user's specific question."
-                "\n4. Focus on the direction of displacement (bullish/bearish) and its strength."
-                "\n5. Mention any FVGs (Fair Value Gaps) created by the displacement if visible."
-                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n7. Explain how displacement relates to trade direction: bearish displacement for SHORT trades, bullish for LONG trades."
-                "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
-                "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
-            )
-        elif query_info["type"] == "fvg":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for FVG Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on FVGs (Fair Value Gaps) visible in the user's chart."
-                "\n2. You also have Course Material Context about FVGs in trading."
-                "\n3. Your task is to ONLY evaluate the FVG characteristics and answer the user's specific question."
-                "\n4. Focus on identifying FVGs, their direction (bullish/bearish), and quality."
-                "\n5. Explain that FVGs are created when price moves impulsively, leaving areas where no trading has occurred."
-                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n7. Relate FVGs to the overall trade direction: bearish FVGs for SHORT trades, bullish FVGs for LONG trades."
-                "\n8. Be concise, direct, and focus ONLY on the FVG aspects of the chart."
-                "\n9. Expected response for FVG questions: Identify FVGs, their direction, quality, and implications for the trade."
-            )
-        else:
-            # Default for general or trade evaluation queries
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Trade Setup Evaluation ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) of the user's trading chart."
-                "\n2. You also have Course Material Context from Trading Instituțional program."
-                "\n3. Your task is to evaluate the chart based STRICTLY on the Trading Instituțional methodology."
-                "\n4. Pay special attention to these elements:"
-                "   - MSS Type (agresiv vs normal) based on STRUCTURE COMPOSITION (not just breaking candle count)"
-                "   - Direction consistency (break/displacement should match trade direction)"
-                "   - FVGs (Fair Value Gaps) quality and alignment with trade direction"
-                "   - Liquidity zones and their quality"
-                "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n6. Be direct, concise, and focus ONLY on what's visible in the chart."
-                "\n7. Do not make predictions or provide 'would be better if' advice."
-                "\n8. If there are inconsistencies in the setup (e.g., direction mismatch), point them out."
-                "\n9. Expected response for trade evaluations: Assess structure validity, mention direction consistency, evaluate overall quality."
-            )
+       # Replace the section where final_system_prompt is defined (around line 930-1019)
 
+# --- Define the system prompt based on query type ---
+final_system_prompt = SYSTEM_PROMPT_CORE  # Initialize with core prompt as default
+
+if query_info["type"] == "liquidity":
+    final_system_prompt += (
+        "\n\n--- Instructions for Liquidity Zone Analysis ---"
+        "\n1. You are provided with a Visual Analysis Report (JSON) focused on LIQUIDITY ZONES visible in the user's chart."
+        "\n2. You also have Course Material Context providing rules about liquidity in trading."
+        "\n3. Your task is to ONLY evaluate the liquidity zones marked in the chart and answer the user's specific question."
+        "\n4. DO NOT analyze or mention MSS, displacement, or trade setups unless directly relevant to liquidity."
+        "\n5. Focus on confirming if the liquidity zones are correctly identified and how they relate to the Trading Instituțional methodology."
+        "\n6. For liquidity questions, explain: Liquidity is where stop orders accumulate, creating potential targets for price to move toward."
+        "\n7. Mention that high-quality liquidity zones are those most visible on the chart, where many stop orders may be gathered."
+        "\n8. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+        "\n9. Be concise, direct, and focus ONLY on the liquidity aspects of the chart."
+        "\n10. Expected response for liquidity questions: Confirm if zones are valid, mention quality criteria, give brief guidance."
+    )
+elif query_info["type"] == "trend":
+    final_system_prompt += (
+        "\n\n--- Instructions for Trend Analysis ---"
+        "\n1. You are provided with a Visual Analysis Report (JSON) focused on TREND DIRECTION visible in the user's chart."
+        "\n2. You also have Course Material Context about trend following strategies."
+        "\n3. Your task is to ONLY evaluate the trend characteristics and answer the user's specific question."
+        "\n4. DO NOT analyze or mention MSS, displacement, or specific trade setups unless directly relevant to trend."
+        "\n5. Focus on confirming if there is a clear trend, its direction (bullish/bearish), and strength."
+        "\n6. For trend questions with minor liquidity mentioned, explain how minor liquidity helps sustain trends."
+        "\n7. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+        "\n8. Be concise, direct, and focus ONLY on the trend aspects of the chart."
+        "\n9. Expected response for trend questions: Confirm trend direction (bullish/bearish/sideways), mention strength, give brief guidance."
+    )
+elif query_info["type"] == "mss_classification":
+    final_system_prompt += (
+        "\n\n--- Instructions for MSS Classification ---"
+        "\n1. You are provided with a Visual Analysis Report (JSON) focused on MSS CLASSIFICATION in the user's chart."
+        "\n2. You also have Course Material Context about MSS types and definitions."
+        "\n3. Your task is to DETERMINE if the MSS shown is AGRESIV or NORMAL based on structure composition:"
+        "   - MSS Agresiv = The structure being broken does NOT have at least 2 bearish + 2 bullish candles"
+        "   - MSS Normal = The structure being broken DOES have at least 2 bearish + 2 bullish candles"
+        "\n4. Also state if it's breaking upward (through a high) or downward (through a low)."
+        "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+        "\n6. If there's an inconsistency in the analysis, prioritize the structure composition:"
+        "   - If report shows structure without minimum 2+2 candles requirement but calls it 'normal' - it's actually AGRESIV"
+        "   - If report shows structure with proper 2+2 candles but calls it 'agresiv' - it's actually NORMAL"
+        "\n7. Be concise, direct, and ONLY classify the MSS without analyzing the entire trade setup."
+        "\n8. Always clearly state the EXACT classification and the reason (structure composition)."
+        "\n9. Expected response for MSS classification: State MSS type, explain why based on structure, mention break direction."
+        "\n10. If the system made a correction to the classification, make sure to use the corrected value."
+    )
+elif query_info["type"] == "displacement":
+    final_system_prompt += (
+        "\n\n--- Instructions for Displacement Analysis ---"
+        "\n1. You are provided with a Visual Analysis Report (JSON) focused on DISPLACEMENT visible in the user's chart."
+        "\n2. You also have Course Material Context about displacement in trading."
+        "\n3. Your task is to ONLY evaluate the displacement characteristics and answer the user's specific question."
+        "\n4. Focus on the direction of displacement (bullish/bearish) and its strength."
+        "\n5. Mention any FVGs (Fair Value Gaps) created by the displacement if visible."
+        "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+        "\n7. Explain how displacement relates to trade direction: bearish displacement for SHORT trades, bullish for LONG trades."
+        "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
+        "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
+    )
+elif query_info["type"] == "fvg":
+    final_system_prompt += (
+        "\n\n--- Instructions for FVG Analysis ---"
+        "\n1. You are provided with a Visual Analysis Report (JSON) focused on FVGs (Fair Value Gaps) visible in the user's chart."
+        "\n2. You also have Course Material Context about FVGs in trading."
+        "\n3. Your task is to ONLY evaluate the FVG characteristics and answer the user's specific question."
+        "\n4. Focus on identifying FVGs, their direction (bullish/bearish), and quality."
+        "\n5. Explain that FVGs are created when price moves impulsively, leaving areas where no trading has occurred."
+        "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+        "\n7. Relate FVGs to the overall trade direction: bearish FVGs for SHORT trades, bullish FVGs for LONG trades."
+        "\n8. Be concise, direct, and focus ONLY on the FVG aspects of the chart."
+        "\n9. Expected response for FVG questions: Identify FVGs, their direction, quality, and implications for the trade."
+    )
+else:  # Default for general or trade evaluation queries
+    final_system_prompt += (
+        "\n\n--- Instructions for Trade Setup Evaluation ---"
+        "\n1. You are provided with a Visual Analysis Report (JSON) of the user's trading chart."
+        "\n2. You also have Course Material Context from Trading Instituțional program."
+        "\n3. Your task is to evaluate the chart based STRICTLY on the Trading Instituțional methodology."
+        "\n4. Pay special attention to these elements:"
+        "   - MSS Type (agresiv vs normal) based on STRUCTURE COMPOSITION (not just breaking candle count)"
+        "   - Direction consistency: RED zones typically indicate SHORT trades, BLUE/GREEN zones indicate LONG trades"
+        "   - Displacement MUST match trade direction: bearish displacement for SHORT trades, bullish for LONG trades"
+        "   - FVGs (Fair Value Gaps) should align with trade direction"
+        "\n5. CRITICAL COLOR INTERPRETATION:"
+        "   - Pay strict attention to the SPECIFIC COLOR SCHEME identified in the Visual Analysis Report"
+        "   - Typically, green candles are bullish and red candles are bearish, but verify from the report"
+        "   - Red zones typically indicate resistance (for SHORT trades)"
+        "   - Blue/green zones typically indicate support (for LONG trades)"
+        "\n6. Be direct, concise, and focus ONLY on what's visible in the chart."
+        "\n7. If the system has made automatic corrections to MSS type or trade direction, use these corrected values."
+        "\n8. If there are inconsistencies in the setup (e.g., direction mismatch), point them out clearly."
+        "\n9. NEVER contradict the chart's visual elements (color zones, MSS placement, candle colors) in your analysis."
+    )
         # --- User prompt for final answer generation ---
         try:
             final_user_prompt = (
