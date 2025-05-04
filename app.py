@@ -978,4 +978,14 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n1. You are provided with a Visual Analysis Report (JSON) focused on DISPLACEMENT visible in the user's chart."
                 "\n2. You also have Course Material Context about displacement in trading."
                 "\n3. Your task is to ONLY evaluate the displacement characteristics and answer the user's specific question."
+                "\n4. Focus on the direction of displacement (bullish/bearish) and its strength."
+                "\n5. Mention any FVGs (Fair Value Gaps) created by the displacement if visible."
+                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+                "\n7. Explain how displacement relates to trade direction: bearish displacement for SHORT trades, bullish for LONG trades."
+                "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
+                "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
             )
+        elif query_info["type"] == "fvg":
+            final_system_prompt = SYSTEM_PROMPT_CORE + (
+                "\n\n--- Instructions for FVG Analysis ---"
+                "\
