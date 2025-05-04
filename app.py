@@ -1008,41 +1008,46 @@ try:
         logging.debug(f"Final Answer (raw): {final_answer[:300]}...")
 
         # Return including session_id for feedback linkage
-        return {
-            "answer": final_answer,
-            "session_id": session_id,
-            # Intentionally not returning analysis_data here - it's logged via /feedback endpoint
-        }
+            return {
+                "answer": final_answer,
+                "session_id": session_id,
+                # Intentionally not returning analysis_data here - it's logged via /feedback endpoint
+            }
 
-    except (APIError, RateLimitError) as e:
-        # Use f-string for cleaner logging
-        logging.error(f"OpenAI Chat API error ({COMPLETION_MODEL}): {e}")
-        # Use f-string for cleaner response
+    # --- (Inner) OpenAI call exception handling ---
+        except (APIError, RateLimitError) as e:
+            # Use f-string for cleaner logging
+            logging.error(f"OpenAI Chat API error ({COMPLETION_MODEL}): {e}")
+            # Use f-string for cleaner response
+            # This return IS correctly indented inside the inner 'except'
+            return {
+                "answer": f"Nu am putut genera un răspuns final. Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan.",
+                "session_id": session_id,
+                "error": str(e),
+            }
+        except Exception as e_final:
+            logging.exception("Unexpected error during final answer generation")
+            # This return IS correctly indented inside the inner 'except'
+            return {
+                "answer": "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou.",
+                "session_id": session_id,
+                "error": str(e_final),
+            }
+    # --- (Outer) Exception handling for the whole Final Answer Generation stage ---
+    except Exception as e_gen:
+        # <<< THIS BLOCK WAS DE-INDENTED in your snippet. It should be aligned with the outer 'try' block.
+        logging.exception("Unhandled exception in final response generation stage")
+        # This return MUST be indented inside THIS 'except' block
         return {
-            "answer": f"Nu am putut genera un răspuns final. Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan.",
+            "answer": "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou.",
             "session_id": session_id,
-            "error": str(e),
+            "error": str(e_gen),
         }
-    except Exception as e_final:
-        logging.exception("Unexpected error during final answer generation")
-        return {
-            "answer": "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou.",
-            "session_id": session_id,
-            "error": str(e_final),
-        }
-
-except Exception as e_gen:
-    logging.exception("Unhandled exception in final response generation stage")
-    return {
-        "answer": "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou.",
-        "session_id": session_id,
-        "error": str(e_gen),
-    }
-
+# <<< Implicit end of the ask_image_hybrid function definition here
 
 
 # ---------------------------------------------------------------------------
-# Health‑check Endpoint (Unchanged)
+# Health‑check Endpoint (This should be OUTSIDE the function above)
 # ---------------------------------------------------------------------------
 @app.get("/health")
 async def health_check():
@@ -1055,7 +1060,8 @@ async def health_check():
     except Exception as e_openai:
         health_status["openai_embedding"] = f"error: {str(e_openai)}"
         health_status["status"] = "unhealthy"
-        logging.error("Health check failed - OpenAI Embedding: %s", e_openai)
+        # Use f-string for logging
+        logging.error(f"Health check failed - OpenAI Embedding: {e_openai}")
 
     try:
          # Check OpenAI Chat (using a cheap model for check)
@@ -1064,7 +1070,8 @@ async def health_check():
     except Exception as e_chat:
          health_status["openai_chat"] = f"error: {str(e_chat)}"
          health_status["status"] = "unhealthy"
-         logging.error("Health check failed - OpenAI Chat: %s", e_chat)
+         # Use f-string for logging
+         logging.error(f"Health check failed - OpenAI Chat: {e_chat}")
 
     try:
         # Check Pinecone - Use describe_index_stats for minimal impact
@@ -1073,12 +1080,16 @@ async def health_check():
     except Exception as e_pinecone:
         health_status["pinecone"] = f"error: {str(e_pinecone)}"
         health_status["status"] = "unhealthy"
-        logging.error("Health check failed - Pinecone: %s", e_pinecone)
+        # Use f-string for logging
+        logging.error(f"Health check failed - Pinecone: {e_pinecone}")
 
+    # This return IS correctly indented inside the health_check function
     return health_status
 
 # Allow running with uvicorn for local testing
 # Example: uvicorn your_filename:app --reload
+# This block should be at the top level (no indentation)
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Ensure 'app' refers to your FastAPI instance correctly
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
