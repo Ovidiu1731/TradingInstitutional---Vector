@@ -916,14 +916,14 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         if minimal_definitions:
             course_context += "\n\n---\n\n" + "\n\n".join(minimal_definitions)
 
-    # --- 3️⃣ Final Answer Generation ---
+       # --- 3️⃣ Final Answer Generation ---
     try:
         # --- Prepare the visual analysis report string ---
         visual_analysis_report_str = "[Eroare la formatarea raportului vizual]" # Default error
         try:
-             visual_analysis_report_str = json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False)
+            visual_analysis_report_str = json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False)
         except Exception:
-             visual_analysis_report_str = str(detailed_vision_analysis) # Fallback
+            visual_analysis_report_str = str(detailed_vision_analysis) # Fallback
         logging.debug(f"Visual Analysis Report string for prompt:\n{visual_analysis_report_str}")
 
 
@@ -985,7 +985,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
                 "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
             )
-                elif query_info["type"] == "fvg":
+        elif query_info["type"] == "fvg":
             final_system_prompt = SYSTEM_PROMPT_CORE + (
                 "\n\n--- Instructions for FVG Analysis ---"
                 "\n1. You are provided with a Visual Analysis Report (JSON) focused on FVGs (Fair Value Gaps) visible in the user's chart."
