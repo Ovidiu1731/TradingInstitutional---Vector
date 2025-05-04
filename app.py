@@ -973,7 +973,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         if "displacement" in payload.question.lower(): minimal_definitions.append(DISPLACEMENT_DEFINITION)
         if minimal_definitions: course_context += "\n\nDefiniții de Bază:\n" + "\n".join(minimal_definitions)
 
-    # --- 3️⃣ Final Answer Generation ---
+  # --- 3️⃣ Final Answer Generation ---
     try:
         # --- 3.1 Build the visual analysis report string safely ---
         try:
@@ -1010,149 +1010,149 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
         # --- 3.2 System‑prompt factory (MODIFIED for evaluation handling) ---
         def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
-    BASE = SYSTEM_PROMPT_CORE
+            BASE = SYSTEM_PROMPT_CORE
 
-    PROMPTS = {
-        "liquidity": (
-            "\n--- Instructions for Liquidity Zone Analysis Response ---\n"
-            "Focus your answer *only* on the liquidity analysis provided in the report and context."
-        ),
-        "trend": (
-            "\n--- Instructions for Trend Analysis Response ---\n"
-            "Focus your answer *only* on the trend analysis provided."
-        ),
-        "mss_classification": (
-            "\n--- Instructions for MSS Classification Response ---\n"
-            "Explain the MSS classification based *only* on the pivot structure analysis provided. "
-            "Reference the course definitions."
-        ),
-        "displacement": (
-            "\n--- Instructions for Displacement Analysis Response ---\n"
-            "Describe the displacement and any FVGs based on the analysis provided."
-        ),
-        "fvg": (
-            "\n--- Instructions for FVG Analysis Response ---\n"
-            "Describe the identified FVGs and their potential implications based on the analysis and context."
-        ),
-        "trade_evaluation": (
-            "\n--- Instructions for Trade Setup Evaluation Response ---\n"
-            "1. Provide an **objective analysis** based on the Trading Instituțional methodology.\n"
-            "2. Do **not** begin by saying you don't give opinions.\n"
-            "3. Summarize key elements from the Visual Analysis Report:\n"
-            "   • trade_direction  • mss_type  • displacement/FVGs  • liquidity_zones  • validator notes\n"
-            "4. Relate findings to the Course Context (confluence/divergence).\n"
-            "5. Conclude with the standard reminder that you don't give personal advice."
-        ),
-        "general": (
-            "\n--- Instructions for General Query Response ---\n"
-            "Answer by synthesizing the Visual Analysis Report and Course Context. "
-            "If the question implicitly asks for an evaluation, follow the Trade Setup Evaluation instructions."
-        ),
-    }
-
-    effective_type = (
-        "trade_evaluation"
-        if query_type == "general" and requires_full_analysis
-        else query_type
-    )
-    chosen = PROMPTS.get(effective_type, PROMPTS["trade_evaluation"])
-    return BASE + "\n\n" + chosen.strip()
-
-final_system_prompt = _build_system_prompt(
-    query_info["type"], query_info.get("requires_full_analysis", False)
-)
-
-# --- 3.3 Craft user prompt ---
-final_user_prompt = (
-    f"User Question: {payload.question}\n\n"
-    f"Visual Analysis Report (JSON):\n```json\n{visual_analysis_report_str}\n```\n\n"
-    f"Retrieved Course Context:\n{course_context}\n\n"
-    "Task: The user asked: '{payload.question}'. Respond in Romanian with a **structured technical analysis** "
-    "of the setup shown in the image, strictly following Trading Instituțional methodology. Present objective "
-    "findings first, then conclude with the disclaimers specified in the system prompt."
-)
-
-logging.debug("Final System prompt length: %d", len(final_system_prompt))
-logging.debug("Final User prompt length: %d", len(final_user_prompt))
-logging.debug(
-    "Final User prompt (first 500 chars): %s", final_user_prompt[:500] + "..."
-)
-
-# --- 3.4 OpenAI call ---
-try:
-    chat_completion = openai.chat.completions.create(
-        model=COMPLETION_MODEL,
-        messages=[
-            {"role": "system", "content": final_system_prompt},
-            {"role": "user", "content": final_user_prompt},
-        ],
-        temperature=0.3,
-        max_tokens=800,
-    )
-    final_answer = chat_completion.choices[0].message.content.strip()
-    logging.info(
-        "Final answer generated successfully using %s.", COMPLETION_MODEL
-    )
-    logging.debug("Final Answer (raw): %s...", final_answer[:300])
-
-    return {
-        "answer": final_answer,
-        "session_id": session_id,
-    }
-
-except (APIError, RateLimitError) as e:
-    logging.error("OpenAI Chat API error (%s): %s", COMPLETION_MODEL, e)
-    return {
-        "answer": (
-            "Nu am putut genera un răspuns final. "
-            f"Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan."
-        ),
-        "session_id": session_id,
-        "error": str(e),
-    }
-except Exception as e_final:
-    logging.exception("Unexpected error during final answer generation")
-    return {
-        "answer": (
-            "A apărut o eroare la generarea răspunsului final. "
-            "Te rugăm să încerci din nou."
-        ),
-        "session_id": session_id,
-        "error": str(e_final),
-    }
-
-except Exception as e_gen:
-    logging.exception("Unhandled exception in final response generation stage")
-    return {
-        "answer": (
-            "A apărut o eroare neașteptată la procesarea răspunsului. "
-            "Te rugăm să încerci din nou."
-        ),
-        "session_id": session_id,
-        "error": str(e_gen),
-    }
-
-# --- Health check endpoint ---
-@app.get("/health")
-async def health_check():
-    """Simple health check endpoint to verify the service is running."""
-    try:
-        # Check OpenAI API connection
-        openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
-        # Check Pinecone connection (simple query)
-        test_vector = [0.0] * 1536  # Empty vector for test
-        index.query(vector=test_vector, top_k=1)
+            PROMPTS = {
+                "liquidity": (
+                    "\n--- Instructions for Liquidity Zone Analysis Response ---\n"
+                    "Focus your answer *only* on the liquidity analysis provided in the report and context."
+                ),
+                "trend": (
+                    "\n--- Instructions for Trend Analysis Response ---\n"
+                    "Focus your answer *only* on the trend analysis provided."
+                ),
+                "mss_classification": (
+                    "\n--- Instructions for MSS Classification Response ---\n"
+                    "Explain the MSS classification based *only* on the pivot structure analysis provided. "
+                    "Reference the course definitions."
+                ),
+                "displacement": (
+                    "\n--- Instructions for Displacement Analysis Response ---\n"
+                    "Describe the displacement and any FVGs based on the analysis provided."
+                ),
+                "fvg": (
+                    "\n--- Instructions for FVG Analysis Response ---\n"
+                    "Describe the identified FVGs and their potential implications based on the analysis and context."
+                ),
+                "trade_evaluation": (
+                    "\n--- Instructions for Trade Setup Evaluation Response ---\n"
+                    "1. Provide an **objective analysis** based on the Trading Instituțional methodology.\n"
+                    "2. Do **not** begin by saying you don't give opinions.\n"
+                    "3. Summarize key elements from the Visual Analysis Report:\n"
+                    "   • trade_direction  • mss_type  • displacement/FVGs  • liquidity_zones  • validator notes\n"
+                    "4. Relate findings to the Course Context (confluence/divergence).\n"
+                    "5. Conclude with the standard reminder that you don't give personal advice."
+                ),
+                "general": (
+                    "\n--- Instructions for General Query Response ---\n"
+                    "Answer by synthesizing the Visual Analysis Report and Course Context. "
+                    "If the question implicitly asks for an evaluation, follow the Trade Setup Evaluation instructions."
+                ),
+            }
         
+            effective_type = (
+                "trade_evaluation"
+                if query_type == "general" and requires_full_analysis
+                else query_type
+            )
+            chosen = PROMPTS.get(effective_type, PROMPTS["trade_evaluation"])
+            return BASE + "\n\n" + chosen.strip()
+        
+        final_system_prompt = _build_system_prompt(
+            query_info["type"], query_info.get("requires_full_analysis", False)
+        )
+    
+    # --- 3.3 Craft user prompt ---
+    final_user_prompt = (
+        f"User Question: {payload.question}\n\n"
+        f"Visual Analysis Report (JSON):\n```json\n{visual_analysis_report_str}\n```\n\n"
+        f"Retrieved Course Context:\n{course_context}\n\n"
+        "Task: The user asked: '{payload.question}'. Respond in Romanian with a **structured technical analysis** "
+        "of the setup shown in the image, strictly following Trading Instituțional methodology. Present objective "
+        "findings first, then conclude with the disclaimers specified in the system prompt."
+    )
+    
+    logging.debug("Final System prompt length: %d", len(final_system_prompt))
+    logging.debug("Final User prompt length: %d", len(final_user_prompt))
+    logging.debug(
+        "Final User prompt (first 500 chars): %s", final_user_prompt[:500] + "..."
+    )
+    
+    # --- 3.4 OpenAI call ---
+    try:
+        chat_completion = openai.chat.completions.create(
+            model=COMPLETION_MODEL,
+            messages=[
+                {"role": "system", "content": final_system_prompt},
+                {"role": "user", "content": final_user_prompt},
+            ],
+            temperature=0.3,
+            max_tokens=800,
+        )
+        final_answer = chat_completion.choices[0].message.content.strip()
+        logging.info(
+            "Final answer generated successfully using %s.", COMPLETION_MODEL
+        )
+        logging.debug("Final Answer (raw): %s...", final_answer[:300])
+    
         return {
-            "status": "healthy",
-            "openai": "connected",
-            "pinecone": "connected",
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+            "answer": final_answer,
+            "session_id": session_id,
         }
-    except Exception as e:
-        logging.error(f"Health check failed: {e}")
+    
+    except (APIError, RateLimitError) as e:
+        logging.error("OpenAI Chat API error (%s): %s", COMPLETION_MODEL, e)
         return {
-            "status": "unhealthy",
+            "answer": (
+                "Nu am putut genera un răspuns final. "
+                f"Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan."
+            ),
+            "session_id": session_id,
             "error": str(e),
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
         }
+    except Exception as e_final:
+        logging.exception("Unexpected error during final answer generation")
+        return {
+            "answer": (
+                "A apărut o eroare la generarea răspunsului final. "
+                "Te rugăm să încerci din nou."
+            ),
+            "session_id": session_id,
+            "error": str(e_final),
+        }
+    
+    except Exception as e_gen:
+        logging.exception("Unhandled exception in final response generation stage")
+        return {
+            "answer": (
+                "A apărut o eroare neașteptată la procesarea răspunsului. "
+                "Te rugăm să încerci din nou."
+            ),
+            "session_id": session_id,
+            "error": str(e_gen),
+        }
+    
+    # --- Health check endpoint ---
+    @app.get("/health")
+    async def health_check():
+        """Simple health check endpoint to verify the service is running."""
+        try:
+            # Check OpenAI API connection
+            openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
+            # Check Pinecone connection (simple query)
+            test_vector = [0.0] * 1536  # Empty vector for test
+            index.query(vector=test_vector, top_k=1)
+            
+            return {
+                "status": "healthy",
+                "openai": "connected",
+                "pinecone": "connected",
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+            }
+        except Exception as e:
+            logging.error(f"Health check failed: {e}")
+            return {
+                "status": "unhealthy",
+                "error": str(e),
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+            }
