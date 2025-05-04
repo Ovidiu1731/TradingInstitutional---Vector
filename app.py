@@ -1037,23 +1037,33 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n8. Be concise, direct, and focus ONLY on the trend aspects of the chart."
                 "\n9. Expected response for trend questions: Confirm trend direction (bullish/bearish/sideways), mention strength, give brief guidance."
             )
-        elif query_info["type"] == "mss_classification":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for MSS Classification ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on MSS CLASSIFICATION in the user's chart."
-                "\n2. You also have Course Material Context about MSS types and definitions."
-                "\n3. Your task is to DETERMINE if the MSS shown is AGRESIV or NORMAL based on structure composition:"
-                "   - MSS Agresiv = The structure being broken does NOT have at least 2 bearish + 2 bullish candles"
-                "   - MSS Normal = The structure being broken DOES have at least 2 bearish + 2 bullish candles"
-                "\n4. Also state if it's breaking upward (through a high) or downward (through a low)."
-                "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n6. If there's an inconsistency in the analysis, prioritize the structure composition:"
-                "   - If report shows structure without minimum 2+2 candles requirement but calls it 'normal' - it's actually AGRESIV"
-                "   - If report shows structure with proper 2+2 candles but calls it 'agresiv' - it's actually NORMAL"
-                "\n7. Be concise, direct, and ONLY classify the MSS without analyzing the entire trade setup."
-                "\n8. Always clearly state the EXACT classification and the reason (structure composition)."
-                "\n9. Expected response for MSS classification: State MSS type, explain why based on structure, mention break direction."
-                "\n10. If the system made a correction to the classification, make sure to use the corrected value."
+        if query_info["type"] == "mss_classification" or query_info["requires_mss_analysis"]:
+            detailed_vision_system_prompt = (
+                "You are an expert Trading Instituțional chart analyst specializing in MSS classification. "
+                "Analyze this chart with STRICT ATTENTION to the following critical criteria:"
+        
+                "\n\n**CRITICAL MSS CLASSIFICATION RULES:**"
+                "\n1. MSS (Market Structure Shift) occurs where a higher low (in downtrend) or lower high (in uptrend) is broken"
+                "\n2. To properly classify MSS, you MUST analyze the STRUCTURE that's being broken:"
+                "   - MSS Agresiv: The structure being broken does NOT have at least 2 bearish + 2 bullish candles"
+                "   - MSS Normal: The structure being broken DOES have at least 2 bearish + 2 bullish candles"
+                "\n3. Count ALL candles in the structure being broken, not just the breaking candle(s)"
+                "\n4. IMPORTANT: Look at the ENTIRE structure area, not just the final candle that breaks through"
+                "\n5. The MSS area is typically indicated by an arrow or label on the chart"
+        
+                "\n\nOutput a structured JSON with these fields:"
+                "\n1. 'analysis_possible': boolean"
+                "\n2. 'mss_location': Where is MSS labeled on the chart"
+                "\n3. 'structure_candle_composition': Detailed description of ALL candles forming the structure that's being broken"
+                "\n4. 'structure_candle_count': EXACT INTEGER count of ALL candles in the structure being broken"
+                "\n5. 'has_minimum_structure': Boolean indicating if the structure has at least 2 bearish + 2 bullish candles"
+                "\n6. 'mss_type': MUST be EXACTLY 'agresiv' (insufficient structure) or 'normal' (sufficient structure)"
+                "\n7. 'break_direction': 'upward' (breaking a high) or 'downward' (breaking a low)"
+                "\n8. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
+                "\n9. 'trade_direction': Determine if this is a 'short' or 'long' trade based on the break direction"
+                "   - downward break = short trade, upward break = long trade"
+        
+                "\n\nTHE STRUCTURE COMPOSITION AND TRADE DIRECTION ARE CRITICAL - analyze these with utmost precision."
             )
         elif query_info["type"] == "displacement":
             final_system_prompt = SYSTEM_PROMPT_CORE + (
