@@ -996,7 +996,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
         if minimal_definitions:
             course_context += "\n\n---\n\n" + "\n\n".join(minimal_definitions)
 
-    # --- 3️⃣ Final Answer Generation ---
+  # --- 3️⃣ Final Answer Generation ---
     try:
         # --- Prepare the visual analysis report string ---
         visual_analysis_report_str = "[Eroare la formatarea raportului vizual]" # Default error
@@ -1042,17 +1042,17 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n1. You are provided with a Visual Analysis Report (JSON) focused on MSS CLASSIFICATION in the user's chart."
                 "\n2. You also have Course Material Context about MSS types and definitions."
                 "\n3. Your task is to DETERMINE if the MSS shown is AGRESIV or NORMAL based on structure composition:"
-                "   - MSS Agresiv = The structure being broken (the last lower high or higher low) does NOT have at least 2 bearish + 2 bullish candles"
-                "   - MSS Normal = The structure being broken (the last lower high or higher low) DOES have at least 2 bearish + 2 bullish candles"
-                "\n4. Also state if it's breaking upward (through a high) or downward (through a low)."
-                "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n6. If there's an inconsistency in the analysis, prioritize the structure composition:"
-                "   - If report shows structure without minimum 2+2 candles requirement but calls it 'normal' - it's actually AGRESIV"
-                "   - If report shows structure with proper 2+2 candles but calls it 'agresiv' - it's actually NORMAL"
-                "\n7. Be concise, direct, and ONLY classify the MSS without analyzing the entire trade setup."
-                "\n8. Always clearly state the EXACT classification and the reason (structure composition)."
-                "\n9. Expected response for MSS classification: State MSS type, explain why based on structure, mention break direction."
-                "\n10. If the system made a correction to the classification, make sure to use the corrected value."
+                "   - MSS Normal = The last higher low or lower high where the structure happens has AT LEAST 2 bearish candles AND 2 bullish candles"
+                "   - MSS Agresiv = The last higher low or lower high where the structure happens has ONLY 1 bearish OR 1 bullish candle"
+                "\n4. CRITICAL: Count ALL candles in the structure point (where MSS is marked), not just the breaking candle"
+                "\n5. Also state if it's breaking upward (through a higher low) or downward (through a lower high)."
+                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+                "\n7. If there's an inconsistency between what you observe and what the report claims:"
+                "   - If the structure has at least 2 bearish AND 2 bullish candles, it's a NORMAL MSS regardless of what the report says"
+                "   - If the structure does NOT have at least 2 bearish AND 2 bullish candles, it's an AGRESIV MSS"
+                "\n8. Be concise, direct, and ONLY classify the MSS without analyzing the entire trade setup."
+                "\n9. Always clearly state the EXACT classification and the SPECIFIC reason (count the actual candles in the structure point)."
+                "\n10. If making a correction to the report's classification, explicitly state that you're correcting it based on candle composition."
             )
         elif query_info["type"] == "displacement":
             final_system_prompt += (
@@ -1087,7 +1087,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n2. You also have Course Material Context from Trading Instituțional program."
                 "\n3. Your task is to evaluate the chart based STRICTLY on the Trading Instituțional methodology."
                 "\n4. Pay special attention to these elements:"
-                "   - MSS Type (agresiv vs normal) based on STRUCTURE COMPOSITION (not just breaking candle count)"
+                "   - MSS Type (agresiv vs normal): NORMAL requires at least 2 bearish AND 2 bullish candles in the structure point"
                 "   - Direction consistency: RED zones typically indicate SHORT trades, BLUE/GREEN zones indicate LONG trades"
                 "   - Displacement MUST match trade direction: bearish displacement for SHORT trades, bullish for LONG trades"
                 "   - FVGs (Fair Value Gaps) should align with trade direction"
@@ -1097,7 +1097,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "   - Red zones typically indicate resistance (for SHORT trades)"
                 "   - Blue/green zones typically indicate support (for LONG trades)"
                 "\n6. Be direct, concise, and focus ONLY on what's visible in the chart."
-                "\n7. If the system has made automatic corrections to MSS type or trade direction, use these corrected values."
+                "\n7. For MSS classification, count ALL candles in the structure point, not just the breaking candle."
                 "\n8. If there are inconsistencies in the setup (e.g., direction mismatch), point them out clearly."
                 "\n9. NEVER contradict the chart's visual elements (color zones, MSS placement, candle colors) in your analysis."
             )
