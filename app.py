@@ -924,72 +924,106 @@ try:
             },
             ensure_ascii=False,
         )
+
     logging.debug(
         "Final Visual Analysis Report string for prompt:\n%s",
         visual_analysis_report_str,
     )
 
-    # --- 3.2 System-prompt factory (MODIFIED for evaluation handling) ---
-    # (Defined within the request handler scope to access SYSTEM_PROMPT_CORE and query_info if needed)
+    # --- 3.2 System‑prompt factory (MODIFIED for evaluation handling) ---
+    # (Defined within the request‑handler scope to access SYSTEM_PROMPT_CORE and query_info if needed)
     def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
-        """Builds the final system prompt with specific instructions based on query type."""
-        BASE = SYSTEM_PROMPT_CORE # Base prompt defined globally
+        """Build the final system prompt with specific instructions based on query type."""
+        BASE = SYSTEM_PROMPT_CORE  # Base prompt defined globally
 
         # Specific instructions for handling different query types in the FINAL response generation
         PROMPTS = {
-            "liquidity": """\n--- Instructions for Liquidity Zone Analysis Response ---\nFocus your answer *only* on the liquidity analysis provided in the report and context.""",
-            "trend": """\n--- Instructions for Trend Analysis Response ---\nFocus your answer *only* on the trend analysis provided.""",
-            "mss_classification": """\n--- Instructions for MSS Classification Response ---\nExplain the MSS classification based *only* on the pivot structure analysis provided. Reference the course definitions.""",
-            "displacement": """\n--- Instructions for Displacement Analysis Response ---\nDescribe the displacement and any FVGs based on the analysis provided.""",
-            "fvg": """\n--- Instructions for FVG Analysis Response ---\nDescribe the identified FVGs and their potential implications based on the analysis and context.""",
-            "trade_evaluation": """\n--- Instructions for Trade Setup Evaluation Response ---\n
-1. The user asked for an evaluation/opinion. Your primary goal is to provide an **objective analysis** based on the Trading Instituțional methodology, using the Visual Analysis Report and Course Context.
-2. **Do NOT start by saying you don't give opinions.** Instead, directly present your analysis findings in a structured manner.
-3. Summarize the key elements from the 'Visual Analysis Report':
-    - The determined `trade_direction` (mention if validated by risk box position).
-    - The classified `mss_type` (mention basis in pivot structure).
-    - Key findings from `displacement_analysis` and `fvg_analysis`.
-    - Mention relevant `liquidity_zones`.
-    - Note any consistency warnings or validator notes (`_validator_note`).
-4. Relate these findings to the principles in the 'Course Context'. Does the setup appear to align with the rules described? Highlight potential points of confluence or divergence based *only* on the provided info.
-5. **Conclude** the analysis by stating this is a technical assessment based on the course methodology and visual data. *Then*, you can add the standard reminder that you don't provide personal opinions or financial advice, and the user should make their own decision, consulting mentors or the community for subjective feedback if needed.""",
+            "liquidity": (
+                "\n--- Instructions for Liquidity Zone Analysis Response ---\n"
+                "Focus your answer *only* on the liquidity analysis provided in the report and context."
+            ),
+            "trend": (
+                "\n--- Instructions for Trend Analysis Response ---\n"
+                "Focus your answer *only* on the trend analysis provided."
+            ),
+            "mss_classification": (
+                "\n--- Instructions for MSS Classification Response ---\n"
+                "Explain the MSS classification based *only* on the pivot structure analysis provided. "
+                "Reference the course definitions."
+            ),
+            "displacement": (
+                "\n--- Instructions for Displacement Analysis Response ---\n"
+                "Describe the displacement and any FVGs based on the analysis provided."
+            ),
+            "fvg": (
+                "\n--- Instructions for FVG Analysis Response ---\n"
+                "Describe the identified FVGs and their potential implications based on the analysis and context."
+            ),
+            "trade_evaluation": (
+                "\n--- Instructions for Trade Setup Evaluation Response ---\n"
+                "1. The user asked for an evaluation/opinion. Your primary goal is to provide an **objective analysis** "
+                "based on the Trading Instituțional methodology, using the Visual Analysis Report and Course Context.\n"
+                "2. **Do NOT start by saying you don't give opinions.** Instead, directly present your analysis findings "
+                "in a structured manner.\n"
+                "3. Summarize the key elements from the 'Visual Analysis Report':\n"
+                "   • The determined `trade_direction` (mention if validated by risk box position).\n"
+                "   • The classified `mss_type` (mention basis in pivot structure).\n"
+                "   • Key findings from `displacement_analysis` and `fvg_analysis`.\n"
+                "   • Mention relevant `liquidity_zones`.\n"
+                "   • Note any consistency warnings or validator notes (`_validator_note`).\n"
+                "4. Relate these findings to the principles in the 'Course Context'. Does the setup appear to align with "
+                "the rules described? Highlight potential points of confluence or divergence based *only* on the provided info.\n"
+                "5. **Conclude** the analysis by stating this is a technical assessment based on the course methodology "
+                "and visual data. *Then*, you can add the standard reminder that you don't provide personal opinions or "
+                "financial advice, and the user should make their own decision, consulting mentors or the community for "
+                "subjective feedback if needed."
+            ),
             # General type needs specific handling based on context
-            "general": """\n--- Instructions for General Query Response ---\nAddress the user's specific question by synthesizing information from the Visual Analysis Report and Course Context. If the question strongly implies evaluation or asks 'what do you think', follow the 'Trade Setup Evaluation Response' guidelines above."""
+            "general": (
+                "\n--- Instructions for General Query Response ---\n"
+                "Address the user's specific question by synthesizing information from the Visual Analysis Report and "
+                "Course Context. If the question strongly implies evaluation or asks 'what do you think', follow the "
+                "'Trade Setup Evaluation Response' guidelines above."
+            ),
         }
 
         # Determine effective type: if 'general' looks like an eval, use eval instructions
         effective_query_type = query_type
-        if query_type == "general" and requires_full_analysis: # Check requires_full_analysis flag from identify_query_type
-             effective_query_type = "trade_evaluation"
-             logging.debug("General query requires full analysis, using 'trade_evaluation' system prompt instructions.")
+        if query_type == "general" and requires_full_analysis:
+            effective_query_type = "trade_evaluation"
+            logging.debug(
+                "General query requires full analysis, using 'trade_evaluation' system prompt instructions."
+            )
 
-        # Default to trade_evaluation instructions if type is unknown or requires analysis, as it's the most comprehensive
-        fallback_instructions = PROMPTS["trade_evaluation"]
-        chosen_instructions = PROMPTS.get(effective_query_type, fallback_instructions)
+        # Default to trade_evaluation instructions if type is unknown
+        chosen_instructions = PROMPTS.get(
+            effective_query_type, PROMPTS["trade_evaluation"]
+        )
 
         return BASE + "\n\n" + chosen_instructions.strip()
 
-    # Call the factory function, passing necessary info from query_info
-    # Ensure query_info is accessible in this scope (it should be from earlier in the function)
-    final_system_prompt = _build_system_prompt(query_info["type"], query_info.get("requires_full_analysis", False))
-
+    # Build the final system prompt
+    final_system_prompt = _build_system_prompt(
+        query_info["type"], query_info.get("requires_full_analysis", False)
+    )
 
     # --- 3.3 Craft user prompt (MODIFIED Task Description) ---
     final_user_prompt = (
-        f"User Question: {payload.question}\n\n" # Original question, possibly asking for opinion/evaluation
+        f"User Question: {payload.question}\n\n"
         f"Visual Analysis Report (JSON):\n```json\n{visual_analysis_report_str}\n```\n\n"
         f"Retrieved Course Context:\n{course_context}\n\n"
-        # --- MODIFIED TASK ---
-        f"Task: The user asked: '{payload.question}'. Respond in Romanian by generating a **structured technical analysis** of the setup shown in the image. "
-        f"Synthesize the findings from the 'Visual Analysis Report' and the 'Course Context', strictly following the Trading Instituțional methodology and the specific instructions for this query type in the system prompt. "
-        f"Present the objective findings first (structure, direction, key levels based on report/context), then conclude with the appropriate disclaimers as instructed in the system prompt."
+        "Task: The user asked: '{payload.question}'. Respond in Romanian by generating a **structured technical analysis** "
+        "of the setup shown in the image. Synthesize the findings from the 'Visual Analysis Report' and the 'Course Context', "
+        "strictly following the Trading Instituțional methodology and the specific instructions for this query type in the "
+        "system prompt. Present the objective findings first (structure, direction, key levels based on report/context), "
+        "then conclude with the appropriate disclaimers as instructed in the system prompt."
     )
 
     logging.debug("Final System prompt length: %d", len(final_system_prompt))
     logging.debug("Final User prompt length: %d", len(final_user_prompt))
-    # Use f-string for cleaner debug logging and handle potential None in final_user_prompt
-    logging.debug(f"Final User prompt (first 500 chars): {str(final_user_prompt)[:500]}...")
-
+    logging.debug(
+        "Final User prompt (first 500 chars): %s", final_user_prompt[:500] + "..."
+    )
 
     # --- 3.4 OpenAI call ---
     try:
@@ -1003,93 +1037,44 @@ try:
             max_tokens=800,  # Keep reasonable token limit
         )
         final_answer = chat_completion.choices[0].message.content.strip()
-        # Use f-string for cleaner logging
-        logging.info(f"Final answer generated successfully using {COMPLETION_MODEL}.")
-        logging.debug(f"Final Answer (raw): {final_answer[:300]}...")
+        logging.info("Final answer generated successfully using %s.", COMPLETION_MODEL)
+        logging.debug("Final Answer (raw): %s...", final_answer[:300])
 
         # Return including session_id for feedback linkage
-            return {
-                "answer": final_answer,
-                "session_id": session_id,
-                # Intentionally not returning analysis_data here - it's logged via /feedback endpoint
-            }
-
-    # --- (Inner) OpenAI call exception handling ---
-        except (APIError, RateLimitError) as e:
-            # Use f-string for cleaner logging
-            logging.error(f"OpenAI Chat API error ({COMPLETION_MODEL}): {e}")
-            # Use f-string for cleaner response
-            # This return IS correctly indented inside the inner 'except'
-            return {
-                "answer": f"Nu am putut genera un răspuns final. Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan.",
-                "session_id": session_id,
-                "error": str(e),
-            }
-        except Exception as e_final:
-            logging.exception("Unexpected error during final answer generation")
-            # This return IS correctly indented inside the inner 'except'
-            return {
-                "answer": "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou.",
-                "session_id": session_id,
-                "error": str(e_final),
-            }
-    # --- (Outer) Exception handling for the whole Final Answer Generation stage ---
-    except Exception as e_gen:
-        # <<< THIS BLOCK WAS DE-INDENTED in your snippet. It should be aligned with the outer 'try' block.
-        logging.exception("Unhandled exception in final response generation stage")
-        # This return MUST be indented inside THIS 'except' block
         return {
-            "answer": "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou.",
+            "answer": final_answer,
             "session_id": session_id,
-            "error": str(e_gen),
+            # Intentionally not returning analysis_data here – it's logged via /feedback endpoint
         }
-# <<< Implicit end of the ask_image_hybrid function definition here
 
+    except (APIError, RateLimitError) as e:
+        logging.error("OpenAI Chat API error (%s): %s", COMPLETION_MODEL, e)
+        return {
+            "answer": (
+                "Nu am putut genera un răspuns final. "
+                f"Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan."
+            ),
+            "session_id": session_id,
+            "error": str(e),
+        }
+    except Exception as e_final:
+        logging.exception("Unexpected error during final answer generation")
+        return {
+            "answer": (
+                "A apărut o eroare la generarea răspunsului final. "
+                "Te rugăm să încerci din nou."
+            ),
+            "session_id": session_id,
+            "error": str(e_final),
+        }
 
-# ---------------------------------------------------------------------------
-# Health‑check Endpoint (This should be OUTSIDE the function above)
-# ---------------------------------------------------------------------------
-@app.get("/health")
-async def health_check():
-    """Very small self‑diagnostic."""
-    health_status = {"status": "healthy", "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")}
-    try:
-        # Check OpenAI Embedding
-        openai.embeddings.create(model=EMBEDDING_MODEL, input=["health_check"])
-        health_status["openai_embedding"] = "connected"
-    except Exception as e_openai:
-        health_status["openai_embedding"] = f"error: {str(e_openai)}"
-        health_status["status"] = "unhealthy"
-        # Use f-string for logging
-        logging.error(f"Health check failed - OpenAI Embedding: {e_openai}")
-
-    try:
-         # Check OpenAI Chat (using a cheap model for check)
-         openai.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role":"user", "content":"."}], max_tokens=1)
-         health_status["openai_chat"] = "connected"
-    except Exception as e_chat:
-         health_status["openai_chat"] = f"error: {str(e_chat)}"
-         health_status["status"] = "unhealthy"
-         # Use f-string for logging
-         logging.error(f"Health check failed - OpenAI Chat: {e_chat}")
-
-    try:
-        # Check Pinecone - Use describe_index_stats for minimal impact
-        stats = index.describe_index_stats()
-        health_status["pinecone"] = f"connected (vectors: {stats.total_vector_count})"
-    except Exception as e_pinecone:
-        health_status["pinecone"] = f"error: {str(e_pinecone)}"
-        health_status["status"] = "unhealthy"
-        # Use f-string for logging
-        logging.error(f"Health check failed - Pinecone: {e_pinecone}")
-
-    # This return IS correctly indented inside the health_check function
-    return health_status
-
-# Allow running with uvicorn for local testing
-# Example: uvicorn your_filename:app --reload
-# This block should be at the top level (no indentation)
-if __name__ == "__main__":
-    import uvicorn
-    # Ensure 'app' refers to your FastAPI instance correctly
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+except Exception as e_gen:
+    logging.exception("Unhandled exception in final response generation stage")
+    return {
+        "answer": (
+            "A apărut o eroare neașteptată la procesarea răspunsului. "
+            "Te rugăm să încerci din nou."
+        ),
+        "session_id": session_id,
+        "error": str(e_gen),
+    }
