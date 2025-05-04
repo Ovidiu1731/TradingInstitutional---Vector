@@ -985,7 +985,103 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
                 "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
             )
-        elif query_info["type"] == "fvg":
+                elif query_info["type"] == "fvg":
             final_system_prompt = SYSTEM_PROMPT_CORE + (
                 "\n\n--- Instructions for FVG Analysis ---"
-                "\
+                "\n1. You are provided with a Visual Analysis Report (JSON) focused on FVGs (Fair Value Gaps) visible in the user's chart."
+                "\n2. You also have Course Material Context about FVGs in trading."
+                "\n3. Your task is to ONLY evaluate the FVG characteristics and answer the user's specific question."
+                "\n4. Focus on identifying FVGs, their direction (bullish/bearish), and quality."
+                "\n5. Explain that FVGs are created when price moves impulsively, leaving areas where no trading has occurred."
+                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+                "\n7. Relate FVGs to the overall trade direction: bearish FVGs for SHORT trades, bullish FVGs for LONG trades."
+                "\n8. Be concise, direct, and focus ONLY on the FVG aspects of the chart."
+                "\n9. Expected response for FVG questions: Identify FVGs, their direction, quality, and implications for the trade."
+            )
+        else:
+            # Default for general or trade evaluation queries
+            final_system_prompt = SYSTEM_PROMPT_CORE + (
+                "\n\n--- Instructions for Trade Setup Evaluation ---"
+                "\n1. You are provided with a Visual Analysis Report (JSON) of the user's trading chart."
+                "\n2. You also have Course Material Context from Trading Instituțional program."
+                "\n3. Your task is to evaluate the chart based STRICTLY on the Trading Instituțional methodology."
+                "\n4. Pay special attention to these elements:"
+                "   - MSS Type (agresiv vs normal) based on CANDLE COUNT"
+                "   - Direction consistency (break/displacement should match trade direction)"
+                "   - FVGs (Fair Value Gaps) quality and alignment with trade direction"
+                "   - Liquidity zones and their quality"
+                "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
+                "\n6. Be direct, concise, and focus ONLY on what's visible in the chart."
+                "\n7. Do not make predictions or provide 'would be better if' advice."
+                "\n8. If there are inconsistencies in the setup (e.g., direction mismatch), point them out."
+                "\n9. Expected response for trade evaluations: Assess structure validity, mention direction consistency, evaluate overall quality."
+            )
+
+        # --- User prompt for final answer generation ---
+        try:
+            final_user_prompt = (
+                f"Question: {payload.question}\n\n"
+                f"Visual Analysis Report:\n{visual_analysis_report_str}\n\n"
+                f"Course Context:\n{course_context}"
+            )
+
+            logging.debug(f"Final system prompt length: {len(final_system_prompt)}")
+            logging.debug(f"Final user prompt length: {len(final_user_prompt)}")
+
+            # Send to OpenAI for final response
+            chat_completion = openai.chat.completions.create(
+                model=COMPLETION_MODEL,
+                messages=[
+                    {"role": "system", "content": final_system_prompt},
+                    {"role": "user", "content": final_user_prompt}
+                ],
+                temperature=0.3,
+                max_tokens=800
+            )
+            
+            final_answer = chat_completion.choices[0].message.content.strip()
+            
+            # Respond to the user
+            return {
+                "answer": final_answer,
+                "session_id": session_id
+            }
+            
+        except (APIError, RateLimitError) as e:
+            logging.error(f"OpenAI Chat API error during final generation: {e}")
+            error_msg = "Nu am putut genera un răspuns final. Serviciul OpenAI nu este disponibil momentan."
+            return {"answer": error_msg, "session_id": session_id}
+        except Exception as e:
+            logging.exception(f"Unexpected error during final answer generation: {e}")
+            error_msg = "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou."
+            return {"answer": error_msg, "session_id": session_id}
+            
+    except Exception as e:
+        logging.exception(f"Unhandled exception in image-hybrid response generation: {e}")
+        error_msg = "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou."
+        return {"answer": error_msg, "session_id": session_id}
+
+# --- Health check endpoint ---
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint to verify the service is running."""
+    try:
+        # Check OpenAI API connection
+        openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
+        # Check Pinecone connection (simple query)
+        test_vector = [0.0] * 1536  # Empty vector for test
+        index.query(vector=test_vector, top_k=1)
+        
+        return {
+            "status": "healthy",
+            "openai": "connected",
+            "pinecone": "connected",
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    except Exception as e:
+        logging.error(f"Health check failed: {e}")
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        }
