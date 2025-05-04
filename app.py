@@ -55,7 +55,7 @@ except FileNotFoundError:
     )
 
 # Define the core structural definitions
-MSS_AGRESIV_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Agresiv: Este o rupere de structură formată dintr-o singură lumânare care face low/high."
+MSS_AGRESIV_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Agresiv: Un MSS agresiv se produce atunci cand ultimul higher low sau lower high care este rupt (unde se produce shift-ul) nu are in structura sa minim 2 candele bearish cu 2 candele bullish."
 MSS_NORMAL_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Normal: Este o rupere de structură formată din două sau mai multe lumânări care fac low/high."
 FVG_STRUCTURAL_DEFINITION = "Definiție Structurală FVG (Fair Value Gap): Este un gap (spațiu gol) între lumânări creat în momentul în care prețul face o mișcare impulsivă, lăsând o zonă netranzacționată."
 DISPLACEMENT_DEFINITION = "Definiție Displacement: Este o mișcare continuă a prețului în aceeași direcție, după o structură invalidată, creând FVG-uri (Fair Value Gaps)."
@@ -517,18 +517,27 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             elif query_info["type"] == "mss_classification":
                 # For MSS classification specific queries
                 detailed_vision_system_prompt = (
-                    "You are an expert Trading Instituțional chart analyst specializing in MSS classification. Your task is to count "
-                    "the candles involved in breaking structure where 'MSS' is labeled on the chart and determine if it's MSS Agresiv (ONE candle) "
-                    "or MSS Normal (TWO OR MORE candles). Output a structured JSON with these fields:"
+                    "You are an expert Trading Instituțional chart analyst specializing in MSS classification. "
+                    "Analyze this chart with attention to the following critical criteria:"
+    
+                    "\n\n**CRITICAL MSS CLASSIFICATION RULES:**"
+                    "\n1. MSS (Market Structure Shift) occurs where a higher low (in downtrend) or lower high (in uptrend) is broken"
+                    "\n2. To properly classify MSS, examine the STRUCTURE that's being broken:"
+                    "   - MSS Agresiv: The structure being broken does NOT have at least 2 bearish + 2 bullish candles"
+                    "   - MSS Normal: The structure being broken DOES have at least 2 bearish + 2 bullish candles"
+                    "\n3. Count ALL candles in the structure being broken - not just the breaking candle(s)"
+    
+                    "\n\nOutput a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'mss_location': Where is MSS labeled on the chart"
-                    "\n3. 'breaking_candle_count': EXACT INTEGER count of candles breaking structure - this is CRITICAL"
-                    "\n4. 'mss_type': MUST be EXACTLY 'agresiv' (ONE candle) or 'normal' (TWO OR MORE candles)"
-                    "\n5. 'break_type': 'high' or 'low'"
-                    "\n6. 'candle_direction': 'bullish' (typically green/blue) or 'bearish' (typically red)"
-                    "\n7. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
-                    "\nCOUNT CANDLES CAREFULLY - This is the MOST important part of your analysis."
-                    "\nONLY analyze the MSS structure, not the entire trade setup."
+                    "\n3. 'structure_candle_composition': Description of the candles forming the structure that's being broken"
+                    "\n4. 'structure_candle_count': Total count of candles in the structure being broken"
+                    "\n5. 'has_minimum_structure': Boolean indicating if the structure has at least 2 bearish + 2 bullish candles"
+                    "\n6. 'mss_type': MUST be EXACTLY 'agresiv' (insufficient structure) or 'normal' (sufficient structure)"
+                    "\n7. 'break_direction': 'upward' (breaking a high) or 'downward' (breaking a low)"
+                    "\n8. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
+    
+                    "\nThe STRUCTURE COMPOSITION is the MOST important part of your analysis - not simply counting breaking candles."
                 )
             elif query_info["type"] == "displacement":
                 # For displacement specific queries
@@ -638,12 +647,13 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 )
             elif query_info["type"] == "mss_classification":
                 detailed_vision_user_prompt = (
-                    f"Analyze this trading chart FOCUSING ONLY ON MSS CLASSIFICATION. "
+                    f"Analyze this trading chart FOCUSING ONLY ON MSS CLASSIFICATION according to Trading Instituțional methodology. "
                     f"The user is asking: '{payload.question}'. "
                     f"Be sure to identify SPECIFICALLY what colors represent bullish vs bearish candles in THIS chart. "
-                    f"Your PRIMARY task is to COUNT THE EXACT NUMBER OF CANDLES breaking structure where 'MSS' is marked. "
-                    f"Remember: ONE candle breaking = MSS Agresiv, TWO OR MORE candles breaking = MSS Normal. "
-                    f"Also identify if it's breaking a high or low, and if the breaking candles are bullish or bearish. "
+                    f"Your PRIMARY task is to analyze the STRUCTURE being broken at the MSS point, not just count breaking candles. "
+                    f"Remember: MSS Agresiv = structure WITHOUT minimum 2 bearish + 2 bullish candles. "
+                    f"MSS Normal = structure WITH at least 2 bearish + 2 bullish candles. "
+                    f"Also identify the break direction (upward/downward) and analyze the candle composition. "
                     f"Provide your structured analysis as JSON."
                 )
             elif query_info["type"] == "displacement":
@@ -716,6 +726,44 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                          # Store candle color information prominently for downstream use
                          detailed_vision_analysis["_detected_color_scheme"] = candle_colors
                      
+                     # Enhanced MSS validation
+                     if "mss_type" in detailed_vision_analysis:
+                         mss_type = detailed_vision_analysis["mss_type"].lower()
+                         mss_analysis = detailed_vision_analysis.get("mss_analysis", {})
+                         
+                         if isinstance(mss_analysis, dict):
+                             # Check if we have structure composition data
+                             structure_has_min_req = mss_analysis.get("has_minimum_structure", None)
+                             structure_composition = mss_analysis.get("structure_candle_composition", "")
+                             
+                             # If we have structure data, use it for enhanced validation
+                             if structure_has_min_req is not None:
+                                 # Structure without minimum requirements should be MSS Agresiv
+                                 if structure_has_min_req is False and mss_type != "agresiv":
+                                     logging.warning("⚠️ MSS Classification Error: Structure without minimum requirements but classified as Normal")
+                                     detailed_vision_analysis["mss_classification_warning"] = "insufficient_structure_but_classified_as_normal"
+                                     # Override with correct classification
+                                     detailed_vision_analysis["mss_type"] = "agresiv"
+                                     detailed_vision_analysis["_corrected_classification"] = True
+                             
+                                 # Structure with minimum requirements should be MSS Normal
+                                 elif structure_has_min_req is True and mss_type != "normal":
+                                     logging.warning("⚠️ MSS Classification Error: Structure with minimum requirements but classified as Agresiv")
+                                     detailed_vision_analysis["mss_classification_warning"] = "sufficient_structure_but_classified_as_agresiv"
+                                     # Override with correct classification
+                                     detailed_vision_analysis["mss_type"] = "normal"
+                                     detailed_vision_analysis["_corrected_classification"] = True
+                         
+                             # Fallback to simple warning without correction if we don't have clear structure data
+                             elif "breaking_candle_count" in mss_analysis and structure_composition:
+                                 logging.info(f"MSS Structure composition found: {structure_composition}")
+                                 if "2 bearish" in structure_composition.lower() and "2 bullish" in structure_composition.lower() and mss_type != "normal":
+                                     logging.warning("⚠️ MSS Classification Warning: Structure suggests Normal but classified as Agresiv")
+                                     detailed_vision_analysis["mss_classification_warning"] = "structure_suggests_normal"
+                                 elif "2 bearish" not in structure_composition.lower() or "2 bullish" not in structure_composition.lower() and mss_type != "agresiv":
+                                     logging.warning("⚠️ MSS Classification Warning: Structure suggests Agresiv but classified as Normal")
+                                     detailed_vision_analysis["mss_classification_warning"] = "structure_suggests_agresiv"
+                     
                      # Validate MSS classification if it's provided
                      if "mss_analysis" in detailed_vision_analysis and isinstance(detailed_vision_analysis["mss_analysis"], dict):
                          breaking_candle_count = detailed_vision_analysis["mss_analysis"].get("breaking_candle_count", 0)
@@ -744,6 +792,40 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                              logging.warning("⚠️ Direction inconsistency: SHORT trade with break of HIGH") 
                              detailed_vision_analysis["direction_consistency_warning"] = "short_with_break_of_high"
                          
+                         # Enhanced displacement direction validation
+                         if "displacement_analysis" in detailed_vision_analysis:
+                             displacement_info = detailed_vision_analysis["displacement_analysis"]
+                             if isinstance(displacement_info, dict):
+                                 displacement_direction = displacement_info.get("direction", "").lower()
+                                 break_direction = ""
+                                 
+                                 # Get break direction from multiple possible locations
+                                 if "break_direction" in detailed_vision_analysis:
+                                     break_direction = detailed_vision_analysis["break_direction"].lower()
+                                 elif detailed_vision_analysis.get("mss_analysis", {}).get("break_direction"):
+                                     break_direction = detailed_vision_analysis["mss_analysis"]["break_direction"].lower()
+                                 elif detailed_vision_analysis.get("mss_analysis", {}).get("break_type"):
+                                     # Convert break_type to direction
+                                     break_type = detailed_vision_analysis["mss_analysis"]["break_type"].lower()
+                                     break_direction = "downward" if "low" in break_type else "upward" if "high" in break_type else ""
+                                     
+                                 # More precise direction consistency check
+                                 if break_direction and displacement_direction:
+                                     # For downward breaks, displacement should be bearish
+                                     if break_direction == "downward" and displacement_direction == "bullish":
+                                         logging.warning("⚠️ Direction inconsistency: Downward break with BULLISH displacement")
+                                         detailed_vision_analysis["direction_consistency_warning"] = (
+                                             detailed_vision_analysis.get("direction_consistency_warning", "") + 
+                                             " downward_break_with_bullish_displacement"
+                                         ).strip()
+                                     # For upward breaks, displacement should be bullish
+                                     elif break_direction == "upward" and displacement_direction == "bearish":
+                                         logging.warning("⚠️ Direction inconsistency: Upward break with BEARISH displacement")
+                                         detailed_vision_analysis["direction_consistency_warning"] = (
+                                             detailed_vision_analysis.get("direction_consistency_warning", "") + 
+                                             " upward_break_with_bearish_displacement"
+                                         ).strip()
+
                          # Check displacement consistency (if available)
                          displacement_analysis = detailed_vision_analysis.get("displacement_analysis", {})
                          if isinstance(displacement_analysis, dict):
@@ -914,174 +996,4 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             minimal_definitions.append(DISPLACEMENT_DEFINITION)
         
         if minimal_definitions:
-            course_context += "\n\n---\n\n" + "\n\n".join(minimal_definitions)
-
-       # --- 3️⃣ Final Answer Generation ---
-    try:
-        # --- Prepare the visual analysis report string ---
-        visual_analysis_report_str = "[Eroare la formatarea raportului vizual]" # Default error
-        try:
-            visual_analysis_report_str = json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False)
-        except Exception:
-            visual_analysis_report_str = str(detailed_vision_analysis) # Fallback
-        logging.debug(f"Visual Analysis Report string for prompt:\n{visual_analysis_report_str}")
-
-
-        # --- Define the system prompt based on query type ---
-        if query_info["type"] == "liquidity":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Liquidity Zone Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on LIQUIDITY ZONES visible in the user's chart."
-                "\n2. You also have Course Material Context providing rules about liquidity in trading."
-                "\n3. Your task is to ONLY evaluate the liquidity zones marked in the chart and answer the user's specific question."
-                "\n4. DO NOT analyze or mention MSS, displacement, or trade setups unless directly relevant to liquidity."
-                "\n5. Focus on confirming if the liquidity zones are correctly identified and how they relate to the Trading Instituțional methodology."
-                "\n6. For liquidity questions, explain: Liquidity is where stop orders accumulate, creating potential targets for price to move toward."
-                "\n7. Mention that high-quality liquidity zones are those most visible on the chart, where many stop orders may be gathered."
-                "\n8. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n9. Be concise, direct, and focus ONLY on the liquidity aspects of the chart."
-                "\n10. Expected response for liquidity questions: Confirm if zones are valid, mention quality criteria, give brief guidance."
-            )
-        elif query_info["type"] == "trend":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Trend Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on TREND DIRECTION visible in the user's chart."
-                "\n2. You also have Course Material Context about trend following strategies."
-                "\n3. Your task is to ONLY evaluate the trend characteristics and answer the user's specific question."
-                "\n4. DO NOT analyze or mention MSS, displacement, or specific trade setups unless directly relevant to trend."
-                "\n5. Focus on confirming if there is a clear trend, its direction (bullish/bearish), and strength."
-                "\n6. For trend questions with minor liquidity mentioned, explain how minor liquidity helps sustain trends."
-                "\n7. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n8. Be concise, direct, and focus ONLY on the trend aspects of the chart."
-                "\n9. Expected response for trend questions: Confirm trend direction (bullish/bearish/sideways), mention strength, give brief guidance."
-            )
-        elif query_info["type"] == "mss_classification":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for MSS Classification ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on MSS CLASSIFICATION in the user's chart."
-                "\n2. You also have Course Material Context about MSS types and definitions."
-                "\n3. Your task is to DETERMINE if the MSS shown is AGRESIV or NORMAL based STRICTLY on CANDLE COUNT:"
-                "   - MSS Agresiv = EXACTLY ONE candle breaking structure"
-                "   - MSS Normal = TWO OR MORE candles breaking structure"
-                "\n4. Also state if it's a break of HIGH or LOW, and whether breaking candle(s) are BULLISH or BEARISH."
-                "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n6. If there's an inconsistency in the analysis, prioritize the actual candle count:"
-                "   - If report shows 1 candle but calls it 'normal' - it's actually AGRESIV"
-                "   - If report shows 2+ candles but calls it 'agresiv' - it's actually NORMAL"
-                "\n7. Be concise, direct, and ONLY classify the MSS without analyzing the entire trade setup."
-                "\n8. Always clearly state the EXACT classification and the reason (candle count)."
-                "\n9. Expected response for MSS classification: State MSS type, explain why (candle count), mention break direction (high/low)."
-            )
-        elif query_info["type"] == "displacement":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Displacement Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on DISPLACEMENT visible in the user's chart."
-                "\n2. You also have Course Material Context about displacement in trading."
-                "\n3. Your task is to ONLY evaluate the displacement characteristics and answer the user's specific question."
-                "\n4. Focus on the direction of displacement (bullish/bearish) and its strength."
-                "\n5. Mention any FVGs (Fair Value Gaps) created by the displacement if visible."
-                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n7. Explain how displacement relates to trade direction: bearish displacement for SHORT trades, bullish for LONG trades."
-                "\n8. Be concise, direct, and focus ONLY on the displacement aspects of the chart."
-                "\n9. Expected response for displacement questions: Confirm displacement direction and strength, mention FVGs if visible."
-            )
-        elif query_info["type"] == "fvg":
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for FVG Analysis ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) focused on FVGs (Fair Value Gaps) visible in the user's chart."
-                "\n2. You also have Course Material Context about FVGs in trading."
-                "\n3. Your task is to ONLY evaluate the FVG characteristics and answer the user's specific question."
-                "\n4. Focus on identifying FVGs, their direction (bullish/bearish), and quality."
-                "\n5. Explain that FVGs are created when price moves impulsively, leaving areas where no trading has occurred."
-                "\n6. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n7. Relate FVGs to the overall trade direction: bearish FVGs for SHORT trades, bullish FVGs for LONG trades."
-                "\n8. Be concise, direct, and focus ONLY on the FVG aspects of the chart."
-                "\n9. Expected response for FVG questions: Identify FVGs, their direction, quality, and implications for the trade."
-            )
-        else:
-            # Default for general or trade evaluation queries
-            final_system_prompt = SYSTEM_PROMPT_CORE + (
-                "\n\n--- Instructions for Trade Setup Evaluation ---"
-                "\n1. You are provided with a Visual Analysis Report (JSON) of the user's trading chart."
-                "\n2. You also have Course Material Context from Trading Instituțional program."
-                "\n3. Your task is to evaluate the chart based STRICTLY on the Trading Instituțional methodology."
-                "\n4. Pay special attention to these elements:"
-                "   - MSS Type (agresiv vs normal) based on CANDLE COUNT"
-                "   - Direction consistency (break/displacement should match trade direction)"
-                "   - FVGs (Fair Value Gaps) quality and alignment with trade direction"
-                "   - Liquidity zones and their quality"
-                "\n5. Pay attention to the SPECIFIC COLOR SCHEME used in this chart as identified in the Visual Analysis Report."
-                "\n6. Be direct, concise, and focus ONLY on what's visible in the chart."
-                "\n7. Do not make predictions or provide 'would be better if' advice."
-                "\n8. If there are inconsistencies in the setup (e.g., direction mismatch), point them out."
-                "\n9. Expected response for trade evaluations: Assess structure validity, mention direction consistency, evaluate overall quality."
-            )
-
-        # --- User prompt for final answer generation ---
-        try:
-            final_user_prompt = (
-                f"Question: {payload.question}\n\n"
-                f"Visual Analysis Report:\n{visual_analysis_report_str}\n\n"
-                f"Course Context:\n{course_context}"
-            )
-
-            logging.debug(f"Final system prompt length: {len(final_system_prompt)}")
-            logging.debug(f"Final user prompt length: {len(final_user_prompt)}")
-
-            # Send to OpenAI for final response
-            chat_completion = openai.chat.completions.create(
-                model=COMPLETION_MODEL,
-                messages=[
-                    {"role": "system", "content": final_system_prompt},
-                    {"role": "user", "content": final_user_prompt}
-                ],
-                temperature=0.3,
-                max_tokens=800
-            )
-            
-            final_answer = chat_completion.choices[0].message.content.strip()
-            
-            # Respond to the user
-            return {
-                "answer": final_answer,
-                "session_id": session_id
-            }
-            
-        except (APIError, RateLimitError) as e:
-            logging.error(f"OpenAI Chat API error during final generation: {e}")
-            error_msg = "Nu am putut genera un răspuns final. Serviciul OpenAI nu este disponibil momentan."
-            return {"answer": error_msg, "session_id": session_id}
-        except Exception as e:
-            logging.exception(f"Unexpected error during final answer generation: {e}")
-            error_msg = "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou."
-            return {"answer": error_msg, "session_id": session_id}
-            
-    except Exception as e:
-        logging.exception(f"Unhandled exception in image-hybrid response generation: {e}")
-        error_msg = "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou."
-        return {"answer": error_msg, "session_id": session_id}
-
-# --- Health check endpoint ---
-@app.get("/health")
-async def health_check():
-    """Simple health check endpoint to verify the service is running."""
-    try:
-        # Check OpenAI API connection
-        openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
-        # Check Pinecone connection (simple query)
-        test_vector = [0.0] * 1536  # Empty vector for test
-        index.query(vector=test_vector, top_k=1)
-        
-        return {
-            "status": "healthy",
-            "openai": "connected",
-            "pinecone": "connected",
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
-        }
-    except Exception as e:
-        logging.error(f"Health check failed: {e}")
-        return {
-            "status": "unhealthy",
-            "error": str(e),
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
-        }
+            course_context += "\n\n---\n\n" + "\n\
