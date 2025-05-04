@@ -525,13 +525,11 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                     "\n2. To properly classify MSS, examine the STRUCTURE that's being broken:"
                     "   - MSS Agresiv: The structure being broken (the last higher lower or lower high) does NOT have at least 2 bearish + 2 bullish candles"
                     "   - MSS Normal: The structure being broken (the last higher lower or lower high) DOES have at least 2 bearish + 2 bullish candles"
-                    "\n3. Count ALL candles in the structure being broken - not just the breaking candle(s)"
     
                     "\n\nOutput a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'mss_location': Where is MSS labeled on the chart"
                     "\n3. 'structure_candle_composition': Description of the candles forming the structure that's being broken"
-                    "\n4. 'structure_candle_count': Total count of candles in the structure being broken"
                     "\n5. 'has_minimum_structure': Boolean indicating if the structure has at least 2 bearish + 2 bullish candles"
                     "\n6. 'mss_type': MUST be EXACTLY 'agresiv' (insufficient structure) or 'normal' (sufficient structure)"
                     "\n7. 'break_direction': 'upward' (breaking a high) or 'downward' (breaking a low)"
