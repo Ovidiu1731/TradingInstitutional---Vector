@@ -785,10 +785,12 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
 
                     "\n\n**5. ZONES, LIQUIDITY & OUTCOME:**"
                     "\n   - Describe any marked `liquidity_zones`."
+                    "\n   - Determine the `liquidity_status`: 'swept' if price clearly traded past a key low/high, 'untouched' otherwise."
                     "\n   - Assess `trade_outcome` ('win', 'loss', 'running', 'undetermined') if possible based on price movement after entry."
 
                     "\n\n**6. ESSENTIAL JSON FIELDS:**"
                     "\n   - 'analysis_possible': boolean"
+                    "\n   - 'liquidity_status': 'swept' | 'untouched' | 'unclear'"
                     "\n   - 'candle_colors': description"
                     "\n   - 'is_risk_above_price': boolean | null" # <<< Added for validator
                     "\n   - 'trade_direction': 'short' | 'long' | 'undetermined'"
