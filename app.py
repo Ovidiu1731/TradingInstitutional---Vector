@@ -233,7 +233,7 @@ def identify_query_type(question: str) -> Dict[str, Any]:
                 "requires_mss_analysis": element_type == "mss_classification",
                 "requires_direction_analysis": element_type in ["trend", "displacement"],
                 "requires_color_analysis": True,  # Always analyze colors to improve accuracy
-                "requires_fvg_analysis": element_type == "fvg"
+                "requires_fvg_within_displacement": element_type == "fvg"
             }
 
     # If not a specific element question, check if it's a trade evaluation
@@ -246,7 +246,7 @@ def identify_query_type(question: str) -> Dict[str, Any]:
         "requires_mss_analysis": is_trade_evaluation, # Always analyze MSS in evaluations
         "requires_direction_analysis": True, # Always need direction for evaluation
         "requires_color_analysis": True,
-        "requires_fvg_analysis": is_trade_evaluation # Analyze FVG in evaluations
+        "requires_fvg_within_displacement": is_trade_evaluation # Analyze FVG in evaluations
     }
 
 # ---------------------------------------------------------------------------
@@ -597,7 +597,14 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             if query_info["type"] == "liquidity":
                 detailed_vision_system_prompt = (
                     "You are an expert Trading Instituțional chart analyst specializing in liquidity identification. Analyze this chart "
-                    "and focus ONLY on the liquidity zones marked. Output a structured JSON with these fields:"
+                    # Text to ADD at the beginning of EACH prompt string definition:
+                    "\n\n**IMPORTANT CONSTRAINTS:**"
+                    "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
+                    "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
+                    "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
+                    "\nFollow the specific JSON structure requested below."
+                    "\n---" # Separator
+                    "focus ONLY on the liquidity zones marked. Output a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'visible_liquidity_zones': List their positions and whether they appear to be major or minor"
                     "\n3. 'liquidity_quality': Assess the quality of marked liquidity zones based on price action around them"
@@ -609,7 +616,14 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             elif query_info["type"] == "trend":
                 detailed_vision_system_prompt = (
                     "You are an expert Trading Instituțional chart analyst specializing in trend identification. Analyze this chart "
-                    "focusing PRIMARILY on the visible trend. Output a structured JSON with these fields:"
+                    # Text to ADD at the beginning of EACH prompt string definition:
+                    "\n\n**IMPORTANT CONSTRAINTS:**"
+                    "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
+                    "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
+                    "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
+                    "\nFollow the specific JSON structure requested below."
+                    "\n---" # Separator
+                    "Output a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'trend_direction': MUST be 'bullish', 'bearish', or 'sideways'"
                     "\n3. 'trend_strength': Assess the strength and clarity of the trend"
@@ -624,24 +638,29 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 detailed_vision_system_prompt = (
                     "You are an expert Trading Instituțional chart analyst specializing in MSS classification. "
                     "Analyze this chart with attention to the following critical criteria:"
-
+                    # Text to ADD at the beginning of EACH prompt string definition:
+                    "\n\n**IMPORTANT CONSTRAINTS:**"
+                    "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
+                    "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
+                    "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
+                    "\nFollow the specific JSON structure requested below."
+                    "\n---" # Separator
                     "\n\n**CRITICAL MSS CLASSIFICATION RULES:**"
                     "\n1. Identify the swing high or low (the 'pivot') that is potentially broken by an MSS."
-                    "\n2. Analyze the candle composition FORMING this pivot structure."
-                    "\n3. Count the number of bearish and bullish candles within this core pivot structure."
+                    "\n2. Analyze the candle composition FORMING this pivot structure **based on how it would appear on a 1-minute (1M) timeframe chart**."
+                    "\n3. Count the number of bearish and bullish candles within this core pivot structure (**using the 1M view**)."
                     "\n4. Determine `has_minimum_structure`: This is TRUE **only if** the pivot contains at least 2 bearish candles AND at least 2 bullish candles."
                     "\n5. Classify `mss_type`:"
                     "   - 'normal': If `has_minimum_structure` is TRUE."
                     "   - 'agresiv': If `has_minimum_structure` is FALSE."
                     "\n6. Identify the `break_direction` ('upward' breaking high, 'downward' breaking low)."
-
                     "\n\nOutput a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'mss_location': Description of where MSS is identified or labeled."
                     "\n3. 'mss_pivot_analysis': { "
                     "     'description': 'Text describing the candles forming the pivot structure broken by MSS', "
-                    "     'pivot_bearish_count': 'INTEGER count of BEARISH candles forming the core pivot structure', "
-                    "     'pivot_bullish_count': 'INTEGER count of BULLISH candles forming the core pivot structure', "
+                    "'pivot_bearish_count': 'INTEGER count of BEARISH candles forming the core pivot structure (analyzed from 1M view)', "
+                    "'pivot_bullish_count': 'INTEGER count of BULLISH candles forming the core pivot structure (analyzed from 1M view)', "
                     "     'has_minimum_structure': 'BOOLEAN, true only if bearish_count >= 2 AND bullish_count >= 2'"
                     "   }"
                     "\n4. 'mss_type': MUST be EXACTLY 'normal' (if has_minimum_structure is true) or 'agresiv' (if false)."
@@ -652,12 +671,19 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 )
             elif query_info["type"] == "displacement":
                 detailed_vision_system_prompt = (
-                    "You are an expert Trading Instituțional chart analyst specializing in displacement analysis. Your task is to analyze "
-                    "the displacement visible in the chart. Output a structured JSON with these fields:"
+                    "You are an expert Trading Instituțional chart analyst specializing in displacement analysis."
+                    # Text to ADD at the beginning of EACH prompt string definition:
+                    "\n\n**IMPORTANT CONSTRAINTS:**"
+                    "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
+                    "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
+                    "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
+                    "\nFollow the specific JSON structure requested below."
+                    "\n---" # Separator
+                    "Your task is to analyze the displacement visible in the chart. Output a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'displacement_direction': 'bullish' (price moving up) or 'bearish' (price moving down)"
                     "\n3. 'displacement_strength': Assess whether the displacement is strong, moderate, or weak"
-                    "\n4. 'fvg_presence': Identify if Fair Value Gaps (FVGs) are created by the displacement"
+                    "\n4. 'fvg_within_displacement': Identify if Fair Value Gaps (FVGs) are created by the displacement"
                     "\n5. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
                     "\n6. 'trade_direction': Based on displacement, is this likely a 'short' or 'long' trade"
                     "\nFocus ONLY on the displacement aspect - the impulsive price movement creating gaps/imbalances."
@@ -665,8 +691,15 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 )
             elif query_info["type"] == "fvg":
                 detailed_vision_system_prompt = (
-                    "You are an expert Trading Instituțional chart analyst specializing in Fair Value Gap (FVG) identification. Your task is to "
-                    "analyze the FVGs visible in the chart. Output a structured JSON with these fields:"
+                    "You are an expert Trading Instituțional chart analyst specializing in Fair Value Gap (FVG) identification."
+                    # Text to ADD at the beginning of EACH prompt string definition:
+                    "\n\n**IMPORTANT CONSTRAINTS:**"
+                    "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
+                    "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
+                    "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
+                    "\nFollow the specific JSON structure requested below."
+                    "\n---" # Separator
+                    "Your task is to analyze the FVGs visible in the chart. Output a structured JSON with these fields:"
                     "\n1. 'analysis_possible': boolean"
                     "\n2. 'fvg_locations': Identify and describe where FVGs are located in the chart"
                     "\n3. 'fvg_types': For each FVG, indicate if it's bullish (created by upward movement) or bearish (created by downward movement)"
@@ -679,12 +712,19 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             # --- Updated general trade evaluation prompt ('else' block) ---
             else: # Includes 'trade_evaluation' and 'general' types
                 detailed_vision_system_prompt = (
-                    "You are an expert Trading Instituțional chart analyst. Analyze this trading chart comprehensively and "
-                    "output a structured JSON with your detailed findings. Follow these specific guidelines:"
-
+                    "You are an expert Trading Instituțional chart analyst."
+                    # Text to ADD at the beginning of EACH prompt string definition:
+                    "\n\n**IMPORTANT CONSTRAINTS:**"
+                    "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
+                    "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
+                    "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
+                    "\nFollow the specific JSON structure requested below."
+                    "\n---" # Separator
+                    "Analyze this trading chart comprehensively and output a structured JSON with your detailed findings. Follow these specific guidelines:"
                     "\n\n**1. COLOR INTERPRETATION FIRST:**"
                     "\n   - Identify `candle_colors`: Describe colors for bullish/bearish candles in THIS chart."
                     "\n   - Note colors for zones/indicators if obvious."
+
 
                     "\n\n**2. TRADE DIRECTION (PRIORITY on Risk Box):**"
                     "\n   - **PRIMARY:** Look for a colored Risk/Reward box (often red or blue/green)."
@@ -697,15 +737,16 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                     "\n   - Look for where 'MSS' is labeled or implied by a structure break."
                     "\n   - Identify the swing high/low (the 'pivot') that was broken."
                     "\n   - Analyze the candle composition FORMING this pivot."
-                    "\n   - Count `pivot_bearish_count` and `pivot_bullish_count` within the pivot structure."
-                    "\n   - Determine `has_minimum_structure`: BOOLEAN (True only if count >= 2 for BOTH bearish and bullish)."
+                    "\n   - Analyze the candle composition FORMING this pivot structure **based on how it would appear on a 1-minute (1M) timeframe chart**."
+                    "\n   - Count the number of bearish and bullish candles within this core pivot structure (**using the 1M view**)."
                     "\n   - Classify `mss_type`: 'normal' if `has_minimum_structure` is True, else 'agresiv'."
                     "\n   - Identify `break_direction` ('upward' or 'downward')."
 
                     "\n\n**4. DISPLACEMENT & FVG ANALYSIS:**"
-                    "\n   - Identify `displacement_analysis`: Direction ('bullish'/'bearish'), strength, and presence of FVGs."
-                    "\n   - Ensure displacement direction aligns with the determined `trade_direction` (e.g., bearish displacement for short trade)."
-                    "\n   - Identify `fvg_analysis`: Location and type (bullish/bearish) of any visible FVGs."
+                     "\n   - Identify the main `displacement_analysis`: Direction ('bullish'/'bearish'), strength."
+                     "\n   - Check for FVGs *created within this specific displacement move* (`fvg_within_displacement`: boolean or description). Discuss FVGs **only** if they confirm the displacement."
+                     "\n   - Ensure displacement direction aligns with the determined `trade_direction`."
+                     # Modify the JSON field description too if needed:
 
                     "\n\n**5. ZONES, LIQUIDITY & OUTCOME:**"
                     "\n   - Describe any marked `liquidity_zones`."
@@ -718,14 +759,14 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                     "\n   - 'trade_direction': 'short' | 'long' | 'undetermined'"
                     "\n   - 'mss_pivot_analysis': { " # <<< Added structure analysis
                     "        'description': description, "
-                    "        'pivot_bearish_count': integer, "
-                    "        'pivot_bullish_count': integer, "
+                    "'pivot_bearish_count': 'INTEGER count of BEARISH candles forming the core pivot structure (analyzed from 1M view)', "
+                    "'pivot_bullish_count': 'INTEGER count of BULLISH candles forming the core pivot structure (analyzed from 1M view)', "
                     "        'has_minimum_structure': boolean"
                     "      }"
                     "\n   - 'mss_type': 'normal' | 'agresiv' | 'not_identified'" # <<< Based on pivot structure
                     "\n   - 'break_direction': 'upward' | 'downward' | 'none'"
-                    "\n   - 'displacement_analysis': { 'direction': 'bullish'|'bearish'|'none', 'strength': description, 'fvg_created': boolean }"
-                    "\n   - 'fvg_analysis': description"
+                    "\n   - 'displacement_analysis': { 'direction': 'bullish'|'bearish'|'none', 'strength': description, }"
+                    "\n   - 'fvg_within_displacement': description"
                     "\n   - 'liquidity_zones': description"
                     "\n   - 'trade_outcome': 'win'|'loss'|'running'|'undetermined'"
                     "\n   - 'visible_labels': list of strings"
@@ -889,8 +930,8 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                 query_parts.append(f"Trade direction: {detailed_vision_analysis.get('trade_direction')}")
             if detailed_vision_analysis.get("mss_type") in ["agresiv", "normal"]:
                 query_parts.append(f"MSS type: {detailed_vision_analysis.get('mss_type')}")
-            if detailed_vision_analysis.get("fvg_analysis"):
-                query_parts.append(f"FVG analysis summary: {str(detailed_vision_analysis.get('fvg_analysis'))[:100]}")
+            if detailed_vision_analysis.get("fvg_within_displacement"):
+                query_parts.append(f"FVG analysis summary: {str(detailed_vision_analysis.get('fvg_within_displacement'))[:100]}")
             # Add displacement direction
             disp_analysis = detailed_vision_analysis.get("displacement_analysis", {})
             if isinstance(disp_analysis, dict) and disp_analysis.get("direction") in ["bullish", "bearish"]:
@@ -919,7 +960,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                  # Add the definition that explains the structure rule
                  definitions_to_add.append("Definiție Structurală MSS Normal: Un MSS normal necesită ca pivotul (swing high/low) rupt să fie format din minim 2 candele bearish ȘI minim 2 candele bullish.")
 
-        if "fvg" in payload.question.lower() or "fair value gap" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("fvg_analysis")):
+        if "fvg" in payload.question.lower() or "fair value gap" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("fvg_within_displacement")):
              if FVG_STRUCTURAL_DEFINITION.lower() not in course_context.lower():
                  definitions_to_add.append(FVG_STRUCTURAL_DEFINITION)
 
