@@ -182,72 +182,107 @@ async def submit_feedback(feedback_data: FeedbackModel) -> Dict[str, str]:
 
 def identify_query_type(question: str) -> Dict[str, Any]:
     """
-    Identifies the type of query to guide appropriate analysis.
+    Identifies the type of query to guide appropriate analysis,
+    prioritizing evaluation terms and handling multiple concepts.
     Returns a dictionary with query type flags.
     """
     question_lower = question.lower().strip()
 
-    # Patterns for identification
+    # Patterns for identification (Using your lists)
     liquidity_patterns = [
         "liq", "lichid", "lichidit", "sunt corect notate", "marchează", "marchea", "marcate"
     ]
-
     trend_patterns = [
         "trend", "trendul", "tendință", "tendinta"
     ]
-
     mss_classification_patterns = [
         "mss normal sau", "mss agresiv sau", "mss normal sau agresiv",
         "este un mss normal", "este un mss agresiv", "ce fel de mss",
-        "este agresiv sau normal", "este normal sau agresiv", "tip de mss" # Added tip de mss
+        "este agresiv sau normal", "este normal sau agresiv", "tip de mss"
     ]
-
     displacement_patterns = [
         "displacement", "displace", "mișcare", "miscare", "impulsiv", "gap",
         "fvg", "fair value gap", "impulse", "continuitate"
     ]
-
     fvg_patterns = [
         "fvg", "fair value gap", "gap", "valoare", "spațiu", "spatiu", "gol"
     ]
-
     trade_evaluation_patterns = [
         "cum arata", "cum arată", "ce parere", "ce părere", "evalueaz", "analizeaz",
         "trade", "setup", "intrare", "valid", "corect", "rezultat"
     ]
 
-    specific_element_patterns = {
-        "liquidity": [p for p in liquidity_patterns],
-        "trend": [p for p in trend_patterns],
-        "mss_classification": [p for p in mss_classification_patterns],
-        "displacement": [p for p in displacement_patterns],
-        "fvg": [p for p in fvg_patterns],
-    }
+    # --- REVISED LOGIC ---
 
-    # Check for specific question types first
+    # 1. Check for explicit evaluation requests FIRST
+    if any(p in question_lower for p in trade_evaluation_patterns):
+        logging.info("Query identified as 'trade_evaluation' based on evaluation keywords.")
+        return {
+            "type": "trade_evaluation",
+            "requires_full_analysis": True,
+            "requires_mss_analysis": True,
+            "requires_direction_analysis": True,
+            "requires_color_analysis": True,
+            "requires_fvg_within_displacement": True # Use the updated FVG field name check from prompts
+        }
+
+    # 2. If not evaluation, check for specific concepts mentioned
+    concepts_found = []
+    # Use a dictionary mapping type name to its patterns for checking concepts
+    specific_element_patterns = {
+        "liquidity": liquidity_patterns,
+        "trend": trend_patterns,
+        "mss_classification": mss_classification_patterns,
+        "displacement": displacement_patterns,
+        "fvg": fvg_patterns,
+    }
     for element_type, patterns in specific_element_patterns.items():
         if any(p in question_lower for p in patterns):
-            return {
-                "type": element_type,
-                "requires_full_analysis": False,
-                "requires_mss_analysis": element_type == "mss_classification",
-                "requires_direction_analysis": element_type in ["trend", "displacement"],
-                "requires_color_analysis": True,  # Always analyze colors to improve accuracy
-                "requires_fvg_within_displacement": element_type == "fvg"
-            }
+            concepts_found.append(element_type)
 
-    # If not a specific element question, check if it's a trade evaluation
-    is_trade_evaluation = any(p in question_lower for p in trade_evaluation_patterns)
-
-    # Default to general question that needs visual details but possibly not full analysis
-    return {
-        "type": "trade_evaluation" if is_trade_evaluation else "general",
-        "requires_full_analysis": is_trade_evaluation,
-        "requires_mss_analysis": is_trade_evaluation, # Always analyze MSS in evaluations
-        "requires_direction_analysis": True, # Always need direction for evaluation
-        "requires_color_analysis": True,
-        "requires_fvg_within_displacement": is_trade_evaluation # Analyze FVG in evaluations
-    }
+    # 3. Classify based on number of concepts found
+    if len(concepts_found) > 1:
+        # If multiple specific concepts are asked about (e.g., MSS and displacement),
+        # treat it as a broader evaluation requiring full analysis.
+        logging.info(f"Query identified as 'trade_evaluation' based on multiple concepts: {concepts_found}")
+        return {
+            "type": "trade_evaluation", # Default to full analysis
+            "requires_full_analysis": True,
+            "requires_mss_analysis": True,
+            "requires_direction_analysis": True,
+            "requires_color_analysis": True,
+            "requires_fvg_within_displacement": True # Check FVG if doing full eval
+        }
+    elif len(concepts_found) == 1:
+        # Only one specific concept mentioned
+        element_type = concepts_found[0]
+        logging.info(f"Query identified as specific element: '{element_type}'")
+        # Determine specific requirements based ONLY on the single element found
+        is_mss_type = element_type == "mss_classification"
+        is_direction_type = element_type in ["trend", "displacement"]
+        is_fvg_type = element_type == "fvg" # Focus FVG check only if FVG is the specific topic
+        return {
+            "type": element_type,
+            "requires_full_analysis": False,
+            "requires_mss_analysis": is_mss_type,
+            "requires_direction_analysis": is_direction_type,
+            "requires_color_analysis": True, # Always get colors
+            "requires_fvg_within_displacement": is_fvg_type # Only specifically require FVG check if question is about FVGs
+            # Note: Even if false here, the comprehensive 'trade_evaluation' prompt WILL ask for it.
+            # This flag primarily helps if you want to tailor the *vision* prompt even more granularly,
+            # but given the current structure using the specific prompts, this setup should work.
+        }
+    else:
+        # No specific evaluation terms or known concept keywords found
+        logging.info("Query identified as 'general' (no specific keywords matched).")
+        return {
+            "type": "general",
+            "requires_full_analysis": False, # Default to false unless evaluation terms were present
+            "requires_mss_analysis": False, # Don't require unless asked
+            "requires_direction_analysis": True, # Still useful often
+            "requires_color_analysis": True,
+            "requires_fvg_within_displacement": False # Don't require unless asked
+        }
 
 # ---------------------------------------------------------------------------
 # HELPERS (Unchanged logic, added logging)
