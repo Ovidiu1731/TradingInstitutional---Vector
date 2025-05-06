@@ -619,9 +619,9 @@ async def ask_question(request: Request) -> Dict[str, str]:
                 is_new_session = True
                 logging.info(f"New session started: {session_id}")
 
-        if not question:
-            logging.warning("Received empty question in /ask request.")
-            return {"answer": "Te rog să specifici o întrebare.", "session_id": session_id}
+            if not question:
+                logging.warning("Received empty question in /ask request.")
+                return {"answer": "Te rog să specifici o întrebare.", "session_id": session_id}
 
         logging.info(f"Received /ask request. Question: '{question[:100]}...', Session ID: {session_id}")
         # --- Retrieve History ---
