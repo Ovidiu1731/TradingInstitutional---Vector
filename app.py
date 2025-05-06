@@ -625,17 +625,17 @@ async def ask_question(request: Request) -> Dict[str, str]:
 
         logging.info(f"Received /ask request. Question: '{question[:100]}...', Session ID: {session_id}")
         # --- Retrieve History ---
-                history_messages = []
-                with history_lock:
-                    # Get the deque for the session, or create a new one
-                    session_deque = conversation_history.setdefault(session_id, deque(maxlen=MAX_HISTORY_MESSAGES))
-                    history_messages = list(session_deque) # Get current history as a list
-                    logging.debug(f"Retrieved {len(history_messages)} history messages for session {session_id}")
-        question_lower = question.lower()
-        is_mss_agresiv_text_q = question_lower == "ce este un mss agresiv"
-        is_mss_normal_text_q = question_lower == "ce este un mss normal"
-        is_fvg_text_q = question_lower in ["ce este un fvg", "ce este fvg", "ce este fair value gap"]
-        is_displacement_text_q = question_lower in ["ce este displacement", "ce inseamna displacement"]
+        history_messages = []
+        with history_lock:
+            # Get the deque for the session, or create a new one
+            session_deque = conversation_history.setdefault(session_id, deque(maxlen=MAX_HISTORY_MESSAGES))
+            history_messages = list(session_deque) # Get current history as a list
+            logging.debug(f"Retrieved {len(history_messages)} history messages for session {session_id}")
+            question_lower = question.lower()
+            is_mss_agresiv_text_q = question_lower == "ce este un mss agresiv"
+            is_mss_normal_text_q = question_lower == "ce este un mss normal"
+            is_fvg_text_q = question_lower in ["ce este un fvg", "ce este fvg", "ce este fair value gap"]
+            is_displacement_text_q = question_lower in ["ce este displacement", "ce inseamna displacement"]
 
         # 1. Get Embedding
         try:
