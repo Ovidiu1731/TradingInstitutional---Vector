@@ -614,12 +614,12 @@ async def ask_question(request: Request) -> Dict[str, str]:
         question = body.get("question", "").strip()
         session_id = body.get("session_id")
         is_new_session = False
-            if not session_id:
-                session_id = generate_session_id()
-                is_new_session = True
-                logging.info(f"New session started: {session_id}")
+        if not session_id:
+            session_id = generate_session_id()
+            is_new_session = True
+            logging.info(f"New session started: {session_id}")
 
-            if not question:
+        if not question:
                 logging.warning("Received empty question in /ask request.")
                 return {"answer": "Te rog să specifici o întrebare.", "session_id": session_id}
 
