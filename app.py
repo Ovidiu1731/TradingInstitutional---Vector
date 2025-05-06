@@ -12,11 +12,20 @@ import requests
 import pytesseract
 from PIL import Image
 from dotenv import load_dotenv
+import threading
+from collections import deque # Efficient for fixed-size history
 from fastapi import FastAPI, Request, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from openai import OpenAI, RateLimitError, APIError
 from pinecone import Pinecone, PineconeException
+# --- Conversation History Store (In-Memory) ---
+# Stores recent messages for each session_id
+# Using deque for automatic size limiting
+conversation_history: Dict[str, deque] = {}
+history_lock = threading.Lock()
+MAX_HISTORY_TURNS = 3 # Number of User/Assistant turn pairs to keep (e.g., 3 turns = 6 messages)
+MAX_HISTORY_MESSAGES = MAX_HISTORY_TURNS * 2
 
 # ---------------------------------------------------------------------------
 # LOGGING SETUP
@@ -567,13 +576,25 @@ async def ask_question(request: Request) -> Dict[str, str]:
     try:
         body = await request.json()
         question = body.get("question", "").strip()
-        session_id = body.get("session_id", generate_session_id())
+        session_id = body.get("session_id")
+        is_new_session = False
+             if not session_id:
+                  session_id = generate_session_id()
+                  is_new_session = True
+                  logging.info(f"New session started: {session_id}")
 
         if not question:
             logging.warning("Received empty question in /ask request.")
             return {"answer": "Te rog să specifici o întrebare.", "session_id": session_id}
 
         logging.info(f"Received /ask request. Question: '{question[:100]}...', Session ID: {session_id}")
+        # --- Retrieve History ---
+                history_messages = []
+                with history_lock:
+                    # Get the deque for the session, or create a new one
+                    session_deque = conversation_history.setdefault(session_id, deque(maxlen=MAX_HISTORY_MESSAGES))
+                    history_messages = list(session_deque) # Get current history as a list
+                    logging.debug(f"Retrieved {len(history_messages)} history messages for session {session_id}")
         question_lower = question.lower()
         is_mss_agresiv_text_q = question_lower == "ce este un mss agresiv"
         is_mss_normal_text_q = question_lower == "ce este un mss normal"
@@ -640,26 +661,38 @@ async def ask_question(request: Request) -> Dict[str, str]:
 
         # 3. Generate Answer
         try:
-            system_message = SYSTEM_PROMPT_CORE + "\n\nAnswer ONLY based on the provided Context."
-            user_message = f"Question: {question}\n\nContext:\n{context}"
+            system_message = SYSTEM_PROMPT_CORE + "\n\nAnswer ONLY based on the provided Context and conversation history."
+            
+            # --- Prepare messages for TEXT_MODEL ---
+            messages_for_llm = []
+            messages_for_llm.append({"role": "system", "content": system_message})
+            # Add history messages retrieved earlier
+            messages_for_llm.extend(history_messages)
+            # Add current user question + Pinecone context
+            user_message_with_context = f"Question: {question}\n\nContext:\n{context}"
+            messages_for_llm.append({"role": "user", "content": user_message_with_context})
 
-            logging.debug(f"Sending to {TEXT_MODEL}. System: {system_message[:200]}... User: {user_message[:200]}...")
+            logging.debug(f"Sending to {TEXT_MODEL}. Message count: {len(messages_for_llm)}")
             response = openai.chat.completions.create(
                 model=TEXT_MODEL,
-                messages=[{"role": "system", "content": system_message}, {"role": "user", "content": user_message}],
+                messages=messages_for_llm, # Pass history + current context
                 temperature=0.3,
                 max_tokens=300
             )
             answer = response.choices[0].message.content.strip()
 
-            if is_mss_agresiv_text_q and "dacă ești la început" not in answer.lower():
-                answer += " Dacă ești la început, este recomandat în program să nu-l folosești încă."
+            # --- Store Updated History ---
+            with history_lock:
+                 # session_deque was retrieved/created earlier
+                 session_deque.append({"role": "user", "content": question}) # Store original question
+                 session_deque.append({"role": "assistant", "content": answer}) # Store answer
+                 # deque automatically handles maxlen trimming
+                 logging.debug(f"Stored history for session {session_id}. New length: {len(session_deque)}")
 
             logging.info(f"Successfully generated answer using {TEXT_MODEL}.")
-            logging.debug(f"Generated Answer (raw): {answer[:200]}...")
             return {
                 "answer": answer,
-                "session_id": session_id
+                "session_id": session_id # Return session_id so client can use it for follow-ups
             }
 
         except (APIError, RateLimitError) as e:
