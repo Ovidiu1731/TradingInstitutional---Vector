@@ -69,8 +69,11 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bearish",
     "strength": "moderate"
   },
-  "fvg_analysis": "Two FVGs are visible after the MSS: one larger gap marked by a grey box during the initial displacement, and a smaller subsequent gap above it. (This aligns with a TG - Two Gap setup).",
-  "liquidity_zones": ""liquidity_zones": "Multiple liquidity levels above prior highs (marked by horizontal white lines) were swept before the MSS occurred. The last key high swept appears to be around the 23,255-23,260 price level."",
+  "fvg_analysis": { // Using new structure
+    "count": 2, Updated count
+    "description": "Two FVGs are visible after the MSS: one larger gap marked by a grey box during the initial displacement, and a smaller subsequent gap above it. (This aligns with a TG - Two Gap setup).",
+},
+  "liquidity_zones": "Multiple liquidity levels above prior highs (marked by horizontal white lines) were swept before the MSS occurred. The last key high swept appears to be around the 23,255-23,260 price level.",
   "liquidity_status": "swept",
   "trade_outcome": "breakeven",
   "visible_labels": ["MSS", "BE"]
@@ -99,7 +102,10 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bullish",
     "strength": "strong"
   },
-  "fvg_within_displacement": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS.",
+  "fvg_analysis": { // Using new structure
+    "count": 2, Updated count
+    "description": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS.",
+},
   "liquidity_zones": "Initial liquidity sweep occurred below the low marked 'LLB' (Lichiditate Locala Buy). Subsequently, price re-swept liquidity near the low marked 'Local' just before the MSS formed (re-entry pattern).",
   "liquidity_status": "swept",
   "trade_outcome": "potential_setup",
@@ -129,7 +135,10 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bearish",
     "strength": "moderate"
   },
-  "fvg_within_displacement": "Yes, an FVG (marked by a blue box) was created during the bearish displacement, providing a potential entry area.",
+  "fvg_analysis": { // Using new structure
+    "count": 1, //Updated count
+    "description": "Yes, a FVG (marked by a blue box) was created during the bearish displacement, providing a potential entry area.",
+},
   "liquidity_zones": "Liquidity above the prior swing high (marked 'LLS' - Lichiditate Locala Sell) was swept before the downward structure break occurred.",
   "liquidity_status": "swept",
   "trade_outcome": "loss",
@@ -159,7 +168,10 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bearish",
     "strength": "moderate"
   },
-  "fvg_within_displacement": "Yes, two FVGs (marked by faint blue rectangles) are visible after the MSS. The pattern of a new high before MSS + two gaps after fits the 'SLG + TCG' setup.",
+  "fvg_analysis":  { // Using new structure
+    "count": 2, //Updated count
+    "description": "Yes, two FVGs (marked by faint blue rectangles) are visible after the MSS. The pattern of a new high before MSS + two gaps after fits the 'SLG + TCG' setup.",
+},
   "liquidity_zones": "Liquidity above the prior swing high (marked 'LMS' - Lichiditate Majora Sell) was swept before the MSS occurred.",
   "liquidity_status": "swept",
   "trade_outcome": "loss",
@@ -189,7 +201,10 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bearish",
     "strength": "strong"
   },
-  "fvg_within_displacement": "Yes, three FVGs (marked by dark blue rectangles) were created within the strong bearish displacement move. The pattern of a new valid high before the MSS plus these three gaps fits the 'SLG + 3G' setup.",
+  "fvg_analysis": { // Using new structure
+    "count": 3, //Updated Count
+    "description": "Yes, three FVGs (marked by dark blue rectangles) were created within the strong bearish displacement move. The pattern of a new valid high before the MSS plus these three gaps fits the 'SLG + 3G' setup.",
+},
   "liquidity_zones": "Liquidity above the prior swing high (marked 'LLS' - Lichiditate Locala Sell) was swept before the downward structure break occurred.",
   "liquidity_status": "swept",
   "trade_outcome": "win",
@@ -219,7 +234,10 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bearish",
     "strength": "strong"
   },
-  "fvg_within_displacement": "Yes, two FVGs (marked by faint orange rectangles/lines) were created after the MSS. This aligns with a TCG (Two Consecutive Gaps) setup.",
+  "fvg_analysis": { // Using new structure
+    "count": 2,
+    "description": "Yes, two FVGs (marked by faint orange rectangles/lines) were created after the MSS. This aligns with a TCG (Two Consecutive Gaps) setup.",
+},
   "liquidity_zones": "Liquidity above the prior swing high (marked 'Liq Locala') was swept before the downward move began.",
   "liquidity_status": "swept",
   "trade_outcome": "win",
@@ -253,7 +271,7 @@ FEW_SHOT_EXAMPLES = [
     "count": 2, // Updated count
     "description": "Yes, two FVGs appear to be created within the bullish displacement following the MSS, both marked by blue boxes." // Updated description
   },
-  "liquidity_zones": "Sell-side liquidity below the prior swing low (marked 'LLB' - Liq Locala Buy) was swept before the MSS occurred.", // Updated label reference
+  "liquidity_zones": "Liquidity was swept (marked by LLB) and then the buy entry was formed by the MSS and the displacement that created 2 fair value gaps", // Updated label reference
   "liquidity_status": "swept",
   "trade_outcome": "loss", // Updated outcome
   "visible_labels": [ // Updated labels
@@ -266,30 +284,34 @@ FEW_SHOT_EXAMPLES = [
 
      # --- Example 8: Normal Long Tricky Colors (Screenshot_2.png) ---
      {
-         "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot_2.png",
-         "assistant_json_output": """
- {
-   "analysis_possible": true,
-   "candle_colors": "Bullish candles appear to have a solid dark gray body, Bearish candles have a solid black body (distinction can be difficult).",
-   "is_risk_above_price": false,
-   "trade_direction": "long",
-   "mss_pivot_analysis": {
-     "description": "Upward structure break (marked 'MSS' text and line/arrow) occurs above the prior lower high, following a sweep below the 'Liq Locala' low. The blue box marks an FVG, not the MSS break itself.",
-     "pivot_bearish_count": 2,
-     "pivot_bullish_count": 4,
-     "has_minimum_structure": true
-   },
-   "mss_type": "normal",
-   "break_direction": "upward",
-   "displacement_analysis": {
-     "direction": "bullish",
-     "strength": "moderate"
-   },
-   "fvg_within_displacement": "Yes, two visual FVGs (imbalances, including the one marked by the blue box) appear to be created within the bullish displacement following the MSS, near the entry area.",
-   "liquidity_zones": "Liquidity below the prior swing low (marked 'Liq Locala') was swept before the MSS occurred.",
-   "liquidity_status": "swept",
-   "trade_outcome": "running",
-   "visible_labels": ["MSS", "Liq Locala"]
+        "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot_2.png",
+        "assistant_json_output": """
+{
+  "analysis_possible": true,
+  "candle_colors": "Bullish candles appear to have a solid dark gray body, Bearish candles have a solid black body (distinction can be difficult).",
+  "is_risk_above_price": false,
+  "trade_direction": "long",
+  "mss_pivot_analysis": {
+    "description": "Upward structure break (marked 'MSS' text and line/arrow) occurs above the prior lower high, following a sweep below the 'Liq Locala' low. The blue box marks an FVG, not the MSS break itself.",
+    "pivot_bearish_count": 2,
+    "pivot_bullish_count": 4,
+    "has_minimum_structure": true
+  },
+  "mss_type": "normal", // Stays normal
+  "break_direction": "upward",
+  "displacement_analysis": {
+    "direction": "bullish",
+    "strength": "moderate"
+  },
+  "fvg_analysis": { // Using new structure
+    "count": 2,
+    "description": "Yes, two visual FVGs (imbalances, marked by the blue boxes) appear to be created within the bullish displacement following the MSS, near the entry area."
+  },
+  "liquidity_zones": "Liquidity below the prior swing low (marked 'Liq Locala') was swept before the MSS occurred.",
+  "liquidity_status": "swept",
+  "trade_outcome": "running",
+  "visible_labels": [ // Updated labels
+    "MSS", "LLB"]
  }
  """
      }
@@ -1025,7 +1047,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                      "\n\n**4. DISPLACEMENT & FVG ANALYSIS:**"
                      "\n   - Identify the main `displacement_analysis`: Direction ('bullish'/'bearish'), strength."
                      "\n   - **CRITICAL FVG CHECK:** Meticulously scan the entire area *after* the confirmed MSS break for ALL visible Fair Value Gaps (FVGs - imbalances between candle 1/3 wicks, often marked by boxes or faint lines/rectangles). Count them accurately." # Emphasize ALL, add detail
-                     "\n   - Report findings in `fvg_analysis`: { 'count': integer, 'description': 'Describe all observed FVGs post-MSS, noting markings and TCG/SLG pattern if applicable.' }. If none, count is 0." # Changed structure
+                     "\n   - Report findings in `fvg_analysis`: { 'count': integer, 'description': 'Describe all observed FVGs post-MSS, noting markings and SLG pattern if applicable.' }. If none, count is 0." # Changed structure
                      "\n   - Ensure displacement direction aligns with the determined `trade_direction`."
                      "\n\n**5. ZONES, LIQUIDITY & OUTCOME:**"
                      "\n   - Identify the key `liquidity_zones` relevant to the setup (e.g., marked highs/lows)."
