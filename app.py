@@ -228,7 +228,43 @@ FEW_SHOT_EXAMPLES = [
 """
     },
 
-     # --- Example 7: Normal Long Tricky Colors (Screenshot_2.png) ---
+      # --- Example 7: 202025-05-05%20at%2007.22.35.png ---
+    {
+        "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2007.22.35.png",
+        "assistant_json_output": """
+{
+  "analysis_possible": true,
+  "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.", // Updated colors
+  "is_risk_above_price": false,
+  "trade_direction": "long",
+  "mss_pivot_analysis": {
+    "description": "Upward structure break (marked 'MSS' text and line/arrow) occurs above the prior lower high, following a sweep below the 'LLB' low.", // Updated Liq reference
+    "pivot_bearish_count": 4, // Updated count
+    "pivot_bullish_count": 6, // Updated count
+    "has_minimum_structure": true // Stays true (4>=2 and 6>=2)
+  },
+  "mss_type": "normal", // Stays normal
+  "break_direction": "upward",
+  "displacement_analysis": {
+    "direction": "bullish",
+    "strength": "moderate"
+  },
+  "fvg_analysis": { // Using new structure
+    "count": 2, // Updated count
+    "description": "Yes, two FVGs appear to be created within the bullish displacement following the MSS, both marked by blue boxes." // Updated description
+  },
+  "liquidity_zones": "Sell-side liquidity below the prior swing low (marked 'LLB' - Liq Locala Buy) was swept before the MSS occurred.", // Updated label reference
+  "liquidity_status": "swept",
+  "trade_outcome": "loss", // Updated outcome
+  "visible_labels": [ // Updated labels
+    "MSS",
+    "LLB"
+  ]
+}
+"""
+    },
+
+     # --- Example 8: Normal Long Tricky Colors (Screenshot_2.png) ---
      {
          "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot_2.png",
          "assistant_json_output": """
