@@ -76,7 +76,7 @@ Pentru DAX, dimensiunea stop loss-ului depinde în principal de volatilitatea pi
 If unclear, always ask the student to clarify or upload a screenshot.
 
 Lunch Hour (LH)
-Only relevant during New York Session (19:00–20:00 RO time). It's recommended but not mandatory, to avoid trading during this window, as taught in the course.
+Only relevant during New York Session (19:00–20:00 RO time). It's recommended but not mandatory, to avoid trading during this window, as taught in the course. It is the trader's choice if he/she wants to trade during this period.
 
 Understand that the most common instruments traded are:
 nq or NQ - Nasdaq
