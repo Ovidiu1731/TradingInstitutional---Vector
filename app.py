@@ -60,8 +60,8 @@ FEW_SHOT_EXAMPLES = [
     "direction": "bearish",
     "strength": "moderate"
   },
-  "fvg_within_displacement": "Two FVGs are visible after the MSS: one larger gap marked by a grey box during the initial displacement, and a smaller subsequent gap above it. (This aligns with a TG - Two Gap setup).",
-  "liquidity_zones": "Multiple buy-side liquidity levels (represented by horizontal white lines, likely marking previous highs) were swept before the MSS occurred. The last key liquidity high swept appears to be around the 23,255 - 23,260 price level.",
+  "fvg_analysis": "Two FVGs are visible after the MSS: one larger gap marked by a grey box during the initial displacement, and a smaller subsequent gap above it. (This aligns with a TG - Two Gap setup).",
+  "liquidity_zones": ""liquidity_zones": "Multiple liquidity levels above prior highs (marked by horizontal white lines) were swept before the MSS occurred. The last key high swept appears to be around the 23,255-23,260 price level."",
   "liquidity_status": "swept",
   "trade_outcome": "breakeven",
   "visible_labels": ["MSS", "BE"]
@@ -91,7 +91,7 @@ FEW_SHOT_EXAMPLES = [
     "strength": "strong"
   },
   "fvg_within_displacement": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS.",
-  "liquidity_zones": "Initial sell-side liquidity sweep occurred below 'LLB' (Lichiditate Locala Buy). Subsequently, price re-swept sell-side liquidity near the low marked 'Local' just before the MSS formed (re-entry pattern).",
+  "liquidity_zones": "Initial liquidity sweep occurred below the low marked 'LLB' (Lichiditate Locala Buy). Subsequently, price re-swept liquidity near the low marked 'Local' just before the MSS formed (re-entry pattern).",
   "liquidity_status": "swept",
   "trade_outcome": "potential_setup",
   "visible_labels": ["MSS", "Local", "LLB"]
@@ -121,7 +121,7 @@ FEW_SHOT_EXAMPLES = [
     "strength": "moderate"
   },
   "fvg_within_displacement": "Yes, an FVG (marked by a blue box) was created during the bearish displacement, providing a potential entry area.",
-  "liquidity_zones": "Buy-side liquidity above the prior swing high (marked with a black horizontal line and 'LLS' - Lichiditate Locala Sell) was swept before the structure break occurred.",
+  "liquidity_zones": "Liquidity above the prior swing high (marked 'LLS' - Lichiditate Locala Sell) was swept before the downward structure break occurred.",
   "liquidity_status": "swept",
   "trade_outcome": "loss",
   "visible_labels": ["LLS", "BE"]
@@ -151,7 +151,7 @@ FEW_SHOT_EXAMPLES = [
     "strength": "moderate"
   },
   "fvg_within_displacement": "Yes, two FVGs (marked by faint blue rectangles) are visible after the MSS. The pattern of a new high before MSS + two gaps after fits the 'SLG + TCG' setup.",
-  "liquidity_zones": "Buy-side 'Lichiditate Majora Sell' (marked 'LMS' with a black horizontal line) above the prior swing high was swept before the MSS occurred.",
+  "liquidity_zones": "Liquidity above the prior swing high (marked 'LMS' - Lichiditate Majora Sell) was swept before the MSS occurred.",
   "liquidity_status": "swept",
   "trade_outcome": "loss",
   "visible_labels": ["LMS"]
@@ -181,7 +181,7 @@ FEW_SHOT_EXAMPLES = [
     "strength": "strong"
   },
   "fvg_within_displacement": "Yes, three FVGs (marked by dark blue rectangles) were created within the strong bearish displacement move. The pattern of a new valid high before the MSS plus these three gaps fits the 'SLG + 3G' setup.",
-  "liquidity_zones": "Buy-side liquidity above the prior swing high (marked 'LLS') was swept before the downward structure break occurred.",
+  "liquidity_zones": "Liquidity above the prior swing high (marked 'LLS' - Lichiditate Locala Sell) was swept before the downward structure break occurred.",
   "liquidity_status": "swept",
   "trade_outcome": "win",
   "visible_labels": ["LLS"]
@@ -211,7 +211,7 @@ FEW_SHOT_EXAMPLES = [
     "strength": "strong"
   },
   "fvg_within_displacement": "Yes, two FVGs (marked by faint orange rectangles/lines) were created after the MSS. This aligns with a TCG (Two Consecutive Gaps) setup.",
-  "liquidity_zones": "Buy-side liquidity above the prior swing high (marked 'Liq Locala' with a white horizontal line) was swept before the downward structure break occurred.",
+  "liquidity_zones": "Liquidity above the prior swing high (marked 'Liq Locala') was swept before the downward move began.",
   "liquidity_status": "swept",
   "trade_outcome": "win",
   "visible_labels": ["Liq Locala", "BE"]
@@ -241,7 +241,7 @@ FEW_SHOT_EXAMPLES = [
      "strength": "moderate"
    },
    "fvg_within_displacement": "Yes, two visual FVGs (imbalances, including the one marked by the blue box) appear to be created within the bullish displacement following the MSS, near the entry area.",
-   "liquidity_zones": "Sell-side liquidity below the prior swing low (marked 'Liq Locala') was swept before the MSS occurred.",
+   "liquidity_zones": "Liquidity below the prior swing low (marked 'Liq Locala') was swept before the MSS occurred.",
    "liquidity_status": "swept",
    "trade_outcome": "running",
    "visible_labels": ["MSS", "Liq Locala"]
@@ -273,6 +273,7 @@ except FileNotFoundError:
     SYSTEM_PROMPT_CORE = (
         "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
         "Answer questions strictly based on the provided course material and visual analysis (if available). "
+        "Adopt the persona of a helpful, slightly more experienced trading colleague explaining the analysis clearly. Avoid overly robotic phrasing. "
         "Emulate Rareș's direct, concise teaching style. Be helpful and accurate according to the course rules."
         # Added note for final LLM regarding validated analysis
         "\n\nIMPORTANT: When reviewing the 'Visual Analysis Report', trust the provided 'mss_type' and 'trade_direction'. "
@@ -938,9 +939,10 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                      "\n   - Identify `candle_colors`: Describe colors for bullish/bearish candles in THIS chart."
                      "\n   - Note colors for zones/indicators if obvious."
                      "\n\n**2. TRADE DIRECTION (PRIORITY on Risk Box):**"
-                     "\n   - **PRIMARY:** Look for a colored Risk/Reward box (often red or blue/green)."
-                     "\n   - Determine `is_risk_above_price`: BOOLEAN. True if risk box is clearly ABOVE entry/current price, False if clearly BELOW. Null if unclear/absent."
-                     "\n   - Set `trade_direction` based PRIMARILY on this box: 'short' if risk is above (True), 'long' if risk is below (False)."
+                     "\n   - **PRIMARY:** Look for a Risk/Reward box (often colored: Red usually indicates the Risk/Stop zone, Green/Blue the Profit/Target zone)."
+                     "\n   - Determine the entry point (often the middle line or near current price if box is active)."
+                     "\n   - Determine `is_risk_above_price`: BOOLEAN. Is the defined Risk zone (e.g., the Red part) clearly ABOVE the entry point? True if yes, False if the Risk zone is clearly BELOW the entry point. Null if no clear R/R box or entry is visible." # More explicit check
+                     "\n   - Set `trade_direction` based PRIMARILY on this: 'short' if `is_risk_above_price` is True, 'long' if `is_risk_above_price` is False."
                      "\n   - **Secondary:** If no clear risk box, infer `trade_direction` from labels ('SHORT'/'LONG', arrows) or overall strong recent directional movement (displacement)."
                      "\n   - Output: 'short', 'long', or 'undetermined'."
                      "\n\n**3. MSS CLASSIFICATION (Based on PIVOT STRUCTURE):**"
@@ -953,11 +955,13 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                      "\n   - Identify `break_direction` ('upward' or 'downward')."
                      "\n\n**4. DISPLACEMENT & FVG ANALYSIS:**"
                      "\n   - Identify the main `displacement_analysis`: Direction ('bullish'/'bearish'), strength."
-                     "\n   - Check for FVGs *created within this specific displacement move* (`fvg_within_displacement`: description or boolean). Discuss FVGs **only** if they confirm the displacement."
+                     "\n   - Look carefully for ALL Fair Value Gaps (FVGs - imbalances between candle 1/3 wicks) created *within the displacement move after the MSS*. Note markings like boxes or faint rectangles."
+                     "\n   - Report findings in `fvg_analysis`: { 'count': integer, 'description': 'Describe all observed FVGs post-MSS, noting markings and TCG/SLG pattern if applicable.' }. If none, count is 0." # Changed structure
                      "\n   - Ensure displacement direction aligns with the determined `trade_direction`."
                      "\n\n**5. ZONES, LIQUIDITY & OUTCOME:**"
-                     "\n   - Describe any marked `liquidity_zones`."
-                     "\n   - Determine the `liquidity_status`: 'swept' if price clearly traded past a key low/high, 'untouched' otherwise, based on action *before* the setup." # Added instruction
+                     "\n   - Identify the key `liquidity_zones` relevant to the setup (e.g., marked highs/lows)."
+                     "\n   - Determine the `liquidity_status`: 'swept' if price clearly traded past the key liquidity level *before* the MSS/setup formed, 'untouched' otherwise." # Emphasized timing
+                     "\n   - Describe the liquidity interaction in the `liquidity_zones` field (e.g., 'Buy-side liquidity above high X was swept before MSS')." # Added instruction for description field
                      "\n   - Assess `trade_outcome` ('win', 'loss', 'running', 'undetermined', 'potential_setup') if possible based on price movement after entry."
                      "\n\n**6. ESSENTIAL JSON FIELDS:**" # Added liquidity_status here
                      "\n   - 'analysis_possible': boolean"
@@ -968,7 +972,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                      "\n   - 'mss_type': 'normal' | 'agresiv' | 'not_identified'"
                      "\n   - 'break_direction': 'upward' | 'downward' | 'none'"
                      "\n   - 'displacement_analysis': { 'direction': 'bullish'|'bearish'|'none', 'strength': description }" # Removed fvg_created from here
-                     "\n   - 'fvg_within_displacement': description" # Consistent field name
+                     "\n   - 'fvg_analysis': { 'count': integer, 'description': description }"
                      "\n   - 'liquidity_zones': description"
                      "\n   - 'liquidity_status': 'swept' | 'untouched' | 'unclear'" # Added this field
                      "\n   - 'trade_outcome': 'win'|'loss'|'running'|'undetermined'|'potential_setup'"
@@ -1154,7 +1158,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
             if "candle_colors" in detailed_vision_analysis: query_parts.append(f"Chart candle colors: {str(detailed_vision_analysis.get('candle_colors'))[:100]}")
             if detailed_vision_analysis.get("trade_direction") in ["long", "short"]: query_parts.append(f"Trade direction: {detailed_vision_analysis.get('trade_direction')}")
             if detailed_vision_analysis.get("mss_type") in ["agresiv", "normal"]: query_parts.append(f"MSS type: {detailed_vision_analysis.get('mss_type')}")
-            if detailed_vision_analysis.get("fvg_within_displacement"): query_parts.append(f"FVG analysis summary: {str(detailed_vision_analysis.get('fvg_within_displacement'))[:100]}")
+            if detailed_vision_analysis.get("fvg_analysis"): query_parts.append(f"FVG analysis summary: {str(detailed_vision_analysis.get('fvg_analysis'))[:100]}")
             disp_analysis = detailed_vision_analysis.get("displacement_analysis", {})
             if isinstance(disp_analysis, dict) and disp_analysis.get("direction") in ["bullish", "bearish"]: query_parts.append(f"Displacement direction: {disp_analysis.get('direction')}")
             if detailed_vision_analysis.get("liquidity_status") in ["swept", "untouched"]: query_parts.append(f"Liquidity Status: {detailed_vision_analysis.get('liquidity_status')}") # Added liquidity status to query
@@ -1179,7 +1183,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
              # Using corrected Normal definition
              if "definiție structurală mss normal" not in course_context.lower(): definitions_to_add.append("Definiție Structurală MSS Normal: Un MSS normal necesită ca pivotul (swing high/low) rupt să fie format din minim 2 candele bearish ȘI minim 2 candele bullish.")
 
-        if "fvg" in payload.question.lower() or "fair value gap" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("fvg_within_displacement")):
+        if "fvg" in payload.question.lower() or "fair value gap" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("fvg_analysis")):
               if FVG_STRUCTURAL_DEFINITION.lower() not in course_context.lower(): definitions_to_add.append(FVG_STRUCTURAL_DEFINITION)
 
         if "displacement" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("displacement_analysis")):
@@ -1236,7 +1240,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
                  "mss_classification": ("\n--- Instructions for MSS Classification Response ---\nExplain the MSS classification based *only* on the pivot structure analysis provided. Reference the course definitions."),
                  "displacement": ("\n--- Instructions for Displacement Analysis Response ---\nDescribe the displacement and any FVGs based on the analysis provided."),
                  "fvg": ("\n--- Instructions for FVG Analysis Response ---\nDescribe the identified FVGs and their potential implications based on the analysis and context."),
-                 "trade_evaluation": ("\n--- Instructions for Trade Setup Evaluation Response ---\n1. Provide an **objective analysis** based on the Trading Instituțional methodology.\n2. Do **not** begin by saying you don't give opinions.\n3. Summarize key elements from the Visual Analysis Report:\n   • trade_direction  • mss_type  • displacement/FVGs  • liquidity_zones  • liquidity_status  • validator notes\n4. Relate findings to the Course Context (confluence/divergence).\n5. Conclude with the standard reminder that you don't give personal advice."), # Added liquidity_status here
+                 "trade_evaluation": ("\n--- Instructions for Trade Setup Evaluation Response ---\n1. Provide an **objective analysis** based on the Trading Instituțional methodology.\n2. Do **not** begin by saying you don't give opinions.\n3. Summarize key elements from the Visual Analysis Report:\n   • trade_direction  • mss_type  • displacement/FVGs  • liquidity_zones  • liquidity_status  • validator notes\n4. Relate findings to the Course Context (confluence/divergence)."), # Added liquidity_status here
                  "general": ("\n--- Instructions for General Query Response ---\nAnswer by synthesizing the Visual Analysis Report and Course Context. If the question implicitly asks for an evaluation, follow the Trade Setup Evaluation instructions."),
             }
             effective_type = ("trade_evaluation" if query_type == "general" and requires_full_analysis else query_type)
