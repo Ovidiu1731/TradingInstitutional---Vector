@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app")  # Update to your actual Railway URL
+API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")  # Use local URL by default
 
 # Set up intents
 intents = discord.Intents.default()
@@ -47,25 +47,39 @@ async def on_message(message):
                         "question": question,
                         "image_url": image_url
                     }
-                    print("📷 Routing to /ask-image-hybrid:", image_url)
+                    print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
                     endpoint = f"{API_BASE_URL}/ask"
                     payload = {
                         "question": question
                     }
-                    print("💬 Routing to /ask (text-only)")
+                    print(f"💬 Routing to {endpoint} with payload: {payload}")
 
+                print(f"Full request URL: {endpoint}")
                 async with aiohttp.ClientSession() as session:
-                    async with session.post(endpoint, json=payload) as resp:
-                        if resp.status == 200:
-                            data = await resp.json()
-                            answer = data.get("answer", "Nu am găsit un răspuns.")
-                        else:
-                            answer = f"A apărut o eroare la server. Cod: {resp.status}"
+                    print(f"Making POST request to: {endpoint}")
+                    try:
+                        async with session.post(endpoint, json=payload) as resp:
+                            print(f"Response status: {resp.status}")
+                            print(f"Response headers: {resp.headers}")
+                            if resp.status == 200:
+                                data = await resp.json()
+                                print(f"Response data: {data.keys()}")
+                                answer = data.get("answer", "Nu am găsit un răspuns.")
+                                print(f"Answer (first 100 chars): {answer[:100]}...")
+                            else:
+                                response_text = await resp.text()
+                                print(f"Error response text: {response_text[:200]}...")
+                                answer = f"A apărut o eroare la server. Cod: {resp.status}"
+                    except Exception as e:
+                        print(f"Exception during request: {type(e).__name__}: {str(e)}")
+                        answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
             except Exception as e:
+                print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
+        print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer)
 
 client.run(DISCORD_TOKEN)
