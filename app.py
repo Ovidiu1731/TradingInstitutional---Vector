@@ -1375,10 +1375,17 @@ User Question: {question}
 Technical Analysis Report (This is the primary source of truth for chart features):
 ```json
 {tech_analysis_json_str}
-{"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
+"""
 
-{"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
+# Add OCR text if available
+if ocr_text:
+    user_prompt_for_completion += f"Full Text Extracted from Image (OCR): {ocr_text}\n\n"
 
+# Add context text if available and not an error message
+if context_text and "Nu am putut prelua" not in context_text:
+    user_prompt_for_completion += "Relevant Course Material (for additional context only):\n" + context_text + "\n\n"
+
+user_prompt_for_completion += """
 Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
 Adhere to the persona and guidelines provided in the initial system prompt.
 """
