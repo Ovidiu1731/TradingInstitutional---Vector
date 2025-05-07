@@ -1374,6 +1374,7 @@ User Question: {quesiton}
 
 Technical Analysis Report (This is the primary source of truth for chart features):
 ```json
+{tech_analysis_json_str}
 {"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
 
 {"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
