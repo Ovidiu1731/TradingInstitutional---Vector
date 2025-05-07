@@ -1,1399 +1,1495 @@
-# code
 import os
 import re
 import json
 import logging
 import time
-import copy # Added for deepcopy
+import copy
+import base64 # Added for image encoding in ask_image_hybrid
 from io import BytesIO
 from typing import Dict, Any, Optional, List, Union
 
-import requests
+# Async and CV libraries
+import asyncio
+import httpx
+import math
+import aiohttp # For async image downloads
+import cv2
+import numpy as np
+import cachetools # For TTLCache
+
 import pytesseract
-from PIL import Image
+from PIL import Image # ImageDraw can be added if debugging CV by drawing on images
 from dotenv import load_dotenv
-import threading
-from collections import deque # Efficient for fixed-size history
+# No explicit threading import needed if TTLCache handles its own thread safety for basic ops
+# and FastAPI handles request concurrency.
+from collections import deque # For conversation history fallback if TTLCache fails or for /ask
 from fastapi import FastAPI, Request, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from openai import OpenAI, RateLimitError, APIError
-from pinecone import Pinecone, PineconeException
-# --- Conversation History Store (In-Memory) ---
-# Stores recent messages for each session_id
-# Using deque for automatic size limiting
-conversation_history: Dict[str, deque] = {}
-history_lock = threading.Lock()
-MAX_HISTORY_TURNS = 3 # Number of User/Assistant turn pairs to keep (e.g., 3 turns = 6 messages)
-MAX_HISTORY_MESSAGES = MAX_HISTORY_TURNS * 2
+
+from openai import AsyncOpenAI, OpenAI, RateLimitError, APIError # Added sync OpenAI
+import pinecone
 
 # ---------------------------------------------------------------------------
 # LOGGING SETUP
 # ---------------------------------------------------------------------------
-# REVIEW: Logging setup looks standard and good.
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # ---------------------------------------------------------------------------
 # ENVIRONMENT & GLOBALS
 # ---------------------------------------------------------------------------
-
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
+PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1-aws")
 FEEDBACK_LOG = os.getenv("FEEDBACK_LOG", "feedback_log.jsonl")
 
-# --- Few-Shot Examples for Vision Model ---
-# REVIEW: List definition looks good. Using GitHub raw URLs is a good choice for stability.
-# REVIEW: Assumes the JSON strings inside triple quotes are the final, correct versions we created.
-# REVIEW: 7 examples included as discussed.
+# --- Model selection ---
+EMBEDDING_MODEL = "text-embedding-ada-002"
+VISION_MODEL = "gpt-4o"
+COMPLETION_MODEL = "gpt-4o"
+TEXT_MODEL = "gpt-3.5-turbo"
+
+# --- Cache for Vision Model results ---
+vision_results_cache = cachetools.TTLCache(maxsize=500, ttl=3600)  # 1-hour TTL, store up to 500 results
+
+if not (OPENAI_API_KEY and PINECONE_API_KEY):
+    logging.error("Missing OpenAI or Pinecone API key(s)")
+    raise ValueError("Missing OpenAI or Pinecone API key(s)")
+
+# --- Initialize Async Clients (as per mentor's advice) ---
+async_openai_client = AsyncOpenAI(
+    api_key=OPENAI_API_KEY,
+    http_client=httpx.AsyncClient(http2=True, timeout=30.0)
+)
+aiohttp_session: Optional[aiohttp.ClientSession] = None # Initialized at startup
+
+# --- Pinecone Sync Client (use with asyncio.to_thread) ---
+# --- Pinecone Sync Client (use with asyncio.to_thread) ---
+# --- Pinecone Sync Client (use with asyncio.to_thread) ---
+# --- Pinecone Sync Client (use with asyncio.to_thread) ---
+try:
+    openai_client = OpenAI(api_key=OPENAI_API_KEY)
+    # Initialize Pinecone with new API
+    from pinecone import Pinecone
+    pc = Pinecone(api_key=PINECONE_API_KEY)
+    index = pc.Index(PINECONE_INDEX_NAME)
+    logging.info(f"Connected to Pinecone index '{PINECONE_INDEX_NAME}'.")
+except Exception as e:
+    logging.error(f"Failed to initialize Pinecone client: {e}")
+    raise
+
+# --- Conversation History Store (Using TTLCache for auto-eviction) ---
+conversation_history = cachetools.TTLCache(maxsize=10000, ttl=86400) # 10k sessions, 24hr TTL
+MAX_HISTORY_TURNS = 3
+MAX_HISTORY_MESSAGES = MAX_HISTORY_TURNS * 2
+
+# --- Concurrency Limiter for OpenAI calls ---
+openai_call_limiter = asyncio.Semaphore(8)
+
+# --- System Prompts & Definitions ---
+try:
+    with open("system_prompt.txt", "r", encoding="utf-8") as f:
+        SYSTEM_PROMPT_CORE = f.read().strip()
+except FileNotFoundError:
+    logging.warning("system_prompt.txt not found. Using fallback.")
+    SYSTEM_PROMPT_CORE = (
+        "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
+        "Answer questions strictly based on the provided course material, conversation history, and Technical Analysis Report. "
+        "Adopt the persona of a helpful, slightly more experienced trading colleague explaining the analysis clearly and objectively. Avoid overly robotic phrasing. Use an active voice where appropriate (e.g., 'I see...', 'This indicates...')."
+        "Emulate Rareș's direct, concise teaching style. Be helpful and accurate according to the course rules."
+        "\n\nIMPORTANT: The 'Technical Analysis Report' contains information derived from Computer Vision (CV), Vision Model analysis, and a Rule Engine. "
+        "Trust fields like 'final_trade_direction', 'final_mss_type', and 'final_trade_outcome' from this report as they have been validated. "
+        "Notes like '_cv_note', '_vision_note', '_rule_engine_notes' indicate how the analysis was derived or adjusted."
+    )
+
+MSS_AGRESIV_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Agresiv: Un MSS agresiv se produce atunci cand ultimul higher low sau lower high care este rupt (unde se produce shift-ul) nu are in structura sa minim 2 candele bearish ȘI minim 2 candele bullish."
+MSS_NORMAL_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Normal: Un MSS normal necesită ca pivotul (swing high/low) rupt să fie format din minim 2 candele bearish ȘI minim 2 candele bullish."
+FVG_STRUCTURAL_DEFINITION = "Definiție Structurală FVG (Fair Value Gap): Este un gap (spațiu gol) între lumânări creat în momentul în care prețul face o mișcare impulsivă, lăsând o zonă netranzacționată."
+DISPLACEMENT_DEFINITION = "Definiție Displacement: Este o mișcare continuă a prețului în aceeași direcție, după o structură invalidată, creând FVG-uri (Fair Value Gaps)."
+
+# --- FEW-SHOT EXAMPLES ---
+# The assistant_json_output for EACH example below has been updated
+# to match the new, simpler JSON structure expected by the vision_system_prompt_template.
 FEW_SHOT_EXAMPLES = [
-    # --- Example 1: DE30EUR Aggressive Short ---
+    # --- Example 1: (DE30EUR - Aggressive Short) ---
     {
         "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/DE30EUR_2025-05-05_12-29-24_69c08.png",
         "assistant_json_output": """
 {
   "analysis_possible": true,
   "candle_colors": "Bullish candles are solid green, Bearish candles are solid white.",
-  "is_risk_above_price": true,
-  "trade_direction": "short",
+  "is_risk_above_entry_suggestion": true,
+  "mss_location_description": "MSS is marked by text, breaking the higher low that formed after a sweep of multiple highs (white lines).",
   "mss_pivot_analysis": {
-    "description": "MSS breaks the preceding higher low (pivot point). This pivot appears formed primarily by one bullish (green) candle.",
+    "description": "The pivot for the MSS (the preceding higher low) appears formed primarily by one bullish (green) candle.",
     "pivot_bearish_count": 0,
-    "pivot_bullish_count": 1,
-    "has_minimum_structure": false
+    "pivot_bullish_count": 1
   },
-  "mss_type": "agresiv",
-  "break_direction": "downward",
-  "displacement_analysis": {
-    "direction": "bearish",
-    "strength": "moderate"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 2, Updated count
-    "description": "Two FVGs are visible after the MSS: one larger gap marked by a grey box during the initial displacement, and a smaller subsequent gap above it. (This aligns with a TG - Two Gap setup).",
-},
-  "liquidity_zones": "Multiple liquidity levels above prior highs (marked by horizontal white lines) were swept before the MSS occurred. The last key high swept appears to be around the 23,255-23,260 price level.",
-  "liquidity_status": "swept",
-  "trade_outcome": "breakeven",
-  "visible_labels": ["MSS", "BE"]
+  "break_direction_suggestion": "downward",
+  "displacement_analysis": { "direction": "bearish", "strength": "moderate" },
+  "fvg_analysis": { "count": 2, "description": "Two FVGs are visible after the MSS: one larger gap marked by a grey box during the initial displacement, and a smaller subsequent gap above it. (This aligns with a TG - Two Gap setup)." },
+  "liquidity_zones_description": "Multiple liquidity levels above prior highs (marked by horizontal white lines) were swept before the MSS occurred. The last key high swept appears to be around the 23,255-23,260 price level.",
+  "liquidity_status_suggestion": "swept",
+  "trade_outcome_suggestion": "breakeven",
+  "visible_labels_on_chart": ["MSS", "BE"],
+  "confidence_level": "high"
 }
 """
     },
-
-    # --- Example 2: Re-entry Normal Long (07.18.15 copy.jpg) ---
+    # --- Example 2: (Re-entry Normal Long - 07.18.15 copy.jpg) ---
     {
         "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2007.18.15%20copy.png",
         "assistant_json_output": """
 {
   "analysis_possible": true,
   "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
-  "is_risk_above_price": null,
-  "trade_direction": "long",
-  "mss_pivot_analysis": {
-    "description": "MSS breaks the lower high that formed after a re-sweep of sell-side liquidity near the 'Local' marked low.",
-    "pivot_bearish_count": 2,
-    "pivot_bullish_count": 3,
-    "has_minimum_structure": true
-  },
-  "mss_type": "normal",
-  "break_direction": "upward",
-  "displacement_analysis": {
-    "direction": "bullish",
-    "strength": "strong"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 2, Updated count
-    "description": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS.",
-},
-  "liquidity_zones": "Initial liquidity sweep occurred below the low marked 'LLB' (Lichiditate Locala Buy). Subsequently, price re-swept liquidity near the low marked 'Local' just before the MSS formed (re-entry pattern).",
-  "liquidity_status": "swept",
-  "trade_outcome": "potential_setup",
-  "visible_labels": ["MSS", "Local", "LLB"]
+  "is_risk_above_entry_suggestion": false,
+  "mss_location_description": "MSS breaks the lower high that formed after a re-sweep of liquidity near the 'Local' marked low.",
+  "mss_pivot_analysis": { "description": "The pivot is the lower high before the 'MSS' break, following the 'Local' low sweep.", "pivot_bearish_count": 2, "pivot_bullish_count": 3 },
+  "break_direction_suggestion": "upward",
+  "displacement_analysis": { "direction": "bullish", "strength": "strong" },
+  "fvg_analysis": { "count": 2, "description": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS." },
+  "liquidity_zones_description": "Initial liquidity sweep occurred below the low marked 'LLB'. Subsequently, liquidity near 'Local' low was re-swept before MSS.",
+  "liquidity_status_suggestion": "swept",
+  "trade_outcome_suggestion": "potential_setup",
+  "visible_labels_on_chart": ["MSS", "Local", "LLB"],
+  "confidence_level": "high"
 }
 """
     },
-
-    # --- Example 3: Normal Short (11.02.20.jpg) ---
-    {
-        "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2011.02.20.png",
-        "assistant_json_output": """
-{
-  "analysis_possible": true,
-  "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
-  "is_risk_above_price": true,
-  "trade_direction": "short",
-  "mss_pivot_analysis": {
-    "description": "Downward structure break (marked by arrow/line) occurs below the prior higher low (marked by small blue circle), following a sweep of the 'LLS' high. The pivot structure (higher low) contains multiple candles.",
-    "pivot_bearish_count": 5,
-    "pivot_bullish_count": 4,
-    "has_minimum_structure": true
-  },
-  "mss_type": "normal",
-  "break_direction": "downward",
-  "displacement_analysis": {
-    "direction": "bearish",
-    "strength": "moderate"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 1, //Updated count
-    "description": "Yes, a FVG (marked by a blue box) was created during the bearish displacement, providing a potential entry area.",
-},
-  "liquidity_zones": "Liquidity above the prior swing high (marked 'LLS' - Lichiditate Locala Sell) was swept before the downward structure break occurred.",
-  "liquidity_status": "swept",
-  "trade_outcome": "loss",
-  "visible_labels": ["LLS", "BE"]
-}
-"""
-    },
-
-    # --- Example 4: Normal Short SLG+TCG (11.04.14.jpg) ---
-    {
-        "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2011.04.14.png",
-        "assistant_json_output": """
-{
-  "analysis_possible": true,
-  "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
-  "is_risk_above_price": true,
-  "trade_direction": "short",
-  "mss_pivot_analysis": {
-    "description": "Downward structure break (marked by black line/arrow) occurs below the prior higher low, following a sweep above the 'LMS' high.",
-    "pivot_bearish_count": 4,
-    "pivot_bullish_count": 4,
-    "has_minimum_structure": true
-  },
-  "mss_type": "normal",
-  "break_direction": "downward",
-  "displacement_analysis": {
-    "direction": "bearish",
-    "strength": "moderate"
-  },
-  "fvg_analysis":  { // Using new structure
-    "count": 2, //Updated count
-    "description": "Yes, two FVGs (marked by faint blue rectangles) are visible after the MSS. The pattern of a new high before MSS + two gaps after fits the 'SLG + TCG' setup.",
-},
-  "liquidity_zones": "Liquidity above the prior swing high (marked 'LMS' - Lichiditate Majora Sell) was swept before the MSS occurred.",
-  "liquidity_status": "swept",
-  "trade_outcome": "loss",
-  "visible_labels": ["LMS"]
-}
-"""
-    },
-
-    # --- Example 5: Normal Short SLG+3G (11.01.39.jpg) ---
-    {
-        "image_url": "https://github.com/Ovidiu1731/Trade-images/raw/main/Screenshot%202025-05-05%20at%2011.01.39.png",
-        "assistant_json_output": """
-{
-  "analysis_possible": true,
-  "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
-  "is_risk_above_price": true,
-  "trade_direction": "short",
-  "mss_pivot_analysis": {
-    "description": "Downward structure break occurs below the prior higher low (marked by dark blue circle), following a sweep above the high marked 'LLS'.",
-    "pivot_bearish_count": 2,
-    "pivot_bullish_count": 3,
-    "has_minimum_structure": true
-  },
-  "mss_type": "normal",
-  "break_direction": "downward",
-  "displacement_analysis": {
-    "direction": "bearish",
-    "strength": "strong"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 3, //Updated Count
-    "description": "Yes, three FVGs (marked by dark blue rectangles) were created within the strong bearish displacement move. The pattern of a new valid high before the MSS plus these three gaps fits the 'SLG + 3G' setup.",
-},
-  "liquidity_zones": "Liquidity above the prior swing high (marked 'LLS' - Lichiditate Locala Sell) was swept before the downward structure break occurred.",
-  "liquidity_status": "swept",
-  "trade_outcome": "win",
-  "visible_labels": ["LLS"]
-}
-"""
-    },
-
-    # --- Example 6: Normal Short TCG (11.04.35.jpg) ---
+    # --- Example 3: (Normal Short with Faint FVGs - TCG - 11.04.35.jpg) ---
     {
         "image_url": "https://github.com/Ovidiu1731/Trade-images/raw/main/Screenshot%202025-05-05%20at%2011.04.35.png",
         "assistant_json_output": """
 {
   "analysis_possible": true,
   "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
-  "is_risk_above_price": true,
-  "trade_direction": "short",
-  "mss_pivot_analysis": {
-    "description": "Downward structure break (marked by arrow) occurs below the prior higher low (marked by small orange circle), following a sweep above the 'Liq Locala' high.",
-    "pivot_bearish_count": 3,
-    "pivot_bullish_count": 3,
-    "has_minimum_structure": true
-  },
-  "mss_type": "normal",
-  "break_direction": "downward",
-  "displacement_analysis": {
-    "direction": "bearish",
-    "strength": "strong"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 2,
-    "description": "Yes, two FVGs (marked by faint orange rectangles/lines) were created after the MSS. This aligns with a TCG (Two Consecutive Gaps) setup.",
-},
-  "liquidity_zones": "Liquidity above the prior swing high (marked 'Liq Locala') was swept before the downward move began.",
-  "liquidity_status": "swept",
-  "trade_outcome": "win",
-  "visible_labels": ["Liq Locala", "BE"]
+  "is_risk_above_entry_suggestion": true,
+  "mss_location_description": "Downward structure break (marked by arrow) occurs below prior higher low (orange circle), after 'Liq Locala' high sweep.",
+  "mss_pivot_analysis": { "description": "Pivot is the higher low marked by orange circle.", "pivot_bearish_count": 3, "pivot_bullish_count": 3 },
+  "break_direction_suggestion": "downward",
+  "displacement_analysis": { "direction": "bearish", "strength": "strong" },
+  "fvg_analysis": { "count": 2, "description": "Yes, two FVGs (marked by faint orange rectangles/lines) after MSS. Aligns with TCG setup." },
+  "liquidity_zones_description": "Liquidity above prior swing high (marked 'Liq Locala') was swept before MSS.",
+  "liquidity_status_suggestion": "swept",
+  "trade_outcome_suggestion": "win",
+  "visible_labels_on_chart": ["Liq Locala", "BE"],
+  "confidence_level": "medium"
 }
 """
-    },
-
-      # --- Example 7: 202025-05-05%20at%2007.22.35.png ---
-    {
-        "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2007.22.35.png",
-        "assistant_json_output": """
-{
-  "analysis_possible": true,
-  "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.", // Updated colors
-  "is_risk_above_price": false,
-  "trade_direction": "long",
-  "mss_pivot_analysis": {
-    "description": "Upward structure break (marked 'MSS' text and line/arrow) occurs above the prior lower high, following a sweep below the 'LLB' low.", // Updated Liq reference
-    "pivot_bearish_count": 4, // Updated count
-    "pivot_bullish_count": 6, // Updated count
-    "has_minimum_structure": true // Stays true (4>=2 and 6>=2)
-  },
-  "mss_type": "normal", // Stays normal
-  "break_direction": "upward",
-  "displacement_analysis": {
-    "direction": "bullish",
-    "strength": "moderate"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 2, // Updated count
-    "description": "Yes, two FVGs appear to be created within the bullish displacement following the MSS, both marked by blue boxes." // Updated description
-  },
-  "liquidity_zones": "Liquidity was swept (marked by LLB) and then the buy entry was formed by the MSS and the displacement that created 2 fair value gaps", // Updated label reference
-  "liquidity_status": "swept",
-  "trade_outcome": "loss", // Updated outcome
-  "visible_labels": [ // Updated labels
-    "MSS",
-    "LLB"
-  ]
-}
-"""
-    },
-
-     # --- Example 8: Normal Long Tricky Colors (Screenshot_2.png) ---
-     {
-        "image_url": "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot_2.png",
-        "assistant_json_output": """
-{
-  "analysis_possible": true,
-  "candle_colors": "Bullish candles appear to have a solid dark gray body, Bearish candles have a solid black body (distinction can be difficult).",
-  "is_risk_above_price": false,
-  "trade_direction": "long",
-  "mss_pivot_analysis": {
-    "description": "Upward structure break (marked 'MSS' text and line/arrow) occurs above the prior lower high, following a sweep below the 'Liq Locala' low. The blue box marks an FVG, not the MSS break itself.",
-    "pivot_bearish_count": 2,
-    "pivot_bullish_count": 4,
-    "has_minimum_structure": true
-  },
-  "mss_type": "normal", // Stays normal
-  "break_direction": "upward",
-  "displacement_analysis": {
-    "direction": "bullish",
-    "strength": "moderate"
-  },
-  "fvg_analysis": { // Using new structure
-    "count": 2,
-    "description": "Yes, two visual FVGs (imbalances, marked by the blue boxes) appear to be created within the bullish displacement following the MSS, near the entry area."
-  },
-  "liquidity_zones": "Liquidity below the prior swing low (marked 'Liq Locala') was swept before the MSS occurred.",
-  "liquidity_status": "swept",
-  "trade_outcome": "running",
-  "visible_labels": [ // Updated labels
-    "MSS", "LLB"]
- }
- """
-     }
+    }
 ]
 
-
-# --- Model selection - UPDATED ---
-# REVIEW: Model selection looks fine.
-EMBEDDING_MODEL = "text-embedding-ada-002"
-VISION_MODEL = "gpt-4-turbo"
-COMPLETION_MODEL = "gpt-4-turbo"
-TEXT_MODEL = "gpt-3.5-turbo"
-
-# REVIEW: API Key checks are good.
-if not (OPENAI_API_KEY and PINECONE_API_KEY):
-    logging.error("Missing OpenAI or Pinecone API key(s) in environment variables.")
-    raise ValueError("Missing OpenAI or Pinecone API key(s)")
-
-# Load core system prompt
-# REVIEW: Loading prompt from file is good practice. Fallback is okay.
-try:
-    with open("system_prompt.txt", "r", encoding="utf-8") as f:
-        SYSTEM_PROMPT_CORE = f.read().strip()
-except FileNotFoundError:
-    logging.warning("system_prompt.txt not found. Using fallback system prompt.")
-    SYSTEM_PROMPT_CORE = (
-        "You are an AI assistant trained by Rareș for the Trading Instituțional community. "
-        "Answer questions strictly based on the provided course material and visual analysis (if available). "
-        "Adopt the persona of a helpful, slightly more experienced trading colleague explaining the analysis clearly. Avoid overly robotic phrasing. "
-        "Emulate Rareș's direct, concise teaching style. Be helpful and accurate according to the course rules."
-        # Added note for final LLM regarding validated analysis
-        "\n\nIMPORTANT: When reviewing the 'Visual Analysis Report', trust the provided 'mss_type' and 'trade_direction'. "
-        "If a '_validator_note' field is present, it means these fields were adjusted by internal rules for accuracy."
-    )
-
-# Define the core structural definitions (Unchanged)
-# REVIEW: These definitions are fine, used for text Qs mainly.
-MSS_AGRESIV_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Agresiv: Un MSS agresiv se produce atunci cand ultimul higher low sau lower high care este rupt (unde se produce shift-ul) nu are in structura sa minim 2 candele bearish cu 2 candele bullish."
-MSS_NORMAL_STRUCTURAL_DEFINITION = "Definiție Structurală MSS Normal: Este o rupere de structură formată din două sau mai multe lumânări care fac low/high."
-FVG_STRUCTURAL_DEFINITION = "Definiție Structurală FVG (Fair Value Gap): Este un gap (spațiu gol) între lumânări creat în momentul în care prețul face o mișcare impulsivă, lăsând o zonă netranzacționată."
-DISPLACEMENT_DEFINITION = "Definiție Displacement: Este o mișcare continuă a prețului în aceeași direcție, după o structură invalidată, creând FVG-uri (Fair Value Gaps)."
-
-# SDK clients
-# REVIEW: SDK Initialization looks correct.
-try:
-    openai = OpenAI(api_key=OPENAI_API_KEY)
-    pinecone_client = Pinecone(api_key=PINECONE_API_KEY)
-    index = pinecone_client.Index(PINECONE_INDEX_NAME)
-    logging.info(f"Connected to Pinecone index '{PINECONE_INDEX_NAME}'.")
-except PineconeException as e:
-    logging.error(f"Failed to initialize Pinecone: {e}")
-    raise
-except Exception as e:
-    logging.error(f"Failed to initialize OpenAI client: {e}")
-    raise
-
-
 # ---------------------------------------------------------------------------
-# FASTAPI APP
+# FASTAPI APP LIFECYCLE
 # ---------------------------------------------------------------------------
-# REVIEW: Standard FastAPI setup.
 app = FastAPI(title="Trading Instituțional AI Assistant")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
-# ---------------------------------------------------------------------------
-# FEEDBACK MECHANISM (Unchanged)
-# ---------------------------------------------------------------------------
-# REVIEW: Feedback mechanism looks good for collecting data.
-def log_feedback(session_id: str, question: str, answer: str, feedback: str,
-                 query_type: str, analysis_data: Optional[Dict] = None) -> bool:
-    """
-    Log user feedback to a JSONL file for later analysis.
-    Returns True if logging was successful, False otherwise.
-    """
+@app.on_event("startup")
+async def startup_event():
+    global aiohttp_session
+    aiohttp_session = aiohttp.ClientSession()
+    logging.info("aiohttp.ClientSession initialized.")
+    
+    # Check if Tesseract is available
     try:
-        feedback_entry = {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "session_id": session_id,
-            "question": question,
-            "answer": answer,
-            "feedback": feedback,
-            "query_type": query_type
-        }
-
-        if analysis_data:
-            relevant_fields = [
-                "trade_direction", "mss_type",
-                "pivot_bearish_count", "pivot_bullish_count", # From mss_pivot_analysis
-                "trend_direction", "direction_consistency_warning", "mss_consistency_warning",
-                "is_risk_above_price", "_validator_note"
-            ]
-            analysis_extract = {}
-            for k in relevant_fields:
-                if k == "pivot_bearish_count":
-                    analysis_extract[k] = analysis_data.get("mss_pivot_analysis", {}).get(k)
-                elif k == "pivot_bullish_count":
-                    analysis_extract[k] = analysis_data.get("mss_pivot_analysis", {}).get(k)
-                elif k in analysis_data:
-                     analysis_extract[k] = analysis_data.get(k)
-
-            feedback_entry["analysis_data"] = analysis_extract
-
-        with open(FEEDBACK_LOG, "a", encoding="utf-8") as f:
-            f.write(json.dumps(feedback_entry, ensure_ascii=False) + "\n")
-        logging.info(f"Feedback logged successfully: {feedback} for session {session_id}")
-        return True
+        test_version = pytesseract.get_tesseract_version()
+        logging.info(f"Tesseract OCR available, version: {test_version}")
+    except pytesseract.TesseractNotFoundError:
+        logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
     except Exception as e:
-        logging.error(f"Failed to log feedback: {e}")
-        return False
+        logging.error(f"Error checking Tesseract: {e}")
 
+@app.on_event("shutdown")
+async def shutdown_event():
+    if aiohttp_session and not aiohttp_session.closed:
+        await aiohttp_session.close()
+        logging.info("aiohttp.ClientSession closed.")
+    if async_openai_client: # The httpx.AsyncClient is managed by AsyncOpenAI
+        await async_openai_client.close()
+        logging.info("AsyncOpenAI client closed.")
+
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+# --- Pydantic Models for Feedback and Requests ---
 class FeedbackModel(BaseModel):
     session_id: str
     question: str
     answer: str
-    feedback: str  # "positive" or "negative"
+    feedback: str
     query_type: Optional[str] = "unknown"
     analysis_data: Optional[Dict] = None
 
-@app.post("/feedback")
-async def submit_feedback(feedback_data: FeedbackModel) -> Dict[str, str]:
-    """Record user feedback about answer quality"""
-    analysis_input = feedback_data.analysis_data or {}
-    pivot_analysis = analysis_input.get("mss_pivot_analysis", {})
-    analysis_input["pivot_bearish_count"] = pivot_analysis.get("pivot_bearish_count")
-    analysis_input["pivot_bullish_count"] = pivot_analysis.get("pivot_bullish_count")
-
-    success = log_feedback(
-        feedback_data.session_id,
-        feedback_data.question,
-        feedback_data.answer,
-        feedback_data.feedback,
-        feedback_data.query_type,
-        analysis_input
-    )
-
-    if success:
-        return {"status": "success", "message": "Feedback înregistrat cu succes. Mulțumim!"}
-    else:
-        raise HTTPException(
-            status_code=500,
-            detail="Nu am putut înregistra feedback-ul. Te rugăm să încerci din nou mai târziu."
-        )
-
-# ---------------------------------------------------------------------------
-# QUERY TYPE IDENTIFICATION (REVISED LOGIC)
-# ---------------------------------------------------------------------------
-# REVIEW: Using the revised logic we discussed. Looks correct.
-def identify_query_type(question: str) -> Dict[str, Any]:
-    """
-    Identifies the type of query to guide appropriate analysis,
-    prioritizing evaluation terms and handling multiple concepts.
-    Returns a dictionary with query type flags.
-    """
-    question_lower = question.lower().strip()
-
-    # Patterns for identification (Using your lists)
-    liquidity_patterns = [
-        "liq", "lichid", "lichidit", "sunt corect notate", "marchează", "marchea", "marcate"
-    ]
-    trend_patterns = [
-        "trend", "trendul", "tendință", "tendinta"
-    ]
-    mss_classification_patterns = [
-        "mss normal sau", "mss agresiv sau", "mss normal sau agresiv",
-        "este un mss normal", "este un mss agresiv", "ce fel de mss",
-        "este agresiv sau normal", "este normal sau agresiv", "tip de mss"
-    ]
-    displacement_patterns = [
-        "displacement", "displace", "mișcare", "miscare", "impulsiv", "gap",
-        "fvg", "fair value gap", "impulse", "continuitate"
-    ]
-    fvg_patterns = [
-        "fvg", "fair value gap", "gap", "valoare", "spațiu", "spatiu", "gol"
-    ]
-    trade_evaluation_patterns = [
-        "cum arata", "cum arată", "ce parere", "ce părere", "evalueaz", "analizeaz",
-        "trade", "setup", "intrare", "valid", "corect", "rezultat"
-    ]
-
-    # --- REVISED LOGIC ---
-
-    # 1. Check for explicit evaluation requests FIRST
-    if any(p in question_lower for p in trade_evaluation_patterns):
-        logging.info("Query identified as 'trade_evaluation' based on evaluation keywords.")
-        return {
-            "type": "trade_evaluation",
-            "requires_full_analysis": True,
-            "requires_mss_analysis": True,
-            "requires_direction_analysis": True,
-            "requires_color_analysis": True,
-            "requires_fvg_within_displacement": True
-        }
-
-    # 2. If not evaluation, check for specific concepts mentioned
-    concepts_found = []
-    specific_element_patterns = {
-        "liquidity": liquidity_patterns,
-        "trend": trend_patterns,
-        "mss_classification": mss_classification_patterns,
-        "displacement": displacement_patterns,
-        "fvg": fvg_patterns,
-    }
-    for element_type, patterns in specific_element_patterns.items():
-        if any(p in question_lower for p in patterns):
-            concepts_found.append(element_type)
-
-    # 3. Classify based on number of concepts found
-    if len(concepts_found) > 1:
-        logging.info(f"Query identified as 'trade_evaluation' based on multiple concepts: {concepts_found}")
-        return {
-            "type": "trade_evaluation",
-            "requires_full_analysis": True,
-            "requires_mss_analysis": True,
-            "requires_direction_analysis": True,
-            "requires_color_analysis": True,
-            "requires_fvg_within_displacement": True
-        }
-    elif len(concepts_found) == 1:
-        element_type = concepts_found[0]
-        logging.info(f"Query identified as specific element: '{element_type}'")
-        is_mss_type = element_type == "mss_classification"
-        is_direction_type = element_type in ["trend", "displacement"]
-        is_fvg_type = element_type == "fvg"
-        return {
-            "type": element_type,
-            "requires_full_analysis": False,
-            "requires_mss_analysis": is_mss_type,
-            "requires_direction_analysis": is_direction_type,
-            "requires_color_analysis": True,
-            "requires_fvg_within_displacement": is_fvg_type
-        }
-    else:
-        logging.info("Query identified as 'general' (no specific keywords matched).")
-        return {
-            "type": "general",
-            "requires_full_analysis": False,
-            "requires_mss_analysis": False,
-            "requires_direction_analysis": True,
-            "requires_color_analysis": True,
-            "requires_fvg_within_displacement": False
-        }
-
-# ---------------------------------------------------------------------------
-# HELPERS (Unchanged logic, added logging)
-# ---------------------------------------------------------------------------
-# REVIEW: Helper functions unchanged and seem okay.
-def extract_text_from_image(image_url: str) -> str:
-    """Download an image and return ASCII-cleaned OCR text, or empty string on failure."""
-    try:
-        logging.info(f"Attempting OCR for image URL: {image_url}")
-        resp = requests.get(image_url, timeout=15)
-        resp.raise_for_status()
-        content_type = resp.headers.get('Content-Type', '').lower()
-        img = Image.open(BytesIO(resp.content))
-        text = pytesseract.image_to_string(img, lang="eng")
-        cleaned_text = "".join(ch for ch in text if ord(ch) < 128).strip()
-        cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
-        logging.info(f"OCR successful. Extracted text length: {len(cleaned_text)}")
-        logging.debug(f"OCR Text (first 100 chars): {cleaned_text[:100]}")
-        return cleaned_text
-    except requests.exceptions.RequestException as err:
-        logging.error(f"❌ OCR failed: Network error accessing image URL {image_url}: {err}")
-        return ""
-    except pytesseract.TesseractNotFoundError:
-        logging.error("❌ OCR failed: pytesseract executable not found. Ensure it's installed and in PATH.")
-        return ""
-    except Exception as err:
-        logging.exception(f"❌ OCR failed: Unexpected error processing image {image_url}: {err}")
-        return ""
-
-
-def extract_json_from_text(text: str) -> Optional[str]:
-    """Extract JSON string from text that might contain markdown code blocks or other text."""
-    logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
-    json_pattern = r"```(?:json)?\s*(\{[\s\S]*?\})\s*```"
-    match = re.search(json_pattern, text, re.MULTILINE | re.DOTALL)
-    if match:
-        extracted = match.group(1).strip()
-        logging.info("JSON extracted from markdown code block.")
-        try:
-            json.loads(extracted)
-            return extracted
-        except json.JSONDecodeError:
-            logging.warning("Text in markdown block wasn't valid JSON.")
-
-    brace_match = re.search(r"\{.*\}", text, re.DOTALL)
-    if brace_match:
-        potential_json = brace_match.group(0).strip()
-        if potential_json.startswith("{") and potential_json.endswith("}") and '"' in potential_json:
-            try:
-                json.loads(potential_json)
-                logging.info("Potential JSON object found directly in text and seems valid.")
-                return potential_json
-            except json.JSONDecodeError:
-                logging.warning("Found brace-enclosed text, but it's not valid JSON.")
-                pass
-
-    logging.warning("Could not extract valid-looking JSON object from text.")
-    return None
-
-def generate_session_id() -> str:
-    """Generate a unique session ID for tracking feedback"""
-    timestamp = int(time.time())
-    random_part = os.urandom(4).hex()
-    return f"{timestamp}-{random_part}"
-
-# ---------------------------------------------------------------------------
-# ROUTES – TEXT ONLY (Unchanged)
-# ---------------------------------------------------------------------------
-# REVIEW: Text-only route looks fine, unchanged.
-@app.post("/ask", response_model=Dict[str, str])
-async def ask_question(request: Request) -> Dict[str, str]:
-    """Handles text-only questions answered strictly from course material."""
-    try:
-        body = await request.json()
-        question = body.get("question", "").strip()
-        session_id = body.get("session_id")
-        is_new_session = False
-        if not session_id:
-            session_id = generate_session_id()
-            is_new_session = True
-            logging.info(f"New session started: {session_id}")
-
-        if not question:
-                logging.warning("Received empty question in /ask request.")
-                return {"answer": "Te rog să specifici o întrebare.", "session_id": session_id}
-
-        logging.info(f"Received /ask request. Question: '{question[:100]}...', Session ID: {session_id}")
-        # --- Retrieve History ---
-        history_messages = []
-        with history_lock:
-            # Get the deque for the session, or create a new one
-            session_deque = conversation_history.setdefault(session_id, deque(maxlen=MAX_HISTORY_MESSAGES))
-            history_messages = list(session_deque) # Get current history as a list
-            logging.debug(f"Retrieved {len(history_messages)} history messages for session {session_id}")
-            question_lower = question.lower()
-            is_mss_agresiv_text_q = question_lower == "ce este un mss agresiv"
-            is_mss_normal_text_q = question_lower == "ce este un mss normal"
-            is_fvg_text_q = question_lower in ["ce este un fvg", "ce este fvg", "ce este fair value gap"]
-            is_displacement_text_q = question_lower in ["ce este displacement", "ce inseamna displacement"]
-
-        # 1. Get Embedding
-        try:
-            emb_response = openai.embeddings.create(model=EMBEDDING_MODEL, input=[question])
-            query_embedding = emb_response.data[0].embedding
-            logging.info("Successfully generated embedding for the question.")
-        except (APIError, RateLimitError) as e:
-            logging.error(f"OpenAI Embedding API error: {e}")
-            raise HTTPException(status_code=503, detail="Serviciul OpenAI (Embeddings) nu este disponibil momentan.")
-        except Exception as e:
-            logging.exception(f"Unexpected error during embedding generation: {e}")
-            raise HTTPException(status_code=500, detail="A apărut o eroare la procesarea întrebării.")
-
-        # 2. Query Pinecone
-        context = ""
-        try:
-            results = index.query(vector=query_embedding, top_k=5, include_metadata=True)
-            matches = results.get("matches", [])
-            context = "\n\n---\n\n".join(m["metadata"].get("text", "") for m in matches if m["metadata"].get("text")).strip()
-            logging.info(f"Pinecone query returned {len(matches)} matches. Context length: {len(context)}")
-            logging.debug(f"DEBUG TXT - Retrieved Course Context Content:\n---\n{context[:1000]}...\n---")
-
-            if not context:
-                logging.warning("Pinecone query returned no relevant context.")
-                # Handle specific definition questions
-                if is_mss_agresiv_text_q: return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă.", "session_id": session_id}
-                if is_mss_normal_text_q: return {"answer": MSS_NORMAL_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Normal: ", ""), "session_id": session_id}
-                if is_fvg_text_q: return {"answer": FVG_STRUCTURAL_DEFINITION.replace("Definiție Structurală FVG (Fair Value Gap): ", ""), "session_id": session_id}
-                if is_displacement_text_q: return {"answer": DISPLACEMENT_DEFINITION.replace("Definiție Displacement: ", ""), "session_id": session_id}
-                return {"answer": "Nu am găsit informații relevante în materialele de curs pentru a răspunde la această întrebare.", "session_id": session_id}
-
-            # Inject structural definition if question is exactly about specific concepts and context might be missing it
-            definitions_to_inject = []
-            if is_mss_agresiv_text_q and MSS_AGRESIV_STRUCTURAL_DEFINITION.lower() not in context.lower(): definitions_to_inject.append(MSS_AGRESIV_STRUCTURAL_DEFINITION)
-            if is_mss_normal_text_q and MSS_NORMAL_STRUCTURAL_DEFINITION.lower() not in context.lower(): definitions_to_inject.append(MSS_NORMAL_STRUCTURAL_DEFINITION)
-            if is_fvg_text_q and FVG_STRUCTURAL_DEFINITION.lower() not in context.lower(): definitions_to_inject.append(FVG_STRUCTURAL_DEFINITION)
-            if is_displacement_text_q and DISPLACEMENT_DEFINITION.lower() not in context.lower(): definitions_to_inject.append(DISPLACEMENT_DEFINITION)
-
-            if definitions_to_inject:
-                definition_block = "\n\n".join(definitions_to_inject)
-                context = f"{definition_block}\n\n---\n\n{context}"
-                logging.info(f"Injected {len(definitions_to_inject)} definitions into context.")
-
-        except PineconeException as e:
-            logging.error(f"Pinecone query error: {e}")
-            # Handle specific definition questions even if Pinecone fails
-            if is_mss_agresiv_text_q: return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă.", "session_id": session_id}
-            if is_mss_normal_text_q: return {"answer": MSS_NORMAL_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Normal: ", ""), "session_id": session_id}
-            if is_fvg_text_q: return {"answer": FVG_STRUCTURAL_DEFINITION.replace("Definiție Structurală FVG (Fair Value Gap): ", ""), "session_id": session_id}
-            if is_displacement_text_q: return {"answer": DISPLACEMENT_DEFINITION.replace("Definiție Displacement: ", ""), "session_id": session_id}
-            raise HTTPException(status_code=503, detail="Serviciul de căutare (Pinecone) nu este disponibil momentan.")
-        except Exception as e:
-            logging.exception(f"Unexpected error during Pinecone query: {e}")
-            if is_mss_agresiv_text_q: return {"answer": MSS_AGRESIV_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Agresiv: ", "") + " Dacă ești la început, este recomandat în program să nu-l folosești încă.", "session_id": session_id}
-            if is_mss_normal_text_q: return {"answer": MSS_NORMAL_STRUCTURAL_DEFINITION.replace("Definiție Structurală MSS Normal: ", ""), "session_id": session_id}
-            if is_fvg_text_q: return {"answer": FVG_STRUCTURAL_DEFINITION.replace("Definiție Structurală FVG (Fair Value Gap): ", ""), "session_id": session_id}
-            if is_displacement_text_q: return {"answer": DISPLACEMENT_DEFINITION.replace("Definiție Displacement: ", ""), "session_id": session_id}
-            raise HTTPException(status_code=500, detail="A apărut o eroare la căutarea informațiilor.")
-
-        # 3. Generate Answer
-        try:
-            system_message = SYSTEM_PROMPT_CORE + "\n\nAnswer ONLY based on the provided Context and conversation history."
-            
-            # --- Prepare messages for TEXT_MODEL ---
-            messages_for_llm = []
-            messages_for_llm.append({"role": "system", "content": system_message})
-            # Add history messages retrieved earlier
-            messages_for_llm.extend(history_messages)
-            # Add current user question + Pinecone context
-            user_message_with_context = f"Question: {question}\n\nContext:\n{context}"
-            messages_for_llm.append({"role": "user", "content": user_message_with_context})
-
-            logging.debug(f"Sending to {TEXT_MODEL}. Message count: {len(messages_for_llm)}")
-            response = openai.chat.completions.create(
-                model=TEXT_MODEL,
-                messages=messages_for_llm, # Pass history + current context
-                temperature=0.3,
-                max_tokens=300
-            )
-            answer = response.choices[0].message.content.strip()
-
-            # --- Store Updated History ---
-            with history_lock:
-                 # session_deque was retrieved/created earlier
-                 session_deque.append({"role": "user", "content": question}) # Store original question
-                 session_deque.append({"role": "assistant", "content": answer}) # Store answer
-                 # deque automatically handles maxlen trimming
-                 logging.debug(f"Stored history for session {session_id}. New length: {len(session_deque)}")
-
-            logging.info(f"Successfully generated answer using {TEXT_MODEL}.")
-            return {
-                "answer": answer,
-                "session_id": session_id # Return session_id so client can use it for follow-ups
-            }
-
-        except (APIError, RateLimitError) as e:
-            logging.error(f"OpenAI Chat API error ({TEXT_MODEL}): {e}")
-            raise HTTPException(status_code=503, detail=f"Serviciul OpenAI ({TEXT_MODEL}) nu este disponibil momentan.")
-        except Exception as e:
-            logging.exception(f"Unexpected error during {TEXT_MODEL} answer generation: {e}")
-            raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului.")
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.exception(f"Unhandled exception in /ask endpoint: {e}")
-        raise HTTPException(status_code=500, detail="A apărut o eroare internă neașteptată.")
-
-# ---------------------------------------------------------------------------
-# --- SANITY CHECK VALIDATOR --- (Defined before use)
-# ---------------------------------------------------------------------------
-# REVIEW: Validator logic seems correct based on previous discussions.
-def _sanity_check_analysis(analysis_dict: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Enforces deterministic rules for MSS type and trade direction based on
-    expected fields potentially extracted by the Vision model.
-    Modifies the dictionary in place for simplicity, but returns it.
-    """
-    logging.debug("Applying sanity check validator...")
-    corrected = False
-    original_validator_note = analysis_dict.get("_validator_note") # Store original note if any
-
-    # --- 1️⃣  MSS Type based on Pivot Structure Candle Count ---
-    pivot_analysis = analysis_dict.get("mss_pivot_analysis", {})
-    bearish_count_val = pivot_analysis.get("pivot_bearish_count") # Get value before parsing
-    bullish_count_val = pivot_analysis.get("pivot_bullish_count") # Get value before parsing
-    bearish_count = 0
-    bullish_count = 0
-    original_mss_type = analysis_dict.get("mss_type", "").lower()
-    calculated_mss_type = ""
-    counts_provided = False
-
-    try:
-        if bearish_count_val is not None:
-            bearish_count = int(bearish_count_val)
-            counts_provided = True
-    except (ValueError, TypeError):
-        logging.warning(f"Could not parse pivot_bearish_count '{bearish_count_val}' as int.")
-    try:
-        if bullish_count_val is not None:
-            bullish_count = int(bullish_count_val)
-            counts_provided = True
-    except (ValueError, TypeError):
-        logging.warning(f"Could not parse pivot_bullish_count '{bullish_count_val}' as int.")
-
-    if counts_provided:
-        if bearish_count >= 2 and bullish_count >= 2:
-            calculated_mss_type = "normal"
-        else:
-            calculated_mss_type = "agresiv"
-
-        if calculated_mss_type != original_mss_type:
-            logging.warning(f"Validator correcting MSS Type: Was '{original_mss_type}', "
-                            f"became '{calculated_mss_type}' (Bearish: {bearish_count}, Bullish: {bullish_count})")
-            analysis_dict["mss_type"] = calculated_mss_type
-            corrected = True
-    else:
-        logging.info("Skipping MSS type validation due to missing pivot counts.")
-
-
-    # --- 2️⃣  Trade Direction based on Risk Box Placement ---
-    risk_above = analysis_dict.get("is_risk_above_price")
-    original_direction = analysis_dict.get("trade_direction", "").lower()
-    calculated_direction = original_direction # Default to original if no risk box info
-
-    if risk_above is True:
-        calculated_direction = "short"
-    elif risk_above is False:
-        calculated_direction = "long"
-
-    if calculated_direction in ["short", "long"] and calculated_direction != original_direction:
-        logging.warning(f"Validator correcting Trade Direction: Was '{original_direction}', "
-                        f"became '{calculated_direction}' (is_risk_above_price: {risk_above})")
-        analysis_dict["trade_direction"] = calculated_direction
-        corrected = True
-
-    # --- 3️⃣ Check displacement direction consistency ---
-    disp_analysis = analysis_dict.get("displacement_analysis", {})
-    disp_direction = disp_analysis.get("direction") if isinstance(disp_analysis, dict) else None
-    trade_direction = analysis_dict.get("trade_direction") # Use potentially corrected direction
-    consistency_warning = ""
-
-    if trade_direction == "long" and disp_direction == "bearish":
-        consistency_warning = "Warning: Long trade direction identified, but displacement appears bearish."
-        corrected = True # Flag that a note should be added or updated
-    elif trade_direction == "short" and disp_direction == "bullish":
-        consistency_warning = "Warning: Short trade direction identified, but displacement appears bullish."
-        corrected = True
-
-    if consistency_warning:
-         analysis_dict["direction_consistency_warning"] = consistency_warning
-         logging.warning(consistency_warning)
-
-    # Update validator note if corrections or warnings occurred
-    if corrected:
-        base_note = "NOTE: Analysis adjusted or flagged by internal rules for consistency."
-        # Combine notes if one already existed
-        if original_validator_note and original_validator_note != base_note:
-             analysis_dict["_validator_note"] = f"{original_validator_note} {base_note}"
-        else:
-             analysis_dict["_validator_note"] = base_note
-
-    logging.debug("Finished sanity check validator.")
-    return analysis_dict
-
-
-# ---------------------------------------------------------------------------
-# ROUTES – IMAGE HYBRID (REVISED WITH IMPROVED VISUAL ANALYSIS + VALIDATOR)
-# ---------------------------------------------------------------------------
+class TextQuery(BaseModel):
+    question: str
+    session_id: Optional[str] = None
+    conversation_history: Optional[List[Dict[str, str]]] = None
 
 class ImageHybridQuery(BaseModel):
     question: str
     image_url: str
     session_id: Optional[str] = None
+    conversation_history: Optional[List[Dict[str, str]]] = None
 
-@app.post("/ask-image-hybrid", response_model=Dict[str, str])
-async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, str]:
-    """Handles questions with chart screenshots, aiming for detailed visual analysis."""
-    session_id = payload.session_id or generate_session_id()
-    logging.info(f"Received /ask-image-hybrid request. Question: '{payload.question[:100]}...', Image URL: {payload.image_url}, Session ID: {session_id}")
-
-    detailed_vision_analysis: Dict[str, Any] = {"error": "Vision analysis not performed"}
-    ocr_text: str = ""
-    course_context: str = ""
-
-    query_info = identify_query_type(payload.question)
-    logging.info(f"Query identified as type: {query_info['type']}, requires_full_analysis: {query_info['requires_full_analysis']}")
-
-    # --- 1️⃣ Detailed Vision Analysis & OCR ---
+# --- Feedback Logging ---
+def log_feedback(session_id: str, question: str, answer: str, feedback: str,
+                 query_type: str, analysis_data: Optional[Dict] = None) -> bool:
     try:
-        # --- Verify image URL accessibility first ---
+        feedback_entry = {
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"), "session_id": session_id,
+            "question": question, "answer": answer, "feedback": feedback, "query_type": query_type
+        }
+        if analysis_data:
+            relevant_fields = [
+                "final_trade_direction", "final_mss_type", "final_trade_outcome",
+                "is_risk_above_entry_suggestion",
+                "mss_pivot_analysis",
+                "fvg_analysis",
+                "liquidity_status_suggestion",
+                "break_direction_suggestion",
+                "confidence_level",
+                "setup_validity_score", # Added from rule engine
+                "setup_quality_summary", # Added from rule engine
+                "_cv_note", "_vision_note", "_rule_engine_notes"
+            ]
+            analysis_extract = {}
+            for k in relevant_fields:
+                if k in analysis_data:
+                     analysis_extract[k] = analysis_data.get(k)
+
+            # Pivot counts are directly in mss_pivot_analysis
+            if "mss_pivot_analysis" in analysis_data and isinstance(analysis_data["mss_pivot_analysis"], dict):
+                analysis_extract["pivot_bearish_count_vision"] = analysis_data["mss_pivot_analysis"].get("pivot_bearish_count")
+                analysis_extract["pivot_bullish_count_vision"] = analysis_data["mss_pivot_analysis"].get("pivot_bullish_count")
+
+            feedback_entry["analysis_data_from_report"] = analysis_extract
+        with open(FEEDBACK_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps(feedback_entry, ensure_ascii=False) + "\n")
+        return True
+    except Exception as e:
+        logging.error(f"Failed to log feedback: {e}"); return False
+
+@app.post("/feedback")
+async def submit_feedback(feedback_data: FeedbackModel):
+    success = await asyncio.to_thread(log_feedback,
+        feedback_data.session_id, feedback_data.question, feedback_data.answer,
+        feedback_data.feedback, feedback_data.query_type, feedback_data.analysis_data
+    )
+    if success: return {"status": "success", "message": "Feedback înregistrat."}
+    else: raise HTTPException(status_code=500, detail="Nu am putut înregistra feedback-ul.")
+
+# --- Query Type Identification ---
+def identify_query_type(question: str) -> Dict[str, Any]:
+    question_lower = question.lower().strip()
+    
+    # More specific concept verification patterns
+    concept_verification_patterns = ["marcate corect", "sunt corecte", "este corect", "e corect"]
+    if any(p in question_lower for p in concept_verification_patterns):
+        logging.info("Query identified as 'concept_verification_image_query'.")
+        return {"type": "concept_verification_image_query"}
+    
+    # Trade evaluation patterns as a fallback
+    trade_evaluation_patterns = ["cum arata", "cum arată", "ce parere", "ce părere", "evalueaz", "analizeaz", 
+                                "trade", "setup", "intrare", "valid", "rezultat"]
+    if any(p in question_lower for p in trade_evaluation_patterns) or "?" not in question_lower:
+        logging.info("Query identified as 'trade_evaluation_image_query'.")
+        return {"type": "trade_evaluation_image_query"}
+        
+    logging.info("Query identified as 'general_image_query'.")
+    return {"type": "general_image_query"}
+
+# --- Image/JSON Helpers ---
+async def download_image_async(image_url: str) -> Optional[bytes]:
+    global aiohttp_session # Move this line to the top of the function
+    if not aiohttp_session:
+        logging.error("aiohttp_session not initialized for image download attempt.")
+        aiohttp_session = aiohttp.ClientSession() # Re-init if somehow missed
+        logging.warning("aiohttp_session re-initialized on-demand in download_image_async.")
+    try:
+        async with aiohttp_session.get(image_url, timeout=aiohttp.ClientTimeout(total=20)) as response:
+            response.raise_for_status()
+            logging.info(f"Image {image_url} downloaded successfully.")
+            return await response.read()
+    except Exception as e:
+        logging.error(f"Async image download failed for {image_url}: {e}")
+        return None
+
+def _extract_text_from_image_sync(image_content: bytes) -> str:
+    try:
+        img = Image.open(BytesIO(image_content))
+        
+        # Try different preprocessing techniques to improve OCR results
+        # Convert to grayscale
+        img_gray = img.convert('L')
+        
+        # First attempt with original image
+        text = pytesseract.image_to_string(img, lang="eng")
+        
+        # If text is too short, try with grayscale and additional processing
+        if len(text.strip()) < 10:
+            # Apply thresholding to improve contrast
+            threshold = 150
+            img_bw = img_gray.point(lambda x: 0 if x < threshold else 255, '1')
+            text = pytesseract.image_to_string(img_bw, lang="eng", config='--psm 6')
+        
+        # Clean the extracted text
+        cleaned_text = "".join(ch for ch in text if ord(ch) < 128).strip()
+        cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
+        
+        logging.info(f"OCR: Extracted text length: {len(cleaned_text)}")
+        return cleaned_text
+    except pytesseract.TesseractNotFoundError:
+        logging.error("Tesseract not found. Please ensure it is installed and in your PATH. OCR will not function.")
+        return ""
+    except Exception as e:
+        logging.exception(f"OCR failed: {e}")
+        return ""
+
+async def extract_text_from_image_async(image_content: bytes) -> str:
+    return await asyncio.to_thread(_extract_text_from_image_sync, image_content)
+
+# Also, consider optimizing the image handling
+def optimize_image_before_vision(image_content: bytes, max_size: int = 1024*1024) -> bytes:
+    """Reduce image size if needed before sending to vision model"""
+    if len(image_content) <= max_size:
+        return image_content
+        
+    try:
+        img = Image.open(BytesIO(image_content))
+        img_format = img.format
+        width, height = img.size
+        
+        # Calculate new dimensions to maintain aspect ratio
+        ratio = min(1.0, math.sqrt(max_size / len(image_content)))
+        new_width = int(width * ratio)
+        new_height = int(height * ratio)
+        
+        # Resize image
+        resized_img = img.resize((new_width, new_height))
+        
+        # Save to bytes
+        output = BytesIO()
+        resized_img.save(output, format=img_format)
+        return output.getvalue()
+    except Exception as e:
+        logging.error(f"Image optimization failed: {e}")
+        return image_content  # Return original if optimization fails    
+
+def extract_json_from_text(text: str) -> Optional[str]:
+    logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
+    # Priority for markdown ```json ... ```
+    json_pattern_markdown = r"```(?:json)?\s*(\{[\s\S]*?\})\s*```"
+    match_md = re.search(json_pattern_markdown, text, re.MULTILINE | re.DOTALL)
+    if match_md:
+        extracted = match_md.group(1).strip()
         try:
-            logging.debug(f"Checking image URL accessibility: {payload.image_url}")
-            img_response = requests.head(payload.image_url, timeout=10, allow_redirects=True)
-            img_response.raise_for_status()
-            content_type = img_response.headers.get('Content-Type', '').lower()
-            if not content_type.startswith('image/'):
-                logging.warning(f"URL {payload.image_url} does not appear to be an image (Content-Type: {content_type}). Proceeding anyway.")
-            logging.info("Image URL is accessible.")
-        except requests.exceptions.RequestException as img_err:
-            logging.error(f"❌ Image URL access error: {img_err}")
-            raise HTTPException(status_code=400, detail="Nu am putut accesa imaginea furnizată. Verifică URL-ul.")
+            json.loads(extracted)
+            logging.info("JSON extracted from markdown code block.")
+            return extracted
+        except json.JSONDecodeError:
+            logging.warning("Text in markdown block wasn't valid JSON. Trying broader search.")
 
-        # --- Call GPT-4 Vision for analysis based on query type ---
+    # Fallback for non-markdown JSON (first '{' to last '}') - more risky but can catch raw output
+    start_brace = text.find('{')
+    end_brace = text.rfind('}')
+    if start_brace != -1 and end_brace != -1 and end_brace > start_brace:
+        potential_json = text[start_brace : end_brace+1].strip()
         try:
-            logging.info(f"Starting {VISION_MODEL} Vision analysis for query type: {query_info['type']}...")
+            json.loads(potential_json)
+            logging.info("Potential JSON object found directly in text (fallback) and seems valid.")
+            return potential_json
+        except json.JSONDecodeError:
+            logging.warning("Found brace-enclosed text (fallback), but it's not valid JSON.")
 
-            # --- DETERMINE APPROPRIATE VISION SYSTEM PROMPT BASED ON QUERY TYPE ---
-            # REVIEW: All system prompts seem correctly updated with constraints, 1M rule, FVG rule etc.
-            # REVIEW: Also added liquidity_status request to trade_evaluation prompt.
-            if query_info["type"] == "liquidity":
-                detailed_vision_system_prompt = (
-                     "You are an expert Trading Instituțional chart analyst specializing in liquidity identification. Analyze this chart "
-                     "\n\n**IMPORTANT CONSTRAINTS:**"
-                     "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
-                     "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
-                     "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
-                     "\nFollow the specific JSON structure requested below."
-                     "\n---"
-                     "focus ONLY on the liquidity zones marked. Output a structured JSON with these fields:"
-                     "\n1. 'analysis_possible': boolean"
-                     "\n2. 'visible_liquidity_zones': List their positions and whether they appear to be major or minor"
-                     "\n3. 'liquidity_quality': Assess the quality of marked liquidity zones based on price action around them"
-                     "\n4. 'overall_trend_direction': ONLY 'bullish', 'bearish', or 'sideways' - but focus on marked liquidity"
-                     "\n5. 'candle_colors': Specifically identify what colors represent bullish vs bearish candles in THIS chart"
-                     "\nDO NOT analyze trade setups, MSS structures, or displacement unless specifically marked as liquidity areas."
-                     "\nOnly analyze what's clearly visible and relevant to LIQUIDITY in the image."
-                )
-            elif query_info["type"] == "trend":
-                 detailed_vision_system_prompt = (
-                     "You are an expert Trading Instituțional chart analyst specializing in trend identification. Analyze this chart "
-                     "\n\n**IMPORTANT CONSTRAINTS:**"
-                     "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
-                     "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
-                     "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
-                     "\nFollow the specific JSON structure requested below."
-                     "\n---"
-                     "Output a structured JSON with these fields:"
-                     "\n1. 'analysis_possible': boolean"
-                     "\n2. 'trend_direction': MUST be 'bullish', 'bearish', or 'sideways'"
-                     "\n3. 'trend_strength': Assess the strength and clarity of the trend"
-                     "\n4. 'trend_structure': Brief description of what makes this a trend (higher highs/lows or lower highs/lows)"
-                     "\n5. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
-                     "\n6. 'visible_trendlines': Describe any visible trendlines or support/resistance levels" # Note: This asks for S/R lines, might conflict with constraint 3 if not careful
-                     "\nDO NOT analyze MSS structures or specific trade setups unless directly related to the trend."
-                     "\nOnly analyze what's clearly visible in the image related to trend direction and strength."
-                 )
-            elif query_info["type"] == "mss_classification":
-                 detailed_vision_system_prompt = (
-                     "You are an expert Trading Instituțional chart analyst specializing in MSS classification. "
-                     "\n\n**IMPORTANT CONSTRAINTS:**"
-                     "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
-                     "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
-                     "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
-                     "\nFollow the specific JSON structure requested below."
-                     "\n---"
-                     "Analyze this chart with attention to the following critical criteria:"
-                     "\n\n**CRITICAL MSS CLASSIFICATION RULES:**"
-                     "\n1. Identify the swing high or low (the 'pivot') that is potentially broken by an MSS."
-                     "\n2. Analyze the candle composition FORMING this pivot structure **based on how it would appear on a 1-minute (1M) timeframe chart**."
-                     "\n3. Count the number of bearish and bullish candles within this core pivot structure (**using the 1M view**)."
-                     "\n4. Determine `has_minimum_structure`: This is TRUE **only if** the pivot contains at least 2 bearish candles AND at least 2 bullish candles."
-                     "\n5. Classify `mss_type`:"
-                     "   - 'normal': If `has_minimum_structure` is TRUE."
-                     "   - 'agresiv': If `has_minimum_structure` is FALSE."
-                     "\n6. Identify the `break_direction` ('upward' breaking high, 'downward' breaking low)."
-                     "\n\nOutput a structured JSON with these fields:"
-                     "\n1. 'analysis_possible': boolean"
-                     "\n2. 'mss_location': Description of where MSS is identified or labeled."
-                     "\n3. 'mss_pivot_analysis': { "
-                     "     'description': 'Text describing the candles forming the pivot structure broken by MSS', "
-                     "'pivot_bearish_count': 'INTEGER count of BEARISH candles forming the core pivot structure (analyzed from 1M view)', "
-                     "'pivot_bullish_count': 'INTEGER count of BULLISH candles forming the core pivot structure (analyzed from 1M view)', "
-                     "     'has_minimum_structure': 'BOOLEAN, true only if bearish_count >= 2 AND bullish_count >= 2'"
-                     "   }"
-                     "\n4. 'mss_type': MUST be EXACTLY 'normal' (if has_minimum_structure is true) or 'agresiv' (if false)."
-                     "\n5. 'break_direction': 'upward' or 'downward'"
-                     "\n6. 'candle_colors': Description of bullish vs bearish candle colors in THIS chart."
-                     "\nThe PIVOT STRUCTURE COMPOSITION (bearish/bullish counts) is the ONLY factor determining 'normal' vs 'agresiv'."
-                 )
-            elif query_info["type"] == "displacement":
-                 detailed_vision_system_prompt = (
-                     "You are an expert Trading Instituțional chart analyst specializing in displacement analysis."
-                     "\n\n**IMPORTANT CONSTRAINTS:**"
-                     "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
-                     "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
-                     "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
-                     "\nFollow the specific JSON structure requested below."
-                     "\n---"
-                     "Your task is to analyze the displacement visible in the chart. Output a structured JSON with these fields:"
-                     "\n1. 'analysis_possible': boolean"
-                     "\n2. 'displacement_direction': 'bullish' (price moving up) or 'bearish' (price moving down)"
-                     "\n3. 'displacement_strength': Assess whether the displacement is strong, moderate, or weak"
-                     "\n4. 'fvg_within_displacement': Identify if Fair Value Gaps (FVGs) are created *within* the main displacement move itself. Discuss FVGs **only** if they confirm the displacement."
-                     "\n5. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
-                     "\n6. 'trade_direction': Based on displacement, is this likely a 'short' or 'long' trade"
-                     "\nFocus ONLY on the displacement aspect - the impulsive price movement creating gaps/imbalances."
-                     "\nDisplacement should match trade direction: bearish displacement for short trades, bullish for long trades."
-                 )
-            elif query_info["type"] == "fvg":
-                 detailed_vision_system_prompt = (
-                     "You are an expert Trading Instituțional chart analyst specializing in Fair Value Gap (FVG) identification."
-                     "\n\n**IMPORTANT CONSTRAINTS:**"
-                     "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
-                     "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
-                     "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
-                     "\nFollow the specific JSON structure requested below."
-                     "\n---"
-                     "Your task is to analyze the FVGs visible in the chart. Output a structured JSON with these fields:"
-                     "\n1. 'analysis_possible': boolean"
-                     "\n2. 'fvg_locations': Identify and describe where FVGs are located in the chart"
-                     "\n3. 'fvg_types': For each FVG, indicate if it's bullish (created by upward movement) or bearish (created by downward movement)"
-                     "\n4. 'fvg_quality': Assess the quality and clarity of the identified FVGs"
-                     "\n5. 'candle_colors': SPECIFICALLY identify what colors represent bullish vs bearish candles in THIS chart"
-                     "\n6. 'trade_implication': How these FVGs might affect trading decisions"
-                     "\nFocus ONLY on the FVG aspects - the gaps/imbalances created by impulsive price movements."
-                     "\nRemember: FVGs are created when price moves impulsively, leaving an area of no trading activity."
-                 )
-            else: # Includes 'trade_evaluation' and 'general' types
-                 detailed_vision_system_prompt = (
-                     "You are an expert Trading Instituțional chart analyst."
-                     "\n\n**IMPORTANT CONSTRAINTS:**"
-                     "\n1. Base your entire analysis SOLELY on the visual information present in the provided chart image. DO NOT invent features, price levels, or patterns that are not clearly visible."
-                     "\n2. Adhere strictly to the Trading Instituțional methodology. Analyze ONLY Liquidity, MSS (Normal/Aggressive), and Displacement."
-                     "\n3. DO NOT identify or mention unrelated concepts like Order Blocks, general support/resistance, divergences, indicators (unless part of a marked zone), or other chart patterns."
-                     "\nFollow the specific JSON structure requested below."
-                     "\n---"
-                     "Analyze this trading chart comprehensively and output a structured JSON with your detailed findings. Follow these specific guidelines:"
-                     "\n\n**1. COLOR INTERPRETATION FIRST:**"
-                     "\n   - Identify `candle_colors`: Describe colors for bullish/bearish candles in THIS chart."
-                     "\n   - Note colors for zones/indicators if obvious."
-                     "\n\n**2. TRADE DIRECTION (PRIORITY on Risk Box):**"
-                     "\n   - **PRIMARY:** Look for a Risk/Reward box (often colored: Red usually indicates the Risk/Stop zone, Green/Blue the Profit/Target zone)."
-                     "\n   - Determine the entry point (often the middle line or near current price if box is active)."
-                     "\n   - Determine `is_risk_above_price`: BOOLEAN. Is the defined Risk zone (e.g., the Red part) clearly ABOVE the entry point? True if yes, False if the Risk zone is clearly BELOW the entry point. Null if no clear R/R box or entry is visible." # More explicit check
-                     "\n   - Set `trade_direction` based PRIMARILY on this: 'short' if `is_risk_above_price` is True, 'long' if `is_risk_above_price` is False."
-                     "\n   - **Secondary:** If no clear risk box, infer `trade_direction` from labels ('SHORT'/'LONG', arrows) or overall strong recent directional movement (displacement)."
-                     "\n   - Output: 'short', 'long', or 'undetermined'."
-                     "\n\n**3. MSS CLASSIFICATION (Based on PIVOT STRUCTURE):**"
-                     "\n   - Look for where 'MSS' is labeled or implied by a structure break."
-                     "\n   - Identify the swing high/low (the 'pivot') that was broken."
-                     "\n   - Analyze the candle composition FORMING this pivot structure **based on how it would appear on a 1-minute (1M) timeframe chart**."
-                     "\n   - Count the number of bearish and bullish candles within this core pivot structure (**using the 1M view**)."
-                     "\n   - Determine `has_minimum_structure`: BOOLEAN (True only if count >= 2 for BOTH bearish and bullish)."
-                     "\n   - Classify `mss_type`: 'normal' if `has_minimum_structure` is True, else 'agresiv'."
-                     "\n   - Identify `break_direction` ('upward' or 'downward')."
-                     "\n\n**4. DISPLACEMENT & FVG ANALYSIS:**"
-                     "\n   - Identify the main `displacement_analysis`: Direction ('bullish'/'bearish'), strength."
-                     "\n   - **CRITICAL FVG CHECK:** Meticulously scan the entire area *after* the confirmed MSS break for ALL visible Fair Value Gaps (FVGs - imbalances between candle 1/3 wicks, often marked by boxes or faint lines/rectangles). Count them accurately." # Emphasize ALL, add detail
-                     "\n   - Report findings in `fvg_analysis`: { 'count': integer, 'description': 'Describe all observed FVGs post-MSS, noting markings and SLG pattern if applicable.' }. If none, count is 0." # Changed structure
-                     "\n   - Ensure displacement direction aligns with the determined `trade_direction`."
-                     "\n\n**5. ZONES, LIQUIDITY & OUTCOME:**"
-                     "\n   - Identify the key `liquidity_zones` relevant to the setup (e.g., marked highs/lows)."
-                     "\n   - Determine the `liquidity_status`: 'swept' if price clearly traded past the key liquidity level *before* the MSS/setup formed, 'untouched' otherwise." # Emphasized timing
-                     "\n   - Describe the liquidity interaction in the `liquidity_zones` field (e.g., 'Buy-side liquidity above high X was swept before MSS')." # Added instruction for description field
-                     "\n   - Assess `trade_outcome` ('win', 'loss', 'running', 'undetermined', 'potential_setup') if possible based on price movement after entry."
-                     "\n\n**6. ESSENTIAL JSON FIELDS:**" # Added liquidity_status here
-                     "\n   - 'analysis_possible': boolean"
-                     "\n   - 'candle_colors': description"
-                     "\n   - 'is_risk_above_price': boolean | null"
-                     "\n   - 'trade_direction': 'short' | 'long' | 'undetermined'"
-                     "\n   - 'mss_pivot_analysis': { 'description': description, 'pivot_bearish_count': integer, 'pivot_bullish_count': integer, 'has_minimum_structure': boolean }"
-                     "\n   - 'mss_type': 'normal' | 'agresiv' | 'not_identified'"
-                     "\n   - 'break_direction': 'upward' | 'downward' | 'none'"
-                     "\n   - 'displacement_analysis': { 'direction': 'bullish'|'bearish'|'none', 'strength': description }" # Removed fvg_created from here
-                     "\n   - 'fvg_analysis': { 'count': integer, 'description': description }"
-                     "\n   - 'liquidity_zones': description"
-                     "\n   - 'liquidity_status': 'swept' | 'untouched' | 'unclear'" # Added this field
-                     "\n   - 'trade_outcome': 'win'|'loss'|'running'|'undetermined'|'potential_setup'"
-                     "\n   - 'visible_labels': list of strings"
-                 )
+    logging.warning("Could not extract valid JSON object from text using any method.")
+    return None
 
+def generate_session_id() -> str:
+    return f"{int(time.time())}-{os.urandom(4).hex()}"
 
-            # --- Craft user prompt --- (Removed redundant constraints)
-            # REVIEW: User prompts look fine now without duplicated constraints.
-            if query_info["type"] == "liquidity":
-                 detailed_vision_user_prompt = (
-                     f"Analyze this trading chart FOCUSING ONLY ON LIQUIDITY ZONES marked in the image. "
-                     f"The user is asking: '{payload.question}'. "
-                     f"Be sure to identify SPECIFICALLY what colors represent bullish vs bearish candles in THIS chart. "
-                     f"DO NOT analyze MSS structure, displacement, or trade setups unless they're directly related to liquidity. "
-                     f"Look for areas marked as 'Liq', 'Liquidity', or similar designations. "
-                     f"Note if liquidity is marked at swing highs (for shorts) or swing lows (for longs). "
-                     f"Provide your structured analysis as JSON."
-                 )
-            elif query_info["type"] == "trend":
-                 detailed_vision_user_prompt = (
-                     f"Analyze this trading chart FOCUSING ONLY ON THE TREND DIRECTION AND STRENGTH. "
-                     f"The user is asking: '{payload.question}'. "
-                     f"Be sure to identify SPECIFICALLY what colors represent bullish vs bearish candles in THIS chart. "
-                     f"Determine if the visible trend is clearly BULLISH (price moving up), BEARISH (price moving down), or SIDEWAYS. "
-                     f"Look for higher highs and higher lows (bullish) or lower highs and lower lows (bearish). "
-                     f"Provide your structured analysis as JSON."
-                 )
-            elif query_info["type"] == "mss_classification":
-                 detailed_vision_user_prompt = (
-                     f"Analyze this trading chart FOCUSING ONLY ON MSS CLASSIFICATION according to Trading Instituțional methodology. "
-                     f"The user is asking: '{payload.question}'. "
-                     f"Follow the System Prompt instructions carefully: "
-                     f"1. Identify the pivot structure being broken. "
-                     f"2. Count bearish and bullish candles FORMING THE PIVOT. "
-                     f"3. Determine 'has_minimum_structure' (>=2 AND >=2). "
-                     f"4. Set 'mss_type' based ONLY on 'has_minimum_structure'. "
-                     f"5. Identify break direction and candle colors. "
-                     f"Provide your structured analysis as JSON."
-                 )
-            elif query_info["type"] == "displacement":
-                 detailed_vision_user_prompt = (
-                     f"Analyze this trading chart FOCUSING ONLY ON DISPLACEMENT. "
-                     f"The user is asking: '{payload.question}'. "
-                     f"Be sure to identify SPECIFICALLY what colors represent bullish vs bearish candles in THIS chart. "
-                     f"Look for impulsive price movements that create gaps (FVGs) in the chart. "
-                     f"Determine if the displacement is BULLISH (price moving up) or BEARISH (price moving down). "
-                     f"Note if the displacement creates Fair Value Gaps (FVGs) and how strong the movement is. "
-                     f"Provide your structured analysis as JSON."
-                 )
-            elif query_info["type"] == "fvg":
-                 detailed_vision_user_prompt = (
-                     f"Analyze this trading chart FOCUSING ONLY ON FAIR VALUE GAPS (FVGs). "
-                     f"The user is asking: '{payload.question}'. "
-                     f"Be sure to identify SPECIFICALLY what colors represent bullish vs bearish candles in THIS chart. "
-                     f"Look for gaps created by impulsive price movements - areas where no trading has occurred. "
-                     f"Identify if the FVGs are BULLISH (created by upward movement) or BEARISH (created by downward movement). "
-                     f"Note how these FVGs might affect trading decisions. "
-                     f"Provide your structured analysis as JSON."
-                 )
-            else: # General/Evaluation
-                 detailed_vision_user_prompt = (
-                     f"Analyze this trading chart according to Trading Instituțional methodology for a general setup evaluation. "
-                     f"The user is asking: '{payload.question}'. "
-                     f"Follow the instructions in the System Prompt precisely: "
-                     f"1. Identify candle colors. "
-                     f"2. Determine trade direction (PRIORITIZE risk box position). "
-                     f"3. Classify MSS based on PIVOT structure candle counts (>=2 bearish AND >=2 bullish = Normal). "
-                     f"4. Analyze displacement and FVGs (only if confirming displacement). " # Clarified FVG context here too
-                     f"5. Assess liquidity (including status: swept/untouched) and outcome if possible. " # Added liquidity status
-                     f"Provide your comprehensive structured analysis as JSON."
-                 )
+# --- CV Functions ---
+def locate_risk_box_cv(img_np: np.ndarray) -> Optional[Dict[str, Any]]:
+    """
+    Attempt to locate risk and entry boxes on trading charts using color-agnostic edge detection.
+    Returns details about potential risk boxes if found.
+    """
+    try:
+        # Convert to grayscale
+        gray = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
 
-            # --- Build the messages list including few-shot examples ---
-            # REVIEW: Logic for building vision_messages looks correct.
-            vision_messages = []
+        # Apply Gaussian blur to reduce noise
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
-            # 1. Add the system prompt
-            vision_messages.append({"role": "system", "content": detailed_vision_system_prompt})
+        # Apply edge detection (Canny)
+        edges = cv2.Canny(blurred, 50, 150)
 
-            # 2. Add the few-shot examples
-            #    NOTE: Consider using fewer examples (e.g., 3-4) if you hit token limits
-            example_user_prompt_text = "Analyze this example chart based on the system prompt instructions and provide the JSON output." # Simplified prompt for examples
-            for example in FEW_SHOT_EXAMPLES:
-                # Add the user turn for the example
-                vision_messages.append({
-                    "role": "user",
-                    "content": [
-                        {"type": "image_url", "image_url": {"url": example["image_url"]}},
-                        {"type": "text", "text": example_user_prompt_text}
-                    ]
-                })
-                # Add the assistant turn (the expected JSON output)
-                vision_messages.append({
-                    "role": "assistant",
-                    "content": example["assistant_json_output"]
-                })
+        # Find contours
+        contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-            # 3. Add the ACTUAL user request
-            vision_messages.append({
-                "role": "user",
-                "content": [
-                    {"type": "image_url", "image_url": {"url": payload.image_url}},
-                    {"type": "text", "text": detailed_vision_user_prompt},
-                ]
-            })
+        # Filter for rectangular contours - potential risk boxes
+        candidates = []
+        for contour in contours:
+            # Check if contour approximates a rectangle
+            perimeter = cv2.arcLength(contour, True)
+            approx = cv2.approxPolyDP(contour, 0.04 * perimeter, True)
 
-            # --- Make the API call using the constructed messages list ---
-            # REVIEW: Using vision_messages and increased max_tokens. Looks correct.
-            vision_resp = openai.chat.completions.create(
-                model=VISION_MODEL,
-                messages=vision_messages,
-                max_tokens=2500,
-                temperature=0.1,
-                response_format={"type": "json_object"}
-            )
+            if len(approx) == 4:  # If it's a rectangular shape
+                x, y, w, h = cv2.boundingRect(contour)
+                area = w * h
+                ratio = float(w) / h if h > 0 else 0
 
-            # --- Process the response (expecting JSON directly) ---
-            # REVIEW: JSON parsing and fallback looks okay.
-            raw_response_content = vision_resp.choices[0].message.content.strip()
-            logging.info(f"{VISION_MODEL} Vision analysis completed.")
-            logging.debug(f"Raw Vision JSON Response: {raw_response_content}")
+                # Filter for reasonable box sizes (not too small, reasonable aspect ratio)
+                if area > 500 and 0.1 < ratio < 10:
+                    # Extract the region of interest
+                    roi = gray[y:y+h, x:x+w]
+                    if roi.size > 0:
+                        # Calculate average pixel value (brightness)
+                        avg_value = np.mean(roi)
+                        candidates.append({
+                            'x': x, 'y': y, 'width': w, 'height': h,
+                            'area': area, 'aspect_ratio': ratio,
+                            'avg_value': avg_value
+                        })
 
-            try:
-                detailed_vision_analysis = json.loads(raw_response_content)
-                if not isinstance(detailed_vision_analysis, dict) or 'analysis_possible' not in detailed_vision_analysis:
-                    logging.warning("Vision JSON structure might be invalid. Setting error.")
-                    detailed_vision_analysis = {"error": "Invalid JSON structure received from vision model", "raw_response": raw_response_content}
+        if not candidates:
+            return None
+
+        # Sort by characteristics typical of risk boxes - typically wider than tall,
+        # and often in the right part of the chart
+        candidates.sort(key=lambda c: (c['aspect_ratio'] > 1.5, c['x'] > img_np.shape[1]/2, -c['area']), reverse=True)
+
+        best_candidate = candidates[0]
+        return {
+            'risk_box_found': True,
+            'coordinates': {
+                'x': best_candidate['x'],
+                'y': best_candidate['y'],
+                'width': best_candidate['width'],
+                'height': best_candidate['height']
+            },
+            'confidence': 'medium',
+            'detection_method': 'edge_detection'
+        }
+    except Exception as e:
+        logging.error(f"Risk box CV error: {e}")
+        return None
+
+def cv_pre_process_image(image_content: bytes) -> Dict[str, Any]:
+    """
+    Pre-process image with CV to extract structural information before sending to vision model.
+    Performs:
+    1. Risk/entry box detection
+    2. Color classification (candle colors)
+    3. Text extraction for labels
+    """
+    results = {
+        "cv_analysis_performed": True,
+        "risk_box_detected": False,
+        "candle_colors": "not_determined",
+        "extracted_text": "",
+        "_cv_note": "Computer vision pre-processing completed"
+    }
+
+    try:
+        # Convert image content to numpy array
+        img_array = np.frombuffer(image_content, np.uint8)
+        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+
+        if img is None:
+            results["_cv_note"] = "Failed to decode image"
+            return results
+
+        # Find risk box if possible
+        risk_box_result = locate_risk_box_cv(img)
+        if risk_box_result:
+            results["risk_box_detected"] = True
+            results["risk_box_info"] = risk_box_result["coordinates"]
+            results["risk_box_confidence"] = risk_box_result["confidence"]
+
+        # Attempt to detect candle colors
+        # Sample dominant colors in the chart area
+        height, width = img.shape[:2]
+        center_area = img[int(height*0.25):int(height*0.75), int(width*0.25):int(width*0.75)]
+
+        if center_area.size > 0:
+            # Convert to HSV for better color analysis
+            hsv = cv2.cvtColor(center_area, cv2.COLOR_BGR2HSV)
+
+            # Simple color detection logic
+            # Look for common trading chart color schemes
+            green_mask = cv2.inRange(hsv, (36, 25, 25), (86, 255, 255))
+            red_mask = cv2.inRange(hsv, (0, 50, 50), (10, 255, 255)) | cv2.inRange(hsv, (170, 50, 50), (180, 255, 255))
+            black_mask = cv2.inRange(hsv, (0, 0, 0), (180, 255, 50))  # Dark colors
+            white_mask = cv2.inRange(hsv, (0, 0, 200), (180, 30, 255))  # Light colors
+
+            # Count pixels for each color
+            green_count = np.count_nonzero(green_mask)
+            red_count = np.count_nonzero(red_mask)
+            black_count = np.count_nonzero(black_mask)
+            white_count = np.count_nonzero(white_mask)
+
+            # Determine color scheme based on counts
+            if green_count > 1000 and red_count > 1000:
+                results["candle_colors"] = "green_red"
+            elif green_count > 1000 and black_count > 1000:
+                results["candle_colors"] = "green_black"
+            elif green_count > 1000 and white_count > 1000:
+                results["candle_colors"] = "green_white"
+            elif white_count > 1000 and black_count > 1000:
+                results["candle_colors"] = "white_black"
+            else:
+                results["candle_colors"] = "not_determined"
+
+            results["_cv_note"] += f", Color analysis performed: {results['candle_colors']}"
+
+        # Extract text from image using the already-implemented async function
+        # For CV preprocessing we'll use a synchronous version
+        try:
+            img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            extracted_text = pytesseract.image_to_string(img_pil, lang="eng")
+            cleaned_text = "".join(ch for ch in extracted_text if ord(ch) < 128).strip()
+            cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
+
+            # Look for specific trading labels
+            results["detected_labels"] = []
+            for keyword in ["MSS", "FVG", "BE", "SL", "TP", "Win", "Loss", "Risk"]:
+                if keyword in cleaned_text or keyword.lower() in cleaned_text:
+                    results["detected_labels"].append(keyword)
+
+            if results["detected_labels"]:
+                results["_cv_note"] += f", Labels detected: {results['detected_labels']}"
+
+            results["extracted_text"] = cleaned_text
+        except Exception as ocr_e:
+            results["_cv_note"] += f", OCR failed: {str(ocr_e)}"
+
+        return results
+    except Exception as e:
+        logging.error(f"CV pre-processing error: {e}")
+        results["_cv_note"] = f"CV analysis failed: {str(e)}"
+        return results
+
+# --- Rule Engine Helpers & Main Function ---
+def classify_mss_type(bullish_count: Optional[Any], bearish_count: Optional[Any],
+                      is_last_lh_hl_broken: bool = True # Vision model might need to provide this if rule is strict
+                     ) -> str:
+    if bullish_count is None or bearish_count is None: return "not_identified"
+    try:
+        bull, bear = int(bullish_count), int(bearish_count)
+        # is_last_lh_hl_broken is True by default. If it's a strict rule, Vision model should suggest this.
+        if is_last_lh_hl_broken and bull >= 2 and bear >= 2: return "normal"
+        return "agresiv"
+    except (ValueError, TypeError):
+        logging.warning("RuleEngine: Could not parse MSS pivot counts."); return "not_identified"
+
+def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], query_type: str = "trade_evaluation_image_query") -> Dict[str, Any]:
+    """
+    Apply rule engine with awareness of query type
+    to make deterministic trading decisions based on the rules.
+
+    Returns an enriched analysis with rule-based decisions.
+    """
+    final_analysis = copy.deepcopy(vision_json)  # Start with vision model output
+    final_analysis["_rule_engine_notes"] = f"Rule engine applied for {query_type}"
+
+    # --- Merge CV findings where applicable ---
+    if cv_findings and cv_findings.get("cv_analysis_performed", False):
+        # Trust CV candle colors if vision didn't determine them
+        if cv_findings.get("candle_colors") != "not_determined" and (
+           not final_analysis.get("candle_colors") or
+           final_analysis.get("candle_colors") == "unknown"): # Vision might return "unknown"
+            final_analysis["candle_colors"] = cv_findings["candle_colors"]
+            final_analysis["_rule_engine_notes"] += ", Used CV candle colors"
+
+        # Add detected labels from CV if any
+        if cv_findings.get("detected_labels"):
+            final_analysis["visible_labels_on_chart"] = list(set(
+                final_analysis.get("visible_labels_on_chart", []) +
+                cv_findings.get("detected_labels", [])
+            ))
+            final_analysis["_rule_engine_notes"] += ", Added CV-detected labels"
+
+        # Add CV risk box info if detected
+        if cv_findings.get("risk_box_detected", False):
+            final_analysis["risk_box_info_cv"] = cv_findings.get("risk_box_info", {}) # Distinguish CV risk box
+            final_analysis["_rule_engine_notes"] += ", Added risk box data from CV"
+
+    # For concept verification, apply only the relevant rules and skip trade-specific analysis
+    if query_type == "concept_verification_image_query" or query_type == "general_image_query":
+        # Check if this is a liquidity-related question
+        if "liquidity" in final_analysis.get("liquidity_zones_description", "").lower() or \
+           "lichidit" in final_analysis.get("liquidity_zones_description", "").lower():
+            # Only process liquidity-related rules
+            liquidity_status = final_analysis.get("liquidity_status_suggestion", "unknown")
+            if liquidity_status not in ["swept", "not_swept", "unclear"]:
+                # Try to infer from description if not explicitly set
+                liquidity_desc = final_analysis.get("liquidity_zones_description", "").lower()
+                if "swept" in liquidity_desc or "taken" in liquidity_desc:
+                    final_analysis["liquidity_status_suggestion"] = "swept"
+                elif "not swept" in liquidity_desc or "not taken" in liquidity_desc:
+                    final_analysis["liquidity_status_suggestion"] = "not_swept"
                 else:
-                    logging.info(f"Successfully parsed Vision JSON.")
-
-            except json.JSONDecodeError as json_err:
-                 logging.error(f"❌ Failed to decode JSON from Vision response: {json_err}.")
-                 fallback_json_string = extract_json_from_text(raw_response_content)
-                 if fallback_json_string:
-                     try:
-                         detailed_vision_analysis = json.loads(fallback_json_string)
-                         logging.info("Successfully parsed Vision JSON using fallback extractor.")
-                     except json.JSONDecodeError as fallback_err:
-                         logging.error(f"❌ Fallback JSON extraction also failed: {fallback_err}. Raw string: '{fallback_json_string}'")
-                         detailed_vision_analysis = {"error": "Invalid JSON structure from vision model (fallback failed)", "raw_response": raw_response_content}
-                 else:
-                     detailed_vision_analysis = {"error": "No valid JSON found in vision response", "raw_response": raw_response_content}
-
-            # --- >>> APPLY SANITY CHECK VALIDATOR <<< ---
-            # REVIEW: Validator logic looks reasonable and includes consistency check.
-            if isinstance(detailed_vision_analysis, dict) and "error" not in detailed_vision_analysis:
-                 logging.debug("Original Vision Analysis before validation: %s", json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False))
-                 # Apply the validator function
-                 detailed_vision_analysis = _sanity_check_analysis(detailed_vision_analysis)
-                 if "_validator_note" in detailed_vision_analysis:
-                      logging.warning("Validator applied adjustments to Vision analysis. Final analysis includes '_validator_note'.")
-                 logging.debug("Validated Vision Analysis: %s", json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False))
-            else:
-                 logging.warning("Skipping validator due to error in vision analysis or non-dict result.")
-            # --- >>> END VALIDATOR <<< ---
-
-        except (APIError, RateLimitError) as e:
-            logging.error(f"OpenAI Vision API error: {e}")
-            detailed_vision_analysis = {"error": f"Vision API error: {str(e)}"}
-        except Exception as e:
-            logging.exception(f"Unexpected error during Vision processing: {e}")
-            detailed_vision_analysis = {"error": "Unexpected vision processing error"}
-
-        # --- Run OCR (keep separate for now) ---
-        ocr_text = extract_text_from_image(payload.image_url)
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.exception(f"Unhandled exception during Vision/OCR stage: {e}")
-        if "error" not in detailed_vision_analysis:
-             detailed_vision_analysis = {"error": "Unhandled exception in Vision/OCR stage"}
-
-    # --- 2️⃣ Vector Search (RAG) ---
-    # REVIEW: Vector search logic looks fine, uses validated analysis.
-    try:
-        query_parts = [f"Question: {payload.question}"]
-        if len(ocr_text) > 10: query_parts.append(f"OCR Text Snippet: {ocr_text[:200]}")
-        query_parts.append(f"Query type: {query_info['type']}")
-
-        if isinstance(detailed_vision_analysis, dict):
-            if "candle_colors" in detailed_vision_analysis: query_parts.append(f"Chart candle colors: {str(detailed_vision_analysis.get('candle_colors'))[:100]}")
-            if detailed_vision_analysis.get("trade_direction") in ["long", "short"]: query_parts.append(f"Trade direction: {detailed_vision_analysis.get('trade_direction')}")
-            if detailed_vision_analysis.get("mss_type") in ["agresiv", "normal"]: query_parts.append(f"MSS type: {detailed_vision_analysis.get('mss_type')}")
-            if detailed_vision_analysis.get("fvg_analysis"): query_parts.append(f"FVG analysis summary: {str(detailed_vision_analysis.get('fvg_analysis'))[:100]}")
-            disp_analysis = detailed_vision_analysis.get("displacement_analysis", {})
-            if isinstance(disp_analysis, dict) and disp_analysis.get("direction") in ["bullish", "bearish"]: query_parts.append(f"Displacement direction: {disp_analysis.get('direction')}")
-            if detailed_vision_analysis.get("liquidity_status") in ["swept", "untouched"]: query_parts.append(f"Liquidity Status: {detailed_vision_analysis.get('liquidity_status')}") # Added liquidity status to query
-
-        combo_query = " ".join(query_parts)
-
-        logging.info(f"Constructed embedding query (first 200 chars): {combo_query[:200]}...")
-        emb_response = openai.embeddings.create(model=EMBEDDING_MODEL, input=[combo_query])
-        query_embedding = emb_response.data[0].embedding
-        logging.info("Generated embedding for combined query.")
-        matches = index.query(vector=query_embedding, top_k=5, include_metadata=True)
-        retrieved_matches = matches.get("matches", [])
-        course_context = "\n\n---\n\n".join(m["metadata"].get("text", "") for m in retrieved_matches if m["metadata"].get("text")).strip()
-        logging.info(f"Pinecone query returned {len(retrieved_matches)} matches. Context length: {len(course_context)}")
-        logging.debug(f"DEBUG - Retrieved Course Context Content:\n---\n{course_context}\n---")
-
-        # Inject definitions logic (remains the same, but ensures context is available)
-        definitions_to_add = []
-        # Always add MSS definitions if MSS is mentioned or part of analysis
-        if "mss" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("mss_type")):
-             if MSS_AGRESIV_STRUCTURAL_DEFINITION.lower() not in course_context.lower(): definitions_to_add.append(MSS_AGRESIV_STRUCTURAL_DEFINITION)
-             # Using corrected Normal definition
-             if "definiție structurală mss normal" not in course_context.lower(): definitions_to_add.append("Definiție Structurală MSS Normal: Un MSS normal necesită ca pivotul (swing high/low) rupt să fie format din minim 2 candele bearish ȘI minim 2 candele bullish.")
-
-        if "fvg" in payload.question.lower() or "fair value gap" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("fvg_analysis")):
-              if FVG_STRUCTURAL_DEFINITION.lower() not in course_context.lower(): definitions_to_add.append(FVG_STRUCTURAL_DEFINITION)
-
-        if "displacement" in payload.question.lower() or (isinstance(detailed_vision_analysis, dict) and detailed_vision_analysis.get("displacement_analysis")):
-              if DISPLACEMENT_DEFINITION.lower() not in course_context.lower(): definitions_to_add.append(DISPLACEMENT_DEFINITION)
-
-        if definitions_to_add:
-            definition_block = "\n\n".join(definitions_to_add)
-            course_context = f"Definiții Relevante:\n{definition_block}\n\n---\n\nMaterial Curs:\n{course_context}"
-            logging.info(f"Injected {len(definitions_to_add)} definitions into context.")
-
-        if not course_context.strip():
-             logging.warning("Pinecone query returned no relevant context, and no definitions were injected.")
-             course_context = "[Eroare: Niciun context specific din curs nu a fost găsit pentru această combinație.]"
-             minimal_definitions = []
-             if "mss" in payload.question.lower(): minimal_definitions.extend([MSS_AGRESIV_STRUCTURAL_DEFINITION, "MSS Normal: Pivotul rupt are >=2 bearish AND >=2 bullish."])
-             if "fvg" in payload.question.lower(): minimal_definitions.append(FVG_STRUCTURAL_DEFINITION)
-             if "displacement" in payload.question.lower(): minimal_definitions.append(DISPLACEMENT_DEFINITION)
-             if minimal_definitions: course_context += "\n\nDefiniții de Bază:\n" + "\n".join(minimal_definitions)
-
-    except (APIError, RateLimitError) as e:
-        logging.error(f"OpenAI Embedding API error during hybrid search: {e}")
-        course_context = "[Eroare: Nu s-a putut genera embedding pentru căutare context]"
-        # ... (rest of error handling) ...
-    except PineconeException as e:
-        logging.error(f"Pinecone query error during hybrid search: {e}")
-        course_context = "[Eroare: Nu s-a putut căuta în materialele de curs]"
-        # ... (rest of error handling) ...
-    except Exception as e:
-        logging.exception(f"Unexpected error during vector search stage: {e}")
-        course_context = "[Eroare: Problemă neașteptată la căutarea contextului]"
-        # ... (rest of error handling) ...
-
-    # --- 3️⃣ Final Answer Generation ---
-    # REVIEW: Final answer generation logic looks fine. Uses validated analysis and context.
-    try:
-        try:
-            if isinstance(detailed_vision_analysis, dict):
-                visual_analysis_report_str = json.dumps(detailed_vision_analysis, indent=2, ensure_ascii=False)
-            else:
-                visual_analysis_report_str = json.dumps({"error": "Visual analysis data is not a valid dictionary.", "raw_data": str(detailed_vision_analysis)}, ensure_ascii=False)
-                logging.error("Vision analysis result was not a dict, cannot format as JSON for final prompt.")
-        except Exception as json_dump_err:
-            logging.exception("Error dumping visual analysis to JSON string.")
-            visual_analysis_report_str = json.dumps({"error": "Could not format visual analysis.", "details": str(json_dump_err)}, ensure_ascii=False)
-
-        logging.debug("Final Visual Analysis Report string for prompt:\n%s", visual_analysis_report_str)
-
-        def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
-            # ... (This function seems fine) ...
-            BASE = SYSTEM_PROMPT_CORE
-            PROMPTS = {
-                 "liquidity": ("\n--- Instructions for Liquidity Zone Analysis Response ---\nFocus your answer *only* on the liquidity analysis provided in the report and context."),
-                 "trend": ("\n--- Instructions for Trend Analysis Response ---\nFocus your answer *only* on the trend analysis provided."),
-                 "mss_classification": ("\n--- Instructions for MSS Classification Response ---\nExplain the MSS classification based *only* on the pivot structure analysis provided. Reference the course definitions."),
-                 "displacement": ("\n--- Instructions for Displacement Analysis Response ---\nDescribe the displacement and any FVGs based on the analysis provided."),
-                 "fvg": ("\n--- Instructions for FVG Analysis Response ---\nDescribe the identified FVGs and their potential implications based on the analysis and context."),
-                 "trade_evaluation": ("\n--- Instructions for Trade Setup Evaluation Response ---\n1. Provide an **objective analysis** based on the Trading Instituțional methodology.\n2. Do **not** begin by saying you don't give opinions. \n3. Use an active voice ('I see...', 'This indicates...') where appropriate, like an experienced colleague sharing objective findings. \n4. Summarize key elements from the Visual Analysis Report:\n   • trade_direction  • mss_type  • displacement_and_FVGs (including count/pattern)\n  (Mention liquidity interaction *only if* noteworthy or unusual context is present in the report).  • liquidity_status  • validator notes \n5. Relate findings to the Course Context (confluence/divergence)."), # Added liquidity_status here
-                 "general": ("\n--- Instructions for General Query Response ---\nAnswer by synthesizing the Visual Analysis Report and Course Context. If the question implicitly asks for an evaluation, follow the Trade Setup Evaluation instructions."),
+                    final_analysis["liquidity_status_suggestion"] = "unclear"
+            
+            # Add a focused liquidity analysis summary
+            final_analysis["focused_analysis"] = {
+                "type": "liquidity_verification",
+                "liquidity_zones_present": bool(final_analysis.get("liquidity_zones_description")),
+                "likely_correct": final_analysis.get("confidence_level", "low") != "low"
             }
-            effective_type = ("trade_evaluation" if query_type == "general" and requires_full_analysis else query_type)
-            chosen = PROMPTS.get(effective_type, PROMPTS["trade_evaluation"])
-            return BASE + "\n\n" + chosen.strip()
-
-        final_system_prompt = _build_system_prompt(query_info["type"], query_info.get("requires_full_analysis", False))
-
-        final_user_prompt = (
-            f"User Question: {payload.question}\n\n"
-            f"Visual Analysis Report (JSON):\n```json\n{visual_analysis_report_str}\n```\n\n"
-            f"Retrieved Course Context:\n{course_context}\n\n"
-            f"Task: The user asked: '{payload.question}'. Respond in Romanian with a **structured technical analysis** "
-            "of the setup shown in the image, strictly following Trading Instituțional methodology. Present objective "
-            "findings first, then conclude with the disclaimers specified in the system prompt."
-        )
-
-        logging.debug("Final System prompt length: %d", len(final_system_prompt))
-        logging.debug("Final User prompt length: %d", len(final_user_prompt))
-        logging.debug("Final User prompt (first 500 chars): %s", final_user_prompt[:500] + "...")
-
-        try:
-            chat_completion = openai.chat.completions.create(
-                model=COMPLETION_MODEL,
-                messages=[
-                    {"role": "system", "content": final_system_prompt},
-                    {"role": "user", "content": final_user_prompt},
-                ],
-                temperature=0.3,
-                max_tokens=800,
+            
+            final_analysis["_rule_engine_notes"] += ", Applied focused liquidity analysis for concept verification"
+            return final_analysis
+            
+        # For FVG verification questions
+        elif "fvg" in str(final_analysis).lower() or "fair value gap" in str(final_analysis).lower():
+            # Process only FVG-related fields
+            fvg_analysis = final_analysis.get("fvg_analysis", {})
+            fvg_count = fvg_analysis.get("count", 0)
+            
+            if isinstance(fvg_count, int) and fvg_count >= 1:
+                final_analysis["has_valid_fvg"] = True
+            else:
+                final_analysis["has_valid_fvg"] = False
+            
+            # Add a focused FVG analysis summary
+            final_analysis["focused_analysis"] = {
+                "type": "fvg_verification",
+                "fvg_present": final_analysis.get("has_valid_fvg", False),
+                "count": fvg_count,
+                "likely_correct": final_analysis.get("confidence_level", "low") != "low"
+            }
+            
+            final_analysis["_rule_engine_notes"] += ", Applied focused FVG analysis for concept verification"
+            return final_analysis
+            
+        # For MSS verification questions
+        elif "mss" in str(final_analysis).lower() or "structure" in str(final_analysis).lower():
+            # Process only MSS-related fields
+            mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
+            pivot_bearish_count = mss_pivot_data.get("pivot_bearish_count")
+            pivot_bullish_count = mss_pivot_data.get("pivot_bullish_count")
+            
+            # Determine MSS type based on pivot counts
+            final_analysis["final_mss_type"] = classify_mss_type(
+                pivot_bullish_count,
+                pivot_bearish_count
             )
-            final_answer = chat_completion.choices[0].message.content.strip()
-            logging.info("Final answer generated successfully using %s.", COMPLETION_MODEL)
-            logging.debug("Final Answer (raw): %s...", final_answer[:300])
-
-            return {
-                "answer": final_answer,
-                "session_id": session_id,
+            
+            # Add a focused MSS analysis summary
+            final_analysis["focused_analysis"] = {
+                "type": "mss_verification",
+                "mss_type": final_analysis["final_mss_type"],
+                "likely_correct": final_analysis.get("confidence_level", "low") != "low"
             }
+            
+            final_analysis["_rule_engine_notes"] += ", Applied focused MSS analysis for concept verification"
+            return final_analysis
 
-        except (APIError, RateLimitError) as e:
-            logging.error("OpenAI Chat API error (%s): %s", COMPLETION_MODEL, e)
-            return {"answer": f"Nu am putut genera un răspuns final. Serviciul OpenAI ({COMPLETION_MODEL}) nu este disponibil momentan.", "session_id": session_id, "error": str(e)}
-        except Exception as e_final:
-            logging.exception("Unexpected error during final answer generation")
-            return {"answer": "A apărut o eroare la generarea răspunsului final. Te rugăm să încerci din nou.", "session_id": session_id, "error": str(e_final)}
+    # If it's a trade evaluation or the query type doesn't match any concept verification,
+    # proceed with the full rule engine analysis
+    
+    # --- Apply MSS type classification rule ---
+    mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
+    pivot_bearish_count = mss_pivot_data.get("pivot_bearish_count")
+    pivot_bullish_count = mss_pivot_data.get("pivot_bullish_count")
 
-    except Exception as e_gen:
-        logging.exception("Unhandled exception in final response generation stage")
-        return {"answer": "A apărut o eroare neașteptată la procesarea răspunsului. Te rugăm să încerci din nou.", "session_id": session_id, "error": str(e_gen)}
+    # Determine MSS type based on pivot counts
+    final_analysis["final_mss_type"] = classify_mss_type(
+        pivot_bullish_count,
+        pivot_bearish_count
+    )
+    final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
 
-# Health check endpoint - moved outside the ask_image_hybrid function
-# REVIEW: Health check looks fine.
+    # --- Determine trade direction ---
+    # Use vision model's break direction suggestion as primary input
+    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
+    if break_direction == "upward":
+        final_analysis["final_trade_direction"] = "long"
+    elif break_direction == "downward":
+        final_analysis["final_trade_direction"] = "short"
+    else:
+        final_analysis["final_trade_direction"] = "unknown"
+        final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
+
+    # --- Determine trade outcome ---
+    # Use vision model's trade outcome suggestion as primary input
+    outcome_suggestion = final_analysis.get("trade_outcome_suggestion", "unknown")
+
+    if outcome_suggestion in ["win", "breakeven", "loss", "potential_setup"]:
+        final_analysis["final_trade_outcome"] = outcome_suggestion
+    else:
+        # Check visible labels for outcome hints
+        labels = final_analysis.get("visible_labels_on_chart", [])
+        if any(label.upper() in ["WIN", "W"] for label in labels):
+            final_analysis["final_trade_outcome"] = "win"
+        elif any(label.upper() in ["BE", "BREAKEVEN"] for label in labels):
+            final_analysis["final_trade_outcome"] = "breakeven"
+        elif any(label.upper() in ["LOSS", "L"] for label in labels):
+            final_analysis["final_trade_outcome"] = "loss"
+        else:
+            final_analysis["final_trade_outcome"] = "unknown" # Default to unknown if no clear indicators
+            # Only add note if outcome_suggestion was also unknown
+            if outcome_suggestion == "unknown":
+                 final_analysis["_rule_engine_notes"] += ", Could not determine trade outcome from suggestions or labels"
+
+    # --- Check liquidity status ---
+    liquidity_status = final_analysis.get("liquidity_status_suggestion", "unknown")
+    if liquidity_status not in ["swept", "not_swept", "unclear"]:
+        # Try to infer from description if not explicitly set
+        liquidity_desc = final_analysis.get("liquidity_zones_description", "").lower()
+        if "swept" in liquidity_desc or "taken" in liquidity_desc:
+            final_analysis["liquidity_status_suggestion"] = "swept"
+        elif "not swept" in liquidity_desc or "not taken" in liquidity_desc:
+            final_analysis["liquidity_status_suggestion"] = "not_swept"
+        else:
+            final_analysis["liquidity_status_suggestion"] = "unclear"
+
+    # --- Validate displacement direction vs trade direction ---
+    displacement = final_analysis.get("displacement_analysis", {})
+    displacement_direction = displacement.get("direction", "unknown")
+
+    # Displacement direction should match trade direction for valid setups
+    if final_analysis["final_trade_direction"] != "unknown" and displacement_direction != "unknown":
+        if (final_analysis["final_trade_direction"] == "long" and displacement_direction == "bullish") or \
+           (final_analysis["final_trade_direction"] == "short" and displacement_direction == "bearish"):
+            final_analysis["displacement_matches_trade"] = True
+        else:
+            final_analysis["displacement_matches_trade"] = False
+            final_analysis["_rule_engine_notes"] += ", Warning: Displacement direction doesn't match trade direction"
+    else:
+        final_analysis["displacement_matches_trade"] = "not_applicable" # If either is unknown
+
+    # --- Validate FVG presence ---
+    fvg_analysis = final_analysis.get("fvg_analysis", {})
+    fvg_count = fvg_analysis.get("count", 0) # Assuming count is a number
+
+    if isinstance(fvg_count, int) and fvg_count >= 1: # Check type
+        final_analysis["has_valid_fvg"] = True
+    else:
+        final_analysis["has_valid_fvg"] = False
+        final_analysis["_rule_engine_notes"] += ", Warning: No valid FVGs detected or count is not a number"
+
+    # --- Calculate final validity score ---
+    validity_score = 50 # Base score
+
+    # Add points for important criteria
+    if final_analysis.get("final_mss_type") != "not_identified": validity_score += 10
+    if final_analysis.get("final_trade_direction") != "unknown": validity_score += 10
+    if final_analysis.get("liquidity_status_suggestion") == "swept": validity_score += 10
+    if final_analysis.get("has_valid_fvg") is True: validity_score += 10 # Check for explicit True
+    if final_analysis.get("displacement_matches_trade") is True: validity_score += 10 # Check for explicit True
+
+    # Deduct points for negative indicators if any were planned
+    # Example: if final_analysis.get("some_negative_indicator"): validity_score -= 5
+
+    validity_score = min(max(validity_score, 0), 100) # Ensure score is between 0 and 100
+    final_analysis["setup_validity_score"] = validity_score
+
+    if validity_score >= 80: final_analysis["setup_quality_summary"] = "high_quality"
+    elif validity_score >= 60: final_analysis["setup_quality_summary"] = "acceptable"
+    else: final_analysis["setup_quality_summary"] = "questionable"
+
+    return final_analysis
+
+# --- System Prompt Builder ---
+def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
+    """
+    Build a system prompt for the completion model based on query type and analysis requirements.
+    """
+    full_prompt = SYSTEM_PROMPT_CORE
+
+    if query_type == "trade_evaluation_image_query":
+        full_prompt += "\n\n" + (
+            "The user has submitted a chart for trading analysis. "
+            "Focus on analyzing the trading setup presented in the chart according to the rules of Trading Instituțional. "
+            "Base your analysis primarily on the Technical Analysis Report which contains computer vision results, "
+            "vision model findings, and rule engine determinations."
+        )
+        full_prompt += "\n\n" + (
+            "KEY TRADING RULES TO REFERENCE:\n"
+            f"1. {MSS_NORMAL_STRUCTURAL_DEFINITION}\n"
+            f"2. {MSS_AGRESIV_STRUCTURAL_DEFINITION}\n"
+            f"3. {FVG_STRUCTURAL_DEFINITION}\n"
+            f"4. {DISPLACEMENT_DEFINITION}\n"
+            "5. A proper setup requires sweeping liquidity before the MSS occurs.\n"
+            "6. A valid setup should show at least one FVG after the MSS.\n"
+            "7. The displacement after the MSS should match the trading direction (bullish for longs, bearish for shorts)."
+        )
+        if requires_full_analysis:
+            full_prompt += "\n\n" + (
+                "Provide a COMPLETE and DETAILED analysis that includes:\n"
+                "1. Identification of the MSS type (Normal or Agresiv) based on pivot structure\n"
+                "2. Trade direction (Long/Short)\n"
+                "3. Liquidity status (Swept/Not Swept)\n"
+                "4. FVG presence and characteristics\n"
+                "5. Overall validity of the setup (refer to 'setup_quality_summary' and 'setup_validity_score' from the report)\n"
+                "6. Trade outcome if visible (Win/Loss/Breakeven)"
+            )
+        else: # User asked a specific question about a trade eval image
+            full_prompt += "\n\n" + (
+                "The user has asked a specific question about this trading chart. "
+                "Focus on answering their question using the Technical Analysis Report. "
+                "You do not need to provide a full, unsolicited analysis unless it directly helps answer the question. "
+                "Tailor your response to be concise and targeted."
+            )
+
+    elif query_type == "general_image_query":
+        full_prompt += "\n\n" + (
+            "The user has asked a general question about a trading chart. "
+            "Answer their question directly without necessarily providing a full trade setup analysis. "
+            "You can reference any visible elements from the chart described in the Technical Analysis Report if relevant. "
+            "Keep your response focused and concise, addressing only what was asked."
+        )
+    # Add general response guidance (common to all image queries)
+    if "image_query" in query_type: # Apply to both image query types
+        full_prompt += "\n\n" + (
+            "GENERAL RESPONSE GUIDELINES FOR IMAGE ANALYSIS:\n"
+            "- Always maintain an objective, educational tone (like an experienced trading colleague).\n"
+            "- Avoid overly technical language unless the user uses it first - explain concepts in clear, accessible terms.\n"
+            "- When referencing specific rules, briefly explain their importance in context.\n"
+            "- If the Technical Analysis Report indicates low confidence, missing information, or contradictions, acknowledge these limitations candidly.\n"
+            "- Structure your response logically. Use short paragraphs for readability.\n"
+            "- Use first-person phrasing occasionally to sound natural (e.g., 'I can see that...' or 'I notice the chart shows...').\n"
+            "- Conclude with a brief summary or key takeaway if appropriate for the question.\n"
+            "- If applicable, explain what learning can be taken from this example."
+        )
+    return full_prompt
+
+def get_vision_system_prompt(query_type: str, question: str) -> str:
+    """
+    Generate a specialized vision system prompt based on query type and question content.
+    This allows for more focused analysis on specific concepts when needed.
+    
+    Args:
+        query_type: The type of query (e.g., "concept_verification_image_query", "trade_evaluation_image_query")
+        question: The user's question text
+        
+    Returns:
+        A specialized system prompt for the vision model
+    """
+    # Base shared prompt components
+    base_prompt = """You are an expert Trading Analysis Assistant for Trading Instituțional. You will analyze trading charts
+and identify key trading elements based on the specific question asked."""
+    
+    # Standard JSON structure for all responses
+    base_json_structure = """
+IMPORTANT: Your response must be a valid JSON object with this base structure:
+{
+  "analysis_possible": true/false,
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+    
+    # For liquidity concept verification
+    if query_type == "concept_verification_image_query" or query_type == "general_image_query":
+        question_lower = question.lower()
+        
+        # Detect if this is about liquidity
+        if "liquidity" in question_lower or "lichidit" in question_lower or "liq" in question_lower:
+            return base_prompt + """
+For this liquidity concept verification question, focus ONLY on:
+- Identifying liquidity zones in the chart (horizontal lines at swing highs/lows)
+- Whether they are correctly marked on the chart
+- Whether they have been swept (price has moved beyond them) or not
+- The color and placement of the liquidity markers
+
+DO NOT analyze trade direction, MSS type, or other setups unless specifically asked.
+""" + base_json_structure + """
+Your JSON response should include these specific fields:
+{
+  "analysis_possible": true/false,
+  "candle_colors": "description of candle colors",
+  "liquidity_zones_description": "detailed description of liquidity zones on the chart and if marked correctly",
+  "liquidity_status_suggestion": "swept"/"not_swept"/"unclear",
+  "visible_labels_on_chart": ["any visible text labels"],
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+
+        # Detect if this is about FVGs (Fair Value Gaps)
+        elif "fvg" in question_lower or "fair value gap" in question_lower or "gap" in question_lower:
+            return base_prompt + """
+For this FVG (Fair Value Gap) verification question, focus ONLY on:
+- Identifying FVGs in the chart (gaps between candles during impulsive moves)
+- Whether they are correctly marked on the chart
+- The number and size of FVGs present
+- Whether they have been filled or not
+
+DO NOT analyze trade direction, MSS type, or other setups unless specifically asked.
+""" + base_json_structure + """
+Your JSON response should include these specific fields:
+{
+  "analysis_possible": true/false,
+  "candle_colors": "description of candle colors",
+  "fvg_analysis": { "count": number, "description": "description of FVGs and whether they're correctly marked" },
+  "visible_labels_on_chart": ["any visible text labels"],
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+
+        # Detect if this is about MSS (Market Structure Shifts)
+        elif "mss" in question_lower or "market structure" in question_lower or "structure" in question_lower:
+            return base_prompt + """
+For this MSS (Market Structure Shift) verification question, focus ONLY on:
+- Identifying MSS points in the chart
+- Analyzing the pivot structure (number of bullish/bearish candles)
+- Whether it's a normal or aggressive MSS
+- The direction of the break (upward/downward)
+
+DO NOT conduct a full trade analysis unless specifically asked.
+""" + base_json_structure + """
+Your JSON response should include these specific fields:
+{
+  "analysis_possible": true/false,
+  "candle_colors": "description of candle colors",
+  "mss_location_description": "description of where the MSS is located",
+  "mss_pivot_analysis": {
+    "description": "description of the pivot structure",
+    "pivot_bearish_count": number,
+    "pivot_bullish_count": number
+  },
+  "break_direction_suggestion": "upward"/"downward"/"unclear",
+  "visible_labels_on_chart": ["any visible text labels"],
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+        # General, non-specific verification question - return a simplified prompt
+        else:
+            return base_prompt + """
+Focus on answering the specific question about the chart elements. Provide relevant details
+about the elements mentioned in the question without doing a full trade analysis.
+""" + base_json_structure + """
+Include relevant fields in your JSON response based on the question asked.
+"""
+
+    # Default to full trade analysis prompt for trade evaluation
+    vision_system_prompt_template = base_prompt + """
+Provide a comprehensive analysis of the trading chart, focusing on these key aspects:
+- Market Structure Shifts (MSS) - both Normal and Aggressive types
+- Candle and color patterns
+- Direction of the break (upward/downward)
+- FVG (Fair Value Gap) presence
+- Liquidity zones and whether they've been swept
+- Risk placement (above/below entry)
+- Potential trade outcome if visible
+
+Definitions:
+- MSS (Market Structure Shift): A break of market structure that signals a potential trend change.
+- Normal MSS: The pivot (higher low or lower high) that is broken must have at least 2 bearish AND 2 bullish candles.
+- Aggressive MSS: The pivot has fewer than 2 bearish OR fewer than 2 bullish candles.
+- FVG (Fair Value Gap): An unfilled gap created when price makes an impulsive move.
+- Liquidity: Price levels where stop losses or take profits are clustered.
+""" + base_json_structure + """
+Your JSON response MUST include the following full structure:
+{
+  "analysis_possible": true/false,
+  "candle_colors": "description of bullish/bearish candle colors or 'unknown'",
+  "is_risk_above_entry_suggestion": true/false/null,
+  "mss_location_description": "description of where the MSS is located",
+  "mss_pivot_analysis": {
+    "description": "description of the pivot structure",
+    "pivot_bearish_count": number,
+    "pivot_bullish_count": number
+  },
+  "break_direction_suggestion": "upward"/"downward"/"unclear",
+  "displacement_analysis": { "direction": "bullish"/"bearish"/"unclear", "strength": "weak"/"moderate"/"strong" },
+  "fvg_analysis": { "count": number, "description": "description of FVGs present" },
+  "liquidity_zones_description": "description of liquidity zones and if they were swept",
+  "liquidity_status_suggestion": "swept"/"not_swept"/"unclear",
+  "trade_outcome_suggestion": "win"/"loss"/"breakeven"/"potential_setup"/"unknown",
+  "visible_labels_on_chart": ["MSS", "BE", etc.],
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+    
+    # We now need to add the few-shot examples
+    for example in FEW_SHOT_EXAMPLES:
+        vision_system_prompt_template += f"\n\nImage URL: {example['image_url']}\nAnalysis:\n{example['assistant_json_output']}\n"
+    
+    vision_system_prompt_template += """
+Analyze the provided chart image following the same format as the examples.
+Provide only the JSON output, no additional text before or after.
+If a field cannot be determined, use "unknown" or null where appropriate for the type.
+"""
+    
+    return vision_system_prompt_template
+
+# --- API Routes ---
+@app.post("/ask", response_model=Dict[str, Any]) # Return type more flexible
+async def ask_question(query: TextQuery):
+    start_time = time.time()
+    session_id = query.session_id or generate_session_id()
+    question = query.question.strip()
+
+    if not question:
+        raise HTTPException(status_code=400, detail="Întrebarea nu poate fi goală.")
+
+    history_store_key = f"text_only:{session_id}" # Separate history for text-only
+    history = []
+    if query.conversation_history: # Allow user to send full history if they manage it client-side
+        history = query.conversation_history[-MAX_HISTORY_MESSAGES:]
+    elif history_store_key in conversation_history:
+        history = conversation_history[history_store_key][-MAX_HISTORY_MESSAGES:]
+
+    logging.info(f"Text query received. Session: {session_id}, History length: {len(history)}")
+
+    search_query = question
+    context_text = "" # Initialize context_text
+
+    try:
+        async with openai_call_limiter:
+            embedding_response = await async_openai_client.embeddings.create(
+                input=search_query, model=EMBEDDING_MODEL
+            )
+        query_vector = embedding_response.data[0].embedding
+
+        pinecone_results = await asyncio.to_thread(
+            index.query, vector=query_vector, top_k=3, include_metadata=True
+        )
+        context_chunks = [
+            match.metadata["text"] for match in pinecone_results.matches
+            if match.score > 0.70 and match.metadata and "text" in match.metadata
+        ]
+        if context_chunks:
+            context_text = "\n\n".join(context_chunks)
+        logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for text query.")
+
+    except Exception as pe:
+        logging.error(f"Pinecone vector search error: {pe}")
+        context_text = "Am întâmpinat o problemă la accesarea materialului de curs din baza de date Pinecone."
+    except APIError as ae: # More specific OpenAI error
+        logging.error(f"OpenAI API error during embedding: {ae}")
+        raise HTTPException(status_code=503, detail="Serviciul OpenAI (embeddings) nu răspunde. Te rog să încerci mai târziu.")
+    except RateLimitError:
+        logging.warning("OpenAI rate limit hit during text query embedding.")
+        raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI. Te rog să încerci mai târziu.")
+    except Exception as e: # Catch-all for other unexpected errors
+        logging.error(f"Unexpected vector search error: {e}")
+        context_text = "A apărut o eroare neașteptată la căutarea informațiilor."
+
+
+    messages = [{"role": "system", "content": SYSTEM_PROMPT_CORE}] # Use core prompt for text
+    for turn in history:
+        messages.append({"role": "user", "content": turn.get("user", "")})
+        if "assistant" in turn: # Ensure assistant message exists
+            messages.append({"role": "assistant", "content": turn.get("assistant", "")})
+
+    if context_text and "problemă" not in context_text and "eroare" not in context_text : # Check if context is useful
+        current_prompt = f"Întrebare: {question}\n\nMaterial de Curs Relevant:\n{context_text}\n\nRăspunde la întrebarea utilizatorului folosind materialul de curs de mai sus și conversația anterioară. Fii concis și la obiect."
+    else:
+        current_prompt = f"Întrebare: {question}\n\n{context_text}\nRăspunde la întrebarea utilizatorului pe baza cunoștințelor tale generale despre trading și conversația anterioară, respectând stilul Trading Instituțional. Fii concis și la obiect."
+    messages.append({"role": "user", "content": current_prompt})
+
+    try:
+        async with openai_call_limiter:
+            completion = await async_openai_client.chat.completions.create(
+                model=TEXT_MODEL, messages=messages, temperature=0.5, max_tokens=800
+            )
+        answer = completion.choices[0].message.content.strip()
+
+        if history_store_key not in conversation_history:
+            conversation_history[history_store_key] = deque(maxlen=MAX_HISTORY_MESSAGES)
+        conversation_history[history_store_key].append({"user": question, "assistant": answer})
+
+        duration_ms = int((time.time() - start_time) * 1000)
+        logging.info(f"Text query completed in {duration_ms}ms. Session: {session_id}")
+        return {"answer": answer, "session_id": session_id, "query_type": "text_only", "processing_time_ms": duration_ms}
+
+    except RateLimitError:
+        logging.warning("OpenAI rate limit hit during text query completion.")
+        raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI. Te rog să încerci mai târziu.")
+    except APIError as e:
+        logging.error(f"OpenAI API error during completion: {e}")
+        raise HTTPException(status_code=503, detail=f"Serviciul OpenAI nu răspunde: {e}")
+    except Exception as e:
+        logging.error(f"Completion error: {e}")
+        raise HTTPException(status_code=500, detail="A apărut o eroare la procesarea întrebării.")
+
+@app.post("/ask-image-hybrid", response_model=Dict[str, Any]) # Return type more flexible
+async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
+    start_time = time.time()
+    session_id = payload.session_id or generate_session_id()
+    question = payload.question.strip()
+    image_url = payload.image_url.strip()
+
+    if not question: raise HTTPException(status_code=400, detail="Întrebarea nu poate fi goală.")
+    if not image_url: raise HTTPException(status_code=400, detail="URL-ul imaginii nu poate fi gol.")
+
+    history_store_key = f"image_hybrid:{session_id}" # Separate history for image queries
+    history = []
+    if payload.conversation_history:
+        history = payload.conversation_history[-MAX_HISTORY_MESSAGES:]
+    elif history_store_key in conversation_history:
+        history = conversation_history[history_store_key][-MAX_HISTORY_MESSAGES:]
+    logging.info(f"Image-hybrid query received. Session: {session_id}, History length: {len(history)}")
+
+    query_info = identify_query_type(question)
+    query_type = query_info.get("type", "general_image_query")
+    requires_full_analysis = query_type == "trade_evaluation_image_query"
+
+    image_content = await download_image_async(image_url)
+    if not image_content:
+        raise HTTPException(status_code=400, detail="Nu am putut descărca imaginea. Verifică URL-ul și încearcă din nou.")
+
+    # --- CV, OCR, Vision, Rule Engine ---
+    # These can potentially run in parallel if structured carefully, but for now sequential
+    cv_analysis = await asyncio.to_thread(cv_pre_process_image, image_content)
+    ocr_text = await extract_text_from_image_async(image_content) # General OCR of the whole image
+    logging.info(f"OCR (full image) extracted text length: {len(ocr_text)}")
+
+
+    # Vision Model Analysis
+    vision_json = {"analysis_possible": False, "_vision_note": "Vision analysis not performed yet"}
+    cache_key = f"{image_url}:{query_type}"
+    # Check if we have a cached result
+    if cache_key in vision_results_cache:
+        vision_json = vision_results_cache[cache_key]
+        logging.info(f"Using cached vision analysis for {cache_key}")
+    else:
+        try:
+            # Get specialized prompt based on query type
+            vision_system_prompt_template = get_vision_system_prompt(query_type, question)
+            
+            # Optimize the image before sending to vision model
+            optimized_image_content = await asyncio.to_thread(optimize_image_before_vision, image_content)
+            if optimized_image_content != image_content:
+                logging.info(f"Image optimized: original size {len(image_content)} bytes, new size {len(optimized_image_content)} bytes")
+
+            content_items = [
+                {"type": "text", "text": vision_system_prompt_template},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(optimized_image_content).decode('utf-8')}"}}
+            ]
+            
+            async with openai_call_limiter:
+                vision_response = await async_openai_client.chat.completions.create(
+                    model=VISION_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a trading chart analysis assistant that outputs structured JSON."},
+                        {"role": "user", "content": content_items}
+                    ],
+                    max_tokens=2000, temperature=0.1 # Very low temp for structured JSON
+                )
+            
+            vision_analysis_text = vision_response.choices[0].message.content
+            vision_json_str = extract_json_from_text(vision_analysis_text)
+        
+            if not vision_json_str:
+                vision_json = {"analysis_possible": False, "_vision_note": "Could not extract JSON from vision model response."}
+            else:
+                try:
+                    vision_json = json.loads(vision_json_str)
+                    vision_json["_vision_note"] = "Vision analysis completed."
+                    logging.info("Vision model analysis extracted successfully.")
+                    # Cache the successful result
+                    vision_results_cache[cache_key] = vision_json
+                
+                except json.JSONDecodeError:
+                    logging.error(f"Failed to parse vision model JSON: {vision_json_str[:500]}")
+                    # Try to salvage partial JSON
+                    try:
+                        # Look for patterns that might indicate valid but incomplete JSON
+                        if '{' in vision_json_str and '"analysis_possible"' in vision_json_str:
+                            # Try to clean up and repair common JSON formatting issues
+                            cleaned_str = re.sub(r',\s*}', '}', vision_json_str)  # Remove trailing commas
+                            cleaned_str = re.sub(r',\s*]', ']', cleaned_str)     # Remove trailing commas in arrays
+                             # Find the largest valid JSON subset
+                            start_idx = vision_json_str.find('{')
+                            end_idx = vision_json_str.rfind('}')
+                            if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                                partial_json_str = cleaned_str[start_idx:end_idx+1]
+                                vision_json = json.loads(partial_json_str)
+                                vision_json["_vision_note"] = "Partial vision analysis (recovered from malformed JSON)"
+                                logging.info("Recovered partial JSON from vision model response")
+                            else:
+                                raise ValueError("Could not find valid JSON object boundaries")   
+                        else:
+                            raise ValueError("No valid JSON pattern found")   
+                    except Exception as recovery_error:
+                        logging.error(f"JSON recovery attempt failed: {recovery_error}")        
+                        #Fall back to a basic structure
+                        vision_json = {
+                            "analysis_possible": False,
+                            "confidence_level": "low",
+                            "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
+                        }
+                
+        except RateLimitError:
+            logging.warning("OpenAI rate limit hit during vision analysis.")
+            raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI (Vision). Te rog să încerci mai târziu.")
+        except APIError as e:
+            logging.error(f"OpenAI API error during vision analysis: {e}")
+            vision_json = {"analysis_possible": False, "_vision_note": f"Vision analysis API error: {str(e)}"}
+        except Exception as e:
+            logging.error(f"Unexpected vision model error: {e}")
+            vision_json = {"analysis_possible": False, "_vision_note": f"Unexpected vision analysis error: {str(e)}"}
+
+        if not vision_json_str:
+            logging.warning("Could not extract JSON from vision model. Creating basic fallback structure.")
+    
+            # Create a fallback JSON structure based on the query type and question
+            question_lower = question.lower()
+    
+            vision_json = {
+                "analysis_possible": True,
+                "candle_colors": "unknown",
+                "confidence_level": "low",
+                "_vision_note": "Used fallback analysis due to JSON extraction failure"
+            }
+    
+            # If question is about liquidity, add basic liquidity info
+            if "liquidity" in question_lower or "lichidit" in question_lower or "liq" in question_lower:
+                vision_json["liquidity_zones_description"] = "Liquidity zones appear to be present in the chart"
+                vision_json["liquidity_status_suggestion"] = "unclear"
+        
+                # Try to infer from OCR text
+                if ocr_text:
+                    if "swept" in ocr_text.lower():
+                        vision_json["liquidity_status_suggestion"] = "swept"
+                        vision_json["_vision_note"] += ", Inferred liquidity status from OCR text"
+    
+            # If question is about FVGs
+            elif "fvg" in question_lower or "fair value gap" in question_lower:
+                vision_json["fvg_analysis"] = {
+                    "count": 0,
+                    "description": "Could not determine FVG details with confidence"
+                }
+    
+            # If question is about MSS
+            elif "mss" in question_lower or "structure" in question_lower:
+                vision_json["mss_location_description"] = "MSS location could not be determined with confidence"
+                vision_json["mss_pivot_analysis"] = {
+                    "description": "Pivot structure unclear",
+                    "pivot_bearish_count": None,
+                    "pivot_bullish_count": None
+                }
+                vision_json["break_direction_suggestion"] = "unclear"
+    
+            # Add general fallback for trade evaluation queries
+            else:
+                vision_json["mss_location_description"] = "Could not identify MSS with confidence"
+                vision_json["break_direction_suggestion"] = "unclear"
+                vision_json["liquidity_zones_description"] = "Could not analyze liquidity zones with confidence"
+                vision_json["fvg_analysis"] = {
+                    "count": 0,
+                    "description": "Could not identify FVGs with confidence"
+                }
+                vision_json["trade_outcome_suggestion"] = "unknown"
+        else:
+            try:
+                vision_json = json.loads(vision_json_str)
+                vision_json["_vision_note"] = "Vision analysis completed."
+                logging.info("Vision model analysis extracted successfully.")
+        
+                # Cache the successful result
+                vision_results_cache[cache_key] = vision_json     
+            except json.JSONDecodeError:
+                logging.error(f"Failed to parse vision model JSON: {vision_json_str[:500]}")
+                # Try to salvage partial JSON
+                try:
+                    # Look for patterns that might indicate valid but incomplete JSON
+                    if '{' in vision_json_str and '"analysis_possible"' in vision_json_str:
+                        # Try to clean up and repair common JSON formatting issues
+                        cleaned_str = re.sub(r',\s*}', '}', vision_json_str)  # Remove trailing commas
+                        cleaned_str = re.sub(r',\s*]', ']', cleaned_str)     # Remove trailing commas in arrays
+                
+                        # Find the largest valid JSON subset
+                        start_idx = vision_json_str.find('{')
+                        end_idx = vision_json_str.rfind('}')
+                
+                        if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                            partial_json_str = cleaned_str[start_idx:end_idx+1]
+                            vision_json = json.loads(partial_json_str)
+                            vision_json["_vision_note"] = "Partial vision analysis (recovered from malformed JSON)"
+                            logging.info("Recovered partial JSON from vision model response")
+                        else:
+                            raise ValueError("Could not find valid JSON object boundaries")
+                    else:
+                        raise ValueError("No valid JSON pattern found")
+                except Exception as recovery_error:
+                    logging.error(f"JSON recovery attempt failed: {recovery_error}")
+            
+                    # Fall back to a basic structure
+                    vision_json = {
+                        "analysis_possible": False,
+                        "confidence_level": "low",
+                        "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
+                    }
+
+
+    # Rule Engine
+    try:
+        final_analysis_report = await asyncio.to_thread(apply_rule_engine, vision_json, cv_analysis)
+        logging.info("Rule engine processing completed.")
+    except Exception as e:
+        logging.error(f"Rule engine error: {e}")
+        final_analysis_report = vision_json # Fallback to vision results
+        final_analysis_report["_rule_engine_notes"] = (final_analysis_report.get("_rule_engine_notes","") + f" Rule engine failed: {str(e)}").strip()
+
+
+    # RAG
+    context_text = ""
+    try:
+        search_terms = [question]
+        if final_analysis_report.get("final_mss_type") not in [None, "not_identified", "unknown"]:
+            search_terms.append(f"MSS {final_analysis_report['final_mss_type']}")
+        if final_analysis_report.get("final_trade_direction") not in [None, "unknown"]:
+            search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
+        if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
+            search_terms.append("Fair Value Gap FVG")
+        search_query = " ".join(list(set(search_terms))) # Unique terms
+
+        async with openai_call_limiter:
+            embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
+        query_vector = embedding_response.data[0].embedding
+        pinecone_results = await asyncio.to_thread(
+            index.query, vector=query_vector, top_k=2, include_metadata=True # Reduced top_k for brevity
+        )
+        context_chunks = [
+            match.metadata["text"] for match in pinecone_results.matches
+            if match.score > 0.75 and match.metadata and "text" in match.metadata # Higher threshold
+        ]
+        if context_chunks:
+            context_text = "\n\n".join(context_chunks)
+        logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for image query.")
+    except Exception as e: # Non-critical, so don't raise HTTPException
+        logging.error(f"RAG retrieval error: {e}")
+        context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
+
+
+    # Final Response Generation
+    try:
+        system_prompt_for_completion = _build_system_prompt(query_type, requires_full_analysis)
+        messages_for_completion = [{"role": "system", "content": system_prompt_for_completion}]
+        for turn in history:
+            messages_for_completion.append({"role": "user", "content": turn.get("user", "")})
+            if "assistant" in turn:
+                messages_for_completion.append({"role": "assistant", "content": turn.get("assistant", "")})
+
+        tech_analysis_json_str = json.dumps(final_analysis_report, indent=2, ensure_ascii=False)
+        user_prompt_for_completion = f"""
+User Question: {question}
+
+Technical Analysis Report (This is the primary source of truth for chart features):
+```json
+{tech_analysis_json_str}
+{"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
+
+{"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
+
+Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
+Adhere to the persona and guidelines provided in the initial system prompt.
+"""
+        messages_for_completion.append({"role": "user", "content": user_prompt_for_completion})
+
+        async with openai_call_limiter:
+            completion_response = await async_openai_client.chat.completions.create(
+                model=COMPLETION_MODEL, messages=messages_for_completion, temperature=0.6, max_tokens=1200
+            )
+        answer = completion_response.choices[0].message.content.strip()
+
+        if history_store_key not in conversation_history:
+            conversation_history[history_store_key] = deque(maxlen=MAX_HISTORY_MESSAGES)
+        conversation_history[history_store_key].append({
+            "user": question, "assistant": answer, "image_url": image_url
+        })
+
+        duration_ms = int((time.time() - start_time) * 1000)
+        logging.info(f"Image-hybrid query completed in {duration_ms}ms. Session: {session_id}")
+        return {
+            "answer": answer, "session_id": session_id, "query_type": query_type,
+            "processing_time_ms": duration_ms, "analysis_data": final_analysis_report
+        }
+
+    except RateLimitError:
+        logging.warning("OpenAI rate limit hit during final completion.")
+        raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI (Completion). Te rog să încerci mai târziu.")
+    except APIError as e:
+        logging.error(f"OpenAI API error during final completion: {e}")
+        raise HTTPException(status_code=503, detail=f"Serviciul OpenAI (Completion) nu răspunde: {e}")
+    except Exception as e:
+        logging.error(f"Final completion error: {e}")
+        raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului final.")
+
+# --- Health Check (Async) ---
 @app.get("/health")
 async def health_check():
-    """Simple health check endpoint to verify the service is running."""
-    try:
-        openai.embeddings.create(model=EMBEDDING_MODEL, input=["test"])
-        test_vector = [0.0] * 1536
-        index.query(vector=test_vector, top_k=1)
+    """
+    Health check endpoint that verifies all components are functioning.
+    Checks:
+    1. OpenAI API connectivity
+    2. Pinecone connectivity
+    3. Basic server status
+    """
+    start_time = time.time()
+    status = {
+        "status": "ok",
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "components": {
+            "server": {"status": "ok", "message": "FastAPI server is running."},
+            "openai_api": {"status": "unknown"},
+            "pinecone": {"status": "unknown"}
+        }
+    }
+    http_status_code = 200
 
-        return {"status": "healthy", "openai": "connected", "pinecone": "connected", "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")}
+    # Check OpenAI API
+    try:
+        async with openai_call_limiter:
+            # Use a minimal model call to verify API connectivity
+            models = await async_openai_client.models.list(timeout=10) # Added timeout
+            if models and models.data:
+                status["components"]["openai_api"]["status"] = "ok"
+                status["components"]["openai_api"]["models_checked"] = len(models.data)
+            else:
+                status["components"]["openai_api"]["status"] = "error"
+                status["components"]["openai_api"]["error"] = "No models returned or empty list"
+                status["status"] = "degraded"
+                http_status_code = 503
     except Exception as e:
-        logging.error(f"Health check failed: {e}")
-        return {"status": "unhealthy", "error": str(e), "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")}
+        status["components"]["openai_api"]["status"] = "error"
+        status["components"]["openai_api"]["error"] = str(e)
+        status["status"] = "degraded"
+        http_status_code = 503
+
+    # Check Pinecone
+    try:
+        # Simple stats check to verify connectivity
+        index_stats = await asyncio.to_thread(index.describe_index_stats)
+        if index_stats and hasattr(index_stats, 'total_vector_count'):
+            status["components"]["pinecone"]["status"] = "ok"
+            status["components"]["pinecone"]["index_name"] = PINECONE_INDEX_NAME
+            status["components"]["pinecone"]["vector_count"] = index_stats.total_vector_count
+            # Accessing namespaces more safely
+            namespace_stats = index_stats.namespaces.get("", None) # Assuming default namespace might be empty string
+            if namespace_stats and hasattr(namespace_stats, 'vector_count'):
+                 status["components"]["pinecone"]["default_namespace_vector_count"] = namespace_stats.vector_count
+            else:
+                 status["components"]["pinecone"]["default_namespace_vector_count"] = "N/A or empty"
+        else:
+            status["components"]["pinecone"]["status"] = "error"
+            status["components"]["pinecone"]["error"] = "Failed to get valid index stats"
+            status["status"] = "degraded"
+            http_status_code = 503
+    except Exception as e:
+        status["components"]["pinecone"]["status"] = "error"
+        status["components"]["pinecone"]["error"] = str(e)
+        status["status"] = "degraded"
+        http_status_code = 503
+
+    # Final overall status update
+    if status["status"] == "degraded" and all(comp["status"] == "error" for comp_name, comp in status["components"].items() if comp_name != "server"):
+        status["status"] = "error" # If all external services fail, system is in error
+        http_status_code = 503
+    elif status["status"] == "degraded" and http_status_code == 200: # Ensure degraded also sends 503 if not already set
+        http_status_code = 503
+
+
+    duration_ms = int((time.time() - start_time) * 1000)
+    status["response_time_ms"] = duration_ms
+
+    return Response(content=json.dumps(status, ensure_ascii=False),
+                    media_type="application/json",
+                    status_code=http_status_code)
