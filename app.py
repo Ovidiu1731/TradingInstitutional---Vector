@@ -1377,7 +1377,7 @@ Technical Analysis Report (This is the primary source of truth for chart feature
 {tech_analysis_json_str}
 {"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
 
-{"" if not context_text or "Nu am putut prelua" in context_text else fr"Relevant Course Material (for additional context only):\n{context_text}"}
+{"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
 
 Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
 Adhere to the persona and guidelines provided in the initial system prompt.
