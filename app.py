@@ -1369,27 +1369,20 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
                 messages_for_completion.append({"role": "assistant", "content": turn.get("assistant", "")})
 
         tech_analysis_json_str = json.dumps(final_analysis_report, indent=2, ensure_ascii=False)
-        user_prompt_for_completion = f"""
-User Question: {question}
-
-Technical Analysis Report (This is the primary source of truth for chart features):
-```json
-{tech_analysis_json_str}
-```"""
+        user_prompt_for_completion = "User Question: " + question + "\n\n"
+        user_prompt_for_completion += "Technical Analysis Report (This is the primary source of truth for chart features):\n```json\n" 
+        user_prompt_for_completion += tech_analysis_json_str + "\n```\n\n"
 
 # Add OCR text if available
 if ocr_text:
-    user_prompt_for_completion += f"\nFull Text Extracted from Image (OCR): {ocr_text}\n"
+    user_prompt_for_completion += "Full Text Extracted from Image (OCR): " + ocr_text + "\n\n"
 
 # Add context text if available and not an error message
 if context_text and "Nu am putut prelua" not in context_text:
-    user_prompt_for_completion += "\nRelevant Course Material (for additional context only):\n" + context_text + "\n"
+    user_prompt_for_completion += "Relevant Course Material (for additional context only):\n" + context_text + "\n\n"
 
-user_prompt_for_completion += """
-
-Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
-Adhere to the persona and guidelines provided in the initial system prompt.
-"""
+user_prompt_for_completion += "Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.\n"
+user_prompt_for_completion += "Adhere to the persona and guidelines provided in the initial system prompt."
     
         messages_for_completion.append({"role": "user", "content": user_prompt_for_completion})
 
