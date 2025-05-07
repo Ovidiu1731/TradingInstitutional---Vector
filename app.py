@@ -1369,15 +1369,25 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
                 messages_for_completion.append({"role": "assistant", "content": turn.get("assistant", "")})
 
         tech_analysis_json_str = json.dumps(final_analysis_report, indent=2, ensure_ascii=False)
+        
+        # --- Start of the corrected block ---
+        ocr_section_content = ""
+        if ocr_text:
+            ocr_section_content = f"\nFull Text Extracted from Image (OCR): {ocr_text}" # Added newline for spacing if present
+
+        course_material_content = ""
+        if context_text and "Nu am putut prelua" not in context_text:
+            # The \n is correctly placed here.
+            course_material_content = f"\nRelevant Course Material (for additional context only):\n{context_text}"
+        # --- End of the corrected block ---    
+
         user_prompt_for_completion = f"""
 User Question: {question}
 
 Technical Analysis Report (This is the primary source of truth for chart features):
 ```json
 {tech_analysis_json_str}
-{"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
-
-{"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
+```{ocr_section_content}{course_material_content}
 
 Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
 Adhere to the persona and guidelines provided in the initial system prompt.
