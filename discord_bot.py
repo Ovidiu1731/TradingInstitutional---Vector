@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")  # Use local URL by default
+API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app/ask")  # Use local URL by default
 
 # Set up intents
 intents = discord.Intents.default()
