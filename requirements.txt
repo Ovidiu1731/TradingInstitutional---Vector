@@ -10,3 +10,4 @@ httpx
 cachetools
 pillow
 numpy
+discord.py
