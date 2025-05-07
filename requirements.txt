@@ -6,7 +6,7 @@ opencv-python-headless
 pytesseract
 python-dotenv
 aiohttp
-httpx
+httpx[http2]
 cachetools
 pillow
 numpy
