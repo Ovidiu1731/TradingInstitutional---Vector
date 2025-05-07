@@ -1360,38 +1360,28 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
 
 
     # Final Response Generation
-try:
-    system_prompt_for_completion = _build_system_prompt(query_type, requires_full_analysis)
-    messages_for_completion = [{"role": "system", "content": system_prompt_for_completion}]
-    for turn in history:
-        messages_for_completion.append({"role": "user", "content": turn.get("user", "")})
-        if "assistant" in turn:
-            messages_for_completion.append({"role": "assistant", "content": turn.get("assistant", "")})
+    try:
+        system_prompt_for_completion = _build_system_prompt(query_type, requires_full_analysis)
+        messages_for_completion = [{"role": "system", "content": system_prompt_for_completion}]
+        for turn in history:
+            messages_for_completion.append({"role": "user", "content": turn.get("user", "")})
+            if "assistant" in turn:
+                messages_for_completion.append({"role": "assistant", "content": turn.get("assistant", "")})
 
-    tech_analysis_json_str = json.dumps(final_analysis_report, indent=2, ensure_ascii=False)
+        tech_analysis_json_str = json.dumps(final_analysis_report, indent=2, ensure_ascii=False)
+        user_prompt_for_completion = f"""
+User Question: {quesiton}
+
+Technical Analysis Report (This is the primary source of truth for chart features):
+```json
+{"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
+
+{"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
+
+Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
+Adhere to the persona and guidelines provided in the initial system prompt.
+"""
     
-    # Create the user prompt as a single operation
-    user_prompt_for_completion = (
-        f"User Question: {question}\n\n"
-        f"Technical Analysis Report (This is the primary source of truth for chart features):\n"
-        f"```json\n{tech_analysis_json_str}\n```\n"
-    )
-    
-    # Add OCR text if available
-    if ocr_text:
-        user_prompt_for_completion += f"Full Text Extracted from Image (OCR): {ocr_text}\n\n"
-    
-    # Add context text if available and not an error message
-    if context_text and "Nu am putut prelua" not in context_text:
-        user_prompt_for_completion += "Relevant Course Material (for additional context only):\n" + context_text + "\n\n"
-    
-    # Add final instructions
-    user_prompt_for_completion += (
-        "Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.\n"
-        "Adhere to the persona and guidelines provided in the initial system prompt."
-    )
-    
-    messages_for_completion.append({"role": "user", "content": user_prompt_for_completion})
         messages_for_completion.append({"role": "user", "content": user_prompt_for_completion})
 
         async with openai_call_limiter:
