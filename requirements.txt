@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 openai
-pinecone-client
+pinecone
 opencv-python-headless
 pytesseract
 python-dotenv
