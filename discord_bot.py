@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app/ask")  # Use local URL by default
+API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app/ask")  # Production URL as default
 
 # Set up intents
 intents = discord.Intents.default()
@@ -76,7 +76,7 @@ async def on_message(message):
             except Exception as e:
                 print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
-        
+
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer)
 
