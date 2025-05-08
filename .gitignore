@@ -5,3 +5,11 @@
 .env.save
 .env
 .DS_Store
+
+# Ignore byte‑code
+__pycache__/
+*.pyc
+
+# Ignore byte‑code
+__pycache__/
+*.pyc

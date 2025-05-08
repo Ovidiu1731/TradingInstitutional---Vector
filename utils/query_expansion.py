@@ -2,10 +2,16 @@
 DOMAIN_SYNONYMS = {
     # extend this dict whenever you notice abbreviations
     "mss": "market structure shift",
-    "liq": "liquidity",
-    "ob":  "order block",
+    "liq": "lichiditate",
+    "rr":  "risk to reward",
     "imb": "imbalance",
-    "ot":  "optimal trade entry",
+    "htf":  "higher time frame",
+    "osg":  "one simple gap setup",
+    "tg":   "two gap setup",
+    "tcg":  "two consecutive gap setup",
+    "3g":   "three gap setup",
+    "3cg":  "three consecutive gap setup",
+    "slg":  "second leg setup",
 }
 
 def expand_query(q: str) -> str:

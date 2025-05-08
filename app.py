@@ -20,6 +20,7 @@ import cachetools # For TTLCache
 import pytesseract
 from PIL import Image # ImageDraw can be added if debugging CV by drawing on images
 from dotenv import load_dotenv
+from utils.query_expansion import expand_query
 # No explicit threading import needed if TTLCache handles its own thread safety for basic ops
 # and FastAPI handles request concurrency.
 from collections import deque # For conversation history fallback if TTLCache fails or for /ask
@@ -44,6 +45,8 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1-aws")
 FEEDBACK_LOG = os.getenv("FEEDBACK_LOG", "feedback_log.jsonl")
+MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.75"))
+TOP_K = int(os.getenv("PINECONE_TOP_K", "5"))
 
 # --- Model selection ---
 EMBEDDING_MODEL = "text-embedding-ada-002"
@@ -1036,7 +1039,9 @@ async def ask_question(query: TextQuery):
 
     logging.info(f"Text query received. Session: {session_id}, History length: {len(history)}")
 
-    search_query = question
+    # NEW ─ expand abbreviations for better retrieval
+    expanded = expand_query(question)
+    search_query = f"{question} {expanded}".strip()
     context_text = "" # Initialize context_text
 
     try:
@@ -1046,12 +1051,18 @@ async def ask_question(query: TextQuery):
             )
         query_vector = embedding_response.data[0].embedding
 
-        pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=3, include_metadata=True
-        )
+        pinecone_results = await asyncio.to_thread(           # run blocking call in thread
+                index.query,                                      # <-- pass the FUNCTION
+                vector=query_vector,
+                top_k=TOP_K,
+                include_metadata=True,
+            )
+
+        logging.info([m.score for m in pinecone_results.matches])
+        
         context_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score > 0.70 and match.metadata and "text" in match.metadata
+            if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata
         ]
         if context_chunks:
             context_text = "\n\n".join(context_chunks)
@@ -1077,16 +1088,39 @@ async def ask_question(query: TextQuery):
         if "assistant" in turn: # Ensure assistant message exists
             messages.append({"role": "assistant", "content": turn.get("assistant", "")})
 
+    ABBREV_MAP = """
+    TG  = Two Gap Setup (Two Consecutive Gap)
+    TCG = Two Consecutive Gap Setup
+    3CG = Three Consecutive Gap Setup
+    SLG = Second Leg Setup
+    """.strip()   
+
     if context_text and "problemă" not in context_text and "eroare" not in context_text : # Check if context is useful
-        current_prompt = f"Întrebare: {question}\n\nMaterial de Curs Relevant:\n{context_text}\n\nRăspunde la întrebarea utilizatorului folosind materialul de curs de mai sus și conversația anterioară. Fii concis și la obiect."
+
+        current_prompt = (
+            f"Întrebare: {question}\n\n"
+            "### GLOSAR\n"
+            f"{ABBREV_MAP}\n\n"
+            "### CONTEXT (copiază exact formulările)\n"
+            f"{context_text}\n"
+            "### END CONTEXT\n\n"
+            "Folosind **doar informațiile din CONTEXT**, răspunde la întrebarea utilizatorului. "
+            "Nu inventa termeni; citează formulările exact așa cum apar. "
+            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs”. "
+            "Răspuns concis, stil Trading Instituțional."
+        )
+
     else:
         current_prompt = f"Întrebare: {question}\n\n{context_text}\nRăspunde la întrebarea utilizatorului pe baza cunoștințelor tale generale despre trading și conversația anterioară, respectând stilul Trading Instituțional. Fii concis și la obiect."
+
     messages.append({"role": "user", "content": current_prompt})
+    
+    logging.info(f"\n─── CONTEXT SENT TO LLM ───\n{context_text}\n────────────────────────")
 
     try:
         async with openai_call_limiter:
             completion = await async_openai_client.chat.completions.create(
-                model=TEXT_MODEL, messages=messages, temperature=0.5, max_tokens=800
+                model=TEXT_MODEL, messages=messages, temperature=0, top_p=1, max_tokens=800
             )
         answer = completion.choices[0].message.content.strip()
 
@@ -1113,6 +1147,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
     start_time = time.time()
     session_id = payload.session_id or generate_session_id()
     question = payload.question.strip()
+    expanded = expand_query(question)
     image_url = payload.image_url.strip()
 
     if not question: raise HTTPException(status_code=400, detail="Întrebarea nu poate fi goală.")
@@ -1339,6 +1374,8 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
         if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
             search_terms.append("Fair Value Gap FVG")
+        if expanded:
+            search_terms.append(expanded)
         search_query = " ".join(list(set(search_terms))) # Unique terms
 
         async with openai_call_limiter:
@@ -1349,7 +1386,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         )
         context_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score > 0.75 and match.metadata and "text" in match.metadata # Higher threshold
+            if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata # Higher threshold
         ]
         if context_chunks:
             context_text = "\n\n".join(context_chunks)
