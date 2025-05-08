@@ -197,24 +197,30 @@ async def startup_event():
     logging.info("aiohttp.ClientSession initialized.")
     
     # Check if Tesseract is available
-    try:
-        test_version = pytesseract.get_tesseract_version()
-        logging.info(f"Tesseract OCR available, version: {test_version}")
-    except pytesseract.TesseractNotFoundError:
-        logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
-    except Exception as e:
-        logging.error(f"Error checking Tesseract: {e}")
+try:
+    test_version = pytesseract.get_tesseract_version()
+    logging.info(f"Tesseract OCR available, version: {test_version}")
+except pytesseract.TesseractNotFoundError:
+    logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
+except Exception as e:
+    logging.error(f"Error checking Tesseract: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
     if aiohttp_session and not aiohttp_session.closed:
         await aiohttp_session.close()
         logging.info("aiohttp.ClientSession closed.")
-    if async_openai_client: # The httpx.AsyncClient is managed by AsyncOpenAI
+    if async_openai_client:  # The httpx.AsyncClient is managed by AsyncOpenAI
         await async_openai_client.close()
         logging.info("AsyncOpenAI client closed.")
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 # --- Pydantic Models for Feedback and Requests ---
 class FeedbackModel(BaseModel):
@@ -241,74 +247,51 @@ def log_feedback(session_id: str, question: str, answer: str, feedback: str,
                  query_type: str, analysis_data: Optional[Dict] = None) -> bool:
     try:
         feedback_entry = {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"), "session_id": session_id,
-            "question": question, "answer": answer, "feedback": feedback, "query_type": query_type
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "session_id": session_id,
+            "question": question,
+            "answer": answer,
+            "feedback": feedback,
+            "query_type": query_type
         }
         if analysis_data:
-            relevant_fields = [
-                "final_trade_direction", "final_mss_type", "final_trade_outcome",
-                "is_risk_above_entry_suggestion",
-                "mss_pivot_analysis",
-                "fvg_analysis",
-                "liquidity_status_suggestion",
-                "break_direction_suggestion",
-                "confidence_level",
-                "setup_validity_score", # Added from rule engine
-                "setup_quality_summary", # Added from rule engine
-                "_cv_note", "_vision_note", "_rule_engine_notes"
-            ]
-            analysis_extract = {}
-            for k in relevant_fields:
-                if k in analysis_data:
-                     analysis_extract[k] = analysis_data.get(k)
-
-            # Pivot counts are directly in mss_pivot_analysis
-            if "mss_pivot_analysis" in analysis_data and isinstance(analysis_data["mss_pivot_analysis"], dict):
-                analysis_extract["pivot_bearish_count_vision"] = analysis_data["mss_pivot_analysis"].get("pivot_bearish_count")
-                analysis_extract["pivot_bullish_count_vision"] = analysis_data["mss_pivot_analysis"].get("pivot_bullish_count")
-
+            # ... existing extraction logic ...
             feedback_entry["analysis_data_from_report"] = analysis_extract
         with open(FEEDBACK_LOG, "a", encoding="utf-8") as f:
             f.write(json.dumps(feedback_entry, ensure_ascii=False) + "\n")
         return True
     except Exception as e:
-        logging.error(f"Failed to log feedback: {e}"); return False
+        logging.error(f"Failed to log feedback: {e}")
+        return False
 
 @app.post("/feedback")
 async def submit_feedback(feedback_data: FeedbackModel):
-    success = await asyncio.to_thread(log_feedback,
-        feedback_data.session_id, feedback_data.question, feedback_data.answer,
-        feedback_data.feedback, feedback_data.query_type, feedback_data.analysis_data
+    success = await asyncio.to_thread(
+        log_feedback,
+        feedback_data.session_id,
+        feedback_data.question,
+        feedback_data.answer,
+        feedback_data.feedback,
+        feedback_data.query_type,
+        feedback_data.analysis_data
     )
-    if success: return {"status": "success", "message": "Feedback înregistrat."}
-    else: raise HTTPException(status_code=500, detail="Nu am putut înregistra feedback-ul.")
+    if success:
+        return {"status": "success", "message": "Feedback înregistrat."}
+    else:
+        raise HTTPException(status_code=500, detail="Nu am putut înregistra feedback-ul.")
 
 # --- Query Type Identification ---
 def identify_query_type(question: str) -> Dict[str, Any]:
     question_lower = question.lower().strip()
-    
-    # More specific concept verification patterns
-    concept_verification_patterns = ["marcate corect", "sunt corecte", "este corect", "e corect"]
-    if any(p in question_lower for p in concept_verification_patterns):
-        logging.info("Query identified as 'concept_verification_image_query'.")
-        return {"type": "concept_verification_image_query"}
-    
-    # Trade evaluation patterns as a fallback
-    trade_evaluation_patterns = ["cum arata", "cum arată", "ce parere", "ce părere", "evalueaz", "analizeaz", 
-                                "trade", "setup", "intrare", "valid", "rezultat"]
-    if any(p in question_lower for p in trade_evaluation_patterns) or "?" not in question_lower:
-        logging.info("Query identified as 'trade_evaluation_image_query'.")
-        return {"type": "trade_evaluation_image_query"}
-        
-    logging.info("Query identified as 'general_image_query'.")
+    # ... existing logic ...
     return {"type": "general_image_query"}
 
 # --- Image/JSON Helpers ---
 async def download_image_async(image_url: str) -> Optional[bytes]:
-    global aiohttp_session # Move this line to the top of the function
+    global aiohttp_session
     if not aiohttp_session:
         logging.error("aiohttp_session not initialized for image download attempt.")
-        aiohttp_session = aiohttp.ClientSession() # Re-init if somehow missed
+        aiohttp_session = aiohttp.ClientSession()
         logging.warning("aiohttp_session re-initialized on-demand in download_image_async.")
     try:
         async with aiohttp_session.get(image_url, timeout=aiohttp.ClientTimeout(total=20)) as response:
@@ -322,29 +305,10 @@ async def download_image_async(image_url: str) -> Optional[bytes]:
 def _extract_text_from_image_sync(image_content: bytes) -> str:
     try:
         img = Image.open(BytesIO(image_content))
-        
-        # Try different preprocessing techniques to improve OCR results
-        # Convert to grayscale
-        img_gray = img.convert('L')
-        
-        # First attempt with original image
-        text = pytesseract.image_to_string(img, lang="eng")
-        
-        # If text is too short, try with grayscale and additional processing
-        if len(text.strip()) < 10:
-            # Apply thresholding to improve contrast
-            threshold = 150
-            img_bw = img_gray.point(lambda x: 0 if x < threshold else 255, '1')
-            text = pytesseract.image_to_string(img_bw, lang="eng", config='--psm 6')
-        
-        # Clean the extracted text
-        cleaned_text = "".join(ch for ch in text if ord(ch) < 128).strip()
-        cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
-        
-        logging.info(f"OCR: Extracted text length: {len(cleaned_text)}")
+        # ... preprocessing and OCR logic ...
         return cleaned_text
     except pytesseract.TesseractNotFoundError:
-        logging.error("Tesseract not found. Please ensure it is installed and in your PATH. OCR will not function.")
+        logging.error("Tesseract not found. OCR will not function.")
         return ""
     except Exception as e:
         logging.exception(f"OCR failed: {e}")
@@ -358,8 +322,14 @@ def optimize_image_before_vision(image_content: bytes, max_size: int = 1024*1024
     """Reduce image size if needed before sending to vision model"""
     if len(image_content) <= max_size:
         return image_content
-        
+
     try:
+        # ... your resizing logic ...
+        return optimized_image
+    except Exception as e:
+        logging.error(f"Image optimization failed: {e}")
+        return image_content
+
         img = Image.open(BytesIO(image_content))
         img_format = img.format
         width, height = img.size
@@ -380,6 +350,13 @@ def optimize_image_before_vision(image_content: bytes, max_size: int = 1024*1024
         logging.error(f"Image optimization failed: {e}")
         return image_content  # Return original if optimization fails    
 
+def extract_json_from_text(text: str) -> Optional[str]:
+    logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
+    # Priority for markdown ```json ... ```
+    json_pattern_markdown = r"```(?:json)?\s*(\{[\s\S]*?\})\s*```"
+    match_md = re.search(json_pattern_markdown, text, re.MULTILINE | re.DOTALL)
+    if match_md:
+        extracted = match_md.group(1).strip()
 def extract_json_from_text(text: str) -> Optional[str]:
     logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
     # Priority for markdown ```json ... ```
@@ -411,6 +388,45 @@ def extract_json_from_text(text: str) -> Optional[str]:
 
 def generate_session_id() -> str:
     return f"{int(time.time())}-{os.urandom(4).hex()}"
+
+# --- Query Expansion Function ---
+def expand_query(query: str) -> str:
+    """Expand query with trading-specific terminology to improve vector search results."""
+    expansion_terms = []
+    
+    # Common trading abbreviations to expand
+    expansions = {
+        "OG": ["One Gap Setup", "One Gap", "Gap Setup"],
+        "SLG": ["Second Leg Gap", "Second Leg Setup"],
+        "TG": ["Two Gap Setup", "Two Gap"],
+        "TCG": ["Two Consecutive Gaps", "Consecutive Gaps Setup"],
+        "MG": ["Multiple Gaps", "Multiple Gaps Setup"],
+        "MSS": ["Market Structure Shift", "structura de piață", "schimbare de structură"],
+        "FVG": ["Fair Value Gap", "gap", "spațiu gol"]
+    }
+    
+    # Check for abbreviations to expand
+    for abbr, terms in expansions.items():
+        if abbr in query.upper().split():
+            expansion_terms.extend(terms)
+    
+    # Add relevant terms based on concepts mentioned
+    concept_terms = {
+        "setup": ["setup-uri", "tipuri de setup", "pattern", "strategia"],
+        "lichid": ["lichidități", "liquidity", "zone de lichiditate"],
+        "structur": ["MSS", "market structure shift", "structura"],
+        "gap": ["FVG", "Fair Value Gap", "spațiu gol"],
+        "long": ["cumpărare", "poziții long", "bullish"],
+        "short": ["vânzare", "poziții short", "bearish"]
+    }
+    
+    query_lower = query.lower()
+    for key, terms in concept_terms.items():
+        if key in query_lower:
+            expansion_terms.extend(terms)
+    
+    # Return expanded string or empty string if no expansion
+    return " ".join(expansion_terms)
 
 # --- CV Functions ---
 def locate_risk_box_cv(img_np: np.ndarray) -> Optional[Dict[str, Any]]:
@@ -1039,7 +1055,7 @@ async def ask_question(query: TextQuery):
 
     logging.info(f"Text query received. Session: {session_id}, History length: {len(history)}")
 
-    # NEW ─ expand abbreviations for better retrieval
+    # NEW — expand abbreviations for better retrieval 
     expanded = expand_query(question)
     search_query = f"{question} {expanded}".strip()
     context_text = "" # Initialize context_text
@@ -1051,18 +1067,18 @@ async def ask_question(query: TextQuery):
             )
         query_vector = embedding_response.data[0].embedding
 
-        pinecone_results = await asyncio.to_thread(           # run blocking call in thread
-                index.query,                                      # <-- pass the FUNCTION
-                vector=query_vector,
-                top_k=TOP_K,
-                include_metadata=True,
-            )
-
+        pinecone_results = await asyncio.to_thread(
+            index.query,
+            vector=query_vector,
+            top_k=3,  # You can define TOP_K as a constant at the top of your file
+            include_metadata=True
+        )
+        
         logging.info([m.score for m in pinecone_results.matches])
         
         context_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata
+            if match.score >= 0.75 and match.metadata and "text" in match.metadata  # Increased threshold
         ]
         if context_chunks:
             context_text = "\n\n".join(context_chunks)
@@ -1095,8 +1111,7 @@ async def ask_question(query: TextQuery):
     SLG = Second Leg Setup
     """.strip()   
 
-    if context_text and "problemă" not in context_text and "eroare" not in context_text : # Check if context is useful
-
+    if context_text and "problemă" not in context_text and "eroare" not in context_text: # Check if context is useful
         current_prompt = (
             f"Întrebare: {question}\n\n"
             "### GLOSAR\n"
@@ -1106,13 +1121,12 @@ async def ask_question(query: TextQuery):
             "### END CONTEXT\n\n"
             "Folosind **doar informațiile din CONTEXT**, răspunde la întrebarea utilizatorului. "
             "Nu inventa termeni; citează formulările exact așa cum apar. "
-            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs”. "
+            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs". "
             "Răspuns concis, stil Trading Instituțional."
         )
-
     else:
         current_prompt = f"Întrebare: {question}\n\n{context_text}\nRăspunde la întrebarea utilizatorului pe baza cunoștințelor tale generale despre trading și conversația anterioară, respectând stilul Trading Instituțional. Fii concis și la obiect."
-
+    
     messages.append({"role": "user", "content": current_prompt})
     
     logging.info(f"\n─── CONTEXT SENT TO LLM ───\n{context_text}\n────────────────────────")
@@ -1120,7 +1134,35 @@ async def ask_question(query: TextQuery):
     try:
         async with openai_call_limiter:
             completion = await async_openai_client.chat.completions.create(
-                model=TEXT_MODEL, messages=messages, temperature=0, top_p=1, max_tokens=800
+                model=TEXT_MODEL, messages=messages, temperature=0.5, max_tokens=800
+            )
+        answer = completion.choices[0].message.content.strip()
+
+        if history_store_key not in conversation_history:
+            conversation_history[history_store_key] = deque(maxlen=MAX_HISTORY_MESSAGES)
+        conversation_history[history_store_key].append({"user": question, "assistant": answer})
+
+        duration_ms = int((time.time() - start_time) * 1000)
+        logging.info(f"Text query completed in {duration_ms}ms. Session: {session_id}")
+        return {"answer": answer, "session_id": session_id, "query_type": "text_only", "processing_time_ms": duration_ms}
+
+    except RateLimitError:
+        logging.warning("OpenAI rate limit hit during text query completion.")
+        raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI. Te rog să încerci mai târziu.")
+    except APIError as e:
+        logging.error(f"OpenAI API error during completion: {e}")
+        raise HTTPException(status_code=503, detail=f"Serviciul OpenAI nu răspunde: {e}")
+    except Exception as e:
+        logging.error(f"Completion error: {e}")
+        raise HTTPException(status_code=500, detail="A apărut o eroare la procesarea întrebării.")
+
+    try:
+        async with openai_call_limiter:
+            completion = await async_openai_client.chat.completions.create(
+                model=TEXT_MODEL,
+                messages=messages,
+                temperature=0.5,
+                max_tokens=800
             )
         answer = completion.choices[0].message.content.strip()
 
@@ -1374,6 +1416,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
         if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
             search_terms.append("Fair Value Gap FVG")
+  # Include expanded query terms for better retrieval
         if expanded:
             search_terms.append(expanded)
         search_query = " ".join(list(set(search_terms))) # Unique terms
@@ -1386,7 +1429,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         )
         context_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata # Higher threshold
+        if match.score >= 0.75 and match.metadata and "text" in match.metadata  # Higher threshold
         ]
         if context_chunks:
             context_text = "\n\n".join(context_chunks)
@@ -1406,15 +1449,22 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
                 messages_for_completion.append({"role": "assistant", "content": turn.get("assistant", "")})
 
         tech_analysis_json_str = json.dumps(final_analysis_report, indent=2, ensure_ascii=False)
+# --- Start of the corrected block ---
+        ocr_section_content = ""
+        if ocr_text:
+            ocr_section_content = f"\nFull Text Extracted from Image (OCR): {ocr_text}" # Added newline for spacing if present
+        course_material_content = ""
+        if context_text and "Nu am putut prelua" not in context_text:
+            # The \n is correctly placed here.
+            course_material_content = f"\nRelevant Course Material (for additional context only):\n{context_text}"
+        # --- End of the corrected block ---
         user_prompt_for_completion = f"""
 User Question: {question}
 
 Technical Analysis Report (This is the primary source of truth for chart features):
 ```json
 {tech_analysis_json_str}
-{"" if not ocr_text else f"Full Text Extracted from Image (OCR): {ocr_text}"}
-
-{"" if not context_text or "Nu am putut prelua" in context_text else f"Relevant Course Material (for additional context only):\n{context_text}"}
+{ocr_section_content}{course_material_content}
 
 Based on the Technical Analysis Report, any relevant course material, and our conversation history, please answer the user's question.
 Adhere to the persona and guidelines provided in the initial system prompt.
@@ -1527,6 +1577,6 @@ async def health_check():
     duration_ms = int((time.time() - start_time) * 1000)
     status["response_time_ms"] = duration_ms
 
-    return Response(content=json.dumps(status, ensure_ascii=False),
-                    media_type="application/json",
-                    status_code=http_status_code)
+ return Response(content=json.dumps(status, ensure_ascii=False),
+                media_type="application/json",
+                status_code=http_status_code)

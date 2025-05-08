@@ -1,15 +1,13 @@
+# ─── Secrets & Env files ──────────────────────
 .env
-.DS_Store
-.env
-.DS_Store
-.env.save
-.env
+.env.*          # catches .env.save, .env.prod, etc.
+
+# ─── macOS cruft ──────────────────────────────
 .DS_Store
 
-# Ignore byte‑code
+# ─── Python byte-code & caches ───────────────
 __pycache__/
 *.pyc
 
-# Ignore byte‑code
-__pycache__/
-*.pyc
+# ─── Node dependencies (from main) ───────────
+node_modules/

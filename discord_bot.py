@@ -6,15 +6,13 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")  # Use local URL by default
+API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app/ask")  # Production URL as default
 
 # Set up intents
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
-
 client = discord.Client(intents=intents)
 
 @client.event
@@ -25,36 +23,37 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-
+    
     if client.user.mentioned_in(message):
         # DEBUG
         print("Raw message content:", message.content)
-
         question = message.content.replace(f"<@{client.user.id}>", "").replace(f"<@!{client.user.id}>", "").strip()
         print("Extracted question:", question)
-
+        
         if not question:
             await message.channel.send("Întrebarea este goală.")
             return
-
+        
         async with message.channel.typing():
             try:
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    endpoint = f"{API_BASE_URL}/ask-image-hybrid"
+                    # Change this part: Remove "/ask" from endpoint construction
+                    endpoint = API_BASE_URL.replace("/ask", "") + "/ask-image-hybrid"
                     payload = {
                         "question": question,
                         "image_url": image_url
                     }
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
-                    endpoint = f"{API_BASE_URL}/ask"
+                    # For text-only queries, use the base URL as is
+                    endpoint = API_BASE_URL
                     payload = {
                         "question": question
                     }
                     print(f"💬 Routing to {endpoint} with payload: {payload}")
-
+                
                 print(f"Full request URL: {endpoint}")
                 async with aiohttp.ClientSession() as session:
                     print(f"Making POST request to: {endpoint}")
@@ -74,7 +73,6 @@ async def on_message(message):
                     except Exception as e:
                         print(f"Exception during request: {type(e).__name__}: {str(e)}")
                         answer = f"❌ Eroare la conectarea cu serverul: {e}"
-
             except Exception as e:
                 print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
