@@ -1,4 +1,10 @@
+# ─── Secrets & Env files ─────────────────
 .env
+.env.*          # ← catches .env.save, .env.prod, etc.
+
+# ─── macOS cruft ─────────────────────────
 .DS_Store
-.env
-.DS_Store
+
+# ─── Python byte‑code & caches ───────────
+__pycache__/
+*.pyc
