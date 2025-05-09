@@ -34,18 +34,28 @@ index = pc.Index(INDEX_NAME)
 with open("lessons.json", "r", encoding="utf-8") as f:
     lessons = json.load(f)
 
-# 5. Optional: a splitter if you want to chunk long texts
-def split_text(text, max_tokens=500):
+# 5. Split text into overlapping chunks to keep headings with their content
+def split_text(text, max_tokens=500, overlap=50):
+    """
+    Break `text` into chunks of up to `max_tokens` tokens, 
+    carrying `overlap` words from the end of one chunk to the start of the next.
+    """
     enc = tiktoken.encoding_for_model("gpt-3.5-turbo")
-    words, chunks, curr = text.split(), [], []
+    words = text.split()
+    chunks = []
+    curr = []
     for w in words:
         curr.append(w)
+        # once we exceed max_tokens, flush the chunk
         if len(enc.encode(" ".join(curr))) >= max_tokens:
             chunks.append(" ".join(curr))
-            curr = []
+            # keep the last `overlap` words to overlap into the next chunk
+            curr = curr[-overlap:]
+    # any remainder
     if curr:
         chunks.append(" ".join(curr))
     return chunks
+
 
 # 6. Process each lesson
 for lesson in lessons:
