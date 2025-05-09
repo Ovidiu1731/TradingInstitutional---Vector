@@ -1121,7 +1121,7 @@ async def ask_question(query: TextQuery):
             "### END CONTEXT\n\n"
             "Folosind **doar informațiile din CONTEXT**, răspunde la întrebarea utilizatorului. "
             "Nu inventa termeni; citează formulările exact așa cum apar. "
-            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs". "
+            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs."
             "Răspuns concis, stil Trading Instituțional."
         )
     else:
