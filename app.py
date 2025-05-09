@@ -1577,6 +1577,6 @@ async def health_check():
     duration_ms = int((time.time() - start_time) * 1000)
     status["response_time_ms"] = duration_ms
 
- return Response(content=json.dumps(status, ensure_ascii=False),
+    return Response(content=json.dumps(status, ensure_ascii=False),
                 media_type="application/json",
                 status_code=http_status_code)
