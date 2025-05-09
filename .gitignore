@@ -11,3 +11,9 @@ __pycache__/
 
 # ─── Node dependencies (from main) ───────────
 node_modules/
+
+# Local helper scripts & saved env backups
+.env.save
+debug_pinecone.py
+test_pinecone.py
+verify_pinecone.py
