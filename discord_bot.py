@@ -48,14 +48,6 @@ class FeedbackView(discord.ui.View):
             for item in self.children:
                 item.disabled = True
             
-            # Prepare message based on feedback type
-            if feedback_type == "positive":
-                message_suffix = "**Mulțumim pentru feedback-ul pozitiv!** 🎉"
-            elif feedback_type == "negative":
-                message_suffix = "**Mulțumim pentru feedback-ul negativ!** Vom lucra să îmbunătățim răspunsurile. 🛠️"
-            else:
-                message_suffix = "**Mulțumim pentru feedback!** 📝"
-                
             # Send API request
             endpoint = self.api_url.replace("/ask", "") + "/feedback"
             payload = {
@@ -73,17 +65,16 @@ class FeedbackView(discord.ui.View):
                 async with session.post(endpoint, json=payload) as resp:
                     print(f"Feedback response status: {resp.status}")
                     if resp.status == 200:
-                        response_data = await resp.json()
-                        print(f"Feedback response: {response_data}")
-                        await interaction.response.edit_message(content=f"{self.answer}\n\n{message_suffix}", view=self)
+                        # Just update the view with disabled buttons, don't change the text
+                        await interaction.response.edit_message(content=self.answer, view=self)
                     else:
-                        error_text = await resp.text()
-                        print(f"Feedback error: {error_text}")
-                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Nu am putut înregistra feedback-ul.*", view=self)
+                        # In case of error, you can either be silent or show a small error indicator
+                        await interaction.response.edit_message(content=self.answer, view=self)
             
         except Exception as e:
             print(f"Error sending feedback: {e}")
-            await interaction.response.edit_message(content=f"{self.answer}\n\n*Eroare la înregistrarea feedback-ului.*", view=self)
+            # Keep original answer unchanged
+            await interaction.response.edit_message(content=self.answer, view=self)
 
 @client.event
 async def on_message(message):
