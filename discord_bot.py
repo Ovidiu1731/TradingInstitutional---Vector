@@ -1,9 +1,10 @@
 import os
 import discord
+from discord import app_commands
+from discord.ui import Button, View
 import aiohttp
 import asyncio
 from dotenv import load_dotenv
-
 # Load environment variables
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
@@ -13,11 +14,52 @@ API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
+intents.reactions = True  # Add this for button interactions
 client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
     print(f"✅ Logged in as {client.user.name} (ID: {client.user.id})")
+
+class FeedbackView(discord.ui.View):
+    def __init__(self, api_url, question, answer):
+        super().__init__(timeout=600)  # 10 minute timeout
+        self.api_url = api_url
+        self.question = question
+        self.answer = answer
+        
+    @discord.ui.button(label="👍", style=discord.ButtonStyle.green)
+    async def positive_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.send_feedback(interaction, "positive")
+        
+    @discord.ui.button(label="👎", style=discord.ButtonStyle.red)
+    async def negative_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.send_feedback(interaction, "negative")
+        
+    async def send_feedback(self, interaction: discord.Interaction, feedback_type):
+        try:
+            # Disable all buttons
+            for item in self.children:
+                item.disabled = True
+                
+            # Send API request
+            endpoint = self.api_url.replace("/ask", "") + "/feedback"
+            payload = {
+                "session_id": "discord-" + str(interaction.user.id),
+                "question": self.question,
+                "answer": self.answer,
+                "feedback": feedback_type
+            }
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(endpoint, json=payload) as resp:
+                    if resp.status == 200:
+                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Feedback înregistrat: {'👍' if feedback_type == 'positive' else '👎'}*", view=self)
+                    else:
+                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Nu am putut înregistra feedback-ul.*", view=self)
+        except Exception as e:
+            print(f"Error sending feedback: {e}")
+            await interaction.response.edit_message(content=f"{self.answer}\n\n*Eroare la înregistrarea feedback-ului.*", view=self)
 
 @client.event
 async def on_message(message):
@@ -78,6 +120,6 @@ async def on_message(message):
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
         print(f"About to send answer to Discord: {answer[:100]}...")
-        await message.channel.send(answer)
+        await message.channel.send(answer, view=view)
 
 client.run(DISCORD_TOKEN)
