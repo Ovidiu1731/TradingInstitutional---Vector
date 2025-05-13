@@ -37,39 +37,39 @@ class FeedbackView(discord.ui.View):
         await self.send_feedback(interaction, "negative")
         
     async def send_feedback(self, interaction: discord.Interaction, feedback_type):
-    try:
-        # Disable all buttons
-        for item in self.children:
-            item.disabled = True
+        try:
+            # Disable all buttons
+            for item in self.children:
+                item.disabled = True
+                
+            # Send API request
+            endpoint = self.api_url.replace("/ask", "") + "/feedback"
+            payload = {
+                "session_id": "discord-" + str(interaction.user.id),
+                "question": self.question,
+                "answer": self.answer,
+                "feedback": feedback_type,
+                "query_type": "discord_query",  # Added this field
+                "analysis_data": None  # Added this field
+            }
             
-        # Send API request
-        endpoint = self.api_url.replace("/ask", "") + "/feedback"
-        payload = {
-            "session_id": "discord-" + str(interaction.user.id),
-            "question": self.question,
-            "answer": self.answer,
-            "feedback": feedback_type,
-            "query_type": "discord_query",  # Added this field
-            "analysis_data": None  # Added this field
-        }
-        
-        print(f"Sending feedback to: {endpoint}")
-        print(f"Feedback payload: {payload}")
-        
-        async with aiohttp.ClientSession() as session:
-            async with session.post(endpoint, json=payload) as resp:
-                print(f"Feedback response status: {resp.status}")
-                if resp.status == 200:
-                    response_data = await resp.json()
-                    print(f"Feedback response: {response_data}")
-                    await interaction.response.edit_message(content=f"{self.answer}\n\n*Feedback înregistrat: {'👍' if feedback_type == 'positive' else '👎'}*", view=self)
-                else:
-                    error_text = await resp.text()
-                    print(f"Feedback error: {error_text}")
-                    await interaction.response.edit_message(content=f"{self.answer}\n\n*Nu am putut înregistra feedback-ul. Eroare: {resp.status}*", view=self)
-    except Exception as e:
-        print(f"Error sending feedback: {e}")
-        await interaction.response.edit_message(content=f"{self.answer}\n\n*Eroare la înregistrarea feedback-ului: {str(e)}*", view=self)
+            print(f"Sending feedback to: {endpoint}")
+            print(f"Feedback payload: {payload}")
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(endpoint, json=payload) as resp:
+                    print(f"Feedback response status: {resp.status}")
+                    if resp.status == 200:
+                        response_data = await resp.json()
+                        print(f"Feedback response: {response_data}")
+                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Feedback înregistrat: {'👍' if feedback_type == 'positive' else '👎'}*", view=self)
+                    else:
+                        error_text = await resp.text()
+                        print(f"Feedback error: {error_text}")
+                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Nu am putut înregistra feedback-ul. Eroare: {resp.status}*", view=self)
+        except Exception as e:
+            print(f"Error sending feedback: {e}")
+            await interaction.response.edit_message(content=f"{self.answer}\n\n*Eroare la înregistrarea feedback-ului: {str(e)}*", view=self)
 
 @client.event
 async def on_message(message):
