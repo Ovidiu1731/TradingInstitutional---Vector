@@ -129,6 +129,9 @@ async def on_message(message):
                 print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
+        # Create feedback view with buttons - ADD THIS LINE
+        view = FeedbackView(API_BASE_URL, question, answer)
+        
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer, view=view)
 
