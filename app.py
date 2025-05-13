@@ -1500,6 +1500,34 @@ Adhere to the persona and guidelines provided in the initial system prompt.
         logging.error(f"Final completion error: {e}")
         raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului final.")
 
+@app.get("/pinecone-stats")
+async def pinecone_stats():
+    """
+    Returns statistics about the Pinecone index
+    """
+    try:
+        # Get index stats
+        index_stats = await asyncio.to_thread(index.describe_index_stats)
+        
+        # Return detailed information
+        return {
+            "status": "ok",
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "pinecone_index": {
+                "name": PINECONE_INDEX_NAME,
+                "total_vector_count": index_stats.total_vector_count
+            },
+            "environment": {
+                "openai_model": COMPLETION_MODEL,
+                "embedding_model": EMBEDDING_MODEL
+            }
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
 # --- Health Check (Async) ---
 @app.get("/health")
 async def health_check():
