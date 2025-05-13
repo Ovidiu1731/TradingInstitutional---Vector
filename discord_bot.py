@@ -5,6 +5,7 @@ from discord.ui import Button, View
 import aiohttp
 import asyncio
 from dotenv import load_dotenv
+
 # Load environment variables
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
@@ -15,6 +16,7 @@ intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
 intents.reactions = True  # Add this for button interactions
+
 client = discord.Client(intents=intents)
 
 @client.event
@@ -28,11 +30,15 @@ class FeedbackView(discord.ui.View):
         self.question = question
         self.answer = answer
         
-    @discord.ui.button(label="👍", style=discord.ButtonStyle.green)
+    @discord.ui.button(label="👍 Util", style=discord.ButtonStyle.gray, custom_id="positive_feedback", row=0)
     async def positive_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.send_feedback(interaction, "positive")
         
-    @discord.ui.button(label="👎", style=discord.ButtonStyle.red)
+    @discord.ui.button(label="🤔 Parțial", style=discord.ButtonStyle.gray, custom_id="neutral_feedback", row=0)
+    async def neutral_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.send_feedback(interaction, "neutral")
+        
+    @discord.ui.button(label="👎 Inutil", style=discord.ButtonStyle.gray, custom_id="negative_feedback", row=0)
     async def negative_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.send_feedback(interaction, "negative")
         
@@ -41,6 +47,14 @@ class FeedbackView(discord.ui.View):
             # Disable all buttons
             for item in self.children:
                 item.disabled = True
+            
+            # Prepare message based on feedback type
+            if feedback_type == "positive":
+                message_suffix = "**Mulțumim pentru feedback-ul pozitiv!** 🎉"
+            elif feedback_type == "negative":
+                message_suffix = "**Mulțumim pentru feedback-ul negativ!** Vom lucra să îmbunătățim răspunsurile. 🛠️"
+            else:
+                message_suffix = "**Mulțumim pentru feedback!** 📝"
                 
             # Send API request
             endpoint = self.api_url.replace("/ask", "") + "/feedback"
@@ -49,12 +63,11 @@ class FeedbackView(discord.ui.View):
                 "question": self.question,
                 "answer": self.answer,
                 "feedback": feedback_type,
-                "query_type": "discord_query",  # Added this field
-                "analysis_data": None  # Added this field
+                "query_type": "discord_query",
+                "analysis_data": None
             }
             
             print(f"Sending feedback to: {endpoint}")
-            print(f"Feedback payload: {payload}")
             
             async with aiohttp.ClientSession() as session:
                 async with session.post(endpoint, json=payload) as resp:
@@ -62,14 +75,15 @@ class FeedbackView(discord.ui.View):
                     if resp.status == 200:
                         response_data = await resp.json()
                         print(f"Feedback response: {response_data}")
-                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Feedback înregistrat: {'👍' if feedback_type == 'positive' else '👎'}*", view=self)
+                        await interaction.response.edit_message(content=f"{self.answer}\n\n{message_suffix}", view=self)
                     else:
                         error_text = await resp.text()
                         print(f"Feedback error: {error_text}")
-                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Nu am putut înregistra feedback-ul. Eroare: {resp.status}*", view=self)
+                        await interaction.response.edit_message(content=f"{self.answer}\n\n*Nu am putut înregistra feedback-ul.*", view=self)
+            
         except Exception as e:
             print(f"Error sending feedback: {e}")
-            await interaction.response.edit_message(content=f"{self.answer}\n\n*Eroare la înregistrarea feedback-ului: {str(e)}*", view=self)
+            await interaction.response.edit_message(content=f"{self.answer}\n\n*Eroare la înregistrarea feedback-ului.*", view=self)
 
 @client.event
 async def on_message(message):
@@ -129,7 +143,7 @@ async def on_message(message):
                 print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
-        # Create feedback view with buttons - ADD THIS LINE
+        # Create feedback view with buttons
         view = FeedbackView(API_BASE_URL, question, answer)
         
         print(f"About to send answer to Discord: {answer[:100]}...")
