@@ -280,6 +280,35 @@ async def submit_feedback(feedback_data: FeedbackModel):
     else:
         raise HTTPException(status_code=500, detail="Nu am putut înregistra feedback-ul.")
 
+@app.get("/admin/export-feedback")
+async def export_feedback(request: Request, api_key: str = None):
+    """Endpoint to export feedback logs securely"""
+    # Set a secure API key in Railway variables
+    ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+    
+    # Validate the API key
+    if not ADMIN_API_KEY or api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    try:
+        # Check if the feedback log file exists
+        if not os.path.exists(FEEDBACK_LOG):
+            return {"status": "no_logs", "message": "No feedback logs found"}
+        
+        # Read the feedback logs
+        with open(FEEDBACK_LOG, "r", encoding="utf-8") as f:
+            logs = [json.loads(line) for line in f]
+        
+        # Return the logs as JSON
+        return {
+            "status": "success", 
+            "count": len(logs), 
+            "logs": logs
+        }
+    except Exception as e:
+        logging.error(f"Error exporting feedback logs: {e}")
+        raise HTTPException(status_code=500, detail=f"Error reading logs: {str(e)}")
+
 # --- Query Type Identification ---
 def identify_query_type(question: str) -> Dict[str, Any]:
     question_lower = question.lower().strip()
