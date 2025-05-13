@@ -30,15 +30,15 @@ class FeedbackView(discord.ui.View):
         self.question = question
         self.answer = answer
         
-    @discord.ui.button(label="👍 Util", style=discord.ButtonStyle.gray, custom_id="positive_feedback", row=0)
+    @discord.ui.button(label="👍 ", style=discord.ButtonStyle.gray, custom_id="positive_feedback", row=0)
     async def positive_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.send_feedback(interaction, "positive")
         
-    @discord.ui.button(label="🤔 Parțial", style=discord.ButtonStyle.gray, custom_id="neutral_feedback", row=0)
+    @discord.ui.button(label="🤔 ", style=discord.ButtonStyle.gray, custom_id="neutral_feedback", row=0)
     async def neutral_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.send_feedback(interaction, "neutral")
         
-    @discord.ui.button(label="👎 Inutil", style=discord.ButtonStyle.gray, custom_id="negative_feedback", row=0)
+    @discord.ui.button(label="👎 ", style=discord.ButtonStyle.gray, custom_id="negative_feedback", row=0)
     async def negative_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.send_feedback(interaction, "negative")
         
