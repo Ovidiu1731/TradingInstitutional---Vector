@@ -1110,10 +1110,10 @@ async def ask_question(query: TextQuery):
             match.metadata["text"] for match in pinecone_results.matches
             if match.metadata and "text" in match.metadata
         ]
-        # Apply sophisticated filtering to prioritize relevant content
+        # No filtering
         if all_chunks:
-            context_text = "\n\n".join(filtered_chunks)
-            logging.info(f"After filtering: Retrieved {len(filtered_chunks)} context chunks (from {len(all_chunks)} original)")
+            context_text = "\n\n".join(all_chunks)
+            logging.info(f"Using all {len(all_chunks)} context chunks for query.")
         else:
             context_text = ""
         logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for text query.")
@@ -1469,8 +1469,8 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
 
         # Apply sophisticated filtering to prioritize relevant content
         if all_chunks:
-            context_text = "\n\n".join(filtered_chunks)
-            logging.info(f"After filtering: Retrieved {len(filtered_chunks)} context chunks (from {len(all_chunks)} original)")
+            context_text = "\n\n".join(all_chunks)
+            logging.info(f"Using all {len(all_chunks)} context chunks for query.")
         else:
             context_text = ""
         logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for image query.")
