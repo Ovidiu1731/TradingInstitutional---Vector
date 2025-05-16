@@ -14,6 +14,7 @@ import httpx
 import math
 import aiohttp # For async image downloads
 import cv2
+from utils.chunk_filtering import filter_and_rank_chunks
 import numpy as np
 import cachetools # For TTLCache
 
@@ -1104,14 +1105,20 @@ async def ask_question(query: TextQuery):
         )
         
         logging.info([m.score for m in pinecone_results.matches])
-        
-        context_chunks = [
+        # First collect all chunks regardless of score
+        all_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata  # Increased threshold
+            if match.metadata and "text" in match.metadata
         ]
-        if context_chunks:
-            context_text = "\n\n".join(context_chunks)
-        logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for text query.")
+        # Apply sophisticated filtering to prioritize relevant content
+        if all_chunks:
+            from chunk_filtering import filter_and_rank_chunks
+            filtered_chunks = filter_and_rank_chunks(all_chunks, question, expanded)
+            context_text = "\n\n".join(filtered_chunks)
+            logging.info(f"After filtering: Retrieved {len(filtered_chunks)} context chunks (from {len(all_chunks)} original)")
+        else:
+            context_text = ""
+        logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for text query.")
 
     except Exception as pe:
         logging.error(f"Pinecone vector search error: {pe}")
@@ -1454,14 +1461,22 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
         query_vector = embedding_response.data[0].embedding
         pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=2, include_metadata=True # Reduced top_k for brevity
+            index.query, vector=query_vector, top_k=3, include_metadata=True # Reduced top_k for brevity
         )
-        context_chunks = [
+        # First collect all chunks regardless of score
+        all_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-        if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata  # Higher threshold
+            if match.metadata and "text" in match.metadata
         ]
-        if context_chunks:
-            context_text = "\n\n".join(context_chunks)
+
+        # Apply sophisticated filtering to prioritize relevant content
+        if all_chunks:
+            from chunk_filtering import filter_and_rank_chunks
+            filtered_chunks = filter_and_rank_chunks(all_chunks, question, expanded)
+            context_text = "\n\n".join(filtered_chunks)
+            logging.info(f"After filtering: Retrieved {len(filtered_chunks)} context chunks (from {len(all_chunks)} original)")
+        else:
+            context_text = ""
         logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for image query.")
     except Exception as e: # Non-critical, so don't raise HTTPException
         logging.error(f"RAG retrieval error: {e}")
