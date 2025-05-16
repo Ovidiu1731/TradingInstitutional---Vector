@@ -1,14 +1,18 @@
-# ─── Secrets & Env files ──────────────────────
+# ─── Secrets & Environment Variables ─────────────────
 .env
 .env.*          # catches .env.save, .env.prod, etc.
-.env.save
 
-# ─── macOS cruft ──────────────────────────────
+# ─── macOS System Files ───────────────────────────────
 .DS_Store
 
-# ─── Python byte-code & caches ───────────────
+# ─── Python Artifacts ────────────────────────────────
 __pycache__/
 *.pyc
 
-# ─── Node dependencies (from main) ───────────
+# ─── Node Dependencies ──────────────────────────────
 node_modules/
+
+# ─── Development & Debug Tools ─────────────────────
+debug_pinecone.py
+test_pinecone.py
+verify_pinecone.py

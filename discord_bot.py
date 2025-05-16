@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")  # Use local URL by default
+API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app")  # Use local URL by default
 
 # Set up intents
 intents = discord.Intents.default()
@@ -96,14 +96,13 @@ async def on_message(message):
         async with message.channel.typing():
             try:
                 # Initialize variables for tracking query type and analysis data
-                endpoint = API_BASE_URL
                 is_image_query = False
                 analysis_data = None
                 
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    endpoint = API_BASE_URL.replace("/ask", "") + "/ask-image-hybrid"
+                    endpoint = API_BASE_URL + "/ask-image-hybrid"
                     payload = {
                         "question": question,
                         "image_url": image_url
@@ -112,7 +111,7 @@ async def on_message(message):
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
                     # For text-only queries, use the base URL as is
-                    endpoint = API_BASE_URL
+                    endpoint = API_BASE_URL + "/ask"
                     payload = {
                         "question": question
                     }
