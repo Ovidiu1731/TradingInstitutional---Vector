@@ -311,6 +311,31 @@ def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
     
     if not all_chunks:
         return ""
+
+    # Normalize user query to handle both with and without diacritics
+    question_lower = question.lower()
+    question_normalized = (question_lower
+        .replace("ă", "a").replace("â", "a").replace("î", "i")
+        .replace("ș", "s").replace("ț", "t"))
+
+    # Explicit check for book-related terms in question
+    book_terms = ["carte", "carti", "cărți", "carți", "recomandat", "recomanda", "citit", "lectura", "books"]
+    is_book_query = any(term in question_lower or term in question_normalized for term in book_terms)
+
+    if is_book_query:
+        logging.info("Book-related query detected - special handling enabled")
+        # Look specifically for book-related content
+        book_chunks = []
+        for chunk in all_chunks:
+            chunk_lower = chunk.lower()
+            # Check if this chunk mentions books or recommendations
+            if any(term in chunk_lower for term in ["trading in the zone", "carte", "cărți", "recomand", "locul", "citit"]):
+                book_chunks.append(chunk)
+
+        # If we found book-related chunks, return all of them
+        if book_chunks:
+            logging.info(f"Found {len(book_chunks)} book-related chunks")
+            return "\n\n".join(book_chunks)
     
     # Identify which chunks are from summaries vs transcripts
     summary_chunks = []
