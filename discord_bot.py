@@ -112,7 +112,7 @@ async def on_message(message):
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
                     # For text-only queries, use the base URL as is
-                    endpoint = API_BASE_URL
+                    endpoint = API_BASE_URL + "/ask"
                     payload = {
                         "question": question
                     }
