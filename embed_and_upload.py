@@ -285,53 +285,119 @@ if os.path.exists(checkpoint_path):
 
 # 5. Optional: a splitter if you want to chunk long texts (kept for backward compatibility)
 def split_text(text, max_tokens=500):
-    # Find sections in the text
-    sections = re.split(r'---|\n#{1,3} ', text)
+    """
+    Split text into chunks while preserving section integrity and respecting token limits.
+    Prioritizes keeping important sections together when possible.
+    """
+    # Identify key topics that should be kept together when possible
+    key_topics = ["Sesiuni", "Principale", "Tranzacționare", "Market Structure", "MSS", "FVG", "Rezumat"]
     
-    # Process each section
+    # Improved section splitting pattern that preserves headers
+    section_pattern = r'((?:#{1,4}\s+[^\n]+\n)|(?:---\n))'
+    section_matches = re.split(section_pattern, text, flags=re.MULTILINE)
+    
     chunks = []
     current_chunk = []
     current_tokens = 0
+    current_header = ""
     enc = tiktoken.encoding_for_model("gpt-3.5-turbo")
     
-    for section in sections:
-        section = section.strip()
-        if not section:
-            continue
-            
-        section_tokens = len(enc.encode(section))
+    i = 0
+    while i < len(section_matches):
+        section = section_matches[i]
         
-        # If this section would exceed max_tokens, start a new chunk
-        if current_tokens + section_tokens > max_tokens and current_chunk:
-            chunks.append(" ".join(current_chunk))
-            current_chunk = []
-            current_tokens = 0
+        # Skip empty sections
+        if not section.strip():
+            i += 1
+            continue
+        
+        # Check if this is a header
+        if re.match(r'^#{1,4}\s+', section) or section.strip() == '---':
+            current_header = section
+            i += 1
+            if i < len(section_matches):
+                section = section_matches[i]
+            else:
+                break
+        
+        section_with_header = current_header + section if current_header else section
+        section_tokens = len(enc.encode(section_with_header))
+        
+        # If this is a key topic section, try to keep it together
+        is_key_section = any(topic in current_header for topic in key_topics)
+        
+        # Special handling for summary sections
+        is_summary = "Rezumat" in current_header
+        
+        # If this section would exceed max_tokens but is an important section,
+        # finish the current chunk and put this important section in its own chunk
+        if current_tokens > 0 and (current_tokens + section_tokens > max_tokens):
+            if current_chunk:
+                chunks.append("\n".join(current_chunk))
+                current_chunk = []
+                current_tokens = 0
             
-        # If section itself is too large, split it by paragraphs
-        if section_tokens > max_tokens:
-            paragraphs = section.split("\n\n")
-            for para in paragraphs:
-                para_tokens = len(enc.encode(para))
-                if para_tokens > max_tokens:
-                    # If paragraph is too large, split by sentences
-                    sentences = re.split(r'(?<=[.!?])\s+', para)
-                    for sent in sentences:
-                        chunks.append(sent.strip())
+            # For important sections that are still too big, we might need to split
+            if section_tokens > max_tokens:
+                if is_key_section or is_summary:
+                    # For key sections, try to keep more together - increase token limit
+                    max_section_tokens = max_tokens * 1.5  # Allow 50% more tokens for important sections
+                    
+                    if section_tokens <= max_section_tokens:
+                        # It fits within our expanded limit
+                        chunks.append(section_with_header)
+                    else:
+                        # Still too big, split by paragraphs but keep header
+                        paragraphs = section.split("\n\n")
+                        temp_chunk = [current_header] if current_header else []
+                        temp_tokens = len(enc.encode(current_header)) if current_header else 0
+                        
+                        for para in paragraphs:
+                            para_tokens = len(enc.encode(para))
+                            if temp_tokens + para_tokens > max_tokens and temp_chunk:
+                                chunks.append("\n\n".join(temp_chunk))
+                                temp_chunk = [current_header] if current_header else []
+                                temp_tokens = len(enc.encode(current_header)) if current_header else 0
+                            
+                            temp_chunk.append(para)
+                            temp_tokens += para_tokens
+                        
+                        if temp_chunk:
+                            chunks.append("\n\n".join(temp_chunk))
                 else:
-                    if current_tokens + para_tokens > max_tokens and current_chunk:
-                        chunks.append(" ".join(current_chunk))
-                        current_chunk = []
-                        current_tokens = 0
-                    current_chunk.append(para)
-                    current_tokens += para_tokens
+                    # For regular sections, use the original paragraph splitting approach
+                    paragraphs = section.split("\n\n")
+                    temp_chunk = [current_header] if current_header else []
+                    temp_tokens = len(enc.encode(current_header)) if current_header else 0
+                    
+                    for para in paragraphs:
+                        para_tokens = len(enc.encode(para))
+                        if temp_tokens + para_tokens > max_tokens and temp_chunk:
+                            chunks.append("\n\n".join(temp_chunk))
+                            temp_chunk = [current_header] if current_header else []
+                            temp_tokens = len(enc.encode(current_header)) if current_header else 0
+                        
+                        temp_chunk.append(para)
+                        temp_tokens += para_tokens
+                    
+                    if temp_chunk:
+                        chunks.append("\n\n".join(temp_chunk))
+            else:
+                # It fits as a single chunk
+                chunks.append(section_with_header)
         else:
+            # Add to current chunk
+            if current_header and not current_chunk:
+                current_chunk.append(current_header)
             current_chunk.append(section)
             current_tokens += section_tokens
-            
+        
+        i += 1
+    
     # Don't forget the last chunk
     if current_chunk:
-        chunks.append(" ".join(current_chunk))
-        
+        chunks.append("\n\n".join(current_chunk))
+    
     return chunks
 
 # Sort lesson IDs by chapter number, then lesson number
