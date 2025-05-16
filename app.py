@@ -1112,7 +1112,6 @@ async def ask_question(query: TextQuery):
         ]
         # Apply sophisticated filtering to prioritize relevant content
         if all_chunks:
-            filtered_chunks = filter_and_rank_chunks(all_chunks, question, expanded)
             context_text = "\n\n".join(filtered_chunks)
             logging.info(f"After filtering: Retrieved {len(filtered_chunks)} context chunks (from {len(all_chunks)} original)")
         else:
@@ -1470,7 +1469,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
 
         # Apply sophisticated filtering to prioritize relevant content
         if all_chunks:
-            filtered_chunks = filter_and_rank_chunks(all_chunks, question, expanded)
             context_text = "\n\n".join(filtered_chunks)
             logging.info(f"After filtering: Retrieved {len(filtered_chunks)} context chunks (from {len(all_chunks)} original)")
         else:
