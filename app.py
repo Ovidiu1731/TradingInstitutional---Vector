@@ -267,12 +267,22 @@ def log_feedback(session_id: str, question: str, answer: str, feedback: str,
 
 # Add this function to app.py
 def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
-    """Get the most relevant content for this question with optimization for summaries"""
+    """
+    Get the most relevant content for this question with optimizations for:
+    - Summary prioritization
+    - Topic awareness
+    - Deduplication
+    - Quality filtering
+    """
     
+    # Extract all chunks from results
     all_chunks = [
         match.metadata["text"] for match in pinecone_results.matches
         if match.metadata and "text" in match.metadata
     ]
+    
+    if not all_chunks:
+        return ""
     
     # Identify which chunks are from summaries vs transcripts
     summary_chunks = []
@@ -281,19 +291,22 @@ def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
     for match in pinecone_results.matches:
         if match.metadata and "text" in match.metadata:
             # Check if this is a summary chunk
+            text = match.metadata.get("text", "")
             if (match.metadata.get("section_type") == "summary" or 
-                "Rezumat" in match.metadata.get("text", "") or
-                "### " in match.metadata.get("text", "")):
-                summary_chunks.append(match.metadata["text"])
+                "Rezumat" in text or
+                "### " in text):
+                summary_chunks.append(text)
             else:
-                transcript_chunks.append(match.metadata["text"])
+                transcript_chunks.append(text)
     
-    # Common topics that benefit from structured responses
+    # Define key topics that benefit from structured responses
     key_topics = {
         "sesiuni": ["sesiune", "tranzacționare", "trading session", "londra", "new york"],
         "mss": ["market structure", "structură", "shift", "schimbare"],
         "fvg": ["fair value gap", "gap", "spațiu gol"],
-        "setup": ["setup", "pattern", "gap setup", "og", "tg", "tcg"]
+        "setup": ["setup", "pattern", "gap setup", "og", "tg", "tcg"],
+        "lichiditate": ["lichiditate", "liq", "liquidity"],
+        "carti": ["cărți", "carte", "recomandate", "recomand", "citit"]
     }
     
     # Check if the question is about a key topic
@@ -313,7 +326,42 @@ def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
         # For general questions, use both but still put summaries first
         prioritized_chunks = summary_chunks + transcript_chunks
     
-    return "\n\n".join(prioritized_chunks)
+    # Deduplicate chunks
+    unique_chunks = []
+    seen_content = set()
+    
+    for chunk in prioritized_chunks:
+        # Create a simplified representation for comparison (first 100 chars)
+        chunk_fingerprint = chunk[:100].strip()
+        
+        # Only include if we haven't seen this content
+        if chunk_fingerprint not in seen_content:
+            unique_chunks.append(chunk)
+            seen_content.add(chunk_fingerprint)
+    
+    # Filter out low-quality chunks
+    filtered_chunks = []
+    for chunk in unique_chunks:
+        # Skip very short chunks
+        if len(chunk.strip()) < 50:
+            continue
+            
+        # Skip chunks that are mostly timestamps or formatting
+        timestamp_count = chunk.count('[00:')
+        if timestamp_count > 3 or chunk.count('\n') > chunk.count('.') * 2:
+            continue
+            
+        filtered_chunks.append(chunk)
+    
+    # If we filtered too aggressively and have nothing left, use the deduplicated chunks
+    if not filtered_chunks and unique_chunks:
+        filtered_chunks = unique_chunks
+    
+    # Return the final processed chunks
+    result = "\n\n".join(filtered_chunks)
+    logging.info(f"Retrieved {len(all_chunks)} chunks, {len(unique_chunks)} after deduplication, {len(filtered_chunks)} after filtering")
+    
+    return result
 
 @app.post("/feedback")
 async def submit_feedback(feedback_data: FeedbackModel):
