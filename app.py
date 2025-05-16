@@ -45,7 +45,7 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1-aws")
 FEEDBACK_LOG = os.getenv("FEEDBACK_LOG", "feedback_log.jsonl")
-MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.75"))
+MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.70"))
 TOP_K = int(os.getenv("PINECONE_TOP_K", "5"))
 
 # --- Model selection ---
@@ -1099,7 +1099,7 @@ async def ask_question(query: TextQuery):
         pinecone_results = await asyncio.to_thread(
             index.query,
             vector=query_vector,
-            top_k=3,  # You can define TOP_K as a constant at the top of your file
+            top_k=5,  # You can define TOP_K as a constant at the top of your file
             include_metadata=True
         )
         
@@ -1107,7 +1107,7 @@ async def ask_question(query: TextQuery):
         
         context_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score >= 0.75 and match.metadata and "text" in match.metadata  # Increased threshold
+            if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata  # Increased threshold
         ]
         if context_chunks:
             context_text = "\n\n".join(context_chunks)
@@ -1458,7 +1458,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         )
         context_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-        if match.score >= 0.75 and match.metadata and "text" in match.metadata  # Higher threshold
+        if match.score >= MIN_SCORE and match.metadata and "text" in match.metadata  # Higher threshold
         ]
         if context_chunks:
             context_text = "\n\n".join(context_chunks)
