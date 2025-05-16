@@ -191,6 +191,16 @@ FEW_SHOT_EXAMPLES = [
 # ---------------------------------------------------------------------------
 app = FastAPI(title="Trading Instituțional AI Assistant")
 
+def normalize_diacritics(text: str) -> str:
+    """Remove diacritics from Romanian text"""
+    replacements = {
+        'ă': 'a', 'â': 'a', 'î': 'i', 'ș': 's', 'ț': 't',
+        'Ă': 'A', 'Â': 'A', 'Î': 'I', 'Ș': 'S', 'Ț': 'T'
+    }
+    for rom, eng in replacements.items():
+        text = text.replace(rom, eng)
+    return text
+
 @app.on_event("startup")
 async def startup_event():
     global aiohttp_session
@@ -199,12 +209,12 @@ async def startup_event():
     
     # Check if Tesseract is available
     try:
-    test_version = pytesseract.get_tesseract_version()
-    logging.info(f"Tesseract OCR available, version: {test_version}")
-except pytesseract.TesseractNotFoundError:
-    logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
-except Exception as e:
-    logging.error(f"Error checking Tesseract: {e}")
+        test_version = pytesseract.get_tesseract_version()
+        logging.info(f"Tesseract OCR available, version: {test_version}")
+    except pytesseract.TesseractNotFoundError:
+        logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
+    except Exception as e:
+        logging.error(f"Error checking Tesseract: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -324,16 +334,21 @@ def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
         "fvg": ["fair value gap", "gap", "imbalance"],
         "setup": ["setup", "tcg", "gap setup", "og", "tg", "tcg"],
         "lichiditate": ["lichiditate", "liq", "LIQ"],
-        "carti": ["cărți", "carte", "lectura", "recomand", "citit"]
+        "carti": ["cărți", "carte", "recomandate", "recomand", "citit", "books", 
+          "book", "trading in the zone", "recomandari", "literatura",
+          "program", "curs", "mentionat", "citesc", "lectura"]
     }
     
     # Check if the question is about a key topic
     question_lower = question.lower()
+    question_normalized = normalize_diacritics(question_lower)
+
     matched_topic = None
     for topic, keywords in key_topics.items():
-        if any(keyword in question_lower for keyword in keywords):
-            matched_topic = topic
-            break
+        if any(keyword in question_lower for keyword in keywords) or \
+            any(keyword in question_normalized for keyword in keywords):
+             matched_topic = topic
+             break
     
     # Prioritize different content based on question type
     if matched_topic:
@@ -1224,7 +1239,16 @@ async def ask_question(query: TextQuery):
     if query.conversation_history: # Allow user to send full history if they manage it client-side
         history = query.conversation_history[-MAX_HISTORY_MESSAGES:]
     elif history_store_key in conversation_history:
-        history = conversation_history[history_store_key][-MAX_HISTORY_MESSAGES:]
+        if history_store_key in conversation_history:
+            full_history = conversation_history[history_store_key]
+            if hasattr(full_history, '__getitem__') and hasattr(full_history, '__len__'):
+                # If it's a sequence like a list or deque
+                history = list(full_history)[-MAX_HISTORY_MESSAGES:]
+            else:
+                # If it's not a sequence (possibly a single conversation)
+                history = [full_history]
+        else:
+            history = []
 
     logging.info(f"Text query received. Session: {session_id}, History length: {len(history)}")
 
@@ -1243,7 +1267,7 @@ async def ask_question(query: TextQuery):
         pinecone_results = await asyncio.to_thread(
             index.query,
             vector=query_vector,
-            top_k=7,  # You can define TOP_K as a constant at the top of your file
+            top_k=7, 
             include_metadata=True
         )
         
@@ -1253,7 +1277,7 @@ async def ask_question(query: TextQuery):
             match.metadata["text"] for match in pinecone_results.matches
             if match.metadata and "text" in match.metadata
         ]
-        # No filtering
+        # Apply sophisticated filtering
         if all_chunks:
             context_text = retrieve_relevant_content(question, pinecone_results)
             logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
@@ -1377,7 +1401,16 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
     if payload.conversation_history:
         history = payload.conversation_history[-MAX_HISTORY_MESSAGES:]
     elif history_store_key in conversation_history:
-        history = conversation_history[history_store_key][-MAX_HISTORY_MESSAGES:]
+        if history_store_key in conversation_history:
+            full_history = conversation_history[history_store_key]
+            if hasattr(full_history, '__getitem__') and hasattr(full_history, '__len__'):
+                # If it's a sequence like a list or deque
+                history = list(full_history)[-MAX_HISTORY_MESSAGES:]
+            else:
+                # If it's not a sequence (possibly a single conversation)
+                history = [full_history]
+        else:
+            history = []
     logging.info(f"Image-hybrid query received. Session: {session_id}, History length: {len(history)}")
 
     query_info = identify_query_type(question)
@@ -1602,7 +1635,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
         query_vector = embedding_response.data[0].embedding
         pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=7, include_metadata=True # Reduced top_k for brevity
+            index.query, vector=query_vector, top_k=7, include_metadata=True # Changed from 3 to 7
         )
         # First collect all chunks regardless of score
         all_chunks = [

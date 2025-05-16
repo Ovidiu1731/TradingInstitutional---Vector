@@ -24,11 +24,12 @@ async def on_ready():
     print(f"✅ Logged in as {client.user.name} (ID: {client.user.id})")
 
 class FeedbackView(discord.ui.View):
-    def __init__(self, api_url, question, answer):
+    def __init__(self, api_url, question, answer, analysis_data=None):
         super().__init__(timeout=600)  # 10 minute timeout
         self.api_url = api_url
         self.question = question
         self.answer = answer
+        self.analysis_data = analysis_data
         
     @discord.ui.button(label="★★★ Util", style=discord.ButtonStyle.gray, custom_id="positive_feedback", row=0)
     async def positive_button(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -48,18 +49,19 @@ class FeedbackView(discord.ui.View):
             for item in self.children:
                 item.disabled = True
             
-            # Send API request
-            endpoint = self.api_url.replace("/ask", "") + "/feedback"
+            # Send API request - use the direct endpoint without string replacement
+            endpoint = f"{self.api_url}/feedback"
             payload = {
                 "session_id": "discord-" + str(interaction.user.id),
                 "question": self.question,
                 "answer": self.answer,
                 "feedback": feedback_type,
                 "query_type": "discord_query",
-                "analysis_data": None
+                "analysis_data": self.analysis_data
             }
             
             print(f"Sending feedback to: {endpoint}")
+            print(f"Feedback includes analysis_data: {self.analysis_data is not None}")
             
             async with aiohttp.ClientSession() as session:
                 async with session.post(endpoint, json=payload) as resp:
@@ -93,15 +95,20 @@ async def on_message(message):
         
         async with message.channel.typing():
             try:
+                # Initialize variables for tracking query type and analysis data
+                endpoint = API_BASE_URL
+                is_image_query = False
+                analysis_data = None
+                
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    # Change this part: Remove "/ask" from endpoint construction
                     endpoint = API_BASE_URL.replace("/ask", "") + "/ask-image-hybrid"
                     payload = {
                         "question": question,
                         "image_url": image_url
                     }
+                    is_image_query = True
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
                     # For text-only queries, use the base URL as is
@@ -122,6 +129,12 @@ async def on_message(message):
                                 data = await resp.json()
                                 print(f"Response data: {data.keys()}")
                                 answer = data.get("answer", "Nu am găsit un răspuns.")
+                                
+                                # Capture analysis data for feedback if present
+                                if "analysis_data" in data and is_image_query:
+                                    analysis_data = data["analysis_data"]
+                                    print("Image analysis data captured for feedback")
+                                
                                 print(f"Answer (first 100 chars): {answer[:100]}...")
                             else:
                                 response_text = await resp.text()
@@ -134,8 +147,10 @@ async def on_message(message):
                 print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
 
-        # Create feedback view with buttons
-        view = FeedbackView(API_BASE_URL, question, answer)
+        # Create feedback view with correct endpoint and analysis data
+        # Extract the base URL without the path part for feedback
+        base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
+        view = FeedbackView(base_url, question, answer, analysis_data)
         
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer, view=view)

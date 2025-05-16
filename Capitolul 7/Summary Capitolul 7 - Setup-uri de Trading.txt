@@ -1,0 +1,144 @@
+Summary Capitolul 7: Setup-uri de Trading
+CONCEPTE CHEIE
+Setup-uri de Trading
+
+Setup = tipar de tranzacție recurent, cu structură clară și denumire specifică, folosit pentru organizare și analiză statistică
+One Simple Gap Setup (OSG) = setup cu un singur gap instituțional format după un Market Structure Shift valid și o lichiditate lichidată
+Two Gap Setup (TG) = conține două gap-uri neconsecutive apărute în cadrul aceluiași context de shift și displacement
+Two Consecutive Gaps Setup (TCG) = format din două gap-uri apărute consecutiv (unul după altul)
+Three Gaps Setup (3G) = conține trei gap-uri dispersate (neconsecutive) în cadrul aceluiași context
+Three Consecutive Gaps Setup (3CG) = format din trei gap-uri consecutive
+Second Leg Setup (SLG) = apare când prețul nu formează gap-ul imediat după lichiditate și shift, ci dezvoltă o a doua structură înainte de a crea un gap valid
+Multiple Gap Setup (MG) = conține mai mult de trei gap-uri după un Market Structure Shift (nerecomandat pentru execuție)
+Unclassified Setup (UNC) = tranzacții atipice, rare și imposibil de încadrat în categoriile clasice
+
+Concepte suplimentare
+
+Last Gap Execution (LGE) = execuție care are loc într-un gap lăsat în urmă de o mișcare anterioară, de obicei într-un context de trend puternic
+Discount Rule = regulă suplimentară care folosește Fibonacci Retracement pentru a delimita zona premium (peste 50% din mișcarea de preț) și zona discount (sub 50%), preferând execuțiile în zona discount
+
+PRINCIPII FUNDAMENTALE
+Principii de selecție a setup-urilor
+
+Claritatea structurii - este esențial ca setup-ul să fie clar identificabil și să respecte toate criteriile definitorii
+Frecvența de apariție - unele setup-uri sunt mai frecvente (SLG, OSG), altele mai rare (TCG, 3CG), ceea ce influențează strategia globală
+Probabilitatea de câștig - fiecare setup are un win rate specific, care trebuie luat în considerare în planificarea tranzacțiilor
+Simplitatea vs. complexitatea - începătorii trebuie să se axeze pe setup-urile simple (OSG), înainte de a trece la cele complexe (SLG)
+
+Principii de execuție specifice setup-urilor
+
+OSG - execuția se face în unicul gap instituțional identificat
+TG și TCG - execuția recomandată este în al doilea gap format
+3G și 3CG - execuția ideală este în gap-ul din mijloc (al doilea din cele trei)
+SLG - execuția se face în gap-ul format după al doilea leg
+MG - nu se recomandă execuția; dacă totuși se face, se alege ultimul gap neînchis
+
+Principii de management al riscului
+
+Plasarea Stop Loss-ului:
+
+Varianta clasică: la ultimul high/low major + buffer de siguranță
+Varianta ajustată pentru SLG: la noul high/low format în al doilea leg (pentru un raport R:R mai bun)
+
+
+Raport Risc-Recompensă:
+
+Setare standard la 2R
+Ajustare în funcție de context și setup
+
+
+
+Principii de organizare și analiză
+
+Crearea folderelor separate pentru fiecare tip de setup
+Monitorizarea performanței fiecărui setup în parte
+Construirea unei statistici personale - element esențial pentru optimizarea strategiei
+Atenție la excepții - unele tranzacții câștigătoare pot fi rezultatul norocului, nu al unei structuri solide
+
+RELAȚII ȘI APLICAȚII
+Relația dintre frecvență și probabilitate
+SetupFrecvență (% din 500 tranzacții)Win RateSLG64% (318 tranzacții)56%OSG18% (90 tranzacții)57%TG/TCG12% (61 tranzacții)68%3G/3CG5% (26 tranzacții)50%UNC1% (5 tranzacții)N/A
+Aplicarea practică a setup-urilor
+
+One Simple Gap Setup (OSG)
+
+Setup simplu, ușor de recunoscut și aplicat
+Ideal pentru traderii aflați la început de drum
+Necesită: lichiditate luată, MSS valid, un singur gap
+Execuția se face în interiorul gap-ului
+
+
+Two Consecutive Gaps Setup (TCG)
+
+Cel mai profitabil setup din întreaga strategie (win rate 68%)
+Setup rar, apare aproximativ o dată la 8-9 zile de trading
+Execuția recomandată este în al doilea gap
+Necesită: lichiditate luată, shift, displacement, două gap-uri consecutive
+
+
+Second Leg Setup (SLG)
+
+Cel mai frecvent setup (64% din tranzacții)
+Complex, dar crucial de stăpânit
+Apare când prețul nu formează gap-ul imediat după lichiditate și shift
+Poate exista în combinație cu unul sau mai multe gap-uri:
+
+SLG + One Gap (cel mai comun)
+SLG + Two Gaps
+SLG + Three Gaps (probabilitate mai scăzută)
+
+
+
+
+
+Aplicarea Last Gap Execution (LGE)
+
+Context ideal:
+
+Piețe aflate în trend clar (descendent sau ascendent)
+Gap-uri lăsate după un displacement evident
+Confirmare suplimentară: lichiditate luată + shift înainte de execuție
+Timeframe-uri mai mari pentru o vizibilitate mai bună
+
+
+Procedură:
+
+Identificarea gap-urilor neînchise din mișcări anterioare
+Așteptarea revenirii prețului pentru închiderea acestora
+Execuția după reacția la gap
+Stop Loss redus (exemplu: ~7 puncte) și Take Profit la 2R
+
+
+Limitări:
+
+Concept în dezvoltare, fără validare statistică completă
+Nu este recomandat pentru începători
+Necesită testare intensă înainte de utilizare în conturi reale
+
+
+
+Aplicarea Discount Rule
+
+Procedură:
+
+Trasarea unui Fibonacci Retracement pe mișcarea relevantă (low → high sau high → low)
+Identificarea nivelului de 50% ca linie de demarcație
+Selecția doar a gap-urilor situate sub nivelul de 50% (zona discount)
+Evitarea execuțiilor în gap-urile aflate peste nivelul de 50% (zona premium)
+
+
+Contexte de aplicare:
+
+Multiple Gaps Setup (pentru a reduce ambiguitatea)
+Lichiditate minoră urmată de displacement
+Situații în care nu este clar în care gap să se execute
+
+
+Recomandări:
+
+Nu este o regulă obligatorie, ci o confluență suplimentară
+Potrivită pentru traderii experimentați
+Necesită testare în demo și integrare doar dacă aduce îmbunătățiri reale
+Eficientă doar dacă este susținută de o statistică solidă (după 100-200 de execuții)
+
+

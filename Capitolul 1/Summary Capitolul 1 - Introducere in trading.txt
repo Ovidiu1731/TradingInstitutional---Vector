@@ -1,0 +1,117 @@
+Summary Capitolul 1- Introducere in trading
+
+CONCEPTE CHEIE
+
+TRADING – activitate de cumpărare și vânzare pe termen scurt, orientată pe captarea mișcărilor zilnice ale prețului; în program este abordat prin intraday trading (poziții închise în aceeași zi).
+
+INVESTIȚII – deținere de active pe perioade mai mari de un an, urmărind creșterea capitalului în timp.
+
+INTRADAY TRADING – stil în care tranzacția durează în medie ~2 h și se bazează pe multiple oportunități zilnice (3-5/piață).
+
+STRATEGIE INSTITUȚIONALĂ – sistem care imită comportamentul algoritmilor bancari, urmărind lichiditatea creată de instituții.
+
+RISK-TO-REWARD (R:R) – raport între suma riscată și profitul țintit; media mentorului este ~1,89 cu rată de câștig 55-62 %.
+
+CAPITAL FINANȚAT – fonduri puse la dispoziție de firme de prop-trading; traderul păstrează ~80 % din profit și suportă presiune emoțională redusă.
+
+CAPITAL PERSONAL – fonduri proprii cu presiune emoțională ridicată, dar profit 100 %.
+
+PSIHOLOGIE ȘI MINDSET – factorul decisiv al performanței; trading-ul este un joc al emoțiilor, disciplinei și probabilităților.
+
+BACKTESTING – testarea istorică a unei strategii pentru a verifica dacă se potrivește stilului și programului traderului.
+
+DIVERSIFICARE – redistribuirea capitalului în multiple clase de active după obținerea profitului din trading (acțiuni, crypto, imobiliare).
+
+PRINCIPII FUNDAMENTALE
+
+Descoperă pasiunea autentică pentru trading – fără interes real pentru grafice, analiză și gestionarea emoțiilor, constanța e imposibilă.
+
+Educație structurată înainte de risc real – studiază bazele într-un program coerent și evită „ciorba” de informații disparate.
+
+Testează o strategie cu reguli clare și verifică-i compatibilitatea cu timpul și personalitatea ta.
+
+Evaluează rezultatele și ia decizii calculate – doar după rezultate pozitive treci la bani reali.
+
+Îmbunătățire continuă – piața evoluează, deci și traderul trebuie să învețe permanent.
+
+Realism financiar – acceptă că succesul necesită ani, nu săptămâni, și că banii sunt o consecință a performanței, nu scopul primar.
+
+Protejarea capitalului prin risk-management – planul de risc bine definit permite amortizarea pierderilor și menținerea profitabilității lunare.
+
+Răbdare, disciplină și probabilități – trading-ul nu este noroc, ci aplicarea repetabilă a unui avantaj statistic.
+
+Combinația trading + investiții – folosește trading-ul pentru a acumula capital rapid și investițiile pentru a construi stabilitate pe termen lung.
+
+Scalare strategică a capitalului – creșterea sumei tranzacționate se face gradual, menținând aceeași metodologie și gestionând stresul psihologic.
+
+RELAȚII ȘI APLICAȚII
+
+A. Pașii Practice pentru a Începe
+
+Verifică-ți motivația și timpul disponibil.
+
+Parcurge educația structurată (Modul 1-2 al programului).
+
+Testează strategia pe cont demo până ai date clare (minimum 40-60 tranzacții).
+
+Aplică pentru finanțare (de ex. cont 25 000 USD) și respectă criteriile de risc.
+
+Construiește jurnal și statistici pentru adaptare continuă.
+
+B. Trading vs Investiții – Comparație Esențială
+
+Durata: Trading (Intraday) – minute-ore; Investiții (Long-Term) – peste 1 an.
+
+Risc: Trading ridicat; Investiții mai redus.
+
+Potențial profit: Trading rapid, ridicat; Investiții stabil, gradual.
+
+Capital: Trading poate utiliza capital finanțat; Investiții de regulă capital propriu.
+
+Flexibilitate: Trading câștig și pe scădere (short); Investiții profit doar pe creștere.
+
+Implicare timp: Trading activ, zilnic; Investiții mai pasivă.
+
+C. Plan de Scalare Exemplu
+
+Profit 7-8% pe cont finanțat 25 000 USD și reinvestire.
+
+Împarte profitul în 4 tranșe și aplică pentru conturi de 100 000 USD.
+
+Repetă procesul, menținând aceeași strategie și risc.
+
+Ajustează-ți mindset-ul pe măsură ce cifrele cresc.
+
+D. Obținerea Capitalului de Tranzacționare
+
+Capital personal – începe mic, suportă presiune emoțională.
+
+Capital finanțat – treci un test plătit, primești 5 000–400 000 EUR; împarți profitul, dar limitezi riscul propriu.
+
+Recomandare: Educație + job stabil și aplică pentru finanțare 40 000 EUR după 3 luni de practică serioasă.
+
+E. Rutina Zilnică Sugestionată
+
+7-8 AM: sport și mic-dejun.
+
+10 AM–12 PM: sesiune Londra – căutare setup-uri.
+
+12 PM–4 PM: analiză portofolii, mentoring, conținut.
+
+5 PM–10 PM: posibilă sesiune New York și timp cu familia.
+
+F. Profilul Traderului de Succes
+
+Pasiune reală pentru proces
+
+Disciplina de a urma un plan
+
+Capacitatea de a gestiona emoții și stres
+
+Mentalitate de creștere și învățare continuă
+
+Deschidere către diversificare și colaborare.
+
+CONCLUZIE
+Capitolul 1 pune bazele unei cariere în trading, clarificând ce este trading-ul, cum diferă de investiții și ce pași concreți trebuie urmați pentru a începe în mod structurat, realist și sustenabil.
+

@@ -41,6 +41,9 @@ DOMAIN_SYNONYMS = {
     "htf": "higher time frame",
     "ltf": "lower time frame",
     "tf": "time frame interval timp",
+
+    "program": ["trading institutional", "curs", "mentorat", "training", "lectii"],
+    "carti": ["recomandari carti", "literatura", "lectura", "referinte", "books", "trading in the zone", "market wizards"],
 }
 
 # Concepts and related terms
@@ -89,6 +92,9 @@ def expand_query(query: str) -> str:
     
     if "diferența" in query_lower and "între" in query_lower:
         expansions.append("comparație diferență versus")
+
+    if any(term in query_lower for term in ["carte", "carti", "cărți", "citit", "recomandate"]):
+        expansions.append("trading in the zone mark douglas market wizards books literature")
     
     # Join all expansions
     return " ".join(expansions)

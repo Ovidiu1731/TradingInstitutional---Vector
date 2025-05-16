@@ -258,6 +258,31 @@ if INDEX_NAME not in pc.list_indexes().names():
     )
 index = pc.Index(INDEX_NAME)
 
+# Add after initializing the Pinecone index
+try:
+    # Backup existing vectors
+    print("Creating backup of current vectors...")
+    backup_path = f"pinecone_backup_{time.strftime('%Y%m%d_%H%M%S')}.json"
+    
+    # Get existing vectors (adjust top_k based on your data size)
+    existing_data = index.query(
+        vector=[0.0] * 1536,  # Dummy vector
+        top_k=10000,          # Adjust as needed for your data size
+        include_metadata=True,
+        include_values=True
+    )
+    
+    # Save to file
+    with open(backup_path, "w", encoding="utf-8") as f:
+        json.dump(existing_data.to_dict(), f, ensure_ascii=False)
+    
+    print(f"Backup saved to {backup_path}")
+except Exception as e:
+    print(f"Warning: Failed to create backup: {e}")
+    if input("Continue anyway? (y/n): ").lower() != 'y':
+        print("Aborted.")
+        exit(1)
+
 # 4. Load your lessons.json (dict of lesson_id → combined text)
 base_dir = os.getcwd()
 lessons_path = os.path.join(base_dir, "lessons.json")
@@ -401,6 +426,43 @@ def split_text(text, max_tokens=500):
     return chunks
 
 # Sort lesson IDs by chapter number, then lesson number
+# Convert list of lessons to a dictionary with ID as key
+lessons_dict_by_id = {}
+for lesson in lessons_dict:
+    # Create a dict entry for each lesson using its ID as the key
+    lesson_id = lesson["id"]
+    
+    # We need to load the actual content from the files
+    summary_path = lesson["files"].get("summary", "")
+    transcript_path = lesson["files"].get("transcript", "")
+    
+    combined_text = ""
+    
+    # Load summary content if available
+    if summary_path and os.path.exists(summary_path):
+        try:
+            with open(summary_path, "r", encoding="utf-8") as f:
+                summary_content = f.read().strip()
+                if summary_content:
+                    combined_text += f"Rezumat:\n{summary_content}\n\n"
+        except Exception as e:
+            print(f"Error reading summary file {summary_path}: {e}")
+    
+    # Load transcript content if available
+    if transcript_path and os.path.exists(transcript_path):
+        try:
+            with open(transcript_path, "r", encoding="utf-8") as f:
+                transcript_content = f.read().strip()
+                if transcript_content:
+                    combined_text += f"Trascriere:\n{transcript_content}"
+        except Exception as e:
+            print(f"Error reading transcript file {transcript_path}: {e}")
+    
+    # Store the combined content
+    lessons_dict_by_id[lesson_id] = combined_text
+
+# Use the new dictionary for processing
+lessons_dict = lessons_dict_by_id
 sorted_lesson_ids = sorted(lessons_dict.keys(), key=extract_lesson_info)
 print(f"Will process {len(sorted_lesson_ids)} lessons ({len(processed_lessons)} already done)")
 

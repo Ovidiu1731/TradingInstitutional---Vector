@@ -104,7 +104,6 @@ def filter_and_rank_chunks(chunks: List[str], query: str, expanded_query: str,
     Returns:
         List of chunks sorted by relevance
     """
-
     # Deduplicate the input chunks first
     unique_chunks = []
     seen_content = set()
@@ -115,71 +114,146 @@ def filter_and_rank_chunks(chunks: List[str], query: str, expanded_query: str,
         if content_hash not in seen_content:
             unique_chunks.append(chunk)
             seen_content.add(content_hash)
-
-    # Special handling for summaries: Detect if this is a specific type of resource
-    resource_patterns = {
-        "books": ["carte", "cărți", "recomandate", "trading", "autor"],
-        "setup": ["setup", "gap", "og", "tg", "tcg", "3g", "slg", "mg"],
-        "psychology": ["psihologie", "mindset", "psihologic", "emoții"],
-    }
-
+    
     query_lower = query.lower()
-    is_resource_query = False
-    resource_type = None
-
+    query_normalized = query_lower.replace("ă", "a").replace("â", "a").replace("î", "i").replace("ș", "s").replace("ț", "t")
+    
+    # Enhanced resource pattern detection with weighted scoring
+    resource_patterns = {
+        "books": {
+            "primary": ["carte", "carti", "cărți", "recomandari", "recomandate", "citit", "lectura", "books"],
+            "secondary": ["autor", "trading", "douglas", "schwager", "zen trader"],
+            "exact_phrases": ["carti recomandate", "ce carti", "trading in the zone"]
+        },
+        "setup": {
+            "primary": ["setup", "gap", "tcg", "og", "tg"],
+            "secondary": ["3g", "slg", "mg", "pattern"],
+            "exact_phrases": ["cum fac setup", "ce este setup"]
+        },
+        "psychology": {
+            "primary": ["psihologie", "mindset", "psihologic", "emotii", "emoții"],
+            "secondary": ["disciplina", "frică", "frica", "emotie", "emoție"],
+            "exact_phrases": ["control emotional", "mindset trading"]
+        }
+    }
+    
+    # Score each resource type for this query
+    resource_scores = {}
     for res_type, patterns in resource_patterns.items():
-        if any(pattern in query_lower for pattern in patterns):
-            is_resource_query = True
-            resource_type = res_type
-            break
-
-    # For resource queries, prioritize keeping complete summaries
-    if is_resource_query:
-        # Find summaries related to this resource type
-        summaries = []
-        for chunk in unique_chunks:
-            chunk_lower = chunk.lower()
-            # Check if it's a relevant summary
-            is_summary = ("rezumat" in chunk_lower[:100] or chunk.strip().lower().startswith("lectia"))
-            is_relevant_summary = any(pattern in chunk_lower for pattern in resource_patterns.get(resource_type, []))
-            
-            if is_summary and is_relevant_summary:
-                summaries.append(chunk)
+        score = 0
+        # Primary matches (most important)
+        for word in patterns["primary"]:
+            if word in query_lower or word in query_normalized:
+                score += 10
         
-        # If we found relevant summaries, prioritize them with a higher limit
-        if summaries:
-            # For book-related queries, keep all summary chunks to get complete recommendations
-            if resource_type == "books":
-                # Return all relevant summary chunks, up to 8 max
-                return summaries[:8] if max_chunks > 0 else summaries
-
-    # If not a special case, proceed with standard filtering
-    scored_chunks = []
+        # Secondary matches (supporting evidence)
+        for word in patterns["secondary"]:
+            if word in query_lower or word in query_normalized:
+                score += 3
+        
+        # Exact phrase matches (highest confidence)
+        for phrase in patterns["exact_phrases"]:
+            if phrase in query_lower or phrase in query_normalized:
+                score += 25
+        
+        resource_scores[res_type] = score
+    
+    # Determine if this is a resource query and which type
+    is_resource_query = any(score > 0 for score in resource_scores.values())
+    resource_type = max(resource_scores, key=resource_scores.get) if is_resource_query else None
+    resource_confidence = resource_scores.get(resource_type, 0) if resource_type else 0
+    
+    logging.info(f"Query '{query}' resource detection: {resource_type if is_resource_query else 'general'} (confidence: {resource_confidence})")
+    
+    # Handle high-confidence resource queries with special processing
+    if is_resource_query and resource_confidence >= 10:
+        # Find chunks related to this resource type with both summaries and relevant content
+        resource_chunks = []
+        summary_chunks = []
+        
+        for chunk in unique_chunks:
+            chunk_lower = chunk.lower().replace("ă", "a").replace("â", "a").replace("î", "i").replace("ș", "s").replace("ț", "t")
+            
+            # Check if it's a summary
+            is_summary = ("rezumat" in chunk_lower[:100] or chunk_lower.strip().startswith("lectia"))
+            
+            # Score this chunk's relevance to the resource type
+            chunk_resource_score = 0
+            for primary_term in resource_patterns[resource_type]["primary"]:
+                if primary_term in chunk_lower:
+                    chunk_resource_score += 5
+            
+            for secondary_term in resource_patterns[resource_type]["secondary"]:
+                if secondary_term in chunk_lower:
+                    chunk_resource_score += 2
+            
+            for exact_phrase in resource_patterns[resource_type]["exact_phrases"]:
+                if exact_phrase in chunk_lower:
+                    chunk_resource_score += 15
+            
+            # Add high-relevance chunks to the appropriate list
+            if chunk_resource_score >= 5:
+                if is_summary:
+                    summary_chunks.append((chunk, chunk_resource_score))
+                else:
+                    resource_chunks.append((chunk, chunk_resource_score))
+        
+        # Sort both lists by relevance score
+        summary_chunks.sort(key=lambda x: x[1], reverse=True)
+        resource_chunks.sort(key=lambda x: x[1], reverse=True)
+        
+        # Special handling for books - ensure we get ALL relevant information
+        if resource_type == "books":
+            # For books, keep ALL relevant summary chunks to avoid missing titles
+            logging.info(f"Book query detected, found {len(summary_chunks)} relevant summary chunks")
+            
+            # Return all summaries first, then relevant non-summary chunks, up to a max total
+            result_chunks = [chunk for chunk, _ in summary_chunks]
+            
+            # Add top-scoring non-summary chunks if needed
+            remaining_slots = max(0, 10 - len(result_chunks))
+            result_chunks.extend([chunk for chunk, _ in resource_chunks[:remaining_slots]])
+            
+            logging.info(f"Returning {len(result_chunks)} chunks for book query")
+            return result_chunks
+        else:
+            # For other resource types, combine summaries and relevant chunks
+            combined_chunks = [chunk for chunk, _ in summary_chunks] + [chunk for chunk, _ in resource_chunks]
+            
+            # Limit to max_chunks or a reasonable maximum
+            max_to_return = 8 if max_chunks < 8 else max_chunks
+            logging.info(f"Returning {min(len(combined_chunks), max_to_return)} chunks for {resource_type} query")
+            return combined_chunks[:max_to_return]
+    
+    # For low-confidence resource queries or general queries, use improved standard filtering
     regular_summaries = []
-    regular_chunks = []
-
-    for chunk in unique_chunks:  # Use the deduplicated chunks
+    high_relevance_chunks = []
+    other_chunks = []
+    
+    # First pass: categorize chunks
+    for chunk in unique_chunks:
         # Check if it's a summary
-        is_summary = "rezumat" in chunk.lower()[:100] or chunk.strip().lower().startswith("lectia")
+        chunk_lower = chunk.lower()
+        is_summary = "rezumat" in chunk_lower[:100] or chunk_lower.strip().startswith("lectia")
+        
         if is_summary:
             regular_summaries.append(chunk)
         else:
-            regular_chunks.append(chunk)
+            # Score the chunk
+            scores = compute_relevance_score(chunk, query, expanded_query)
+            
+            # Categorize based on relevance score
+            if scores["final_score"] >= 0.5:  # High relevance threshold
+                high_relevance_chunks.append((chunk, scores["final_score"]))
+            elif scores["final_score"] >= min_score:
+                other_chunks.append((chunk, scores["final_score"]))
     
-    # Score regular chunks
-    for chunk in regular_chunks:
-        scores = compute_relevance_score(chunk, query, expanded_query)
-        if scores["final_score"] >= min_score:
-            scored_chunks.append((chunk, scores["final_score"]))
+    # Sort chunks by relevance
+    high_relevance_chunks.sort(key=lambda x: x[1], reverse=True)
+    other_chunks.sort(key=lambda x: x[1], reverse=True)
     
-    # Sort by score (descending)
-    scored_chunks.sort(key=lambda x: x[1], reverse=True)
-    
-    # Get top chunks
-    top_chunks = [chunk for chunk, _ in scored_chunks[:max_chunks]]
-    
-    # Combine summaries and top chunks
-    result = regular_summaries + top_chunks
+    # Combine in priority order: summaries, high relevance, other relevant
+    result = regular_summaries + [chunk for chunk, _ in high_relevance_chunks] + [chunk for chunk, _ in other_chunks]
     
     # Limit final result if needed
     if max_chunks > 0 and len(result) > max_chunks:
