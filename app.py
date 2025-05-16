@@ -47,7 +47,7 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1-aws")
 FEEDBACK_LOG = os.getenv("FEEDBACK_LOG", "feedback_log.jsonl")
 MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.70"))
-TOP_K = int(os.getenv("PINECONE_TOP_K", "5"))
+TOP_K = int(os.getenv("PINECONE_TOP_K", "7"))
 
 # --- Model selection ---
 EMBEDDING_MODEL = "text-embedding-ada-002"
@@ -264,6 +264,56 @@ def log_feedback(session_id: str, question: str, answer: str, feedback: str,
     except Exception as e:
         logging.error(f"Failed to log feedback: {e}")
         return False
+
+# Add this function to app.py
+def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
+    """Get the most relevant content for this question with optimization for summaries"""
+    
+    all_chunks = [
+        match.metadata["text"] for match in pinecone_results.matches
+        if match.metadata and "text" in match.metadata
+    ]
+    
+    # Identify which chunks are from summaries vs transcripts
+    summary_chunks = []
+    transcript_chunks = []
+    
+    for match in pinecone_results.matches:
+        if match.metadata and "text" in match.metadata:
+            # Check if this is a summary chunk
+            if (match.metadata.get("section_type") == "summary" or 
+                "Rezumat" in match.metadata.get("text", "") or
+                "### " in match.metadata.get("text", "")):
+                summary_chunks.append(match.metadata["text"])
+            else:
+                transcript_chunks.append(match.metadata["text"])
+    
+    # Common topics that benefit from structured responses
+    key_topics = {
+        "sesiuni": ["sesiune", "tranzacționare", "trading session", "londra", "new york"],
+        "mss": ["market structure", "structură", "shift", "schimbare"],
+        "fvg": ["fair value gap", "gap", "spațiu gol"],
+        "setup": ["setup", "pattern", "gap setup", "og", "tg", "tcg"]
+    }
+    
+    # Check if the question is about a key topic
+    question_lower = question.lower()
+    matched_topic = None
+    for topic, keywords in key_topics.items():
+        if any(keyword in question_lower for keyword in keywords):
+            matched_topic = topic
+            break
+    
+    # Prioritize different content based on question type
+    if matched_topic:
+        # For key topics, focus on summary content first
+        prioritized_chunks = summary_chunks + transcript_chunks
+        logging.info(f"Question about {matched_topic}: Prioritizing summary chunks")
+    else:
+        # For general questions, use both but still put summaries first
+        prioritized_chunks = summary_chunks + transcript_chunks
+    
+    return "\n\n".join(prioritized_chunks)
 
 @app.post("/feedback")
 async def submit_feedback(feedback_data: FeedbackModel):
@@ -1100,7 +1150,7 @@ async def ask_question(query: TextQuery):
         pinecone_results = await asyncio.to_thread(
             index.query,
             vector=query_vector,
-            top_k=5,  # You can define TOP_K as a constant at the top of your file
+            top_k=7,  # You can define TOP_K as a constant at the top of your file
             include_metadata=True
         )
         
@@ -1112,8 +1162,8 @@ async def ask_question(query: TextQuery):
         ]
         # No filtering
         if all_chunks:
-            context_text = "\n\n".join(all_chunks)
-            logging.info(f"Using all {len(all_chunks)} context chunks for query.")
+            context_text = retrieve_relevant_content(question, pinecone_results)
+            logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
         else:
             context_text = ""
         logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for text query.")
@@ -1459,7 +1509,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
         query_vector = embedding_response.data[0].embedding
         pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=3, include_metadata=True # Reduced top_k for brevity
+            index.query, vector=query_vector, top_k=7, include_metadata=True # Reduced top_k for brevity
         )
         # First collect all chunks regardless of score
         all_chunks = [
@@ -1469,8 +1519,8 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
 
         # Apply sophisticated filtering to prioritize relevant content
         if all_chunks:
-            context_text = "\n\n".join(all_chunks)
-            logging.info(f"Using all {len(all_chunks)} context chunks for query.")
+            context_text = retrieve_relevant_content(question, pinecone_results)
+            logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
         else:
             context_text = ""
         logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for image query.")
