@@ -96,14 +96,13 @@ async def on_message(message):
         async with message.channel.typing():
             try:
                 # Initialize variables for tracking query type and analysis data
-                endpoint = API_BASE_URL
                 is_image_query = False
                 analysis_data = None
                 
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    endpoint = API_BASE_URL.replace("/ask", "") + "/ask-image-hybrid"
+                    endpoint = API_BASE_URL + "/ask-image-hybrid"
                     payload = {
                         "question": question,
                         "image_url": image_url
