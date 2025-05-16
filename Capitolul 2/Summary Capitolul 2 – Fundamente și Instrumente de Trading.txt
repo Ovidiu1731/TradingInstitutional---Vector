@@ -1,0 +1,99 @@
+Summary Capitolul 2 – Fundamente și Instrumente de Trading
+
+CONCEPTE CHEIE
+
+TRADING – activitate de cumpărare și vânzare frecventă de instrumente financiare pentru profit rapid; include stiluri precum intraday (execuții în aceeași zi), swing (1–7 zile) și scalping (execuții multiple pe zi).
+
+INVESTIȚII PE TERMEN LUNG – active imobilizate peste 1 an, alese pentru creșterea de capital pe termen extins; necesită plan și toleranță la blocajul fondurilor.
+
+INVESTIȚII PE TERMEN SCURT – active convertibile rapid în numerar (minute–zile), predominant trading intraday, scalping și swing.
+
+CFD (Contract for Difference) – instrument care permite poziții long (cumpărare) și short (vânzare) fără deținerea fizică a activului.
+
+FUTURES – contract standardizat de cumpărare/vânzare a unui activ la preț fix, cu executare la o dată viitoare.
+
+ETF (Exchange Traded Fund) – fond tranzacționat, coș diversificat de active vândut ca un titlu unic.
+
+LEVERAGE (LEVIER) – multiplicator al expunerii la piață; amplifică profitul și riscul.
+
+MARGIN CALL – faliment automat al contului când pierderile depășesc capitalul disponibil din cauza over-leveraging-ului.
+
+SPREAD – diferența dintre prețul de cerere și ofertă; cost indirect al oricărei tranzacții.
+
+SESIUNI DE TRADING – orele de activitate pentru principalele piețe:
+
+Londra (10:00–19:00) – sesiunea principală, execuții între 10:15–12:00.
+
+New York (15:00–00:00, deschidere 16:30) – volatilitate maximă după 16:45.
+
+ANALIZA FUNDAMENTALĂ – evaluarea știrilor economice și politice (CPI, NFP, FOMC etc.) pentru a evita zilele riscante și a înțelege contesto-macro.
+
+INDICI BURSIERI – coșuri de acțiuni (S&P 500, NASDAQ 100, DAX 40) cu volatilitate controlată și spread redus, preferate pentru strategia instituțională.
+
+FOREX – piața valutelor, volatilă și ușor de manipulat la știri; tranzacții rare în strategie.
+
+CRYPTO – piață extrem de volatilă și nereglementată; viabilă pentru institutionali pe termen mediu–lung.
+
+TRADING INSTITUȚIONAL – imitarea comportamentului “balenelor” (bănci, fonduri), detectarea algoritmilor și a lichidității masive, fără acces direct la inside information.
+
+PRINCIPII FUNDAMENTALE
+
+Învață bazele instrumentelor – CFD, futures, ETF, leverage, spread și sesiuni de piață, înainte de a tranzacționa real.
+
+Plan financiar și de risc – stabilește clar capitalul personal vs. finanțat, nivelurile de levier și punctele de stop-loss.
+
+Evită să tranzacționezi în timpul știrilor majore – nu executa poziții la CPI, NFP, FOMC sau în timpul bank holidays și discursurilor oficiale.
+
+Respectă pauzele înainte și după deschiderea pieței – nu tranzacționa între 09:45–10:15 și 16:15–16:45 (ora locală).
+
+Testează strategia pe demo (4–6 săptămâni) – validează-ți setările de risc, levier și intervale orare înainte de capital real.
+
+Concentrează-te pe cele mai lichide piețe – indicii bursieri oferă volatilitate și spread optim pentru executări consistente.
+
+Combină analiza tehnică cu cea fundamentală – folosește calendar economic și respectă regulile de culoare (roșu = interzis, gri = subiectiv, verde = permis).
+
+Adaptare personală – fiecare trader are intervale și stiluri în care performează cel mai bine; testează și ajustează în funcție de propria personalitate.
+
+Disciplina de jurnal – ține evidența fiecărei tranzacții: instrument, oră, motiv, rezultat și lecții învățate.
+
+Îmbunătățire continuă – pe măsură ce avansezi, extinde-ți setul de instrumente și autoreglează-ți regulile pentru piețele noi (crypto, aur etc.).
+
+RELAȚII ȘI APLICAȚII
+
+A. Pașii Practici pentru a Începe Capitolul 2
+
+Revizuiește definițiile și caracteristicile fiecărui instrument (CFD, futures, ETF).
+
+Configurează-ți platforma: alege produsele de tranzacționare, setează leverage și puncte de intrare/ieșire automate.
+
+Parcurge demo trading pentru minimum 100 de tranzacții, aplicând regulile de risc și intervalele orare.
+
+Selectează trei indici preferați (SPX500, NAS100, DAXEUR) și focusează-te pe ei în primele sesiuni reale.
+
+Construiește-ți jurnalul de tranzacții și analizează-l zilnic pentru ajustări rapide.
+
+B. Calendar Economic și Analiză Fundamentală
+
+Folosește Investing.com cu fusul GMT+3 și filtrează pe evenimente cu impact ★★★.
+
+Evită știrile roșii (CPI, NFP, FOMC), adaptează-te pe cele gri și tranzacționează în cele verzi.
+
+Notează-ți recomandările pentru fiecare tip de știre și verifică-le înainte de sesiunea de Londra și New York.
+
+C. Configurare Tehnică Minimă
+
+Orice laptop sau PC cu SSD și conexiune stabilă → nu e nevoie de high-end hardware.
+
+În primă fază, un singur monitor 2K/144Hz; upgrade-uri ulterioare doar după profitabilitate demonstrată.
+
+Verifică latența și spread-ul brokerului/prop-firm-ului înainte de fiecare sesiune.
+
+D. Tranziție la Trading Instituțional
+
+Înțelege metafora peștișor-balenă: urmărește „urmele” lăsate de ordinele instituțiilor (volum, spike-uri, retestări).
+
+Învăță să decodifici execuțiile HFT și să profiți de ele fără a avea algoritmi proprii.
+
+Aplică tot ce ai învățat în demo pe prop-firm, pentru a accesa capital finanțat și a minimiza riscul personal.
+
+Acest sumar al Capitolului 2 pune bazele instrumentelor, sesiunilor și logicii instituționale, pregătindu-te pentru aplicarea concretă a strategiei de tranzacționare în lecțiile următoare.

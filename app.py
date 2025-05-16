@@ -14,6 +14,7 @@ import httpx
 import math
 import aiohttp # For async image downloads
 import cv2
+from utils.chunk_filtering import filter_and_rank_chunks
 import numpy as np
 import cachetools # For TTLCache
 
@@ -45,8 +46,8 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
 PINECONE_ENV = os.getenv("PINECONE_ENV", "us-east-1-aws")
 FEEDBACK_LOG = os.getenv("FEEDBACK_LOG", "feedback_log.jsonl")
-MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.75"))
-TOP_K = int(os.getenv("PINECONE_TOP_K", "5"))
+MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.70"))
+TOP_K = int(os.getenv("PINECONE_TOP_K", "7"))
 
 # --- Model selection ---
 EMBEDDING_MODEL = "text-embedding-ada-002"
@@ -190,6 +191,16 @@ FEW_SHOT_EXAMPLES = [
 # ---------------------------------------------------------------------------
 app = FastAPI(title="Trading Instituțional AI Assistant")
 
+def normalize_diacritics(text: str) -> str:
+    """Remove diacritics from Romanian text"""
+    replacements = {
+        'ă': 'a', 'â': 'a', 'î': 'i', 'ș': 's', 'ț': 't',
+        'Ă': 'A', 'Â': 'A', 'Î': 'I', 'Ș': 'S', 'Ț': 'T'
+    }
+    for rom, eng in replacements.items():
+        text = text.replace(rom, eng)
+    return text
+
 @app.on_event("startup")
 async def startup_event():
     global aiohttp_session
@@ -197,13 +208,13 @@ async def startup_event():
     logging.info("aiohttp.ClientSession initialized.")
     
     # Check if Tesseract is available
-try:
-    test_version = pytesseract.get_tesseract_version()
-    logging.info(f"Tesseract OCR available, version: {test_version}")
-except pytesseract.TesseractNotFoundError:
-    logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
-except Exception as e:
-    logging.error(f"Error checking Tesseract: {e}")
+    try:
+        test_version = pytesseract.get_tesseract_version()
+        logging.info(f"Tesseract OCR available, version: {test_version}")
+    except pytesseract.TesseractNotFoundError:
+        logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
+    except Exception as e:
+        logging.error(f"Error checking Tesseract: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -242,27 +253,148 @@ class ImageHybridQuery(BaseModel):
     session_id: Optional[str] = None
     conversation_history: Optional[List[Dict[str, str]]] = None
 
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
 # --- Feedback Logging ---
 def log_feedback(session_id: str, question: str, answer: str, feedback: str,
                  query_type: str, analysis_data: Optional[Dict] = None) -> bool:
     try:
         feedback_entry = {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "session_id": session_id,
-            "question": question,
-            "answer": answer,
-            "feedback": feedback,
-            "query_type": query_type
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"), "session_id": session_id,
+            "question": question, "answer": answer, "feedback": feedback, "query_type": query_type
         }
         if analysis_data:
-            # ... existing extraction logic ...
+            relevant_fields = [
+                "final_trade_direction", "final_mss_type", "final_trade_outcome",
+                "is_risk_above_entry_suggestion",
+                "mss_pivot_analysis",
+                "fvg_analysis",
+                "liquidity_status_suggestion",
+                "break_direction_suggestion",
+                "confidence_level",
+                "setup_validity_score", # Added from rule engine
+                "setup_quality_summary", # Added from rule engine
+                "_cv_note", "_vision_note", "_rule_engine_notes"
+            ]
+            analysis_extract = {}
+            for k in relevant_fields:
+                if k in analysis_data:
+                     analysis_extract[k] = analysis_data.get(k)
+
+            # Pivot counts are directly in mss_pivot_analysis
+            if "mss_pivot_analysis" in analysis_data and isinstance(analysis_data["mss_pivot_analysis"], dict):
+                analysis_extract["pivot_bearish_count_vision"] = analysis_data["mss_pivot_analysis"].get("pivot_bearish_count")
+                analysis_extract["pivot_bullish_count_vision"] = analysis_data["mss_pivot_analysis"].get("pivot_bullish_count")
+
             feedback_entry["analysis_data_from_report"] = analysis_extract
         with open(FEEDBACK_LOG, "a", encoding="utf-8") as f:
             f.write(json.dumps(feedback_entry, ensure_ascii=False) + "\n")
         return True
     except Exception as e:
-        logging.error(f"Failed to log feedback: {e}")
-        return False
+        logging.error(f"Failed to log feedback: {e}"); return False
+
+# Add this function to app.py
+def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
+    """
+    Get the most relevant content for this question with optimizations for:
+    - Summary prioritization
+    - Topic awareness
+    - Deduplication
+    - Quality filtering
+    """
+    
+    # Extract all chunks from results
+    all_chunks = [
+        match.metadata["text"] for match in pinecone_results.matches
+        if match.metadata and "text" in match.metadata
+    ]
+    
+    if not all_chunks:
+        return ""
+    
+    # Identify which chunks are from summaries vs transcripts
+    summary_chunks = []
+    transcript_chunks = []
+    
+    for match in pinecone_results.matches:
+        if match.metadata and "text" in match.metadata:
+            # Check if this is a summary chunk
+            text = match.metadata.get("text", "")
+            if (match.metadata.get("section_type") == "summary" or 
+                "Rezumat" in text or
+                "### " in text):
+                summary_chunks.append(text)
+            else:
+                transcript_chunks.append(text)
+    
+    # Define key topics that benefit from structured responses
+    key_topics = {
+        "sesiuni": ["sesiune", "tranzacționare", "trading session", "londra", "new york"],
+        "mss": ["market structure", "structură", "shift", "schimbare"],
+        "fvg": ["fair value gap", "gap", "imbalance"],
+        "setup": ["setup", "tcg", "gap setup", "og", "tg", "tcg"],
+        "lichiditate": ["lichiditate", "liq", "LIQ"],
+        "carti": ["cărți", "carte", "recomandate", "recomand", "citit", "books", 
+          "book", "trading in the zone", "recomandari", "literatura",
+          "program", "curs", "mentionat", "citesc", "lectura"]
+    }
+    
+    # Check if the question is about a key topic
+    question_lower = question.lower()
+    question_normalized = normalize_diacritics(question_lower)
+
+    matched_topic = None
+    for topic, keywords in key_topics.items():
+        if any(keyword in question_lower for keyword in keywords) or \
+            any(keyword in question_normalized for keyword in keywords):
+             matched_topic = topic
+             break
+    
+    # Prioritize different content based on question type
+    if matched_topic:
+        # For key topics, focus on summary content first
+        prioritized_chunks = summary_chunks + transcript_chunks
+        logging.info(f"Question about {matched_topic}: Prioritizing summary chunks")
+    else:
+        # For general questions, use both but still put summaries first
+        prioritized_chunks = summary_chunks + transcript_chunks
+    
+    # Deduplicate chunks
+    unique_chunks = []
+    seen_content = set()
+    
+    for chunk in prioritized_chunks:
+        # Create a simplified representation for comparison (first 100 chars)
+        chunk_fingerprint = chunk[:100].strip()
+        
+        # Only include if we haven't seen this content
+        if chunk_fingerprint not in seen_content:
+            unique_chunks.append(chunk)
+            seen_content.add(chunk_fingerprint)
+    
+    # Filter out low-quality chunks
+    filtered_chunks = []
+    for chunk in unique_chunks:
+        # Skip very short chunks
+        if len(chunk.strip()) < 50:
+            continue
+            
+        # Skip chunks that are mostly timestamps or formatting
+        timestamp_count = chunk.count('[00:')
+        if timestamp_count > 3 or chunk.count('\n') > chunk.count('.') * 2:
+            continue
+            
+        filtered_chunks.append(chunk)
+    
+    # If we filtered too aggressively and have nothing left, use the deduplicated chunks
+    if not filtered_chunks and unique_chunks:
+        filtered_chunks = unique_chunks
+    
+    # Return the final processed chunks
+    result = "\n\n".join(filtered_chunks)
+    logging.info(f"Retrieved {len(all_chunks)} chunks, {len(unique_chunks)} after deduplication, {len(filtered_chunks)} after filtering")
+    
+    return result
 
 @app.post("/feedback")
 async def submit_feedback(feedback_data: FeedbackModel):
@@ -280,18 +412,61 @@ async def submit_feedback(feedback_data: FeedbackModel):
     else:
         raise HTTPException(status_code=500, detail="Nu am putut înregistra feedback-ul.")
 
+@app.get("/admin/export-feedback")
+async def export_feedback(request: Request, api_key: str = None):
+    """Endpoint to export feedback logs securely"""
+    # Set a secure API key in Railway variables
+    ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+    
+    # Validate the API key
+    if not ADMIN_API_KEY or api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    try:
+        # Check if the feedback log file exists
+        if not os.path.exists(FEEDBACK_LOG):
+            return {"status": "no_logs", "message": "No feedback logs found"}
+        
+        # Read the feedback logs
+        with open(FEEDBACK_LOG, "r", encoding="utf-8") as f:
+            logs = [json.loads(line) for line in f]
+        
+        # Return the logs as JSON
+        return {
+            "status": "success", 
+            "count": len(logs), 
+            "logs": logs
+        }
+    except Exception as e:
+        logging.error(f"Error exporting feedback logs: {e}")
+        raise HTTPException(status_code=500, detail=f"Error reading logs: {str(e)}")
+
 # --- Query Type Identification ---
 def identify_query_type(question: str) -> Dict[str, Any]:
     question_lower = question.lower().strip()
-    # ... existing logic ...
+    
+    # More specific concept verification patterns
+    concept_verification_patterns = ["marcate corect", "sunt corecte", "este corect", "e corect"]
+    if any(p in question_lower for p in concept_verification_patterns):
+        logging.info("Query identified as 'concept_verification_image_query'.")
+        return {"type": "concept_verification_image_query"}
+    
+    # Trade evaluation patterns as a fallback
+    trade_evaluation_patterns = ["cum arata", "cum arată", "ce parere", "ce părere", "evalueaz", "analizeaz", 
+                                "trade", "setup", "intrare", "valid", "rezultat"]
+    if any(p in question_lower for p in trade_evaluation_patterns) or "?" not in question_lower:
+        logging.info("Query identified as 'trade_evaluation_image_query'.")
+        return {"type": "trade_evaluation_image_query"}
+        
+    logging.info("Query identified as 'general_image_query'.")
     return {"type": "general_image_query"}
 
 # --- Image/JSON Helpers ---
 async def download_image_async(image_url: str) -> Optional[bytes]:
-    global aiohttp_session
+    global aiohttp_session # Move this line to the top of the function
     if not aiohttp_session:
         logging.error("aiohttp_session not initialized for image download attempt.")
-        aiohttp_session = aiohttp.ClientSession()
+        aiohttp_session = aiohttp.ClientSession() # Re-init if somehow missed
         logging.warning("aiohttp_session re-initialized on-demand in download_image_async.")
     try:
         async with aiohttp_session.get(image_url, timeout=aiohttp.ClientTimeout(total=20)) as response:
@@ -305,10 +480,29 @@ async def download_image_async(image_url: str) -> Optional[bytes]:
 def _extract_text_from_image_sync(image_content: bytes) -> str:
     try:
         img = Image.open(BytesIO(image_content))
-        # ... preprocessing and OCR logic ...
+        
+        # Try different preprocessing techniques to improve OCR results
+        # Convert to grayscale
+        img_gray = img.convert('L')
+        
+        # First attempt with original image
+        text = pytesseract.image_to_string(img, lang="eng")
+        
+        # If text is too short, try with grayscale and additional processing
+        if len(text.strip()) < 10:
+            # Apply thresholding to improve contrast
+            threshold = 150
+            img_bw = img_gray.point(lambda x: 0 if x < threshold else 255, '1')
+            text = pytesseract.image_to_string(img_bw, lang="eng", config='--psm 6')
+        
+        # Clean the extracted text
+        cleaned_text = "".join(ch for ch in text if ord(ch) < 128).strip()
+        cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
+        
+        logging.info(f"OCR: Extracted text length: {len(cleaned_text)}")
         return cleaned_text
     except pytesseract.TesseractNotFoundError:
-        logging.error("Tesseract not found. OCR will not function.")
+        logging.error("Tesseract not found. Please ensure it is installed and in your PATH. OCR will not function.")
         return ""
     except Exception as e:
         logging.exception(f"OCR failed: {e}")
@@ -322,14 +516,8 @@ def optimize_image_before_vision(image_content: bytes, max_size: int = 1024*1024
     """Reduce image size if needed before sending to vision model"""
     if len(image_content) <= max_size:
         return image_content
-
+        
     try:
-        # ... your resizing logic ...
-        return optimized_image
-    except Exception as e:
-        logging.error(f"Image optimization failed: {e}")
-        return image_content
-
         img = Image.open(BytesIO(image_content))
         img_format = img.format
         width, height = img.size
@@ -1051,7 +1239,16 @@ async def ask_question(query: TextQuery):
     if query.conversation_history: # Allow user to send full history if they manage it client-side
         history = query.conversation_history[-MAX_HISTORY_MESSAGES:]
     elif history_store_key in conversation_history:
-        history = conversation_history[history_store_key][-MAX_HISTORY_MESSAGES:]
+        if history_store_key in conversation_history:
+            full_history = conversation_history[history_store_key]
+            if hasattr(full_history, '__getitem__') and hasattr(full_history, '__len__'):
+                # If it's a sequence like a list or deque
+                history = list(full_history)[-MAX_HISTORY_MESSAGES:]
+            else:
+                # If it's not a sequence (possibly a single conversation)
+                history = [full_history]
+        else:
+            history = []
 
     logging.info(f"Text query received. Session: {session_id}, History length: {len(history)}")
 
@@ -1070,19 +1267,23 @@ async def ask_question(query: TextQuery):
         pinecone_results = await asyncio.to_thread(
             index.query,
             vector=query_vector,
-            top_k=3,  # You can define TOP_K as a constant at the top of your file
+            top_k=7, 
             include_metadata=True
         )
         
         logging.info([m.score for m in pinecone_results.matches])
-        
-        context_chunks = [
+        # First collect all chunks regardless of score
+        all_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-            if match.score >= 0.75 and match.metadata and "text" in match.metadata  # Increased threshold
+            if match.metadata and "text" in match.metadata
         ]
-        if context_chunks:
-            context_text = "\n\n".join(context_chunks)
-        logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for text query.")
+        # Apply sophisticated filtering
+        if all_chunks:
+            context_text = retrieve_relevant_content(question, pinecone_results)
+            logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
+        else:
+            context_text = ""
+        logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for text query.")
 
     except Exception as pe:
         logging.error(f"Pinecone vector search error: {pe}")
@@ -1121,7 +1322,7 @@ async def ask_question(query: TextQuery):
             "### END CONTEXT\n\n"
             "Folosind **doar informațiile din CONTEXT**, răspunde la întrebarea utilizatorului. "
             "Nu inventa termeni; citează formulările exact așa cum apar. "
-            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs". "
+            "Dacă informația nu există în CONTEXT, spune explicit „Informația nu e disponibilă în materialul de curs."
             "Răspuns concis, stil Trading Instituțional."
         )
     else:
@@ -1200,7 +1401,16 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
     if payload.conversation_history:
         history = payload.conversation_history[-MAX_HISTORY_MESSAGES:]
     elif history_store_key in conversation_history:
-        history = conversation_history[history_store_key][-MAX_HISTORY_MESSAGES:]
+        if history_store_key in conversation_history:
+            full_history = conversation_history[history_store_key]
+            if hasattr(full_history, '__getitem__') and hasattr(full_history, '__len__'):
+                # If it's a sequence like a list or deque
+                history = list(full_history)[-MAX_HISTORY_MESSAGES:]
+            else:
+                # If it's not a sequence (possibly a single conversation)
+                history = [full_history]
+        else:
+            history = []
     logging.info(f"Image-hybrid query received. Session: {session_id}, History length: {len(history)}")
 
     query_info = identify_query_type(question)
@@ -1425,14 +1635,20 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
         query_vector = embedding_response.data[0].embedding
         pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=2, include_metadata=True # Reduced top_k for brevity
+            index.query, vector=query_vector, top_k=7, include_metadata=True # Changed from 3 to 7
         )
-        context_chunks = [
+        # First collect all chunks regardless of score
+        all_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
-        if match.score >= 0.75 and match.metadata and "text" in match.metadata  # Higher threshold
+            if match.metadata and "text" in match.metadata
         ]
-        if context_chunks:
-            context_text = "\n\n".join(context_chunks)
+
+        # Apply sophisticated filtering to prioritize relevant content
+        if all_chunks:
+            context_text = retrieve_relevant_content(question, pinecone_results)
+            logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
+        else:
+            context_text = ""
         logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for image query.")
     except Exception as e: # Non-critical, so don't raise HTTPException
         logging.error(f"RAG retrieval error: {e}")
@@ -1499,6 +1715,34 @@ Adhere to the persona and guidelines provided in the initial system prompt.
     except Exception as e:
         logging.error(f"Final completion error: {e}")
         raise HTTPException(status_code=500, detail="A apărut o eroare la generarea răspunsului final.")
+
+@app.get("/pinecone-stats")
+async def pinecone_stats():
+    """
+    Returns statistics about the Pinecone index
+    """
+    try:
+        # Get index stats
+        index_stats = await asyncio.to_thread(index.describe_index_stats)
+        
+        # Return detailed information
+        return {
+            "status": "ok",
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "pinecone_index": {
+                "name": PINECONE_INDEX_NAME,
+                "total_vector_count": index_stats.total_vector_count
+            },
+            "environment": {
+                "openai_model": COMPLETION_MODEL,
+                "embedding_model": EMBEDDING_MODEL
+            }
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
 
 # --- Health Check (Async) ---
 @app.get("/health")
@@ -1577,6 +1821,6 @@ async def health_check():
     duration_ms = int((time.time() - start_time) * 1000)
     status["response_time_ms"] = duration_ms
 
- return Response(content=json.dumps(status, ensure_ascii=False),
+    return Response(content=json.dumps(status, ensure_ascii=False),
                 media_type="application/json",
                 status_code=http_status_code)

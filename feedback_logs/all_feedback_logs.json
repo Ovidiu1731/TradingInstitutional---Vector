@@ -1,0 +1,22 @@
+{
+  "last_updated": "2025-05-13 10:39:12",
+  "total_entries": 2,
+  "logs": [
+    {
+      "timestamp": "2025-05-13 15:11:37",
+      "session_id": "discord-303240674822586368",
+      "question": "cum se noteaza liq locala?",
+      "answer": "Lichiditatea locală se recunoaște pe timeframe-uri mai mici și este relevantă pe termen scurt.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-13 15:12:35",
+      "session_id": "discord-303240674822586368",
+      "question": "cum identific un trend puternic?",
+      "answer": "În context, se menționează că un trend puternic poate fi identificat atunci când prețul continuă să crească constant, indicând o creștere continuă. Este important să observi că nu există putere de continuare a trendului, semn că acesta ar putea fi pe final. Trendurile sunt esențiale în piață și se bazează pe mișcări de waveri.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    }
+  ]
+}

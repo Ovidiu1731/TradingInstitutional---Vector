@@ -1,0 +1,202 @@
+Summary Capitolul 10: Analiza Fundamentală
+
+CONCEPTE CHEIE
+Indicatori Economici Majori
+
+Analiza fundamentală = analiza știrilor și a contextului economic global, complementară analizei tehnice
+CPI (Consumer Price Index) = indicele prețurilor de consum, principal barometru al inflației, exprimat procentual
+Core CPI = CPI fără componente volatile (alimente, energie), considerat un indicator mai stabil pentru tendințele inflaționiste
+NFP (Non-Farm Payrolls) = modificarea lunară a numărului de locuri de muncă din sectoarele non-agricole din SUA
+FOMC (Federal Open Market Committee) = comitetul Federal Reserve responsabil de stabilirea politicii monetare a SUA
+Unemployment Rate (Rata Șomajului) = procentul din populația activă care nu are un loc de muncă, dar caută activ să se angajeze
+GDP (Gross Domestic Product) / PIB = valoarea totală a bunurilor și serviciilor produse într-o economie într-o perioadă determinată
+PCE (Personal Consumption Expenditures) = indicator ce măsoară modificările de prețuri ale bunurilor și serviciilor consumate de gospodării
+
+Indicatori Economici cu Impact Redus
+
+PMI (Purchasing Managers' Index) = indicator ce reflectă activitatea economică în sectoarele manufacturier și al serviciilor
+Retail Sales = valoarea bunurilor și serviciilor vândute de retaileri
+Initial Jobless Claims = numărul de persoane care aplică pentru prima dată pentru ajutor de șomaj
+JOLTS (Job Openings and Labor Turnover Survey) = măsoară numărul de locuri de muncă disponibile în SUA
+
+Evenimente Economice Extreme
+
+Black Swan Event = eveniment neașteptat, cu impact major și dificil de anticipat (ex: pandemii, războaie, crize)
+Crize Economice = perioade de declin semnificativ al activității economice, afectând multiple sectoare
+Bank Holidays = zile de sărbătoare bancară când volumul și lichiditatea piețelor sunt reduse
+
+PRINCIPII FUNDAMENTALE
+Principii de interpretare a indicatorilor
+
+Analiza diferenței - important este raportul dintre valoarea reală (actual) și cea așteptată (forecast)
+Corelarea indicatorilor - indicatorii economici trebuie analizați împreună pentru o imagine completă
+Inflația controlată (2%) este considerată sănătoasă pentru o economie stabilă
+Rata șomajului optimă se situează între 4-6% într-o economie echilibrată
+Valoarea nominală a indicatorului este mai puțin importantă decât tendința și relația cu așteptările
+
+Principii pentru FOMC și politica monetară
+
+Dualul mandat al Fed - stabilitatea prețurilor și ocuparea deplină a forței de muncă
+Tonul comunicatelor (hawkish/dovish) este adesea mai important decât decizia numerică
+Hawkish (ton agresiv) indică potențiale majorări ale dobânzilor
+Dovish (ton relaxat) indică posibile reduceri ale dobânzilor
+Ratele dobânzilor sunt principalul instrument pentru controlul inflației
+
+Principii pentru evitarea zilelor cu știri
+
+Știrile majore (CPI, NFP, FOMC) se evită complet în primul an de experiență
+Bank Holidays se evită complet - există lipsă de volum și algoritmi inactivi
+Știrile cu impact redus nu necesită evitarea întregii zile, ci doar a perioadei de 30-60 minute din jurul publicării
+Prioritizarea știrilor din SUA - au impact global mai mare decât cele regionale
+Impactul știrilor scade în intensitate pe măsură ce piața le asimilează
+
+Principii pentru gestionarea crizelor și evenimentelor Black Swan
+
+Prima lună după un eveniment major este cea mai volatilă și riscantă
+Reducerea riscului este vitală în perioade de volatilitate extremă
+Cash is king în perioadele de criză - lichiditatea permite valorificarea oportunităților
+Istoria se repetă - studierea crizelor anterioare oferă perspective valoroase
+Emoțiile sunt dușmanul nr. 1 în perioade de criză și incertitudine
+
+RELAȚII ȘI APLICAȚII
+CPI și impactul asupra piețelor
+
+Efecte directe pe piețe:
+
+CPI peste așteptări → posibilă creștere a dobânzilor → USD crește, acțiunile scad
+CPI sub așteptări → posibilă relaxare monetară → USD scade, acțiunile cresc
+CPI conform așteptărilor → efect neutru
+
+
+Aplicație în trading:
+
+US CPI se evită complet - volatilitate mare
+Euro CPI se tratează cu prudență
+CPI regional (Japonia, UK) - relevant doar dacă tranzacționezi acele piețe
+Se evită trading-ul în timpul publicării în primul an de experiență
+
+
+
+NFP și reacțiile piețelor
+
+Efecte pe piețe:
+
+NFP peste așteptări → USD se apreciază, aurul scade
+NFP sub așteptări → USD se depreciază, aurul crește
+Indici bursieri - reacție variabilă în funcție de percepția investitorilor
+
+
+Strategii în jurul NFP:
+
+Evitarea tranzacțiilor în ziua de NFP (statistică: 9 din 12 ocazii generează pierderi)
+Monitorizarea forecast-ului și datelor anterioare înainte de raport
+Identificarea direcțiilor clare doar după stabilizarea volatilității
+Folosirea zilei pentru statistică, relaxare sau alte activități
+
+
+
+FOMC și deciziile de politică monetară
+
+Tipuri de ședințe FOMC și abordare:
+
+FOMC Meeting (ședința principală) - se evită complet ziua respectivă
+FOMC Minutes (procesul-verbal) - volatilitate moderată, poate fi evitat parțial
+
+
+Ce se discută în cadrul FOMC:
+
+Revizuirea economică (PIB, șomaj, inflație)
+Situația piețelor financiare
+Perspective economice
+Analiza riscurilor
+Decizii de politică monetară
+Declarație publică și Q&A
+
+
+Răspunsul piețelor la FOMC:
+
+Majorarea dobânzii → USD se întărește, bursele pot scădea
+Reducerea dobânzii → USD se depreciază, bursele pot crește
+Volatilitatea poate persista și în ziua următoare
+
+
+
+GDP și impactul pe piețe
+
+Tipuri de PIB și interpretare:
+
+PIB nominal = valoarea totală în prețuri curente
+PIB real = ajustat la inflație; reflectă creșterea economică reală
+PIB per capita = PIB raportat la numărul de locuitori
+PIB potențial = capacitatea maximă teoretică de producție
+
+
+Ciclurile economice și PIB:
+
+Expansiune - PIB-ul crește
+Punct maxim - economia atinge capacitatea maximă
+Recesiune - PIB-ul scade, șomajul crește
+Punct minim - economia începe să se redreseze
+
+
+Abordare în trading:
+
+Nu este obligatoriu să fie evitat ca știre
+Se evită piața 30-60 minute în jurul publicării
+Dacă tranzacționezi DAX și apare GDP Germania, evită DAX-ul, dar poți merge pe US sau UK100
+
+
+
+Managementul în perioade de criză sau Black Swan
+
+Strategii pentru evenimente Black Swan:
+
+Pasul 1: Analizează impactul macroeconomic (monitorizează volatilitatea și piețele afectate)
+Pasul 2: Monitorizează constant știrile (5-10 minute zilnic)
+Pasul 3: Ajustează riscurile (reducere de la 1% la 0.25%)
+Variante: stai deoparte, execută pe demo, sau fă doar analiză/statistică
+
+
+Strategii pentru crize economice:
+
+Pentru trading: volatilitate excesivă la început → poziții short, risc redus
+Pentru investiții: menține lichidități pentru oportunități, folosește DCA (Dollar Cost Averaging)
+Active de refugiu: aur, argint, dolar american, franc elvețian
+
+
+Diferența dintre trading și investiții în criză:
+
+Tradingul activ nu este profund afectat, oferă oportunități zilnice
+Investițiile sunt afectate semnificativ, poziționarea corectă este esențială
+"Cash is king" în criză - liquiditate pentru a profita de scăderi
+
+
+
+Aplicații ale indicatorilor cu impact redus
+
+PMI (Purchasing Managers' Index):
+
+Peste 50 → expansiune economică
+Sub 50 → contracție economică
+Abordare: nu se evită complet ziua, doar 30 min înainte și după știre
+
+
+Retail Sales:
+
+Indicator al consumului populației și tendințelor economice
+Versiune Core: exclude auto și categorii volatile
+Abordare: nu se evită ziua întreagă, doar momentul publicării
+
+
+Initial Jobless Claims:
+
+Timing rapid al stării pieței muncii (săptămânal)
+Corelație cu Unemployment Rate și NFP
+Interpretare: număr mic → economie solidă; număr mare → potențial de recesiune
+
+
+JOLTS (Job Openings and Labor Turnover Survey):
+
+Măsoară locurile de muncă disponibile
+Oferă informații despre demisii voluntare vs. concedieri
+Număr mare de locuri → piață solidă; număr mic → slăbiciune economică

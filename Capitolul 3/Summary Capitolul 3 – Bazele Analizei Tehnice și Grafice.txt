@@ -1,0 +1,65 @@
+Summary Capitolul 3 – Bazele Analizei Tehnice și Grafice
+
+CONCEPTE CHEIE
+
+* AREA CHART – grafic cu umplere sub linie, nerecomandat pentru tranzacționare activă.
+* LINE CHART – grafic care redă doar prețul de închidere printr-o linie, fără detalii suplimentare.
+* BARS – grafic cu bare verticale, afișează deschidere și închidere.
+* CANDLESTICK CHART – graficul recomandat, afișează Open, High, Low, Close; culorile personalizate reduc stresul emoțional.
+* HEIKIN-ASHI – grafic derivat bazat pe medii, utilizat ocazional.
+* STEP LINE – grafic rar folosit și nerecomandat.
+* CÂNDELĂ – unitate de timp pe graficele candlestick, reprezentând patru valori esențiale: Open, High, Low, Close.
+* ANALIZĂ TEHNICĂ – bazată pe grafice și modele vizuale pentru identificarea momentelor ideale de intrare și ieșire.
+* ANALIZĂ FUNDAMENTALĂ – bazată pe evenimente macro și știri pentru evitarea tranzacțiilor riscante.
+* STRATEGIE MATEMATICĂ – set de reguli obiective pentru entry și exit; foarte clară, dar nu 100% datorită factorului uman.
+* TIMEFRAMES – intervale de timp pe care se bazează graficele (ex: 1m, 5m, 15m, 1H, 4H, 1D, 1W); timeframes mari oferă viziune macro, cele mici viziune micro.&#x20;
+* WAVES – valurile pieței (round waves și spike waves; top și bottom); reprezintă cicluri de preț.&#x20;
+* TRENDURI – direcții majore de mișcare: uptrend, downtrend și lateral; confirmate prin higher high/higher low sau lower low/lower high.&#x20;
+
+PRINCIPII FUNDAMENTALE
+
+1. Personalizează culorile și fundalul graficelor pentru a reduce reacțiile emoționale.
+2. Evită pattern-urile clasice (double top, engulfing etc.) – instituțiile nu le folosesc pentru intrări.
+3. Evită tranzacționarea în zilele cu știri majore (CPI, NFP, FOMC etc.).
+4. Ține un jurnal disciplinat: notează fiecare tranzacție cu motive, rezultate și lecții învățate.
+5. Aplică strategia matematică cu reguli clare – fii consecvent, dar acceptă variațiile introduse de factorul uman.
+6. Menține echilibrul între trading și viața personală: 1–2 ore de tranzacționare pe zi pot fi suficiente.
+7. Alege timeframe-uri potrivite – analiză pe 5m și 15m, execuție pe 1m; adaptează în funcție de timp și capital.&#x20;
+8. Nu forța identificarea wave-urilor sau trendurilor – folosește doar forme clare și confirmate.&#x20;
+9. Nu tranzacționa împotriva trendului – în uptrend doar poziții long, în downtrend doar poziții short.&#x20;
+10. Ajustează-ți strategia după personalitate și condiții de piață – poți modifica combinațiile de timeframes (ex: analiză pe 1H + 15m, execuție pe 5m).&#x20;
+
+RELAȚII ȘI APLICAȚII
+
+A. CONFIGURARE GRAFIC
+
+1. Alege tipul Candlestick în TradingView și personalizează culorile și fundalul.
+
+B. EXERSAREA CÂNDELELOR
+
+1. Practică citirea valorilor Opening, High, Low, Closing pe un eșantion de minim 20 de lumânări.
+
+C. INTEGRAREA ANALIZEI FUNDAMENTALE
+
+1. Creează un calendar economic (filtrează evenimente cu impact ★★★) și evită tranzacțiile în zilele cu știri roșii.
+
+D. TESTARE DEMO ȘI STATISTICĂ
+
+1. Rulează demo trading pentru aproximativ 100 de tranzacții, aplicând toate regulile strategiei.
+2. Revizuiește lunar statisticile din jurnal pentru ajustări rapide.
+
+E. UTILIZAREA TIMEFRAMES ÎN STRATEGIE
+
+1. Analiza graficului pe 5 minute și 15 minute, execuția pe 1 minut.&#x20;
+2. Alternativă: analiză pe 1H și 15M, execuție pe 5M.&#x20;
+3. Adaptează combinațiile după disponibilitatea de timp și scopul tranzacției.&#x20;
+
+F. IDENTIFICAREA WAVE-URILOR ȘI TRENDURILOR
+
+1. Marchează round și spike waves doar când sunt foarte clare.&#x20;
+2. Confirmă trendul prin lower low + lower high (downtrend) sau higher high + higher low (uptrend).&#x20;
+3. În downtrend, caută doar poziții short; în uptrend, doar poziții long.&#x20;
+4. Plasează stop-loss deasupra/sub wave-ul anterior pentru protejarea capitalului.&#x20;
+
+CONCLUZIE
+Capitolul 3 pune bazele utilizării graficelor, a analizelor tehnice și fundamentale, integrând principiile matematice cu factorii umani și de piață (timeframes, wave-uri și trenduri) pentru o abordare completă, disciplinată și adaptabilă.

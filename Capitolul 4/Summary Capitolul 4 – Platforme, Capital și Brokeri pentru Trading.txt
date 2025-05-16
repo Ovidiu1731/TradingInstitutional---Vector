@@ -1,0 +1,99 @@
+Summary Capitolul 4 – Platforme, Capital și Brokeri pentru Trading
+
+CONCEPTE CHEIE
+
+* TRADINGVIEW – platformă gratuită de analiză tehnică, personalizabilă (dark mode, logarithmic scale, timezone UTC+2), cu watchlist, calendar economic şi alerte.
+* SHORTCUT-URI TRADINGVIEW – Alt+T (trendline), Alt+H (linie orizontală infinită), Alt+J (linie orizontală doar spre dreapta), Alt+V (linie verticală), Ctrl+Z (undo), scriere directă a timeframe-urilor şi split layout.
+* FTMO (PROP FIRM) – firmă de finanţare: free trial demo 14 zile, apoi FTMO Challenge (10% profit, max 5% pierdere/zi, 10% total) şi Verification (5% profit), profit split iniţial 80/20 (până la 90/10).
+* FREE TRIAL FTMO – cont demo nelimitat pentru testarea strategiei fără cost.
+* METATRADER 4/5 – platformă de execuţie pentru conturile FTMO, folosită exclusiv pentru deschiderea/închiderea poziţiilor.
+* METATRADER PE TELEFON vs PC – PC/laptop pentru execuţie stabilă; telefon doar pentru monitorizare şi închidere rapidă; TradingView disponibil pe mobil pentru alertă şi analiză.
+* INDICATORI VIZUALI – AGFX Watermark (afişează data, piaţa, timeframe) şi No Gaps Candles (elimină golurile dintre lumânări); nu se folosesc MACD, EMA, Stochastic etc.
+* CAPITAL FINANȚAT – fonduri puse la dispoziţie de prop firms; test plătit, cont 5 000–400 000 €, profit split, risc personal limitat, emoţii reduse.
+* CAPITAL PERSONAL – fonduri proprii; profit 100 %, emoţii ridicate, dificil de scalat cu capital mic.
+* ACCOUNT MERGING – funcţie prop firms pentru a combina mai multe conturi (ex. 25 000 € + 80 000 € = 105 000 €) de până la 3 ori.
+* INTERACTIVE BROKERS – broker reglementat, sigur, deschidere cont complexă (interviu, capital minim).
+* ADMIRAL MARKETS – comisioane mici, acces la CFD-uri pe indici (DAX, Dow Jones), reputaţie solidă.
+* ETORO – platformă de social & copy trading, folosită pentru investiţii pe termen lung; link afiliere pentru beneficii.
+* IC MARKETS – leverage 1:30, spreaduri mici, MetaTrader 4/5, popular în rândul traderilor retail.
+* S-LINE (ASK) – cel mai mic preţ la care un vânzător acceptă să vândă; linia roşie deasupra preţului de piaţă.
+* B-LINE (BID) – cel mai mare preţ pe care un cumpărător îl oferă; linia verde/sub preţul de piaţă.
+* SPREAD – diferenţa ASK–BID; cost invizibil al fiecărei tranzacţii; cu cât este mai mic, cu atât tranzacţia e mai eficientă.
+* SELECȚIA PIEȚEI – proces de testare demo 2–3 luni pe 2–4 pieţe (ex. DAX, US30, NASDAQ, EURUSD, UK100), evidenţă statistică a câştigurilor şi pierderilor; focus pe pieţele profitabile.
+
+PRINCIPII FUNDAMENTALE
+
+1. ANALIZĂ vs EXECUȚIE – foloseşte TradingView pentru analiză şi MetaTrader pentru execuţie.
+2. PERSONALIZARE GRAFIC – culori neutre, lumânări-only, grilă dezactivată pentru claritate şi reducerea stresului emoţional.
+3. EFICIENȚĂ – învaţă shortcut-urile de tastatură pentru desen şi navigare rapidă.
+4. DEMO EXTINS – testează strategia minim 100 de tranzacţii pe cont demo identic cu cel live, înainte de challenge.
+5. RESPECT FTMO – respectă limite de pierdere zilnică (5%), pierdere maximă (10%) şi obiectiv de profit (10% + 5% verificare).
+6. JURNAL DISCIPLINAT – notează fiecare tranzacţie: motiv, intrare, ieşire, rezultat şi lecţii învăţate.
+7. ALEGEREA CAPITALULUI – compară avantajele şi dezavantajele capitalului personal vs finanţat; alege în funcţie de toleranţa la risc şi obiective.
+8. RESEARCH BROKER – alege un broker reglementat; studiază spread-ul, comisioanele, levierul şi stabilitatea platformei.
+9. BID & ASK VIZIBIL – activează Show Bid Price şi Show Ask Price; ia în calcul spread-ul la setarea ordinele de stop-loss şi take-profit.
+10. SELECȚIA PIEȚEI – începe cu 1-2 pieţe, extinde la 3-4 dacă te simţi confortabil; după 6-12 luni păstrează doar pieţele profitabile pe termen lung.
+
+RELAȚII ȘI APLICAȚII
+
+A. CONFIGURARE TRADINGVIEW
+
+1. Cont gratuit, dark mode, logarithmic scale, timezone UTC+2.
+2. Personalizează lumânările şi dezactivează grila.
+3. Adaugă AGFX Watermark şi No Gaps Candles din lista de indicatori.
+
+B. SHORTCUT-URI DE TASTATURĂ
+
+1. Alt+T, Alt+H, Alt+J, Alt+V pentru desen.
+2. Ctrl+Z pentru undo, scriere directă a timeframe-urilor şi split layout.
+
+C. PROCES FTMO
+
+1. Free Trial nelimitat → FTMO Challenge (plată, logare MT4/5).
+2. Faza 1: +10% profit, max –10% pierdere totală, max –5%/zi.
+3. Faza 2: +5% profit, aceleaşi limite de pierdere.
+4. Cont live: reguli de pierdere totală rămân; nu mai există obiectiv lunar.
+5. Retrageri: o dată la 2 săptămâni sau lunar; refund fee challenge trecut.
+
+D. CONFIGURARE METATRADER 4/5
+
+1. Instalează FTMO Quick Trade Manager.
+2. Adaugă symbol GR40 (DAX) în Market Watch.
+3. Setează layout „candlestick-only” şi grilă off.
+
+E. MONITORIZARE TELEFON
+
+1. MT4/5 pe mobil doar pentru monitorizare şi închidere rapidă.
+2. TradingView pe mobil pentru alerte şi analiză de urgenţă.
+
+F. MANAGEMENTUL CAPITALULUI
+
+1. Decide între capital personal şi finanţat.
+2. Foloseşte account merging pentru scalare (max 3×).
+3. Prop firms pentru scalare rapidă cu investiţie iniţială mică.
+
+G. ALEGEREA BROKERULUI
+
+1. Studiază Interactive Brokers, Admiral Markets, eToro, IC Markets.
+2. Evaluează reglementare, spread, levier, comisioane şi interfață.
+3. Deschide cont demo şi testează condiţiile de tranzacţionare.
+
+H. CONFIGURARE BID/ASK
+
+1. În MT4/5 activează Show Bid Price şi Show Ask Price.
+2. Verifică spread-ul înainte de fiecare sesiune.
+
+I. SELECȚIA PIEȚEI PENTRU TRADING
+
+1. Alege 1–2 pieţe: ex. DAX, US30.
+2. Dacă nu găseşti setup-uri, treci la următoarea piaţă din watchlist.
+3. Marchează zone de interes şi setează alerte.
+
+J. ANALIZĂ ŞI APLICARE
+
+1. Menţine focus pe price action; evită indicatorii clasici.
+2. Verifică jurnalul lunar pentru ajustări şi disciplină.
+3. Reconsolidare: periodic elimină pieţele mai puţin profitabile.
+
+CONCLUZIE
+Acest capitol 4 îţi asigură un setup complet: alegerea platformei, managementul şi finanţarea capitalului, selecţia brokerului şi a pieţelor, configurarea bid/ask şi a indicatorilor vizuali, totul organizat pentru un trading eficient, disciplinat şi scalabil.
