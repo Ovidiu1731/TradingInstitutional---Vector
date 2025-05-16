@@ -1344,6 +1344,18 @@
     }
   },
   {
+    "id": "capitol_11_lectia_02",
+    "chapter_num": 11,
+    "lesson_num": 2,
+    "title": "Carti recomandate in trading",
+    "chapter_label": "Capitolul 11",
+    "lesson_label": "Lecția 2",
+    "files": {
+      "summary": "./Capitolul 11/Lectia 2 - Carti recomandate in trading - Capitolul 11 - Summary.txt",
+      "transcript": "./Capitolul 11/Lectia 2 - Carti recomandate in trading - Capitolul 11 - Transcript.txt"
+    }
+  },
+  {
     "id": "capitol_11_lectia_03",
     "chapter_num": 11,
     "lesson_num": 3,
