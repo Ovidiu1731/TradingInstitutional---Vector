@@ -103,7 +103,7 @@ async def on_message(message):
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    endpoint = API_BASE_URL.replace("/ask", "") + "/ask-image-hybrid"
+                    endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
                         "question": question,
                         "image_url": image_url
@@ -112,7 +112,7 @@ async def on_message(message):
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
                     # For text-only queries, use the base URL as is
-                    endpoint = API_BASE_URL
+                    endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
                     payload = {
                         "question": question
                     }
