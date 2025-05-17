@@ -816,6 +816,46 @@ def classify_mss_type(bullish_count: Optional[Any], bearish_count: Optional[Any]
     except (ValueError, TypeError):
         logging.warning("RuleEngine: Could not parse MSS pivot counts."); return "not_identified"
 
+def validate_trade_direction(vision_data: Dict[str, Any]) -> tuple:
+    """Validate trade direction using multiple data points"""
+    
+    # Get key data points
+    break_direction = vision_data.get("break_direction_suggestion", "unknown")
+    displacement_direction = vision_data.get("displacement_analysis", {}).get("direction", "unknown")
+    mss_description = vision_data.get("mss_location_description", "").lower()
+    
+    # Look for price level indicators in the description
+    price_lower_after = any(phrase in mss_description for phrase in 
+                          ["price lower", "price decreased", "price moved down", "price fell"])
+    price_higher_after = any(phrase in mss_description for phrase in 
+                           ["price higher", "price increased", "price moved up", "price rose"])
+    
+    # Determine direction based on multiple signals
+    signals = []
+    
+    if break_direction == "downward":
+        signals.append("short")
+    elif break_direction == "upward":
+        signals.append("long")
+        
+    if displacement_direction == "bearish":
+        signals.append("short")
+    elif displacement_direction == "bullish":
+        signals.append("long")
+        
+    if price_lower_after:
+        signals.append("short")
+    elif price_higher_after:
+        signals.append("long")
+    
+    # Count signal frequencies
+    if signals.count("short") > signals.count("long"):
+        return "short", signals.count("short")
+    elif signals.count("long") > signals.count("short"):
+        return "long", signals.count("long")
+    else:
+        return "unknown", 0  # Equal signals or no signals        
+
 def determine_setup_type(fvg_count: int, fvg_description: str = "", is_second_leg: bool = False) -> str:
     """
     Determine the trading setup type based on program definitions.
@@ -880,13 +920,30 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     displacement = final_analysis.get("displacement_analysis", {})
     displacement_direction = displacement.get("direction", "unknown")
 
-    # First determine MSS direction (based on break direction)
-    if break_direction == "upward":
-        mss_direction = "bullish"
-    elif break_direction == "downward":
-        mss_direction = "bearish"
+    # Now we properly consider both factors together
+    if displacement_direction == "bullish":
+        final_analysis["final_trade_direction"] = "long"
+    elif displacement_direction == "bearish":
+        final_analysis["final_trade_direction"] = "short"
     else:
-        mss_direction = "unclear"
+        # Fallback to break direction only if displacement is unclear
+        if break_direction == "upward":
+            final_analysis["final_trade_direction"] = "long"
+        elif break_direction == "downward":
+            final_analysis["final_trade_direction"] = "short"
+        else:
+            final_analysis["final_trade_direction"] = "unknown"
+            final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
+
+    # ADD THIS VALIDATION STEP HERE - Second validation check to catch errors
+    validated_direction, confidence_score = validate_trade_direction(final_analysis)
+    if validated_direction != "unknown" and validated_direction != final_analysis["final_trade_direction"]:
+        final_analysis["_rule_engine_notes"] += f", Direction conflict detected, validated as {validated_direction}"
+        final_analysis["direction_conflict"] = True
+        # Only override if confidence is high in the validation
+        if confidence_score >= 2:
+            final_analysis["final_trade_direction"] = validated_direction
+            final_analysis["_rule_engine_notes"] += f", Direction corrected to {validated_direction} with confidence {confidence_score}"
         
     # Check if MSS and displacement align
     if mss_direction != "unclear" and displacement_direction != "unknown":
@@ -1342,6 +1399,15 @@ IMPORTANT FOR DIRECTION ANALYSIS:
 3. "Bearish displacement" means price is moving DOWN after MSS (creating bearish FVGs) = SHORT trade
 4. Count candles in pivots very carefully - each actual candle body (not wicks) counts
 5. Don't assume direction based on the MSS break alone - confirm with the subsequent movement
+
+PRICE LEVEL ANALYSIS FOR DIRECTION:
+1. Compare price LEVELS before and after the MSS:
+   - If price is LOWER after MSS than before = BEARISH = SHORT
+   - If price is HIGHER after MSS than before = BULLISH = LONG
+2. Look at the NUMBER values on the price axis:
+   - If numbers are DECREASING after MSS = BEARISH = SHORT (e.g. 41,050 → 41,030 → 41,010)
+   - If numbers are INCREASING after MSS = BULLISH = LONG (e.g. 41,010 → 41,030 → 41,050)
+3. The actual trade direction is determined by where price GOES after the MSS, not by what the MSS breaks.
 
 IMPORTANT FOR TRADE OUTCOME ANALYSIS:
 1. Look carefully for evidence of trade outcome (win, loss, breakeven)
