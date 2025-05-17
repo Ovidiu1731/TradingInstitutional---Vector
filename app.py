@@ -826,7 +826,68 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     final_analysis = copy.deepcopy(vision_json)  # Start with vision model output
     final_analysis["_rule_engine_notes"] = f"Rule engine applied for {query_type}"
 
-    # --- Merge CV findings where applicable ---
+    # --- Apply MSS type classification rule ---
+    mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
+    pivot_bearish_count = mss_pivot_data.get("pivot_bearish_count")
+    pivot_bullish_count = mss_pivot_data.get("pivot_bullish_count")
+
+    # Determine MSS type based on pivot counts
+    final_analysis["final_mss_type"] = classify_mss_type(
+        pivot_bullish_count,
+        pivot_bearish_count
+    )
+    final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
+
+    # --- IMPROVED: Determine trade direction based on break direction AND displacement alignment ---
+    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
+    displacement = final_analysis.get("displacement_analysis", {})
+    displacement_direction = displacement.get("direction", "unknown")
+
+    # First determine MSS direction (based on break direction)
+    if break_direction == "upward":
+        mss_direction = "bullish"
+    elif break_direction == "downward":
+        mss_direction = "bearish"
+    else:
+        mss_direction = "unclear"
+        
+    # Check if MSS and displacement align
+    if mss_direction != "unclear" and displacement_direction != "unknown":
+        if mss_direction == "bullish" and displacement_direction == "bullish":
+            final_analysis["final_trade_direction"] = "long"
+            final_analysis["direction_confidence"] = "high"
+        elif mss_direction == "bearish" and displacement_direction == "bearish":
+            final_analysis["final_trade_direction"] = "short"
+            final_analysis["direction_confidence"] = "high"
+        elif displacement_direction == "bullish":  # Misaligned but prioritizing displacement
+            final_analysis["final_trade_direction"] = "long"
+            final_analysis["direction_confidence"] = "medium"
+            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
+        elif displacement_direction == "bearish":  # Misaligned but prioritizing displacement
+            final_analysis["final_trade_direction"] = "short"
+            final_analysis["direction_confidence"] = "medium"
+            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
+    else:
+        # Fallback to displacement only if we have it
+        if displacement_direction == "bullish":
+            final_analysis["final_trade_direction"] = "long"
+            final_analysis["direction_confidence"] = "medium"
+        elif displacement_direction == "bearish":
+            final_analysis["final_trade_direction"] = "short"
+            final_analysis["direction_confidence"] = "medium"
+        # If still unknown, try break direction
+        elif break_direction == "upward":
+            final_analysis["final_trade_direction"] = "long"
+            final_analysis["direction_confidence"] = "low"
+        elif break_direction == "downward":
+            final_analysis["final_trade_direction"] = "short"
+            final_analysis["direction_confidence"] = "low"
+        else:
+            final_analysis["final_trade_direction"] = "unknown"
+            final_analysis["direction_confidence"] = "none"
+            final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
+
+    # Process CV findings
     if cv_findings and cv_findings.get("cv_analysis_performed", False):
         # Trust CV candle colors if vision didn't determine them
         if cv_findings.get("candle_colors") != "not_determined" and (
@@ -920,32 +981,6 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
             final_analysis["_rule_engine_notes"] += ", Applied focused MSS analysis for concept verification"
             return final_analysis
 
-    # If it's a trade evaluation or the query type doesn't match any concept verification,
-    # proceed with the full rule engine analysis
-    
-    # --- Apply MSS type classification rule ---
-    mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
-    pivot_bearish_count = mss_pivot_data.get("pivot_bearish_count")
-    pivot_bullish_count = mss_pivot_data.get("pivot_bullish_count")
-
-    # Determine MSS type based on pivot counts
-    final_analysis["final_mss_type"] = classify_mss_type(
-        pivot_bullish_count,
-        pivot_bearish_count
-    )
-    final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
-
-    # --- Determine trade direction ---
-    # Use vision model's break direction suggestion as primary input
-    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
-    if break_direction == "upward":
-        final_analysis["final_trade_direction"] = "long"
-    elif break_direction == "downward":
-        final_analysis["final_trade_direction"] = "short"
-    else:
-        final_analysis["final_trade_direction"] = "unknown"
-        final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
-
     # --- Determine trade outcome ---
     # Use vision model's trade outcome suggestion as primary input
     outcome_suggestion = final_analysis.get("trade_outcome_suggestion", "unknown")
@@ -980,9 +1015,10 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
             final_analysis["liquidity_status_suggestion"] = "unclear"
 
     # --- Validate displacement direction vs trade direction ---
+    # This is now redundant with our improved direction logic, but keeping for backward compatibility
     displacement = final_analysis.get("displacement_analysis", {})
     displacement_direction = displacement.get("direction", "unknown")
-
+    
     # Displacement direction should match trade direction for valid setups
     if final_analysis["final_trade_direction"] != "unknown" and displacement_direction != "unknown":
         if (final_analysis["final_trade_direction"] == "long" and displacement_direction == "bullish") or \
@@ -1014,8 +1050,8 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     if final_analysis.get("has_valid_fvg") is True: validity_score += 10 # Check for explicit True
     if final_analysis.get("displacement_matches_trade") is True: validity_score += 10 # Check for explicit True
 
-    # Deduct points for negative indicators if any were planned
-    # Example: if final_analysis.get("some_negative_indicator"): validity_score -= 5
+    # Add bonus for high direction confidence
+    if final_analysis.get("direction_confidence") == "high": validity_score += 5
 
     validity_score = min(max(validity_score, 0), 100) # Ensure score is between 0 and 100
     final_analysis["setup_validity_score"] = validity_score
@@ -1035,20 +1071,20 @@ def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
 
     if query_type == "trade_evaluation_image_query":
         full_prompt += "\n\n" + (
-            "The user has submitted a chart for trading analysis. "
-            "Focus on analyzing the trading setup presented in the chart according to the rules of Trading Instituțional. "
-            "Base your analysis primarily on the Technical Analysis Report which contains computer vision results, "
-            "vision model findings, and rule engine determinations."
+            "Utilizatorul a trimis un grafic pentru analiza unei tranzacții. "
+            "Analizeză setup-ul de tranzacționare prezentat în grafic conform regulilor Trading Instituțional. "
+            "Bazează-ți analiza în principal pe Raportul de Analiză Tehnică, care conține rezultatele analizei CV, "
+            "ale modelului de viziune și determinări ale motorului de reguli."
         )
         full_prompt += "\n\n" + (
-            "KEY TRADING RULES TO REFERENCE:\n"
-            f"1. {MSS_NORMAL_STRUCTURAL_DEFINITION}\n"
-            f"2. {MSS_AGRESIV_STRUCTURAL_DEFINITION}\n"
-            f"3. {FVG_STRUCTURAL_DEFINITION}\n"
-            f"4. {DISPLACEMENT_DEFINITION}\n"
-            "5. A proper setup requires sweeping liquidity before the MSS occurs.\n"
-            "6. A valid setup should show at least one FVG after the MSS.\n"
-            "7. The displacement after the MSS should match the trading direction (bullish for longs, bearish for shorts)."
+            "REGULI IMPORTANTE DE APLICAT ÎN CONVERSAȚIE:\n"
+            "1. Răspunde într-un stil conversațional, natural, ca un trader experimentat care explică unui coleg.\n"
+            "2. Evită listele cu numere/bullets în favoarea unor paragrafe scurte și naturale.\n"
+            "3. Asigură-te că discuți despre direcția REALĂ a prețului, nu doar despre direcția ruperii de structură.\n"
+            "4. Menționează explicit dacă tranzacția este LONG (cumpărare) sau SHORT (vânzare).\n"
+            "5. Nu face niciodată presupuneri despre continuarea mișcării prețului dacă nu sunt evidente în grafic.\n"
+            "6. Folosește un ton încrezător dar nu prea formal - ca un coleg care explică cu respect.\n"
+            "7. Fii natural și direct, dar totuși profesionist."
         )
         if requires_full_analysis:
             full_prompt += "\n\n" + (
@@ -1203,6 +1239,7 @@ Provide a comprehensive analysis of the trading chart, focusing on these key asp
 - Market Structure Shifts (MSS) - both Normal and Aggressive types
 - Candle and color patterns
 - Direction of the break (upward/downward)
+- Displacement after MSS - CRITICAL for determining trade direction (bearish displacement = SHORT, bullish displacement = LONG)
 - FVG (Fair Value Gap) presence
 - Liquidity zones and whether they've been swept
 - Risk placement (above/below entry)
@@ -1214,6 +1251,13 @@ Definitions:
 - Aggressive MSS: The pivot has fewer than 2 bearish OR fewer than 2 bullish candles.
 - FVG (Fair Value Gap): An unfilled gap created when price makes an impulsive move.
 - Liquidity: Price levels where stop losses or take profits are clustered.
+
+IMPORTANT FOR DIRECTION ANALYSIS:
+1. Carefully analyze the ACTUAL price movement after the MSS, not just the break direction
+2. "Bullish displacement" means price is moving UP after MSS (creating bullish FVGs) = LONG trade
+3. "Bearish displacement" means price is moving DOWN after MSS (creating bearish FVGs) = SHORT trade
+4. Count candles in pivots very carefully - each actual candle body (not wicks) counts
+5. Don't assume direction based on the MSS break alone - confirm with the subsequent movement
 """ + base_json_structure + """
 Your JSON response MUST include the following full structure:
 {
@@ -1651,7 +1695,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
         if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
             search_terms.append("Fair Value Gap FVG")
-  # Include expanded query terms for better retrieval
+        # Include expanded query terms for better retrieval
         if expanded:
             search_terms.append(expanded)
         search_query = " ".join(list(set(search_terms))) # Unique terms
@@ -1674,7 +1718,8 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
         else:
             context_text = ""
-        logging.info(f"Retrieved {len(context_chunks)} relevant context chunks for image query.")
+        # FIX: Use len(all_chunks) instead of undefined context_chunks variable
+        logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for image query.")
     except Exception as e: # Non-critical, so don't raise HTTPException
         logging.error(f"RAG retrieval error: {e}")
         context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
