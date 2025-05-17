@@ -1084,7 +1084,11 @@ def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
             "4. Menționează explicit dacă tranzacția este LONG (cumpărare) sau SHORT (vânzare).\n"
             "5. Nu face niciodată presupuneri despre continuarea mișcării prețului dacă nu sunt evidente în grafic.\n"
             "6. Folosește un ton încrezător dar nu prea formal - ca un coleg care explică cu respect.\n"
-            "7. Fii natural și direct, dar totuși profesionist."
+            "7. Fii natural și direct, dar totuși profesionist.\n"
+            "8. NU menționa niciodată scoruri numerice de validitate (de exemplu, 'scor de 100') - exprimă calitatea setup-ului în termeni naturali.\n"
+            "9. NU folosi fraze tehnice precum 'nivel de încredere' sau 'indicând că toate condițiile au fost îndeplinite'.\n"
+            "10. NU enumera criteriile tehnice îndeplinite, ci discută despre setup în mod natural.\n"
+            "11. Discută despre setup ca și cum ai vorbi cu un coleg trader, nu ca un raport tehnic automat."
         )
         if requires_full_analysis:
             full_prompt += "\n\n" + (
@@ -1258,6 +1262,12 @@ IMPORTANT FOR DIRECTION ANALYSIS:
 3. "Bearish displacement" means price is moving DOWN after MSS (creating bearish FVGs) = SHORT trade
 4. Count candles in pivots very carefully - each actual candle body (not wicks) counts
 5. Don't assume direction based on the MSS break alone - confirm with the subsequent movement
+
+IMPORTANT FOR FVG ANALYSIS:
+1. Look carefully for ALL Fair Value Gaps in the chart - there may be multiple FVGs
+2. Count each distinct gap between candles where price hasn't traded yet
+3. Pay special attention to areas marked with boxes or rectangles, which often indicate FVGs
+4. Check both above and below the current price for potential FVGs
 """ + base_json_structure + """
 Your JSON response MUST include the following full structure:
 {
