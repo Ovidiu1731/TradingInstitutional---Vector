@@ -903,6 +903,11 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     final_analysis = copy.deepcopy(vision_json)  # Start with vision model output
     final_analysis["_rule_engine_notes"] = f"Rule engine applied for {query_type}"
 
+    # --- Get basic data from vision analysis ---
+    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
+    displacement = final_analysis.get("displacement_analysis", {})
+    displacement_direction = displacement.get("direction", "unknown")
+    
     # --- Apply MSS type classification rule ---
     mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
     pivot_bearish_count = mss_pivot_data.get("pivot_bearish_count")
@@ -915,27 +920,42 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     )
     final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
 
-    # --- IMPROVED: Determine trade direction based on break direction AND displacement alignment ---
-    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
-    displacement = final_analysis.get("displacement_analysis", {})
-    displacement_direction = displacement.get("direction", "unknown")
-
-    # Now we properly consider both factors together
-    if displacement_direction == "bullish":
-        final_analysis["final_trade_direction"] = "long"
-    elif displacement_direction == "bearish":
-        final_analysis["final_trade_direction"] = "short"
+    # --- CONSOLIDATED DIRECTION DETERMINATION ---
+    # Determine MSS direction from break direction
+    if break_direction == "upward":
+        mss_direction = "bullish"
+    elif break_direction == "downward":
+        mss_direction = "bearish"
     else:
-        # Fallback to break direction only if displacement is unclear
-        if break_direction == "upward":
+        mss_direction = "unclear"
+    final_analysis["mss_direction"] = mss_direction
+
+    # Then consolidated direction logic that runs only once
+    if displacement_direction in ["bullish", "bearish"]:
+        # Primarily trust displacement direction
+        final_analysis["final_trade_direction"] = "long" if displacement_direction == "bullish" else "short"
+        
+        # Check if MSS and displacement align
+        if (mss_direction == "bullish" and displacement_direction == "bullish") or \
+           (mss_direction == "bearish" and displacement_direction == "bearish"):
+            final_analysis["direction_confidence"] = "high"
+        else:
+            final_analysis["direction_confidence"] = "medium"
+            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
+    else:
+        # Fallback to MSS direction if displacement direction is unknown
+        if mss_direction == "bullish":
             final_analysis["final_trade_direction"] = "long"
-        elif break_direction == "downward":
+            final_analysis["direction_confidence"] = "low" 
+        elif mss_direction == "bearish":
             final_analysis["final_trade_direction"] = "short"
+            final_analysis["direction_confidence"] = "low"
         else:
             final_analysis["final_trade_direction"] = "unknown"
+            final_analysis["direction_confidence"] = "none"
             final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
 
-    # ADD THIS VALIDATION STEP HERE - Second validation check to catch errors
+    # Add validation check as a safety net
     validated_direction, confidence_score = validate_trade_direction(final_analysis)
     if validated_direction != "unknown" and validated_direction != final_analysis["final_trade_direction"]:
         final_analysis["_rule_engine_notes"] += f", Direction conflict detected, validated as {validated_direction}"
@@ -944,44 +964,8 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
         if confidence_score >= 2:
             final_analysis["final_trade_direction"] = validated_direction
             final_analysis["_rule_engine_notes"] += f", Direction corrected to {validated_direction} with confidence {confidence_score}"
-        
-    # Check if MSS and displacement align
-    if mss_direction != "unclear" and displacement_direction != "unknown":
-        if mss_direction == "bullish" and displacement_direction == "bullish":
-            final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "high"
-        elif mss_direction == "bearish" and displacement_direction == "bearish":
-            final_analysis["final_trade_direction"] = "short"
-            final_analysis["direction_confidence"] = "high"
-        elif displacement_direction == "bullish":  # Misaligned but prioritizing displacement
-            final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "medium"
-            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
-        elif displacement_direction == "bearish":  # Misaligned but prioritizing displacement
-            final_analysis["final_trade_direction"] = "short"
-            final_analysis["direction_confidence"] = "medium"
-            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
-    else:
-        # Fallback to displacement only if we have it
-        if displacement_direction == "bullish":
-            final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "medium"
-        elif displacement_direction == "bearish":
-            final_analysis["final_trade_direction"] = "short"
-            final_analysis["direction_confidence"] = "medium"
-        # If still unknown, try break direction
-        elif break_direction == "upward":
-            final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "low"
-        elif break_direction == "downward":
-            final_analysis["final_trade_direction"] = "short"
-            final_analysis["direction_confidence"] = "low"
-        else:
-            final_analysis["final_trade_direction"] = "unknown"
-            final_analysis["direction_confidence"] = "none"
-            final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
 
-    # Process CV findings
+    # --- Process CV findings ---
     if cv_findings and cv_findings.get("cv_analysis_performed", False):
         # Trust CV candle colors if vision didn't determine them
         if cv_findings.get("candle_colors") != "not_determined" and (
@@ -1003,7 +987,7 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
             final_analysis["risk_box_info_cv"] = cv_findings.get("risk_box_info", {}) # Distinguish CV risk box
             final_analysis["_rule_engine_notes"] += ", Added risk box data from CV"
 
-    # For concept verification, apply only the relevant rules and skip trade-specific analysis
+    # --- For concept verification, apply only the relevant rules and return early ---
     if query_type == "concept_verification_image_query" or query_type == "general_image_query":
         # Check if this is a liquidity-related question
         if "liquidity" in final_analysis.get("liquidity_zones_description", "").lower() or \
@@ -1075,18 +1059,18 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
             final_analysis["_rule_engine_notes"] += ", Applied focused MSS analysis for concept verification"
             return final_analysis
 
+    # --- Continue with full analysis for trade evaluation ---
+    
     # --- Determine trade outcome ---
     # Use vision model's trade outcome suggestion as primary input
     outcome_suggestion = final_analysis.get("trade_outcome_suggestion", "unknown")
 
     # Check if we can determine outcome based on price movement relative to risk levels
     risk_detected = False
-    displacement = final_analysis.get("displacement_analysis", {})
-    displacement_direction = displacement.get("direction", "unknown")
     trade_direction = final_analysis.get("final_trade_direction", "unknown")
 
     # If we have risk box info from CV, we can try to determine if price has broken through stop loss levels
-    risk_box_info = final_analysis.get("risk_box_info_cv", {})  # <-- MISSING: Get risk_box_info from final_analysis
+    risk_box_info = final_analysis.get("risk_box_info_cv", {})
     if risk_box_info and "coordinates" in risk_box_info and trade_direction != "unknown":
         # For a SHORT trade, if there's strong bullish displacement AFTER the trade entry, that suggests a loss
         if trade_direction == "short" and displacement_direction == "bullish" and displacement.get("strength") in ["moderate", "strong"]:
@@ -1131,11 +1115,7 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
             final_analysis["liquidity_status_suggestion"] = "unclear"
 
     # --- Validate displacement direction vs trade direction ---
-    # This is now redundant with our improved direction logic, but keeping for backward compatibility
-    displacement = final_analysis.get("displacement_analysis", {})
-    displacement_direction = displacement.get("direction", "unknown")
-    
-    # Displacement direction should match trade direction for valid setups
+    # This information is already captured during direction determination, but setting it explicitly for compatibility
     if final_analysis["final_trade_direction"] != "unknown" and displacement_direction != "unknown":
         if (final_analysis["final_trade_direction"] == "long" and displacement_direction == "bullish") or \
            (final_analysis["final_trade_direction"] == "short" and displacement_direction == "bearish"):
@@ -1156,7 +1136,7 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
         final_analysis["has_valid_fvg"] = False
         final_analysis["_rule_engine_notes"] += ", Warning: No valid FVGs detected or count is not a number"
 
-    # ADD THIS SECTION HERE - Determine setup type based on FVG analysis
+    # --- Determine setup type based on FVG analysis ---
     fvg_description = fvg_analysis.get("description", "")
     # Try to detect second leg setup from description or vision model analysis
     is_second_leg = False
@@ -1568,34 +1548,6 @@ async def ask_question(query: TextQuery):
         async with openai_call_limiter:
             completion = await async_openai_client.chat.completions.create(
                 model=TEXT_MODEL, messages=messages, temperature=0.5, max_tokens=800
-            )
-        answer = completion.choices[0].message.content.strip()
-
-        if history_store_key not in conversation_history:
-            conversation_history[history_store_key] = deque(maxlen=MAX_HISTORY_MESSAGES)
-        conversation_history[history_store_key].append({"user": question, "assistant": answer})
-
-        duration_ms = int((time.time() - start_time) * 1000)
-        logging.info(f"Text query completed in {duration_ms}ms. Session: {session_id}")
-        return {"answer": answer, "session_id": session_id, "query_type": "text_only", "processing_time_ms": duration_ms}
-
-    except RateLimitError:
-        logging.warning("OpenAI rate limit hit during text query completion.")
-        raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI. Te rog să încerci mai târziu.")
-    except APIError as e:
-        logging.error(f"OpenAI API error during completion: {e}")
-        raise HTTPException(status_code=503, detail=f"Serviciul OpenAI nu răspunde: {e}")
-    except Exception as e:
-        logging.error(f"Completion error: {e}")
-        raise HTTPException(status_code=500, detail="A apărut o eroare la procesarea întrebării.")
-
-    try:
-        async with openai_call_limiter:
-            completion = await async_openai_client.chat.completions.create(
-                model=TEXT_MODEL,
-                messages=messages,
-                temperature=0.5,
-                max_tokens=800
             )
         answer = completion.choices[0].message.content.strip()
 
