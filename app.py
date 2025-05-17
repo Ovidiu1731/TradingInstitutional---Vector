@@ -816,6 +816,43 @@ def classify_mss_type(bullish_count: Optional[Any], bearish_count: Optional[Any]
     except (ValueError, TypeError):
         logging.warning("RuleEngine: Could not parse MSS pivot counts."); return "not_identified"
 
+def determine_setup_type(fvg_count: int, fvg_description: str = "", is_second_leg: bool = False) -> str:
+    """
+    Determine the trading setup type based on program definitions.
+    
+    Args:
+        fvg_count: Number of FVGs (Fair Value Gaps)
+        fvg_description: Description of FVGs from vision model (helps detect consecutive gaps)
+        is_second_leg: Whether this is a second leg setup
+        
+    Returns:
+        String with the setup type according to Trading Institutional terminology
+    """
+    # Check for second leg setup first (special case)
+    if is_second_leg:
+        return "SLG"  # Second Leg Gap Setup
+        
+    # Classify based on FVG count
+    if fvg_count == 1:
+        return "OG"   # One Gap Setup
+    elif fvg_count == 2:
+        # Check if consecutive based on description
+        if "consecutive" in fvg_description.lower() or "consecutive" in fvg_description.lower():
+            return "TCG"  # Two Consecutive Gap Setup
+        else:
+            return "TG"   # Two Gap Setup
+    elif fvg_count == 3:
+        # Check if consecutive based on description
+        if "consecutive" in fvg_description.lower() or "consecutive" in fvg_description.lower():
+            return "3CG"  # Three Consecutive Gap Setup
+        else:
+            return "3G"   # Three Gap Setup
+    elif fvg_count > 3:
+        return "MG"   # Multiple Gap Setup
+    
+    # Default if can't determine
+    return "unknown"
+
 def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], query_type: str = "trade_evaluation_image_query") -> Dict[str, Any]:
     """
     Apply rule engine with awareness of query type
@@ -985,7 +1022,29 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     # Use vision model's trade outcome suggestion as primary input
     outcome_suggestion = final_analysis.get("trade_outcome_suggestion", "unknown")
 
-    if outcome_suggestion in ["win", "breakeven", "loss", "potential_setup"]:
+    # Check if we can determine outcome based on price movement relative to risk levels
+    risk_detected = False
+    displacement = final_analysis.get("displacement_analysis", {})
+    displacement_direction = displacement.get("direction", "unknown")
+    trade_direction = final_analysis.get("final_trade_direction", "unknown")
+
+    # If we have risk box info from CV, we can try to determine if price has broken through stop loss levels
+    risk_box_info = final_analysis.get("risk_box_info_cv", {})  # <-- MISSING: Get risk_box_info from final_analysis
+    if risk_box_info and "coordinates" in risk_box_info and trade_direction != "unknown":
+        # For a SHORT trade, if there's strong bullish displacement AFTER the trade entry, that suggests a loss
+        if trade_direction == "short" and displacement_direction == "bullish" and displacement.get("strength") in ["moderate", "strong"]:
+            risk_detected = True
+            final_analysis["_rule_engine_notes"] += ", Loss detected: Bullish price movement against short position"
+    
+        # For a LONG trade, if there's strong bearish displacement AFTER the trade entry, that suggests a loss
+        elif trade_direction == "long" and displacement_direction == "bearish" and displacement.get("strength") in ["moderate", "strong"]:
+            risk_detected = True
+            final_analysis["_rule_engine_notes"] += ", Loss detected: Bearish price movement against long position"
+
+    # Now set the final outcome, giving priority to our risk detection if it's conclusive
+    if risk_detected:
+        final_analysis["final_trade_outcome"] = "loss"
+    elif outcome_suggestion in ["win", "breakeven", "loss", "potential_setup"]:
         final_analysis["final_trade_outcome"] = outcome_suggestion
     else:
         # Check visible labels for outcome hints
@@ -1000,7 +1059,7 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
             final_analysis["final_trade_outcome"] = "unknown" # Default to unknown if no clear indicators
             # Only add note if outcome_suggestion was also unknown
             if outcome_suggestion == "unknown":
-                 final_analysis["_rule_engine_notes"] += ", Could not determine trade outcome from suggestions or labels"
+                final_analysis["_rule_engine_notes"] += ", Could not determine trade outcome from suggestions or labels"
 
     # --- Check liquidity status ---
     liquidity_status = final_analysis.get("liquidity_status_suggestion", "unknown")
@@ -1039,6 +1098,18 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     else:
         final_analysis["has_valid_fvg"] = False
         final_analysis["_rule_engine_notes"] += ", Warning: No valid FVGs detected or count is not a number"
+
+    # ADD THIS SECTION HERE - Determine setup type based on FVG analysis
+    fvg_description = fvg_analysis.get("description", "")
+    # Try to detect second leg setup from description or vision model analysis
+    is_second_leg = False
+    if "second leg" in fvg_description.lower() or "al doilea picior" in fvg_description.lower():
+        is_second_leg = True
+        
+    # Determine the setup type
+    setup_type = determine_setup_type(fvg_count, fvg_description, is_second_leg)
+    final_analysis["setup_type"] = setup_type
+    final_analysis["_rule_engine_notes"] += f", Setup classified as {setup_type}"
 
     # --- Calculate final validity score ---
     validity_score = 50 # Base score
@@ -1089,6 +1160,15 @@ def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
             "9. NU folosi fraze tehnice precum 'nivel de încredere' sau 'indicând că toate condițiile au fost îndeplinite'.\n"
             "10. NU enumera criteriile tehnice îndeplinite, ci discută despre setup în mod natural.\n"
             "11. Discută despre setup ca și cum ai vorbi cu un coleg trader, nu ca un raport tehnic automat."
+            "12. Verifică întotdeauna câmpul 'setup_type' din raport pentru a identifica corect tipul de setup:\n"
+            "   - 'OG' = One Gap Setup (un singur gap FVG)\n"
+            "   - 'TG' = Two Gap Setup (2 gap-uri FVG)\n"
+            "   - 'TCG' = Two Consecutive Gap Setup (2 gap-uri consecutive)\n"
+            "   - '3G' = Three Gap Setup (3 gap-uri)\n"
+            "   - '3CG' = Three Consecutive Gap Setup (3 gap-uri consecutive)\n"
+            "   - 'SLG' = Second Leg Setup (al doilea picior)\n"
+            "   - 'MG' = Multiple Gap Setup (mai mult de 3 gap-uri)\n"
+            "   - Menționează întotdeauna tipul corect de setup folosind terminologia din cadrul programului.\n"
         )
         if requires_full_analysis:
             full_prompt += "\n\n" + (
@@ -1262,6 +1342,13 @@ IMPORTANT FOR DIRECTION ANALYSIS:
 3. "Bearish displacement" means price is moving DOWN after MSS (creating bearish FVGs) = SHORT trade
 4. Count candles in pivots very carefully - each actual candle body (not wicks) counts
 5. Don't assume direction based on the MSS break alone - confirm with the subsequent movement
+
+IMPORTANT FOR TRADE OUTCOME ANALYSIS:
+1. Look carefully for evidence of trade outcome (win, loss, breakeven)
+2. A trade is a LOSS if price has clearly moved beyond the stop loss level
+3. Check for labels like "SL", "TP", or visually inspect if price broke significant levels
+4. For active trades, check if price is still within acceptable ranges
+5. If you see price has moved against the trade beyond risk limits, classify as "loss"
 
 IMPORTANT FOR FVG ANALYSIS:
 1. Look carefully for ALL Fair Value Gaps in the chart - there may be multiple FVGs
