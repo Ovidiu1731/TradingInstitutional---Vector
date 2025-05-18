@@ -26,6 +26,9 @@ client = discord.Client(
 async def on_ready():
     print(f"✅ Logged in as {client.user.name} (ID: {client.user.id})")
     await client.change_presence(status=discord.Status.online, activity=discord.Game("Trading Assistant"))
+     # Wait a bit and set it again to ensure it takes effect
+    await asyncio.sleep(5)
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Trading Assistant"))
 
 class FeedbackView(discord.ui.View):
     def __init__(self, api_url, question, answer, analysis_data=None):
