@@ -230,8 +230,8 @@ async def startup_event():
     global aiohttp_session
     aiohttp_session = aiohttp.ClientSession()
     logging.info("aiohttp.ClientSession initialized.")
-
-    # Validate OpenAI API key by making a simple test call
+    
+    # Validate OpenAI API key
     try:
         test_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
         models = await test_client.models.list(timeout=5.0)
@@ -239,10 +239,11 @@ async def startup_event():
             logging.info(f"OpenAI API key validated successfully. Available models: {len(models.data)}")
         else:
             logging.error("OpenAI API key validation failed: No models returned")
-            # Don't raise an exception here, as it would prevent startup
     except Exception as e:
         logging.error(f"OpenAI API key validation failed: {e}")
-        # Log but allow service to start (might recover later)
+    
+    # Start the client refresh background task
+    asyncio.create_task(refresh_clients_periodically())
     
     # Check if Tesseract is available
     try:
@@ -280,18 +281,6 @@ async def refresh_clients_periodically():
             
         except Exception as e:
             logging.error(f"Error during scheduled client refresh: {e}")
-
-# Update startup event to start the refresh task
-@app.on_event("startup")
-async def startup_event():
-    global aiohttp_session
-    aiohttp_session = aiohttp.ClientSession()
-    logging.info("aiohttp.ClientSession initialized.")
-    
-    # Start the client refresh background task
-    asyncio.create_task(refresh_clients_periodically())
-    
-    # Rest of existing startup code...
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -1653,6 +1642,8 @@ async def ask_question(query: TextQuery):
 
 @app.post("/ask-image-hybrid", response_model=Dict[str, Any]) # Return type more flexible
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
+    global async_openai_client
+
     start_time = time.time()
     session_id = payload.session_id or generate_session_id()
     question = payload.question.strip()
@@ -1776,7 +1767,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             if e.response.status_code == 401:
                 logging.error(f"Authentication error with OpenAI API: {e}")
                 # Re-create client to refresh auth
-                global async_openai_client
                 try:
                     await async_openai_client.close()
                 except:
@@ -1931,7 +1921,6 @@ try:
         if e.response.status_code == 401:
             logging.error(f"Authentication error with OpenAI API during embeddings: {e}")
             # Re-create client to refresh auth
-            global async_openai_client
             try:
                 await async_openai_client.close()
             except:
@@ -1945,17 +1934,14 @@ try:
             )
             context_text = "Eroare de autentificare cu OpenAI. Sistemul va încerca să se recupereze."
             logging.info(f"Retrieved 0 relevant context chunks due to authentication error.")
-            return context_text
         else:
             logging.error(f"HTTP error during embeddings: {e}")
             context_text = f"Eroare de comunicare cu OpenAI: HTTP {e.response.status_code}"
             logging.info(f"Retrieved 0 relevant context chunks due to HTTP error.")
-            return context_text
     except RateLimitError:
         logging.warning("OpenAI rate limit hit during embeddings.")
         context_text = "Prea multe solicitări către OpenAI. Vom continua fără contextul suplimentar."
         logging.info(f"Retrieved 0 relevant context chunks due to rate limiting.")
-        return context_text
     except APIError as api_err:
         logging.error(f"OpenAI API error during embeddings: {api_err}")
         context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
