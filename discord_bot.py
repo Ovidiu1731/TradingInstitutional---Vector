@@ -87,6 +87,29 @@ class FeedbackView(discord.ui.View):
             # Keep original answer unchanged
             await interaction.response.edit_message(content=self.answer, view=self)
 
+async def cache_training_examples():
+    """Cache the example images to prevent GitHub rate limiting issues"""
+    example_urls = [
+        "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/DE30EUR_2025-05-05_12-29-24_69c08.png",
+        "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2007.18.15%20copy.png",
+        "https://github.com/Ovidiu1731/Trade-images/raw/main/Screenshot%202025-05-05%20at%2011.04.35.png"
+    ]
+    
+    try:
+        timeout = aiohttp.ClientTimeout(total=30)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            for url in example_urls:
+                try:
+                    async with session.get(url) as resp:
+                        if resp.status == 200:
+                            print(f"Successfully connected to example URL: {url}")
+                        else:
+                            print(f"Failed to access example URL: {url} - Status: {resp.status}")
+                except Exception as e:
+                    print(f"Error accessing example URL: {url} - Error: {e}")
+    except Exception as e:
+        print(f"Error in cache_training_examples: {e}")
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
