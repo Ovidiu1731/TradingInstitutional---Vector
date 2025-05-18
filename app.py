@@ -1989,8 +1989,6 @@ except Exception as e: # Non-critical, so don't raise HTTPException
     logging.error(f"RAG retrieval error: {e}")
     context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
 
-return context_text
-
     # Final Response Generation
     try:
         system_prompt_for_completion = _build_system_prompt(query_type, requires_full_analysis)
