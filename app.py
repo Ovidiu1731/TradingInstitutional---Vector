@@ -255,6 +255,11 @@ class ImageHybridQuery(BaseModel):
 
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
+@app.get("/ping")
+async def ping():
+    """Simple endpoint to verify API connection without complex processing"""
+    return {"status": "ok", "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")}
+
 # --- Feedback Logging ---
 def log_feedback(session_id: str, question: str, answer: str, feedback: str,
                  query_type: str, analysis_data: Optional[Dict] = None) -> bool:
