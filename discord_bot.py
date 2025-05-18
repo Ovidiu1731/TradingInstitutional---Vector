@@ -17,11 +17,15 @@ intents.messages = True
 intents.message_content = True
 intents.reactions = True  # Add this for button interactions
 
-client = discord.Client(intents=intents)
+client = discord.Client(
+    intents=intents,
+    status=discord.Status.online 
+)
 
 @client.event
 async def on_ready():
     print(f"✅ Logged in as {client.user.name} (ID: {client.user.id})")
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Trading Assistant"))
 
 class FeedbackView(discord.ui.View):
     def __init__(self, api_url, question, answer, analysis_data=None):
