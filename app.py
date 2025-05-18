@@ -1947,33 +1947,33 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
             logging.info(f"Retrieved 0 relevant context chunks due to API error.")
 
-    # Only reach here if embeddings were successful
-    try:
-        pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=7, include_metadata=True
-        )
+        # Only reach here if embeddings were successful
+        try:
+            pinecone_results = await asyncio.to_thread(
+                index.query, vector=query_vector, top_k=7, include_metadata=True
+            )
         
-        # First collect all chunks regardless of score
-        all_chunks = [
-            match.metadata["text"] for match in pinecone_results.matches
-            if match.metadata and "text" in match.metadata
-        ]
+            # First collect all chunks regardless of score
+            all_chunks = [
+                match.metadata["text"] for match in pinecone_results.matches
+                if match.metadata and "text" in match.metadata
+            ]
         
-        # Apply sophisticated filtering to prioritize relevant content
-        if all_chunks:
-            context_text = retrieve_relevant_content(question, pinecone_results)
-            logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
-        else:
-            context_text = ""
+            # Apply sophisticated filtering to prioritize relevant content
+            if all_chunks:
+                context_text = retrieve_relevant_content(question, pinecone_results)
+                logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
+            else:
+                context_text = ""
         
-        logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for image query.")
-    except Exception as pinecone_err:
-        logging.error(f"Pinecone retrieval error: {pinecone_err}")
-        context_text = "Nu am putut prelua informații suplimentare din baza de date vectorială."
+            logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for image query.")
+        except Exception as pinecone_err:
+            logging.error(f"Pinecone retrieval error: {pinecone_err}")
+            context_text = "Nu am putut prelua informații suplimentare din baza de date vectorială."
         
-except Exception as e: # Non-critical, so don't raise HTTPException
-    logging.error(f"RAG retrieval error: {e}")
-    context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
+    except Exception as e: # Non-critical, so don't raise HTTPException
+        logging.error(f"RAG retrieval error: {e}")
+        context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
 
     # Final Response Generation
     try:
