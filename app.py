@@ -895,37 +895,54 @@ def validate_trade_direction(vision_data: Dict[str, Any]) -> tuple:
     displacement_direction = vision_data.get("displacement_analysis", {}).get("direction", "unknown")
     mss_description = vision_data.get("mss_location_description", "").lower()
     
-    # Look for price level indicators in the description
-    price_lower_after = any(phrase in mss_description for phrase in 
-                          ["price lower", "price decreased", "price moved down", "price fell"])
-    price_higher_after = any(phrase in mss_description for phrase in 
-                           ["price higher", "price increased", "price moved up", "price rose"])
-    
-    # Determine direction based on multiple signals
+    # Map break direction to expected trade direction
+    if break_direction == "upward":
+        expected_mss_direction = "bullish"
+    elif break_direction == "downward":
+        expected_mss_direction = "bearish"
+    else:
+        expected_mss_direction = "unknown"
+
+    # Check if displacement matches expected direction
+    direction_aligned = False
+    if expected_mss_direction == "bullish" and displacement_direction == "bullish":
+        direction_aligned = True
+        trade_direction = "long"
+    elif expected_mss_direction == "bearish" and displacement_direction == "bearish":
+        direction_aligned = True
+        trade_direction = "short"
+
+     # Return immediately if we have high confidence alignment
+    if direction_aligned:
+        return trade_direction, 3  # High confidence
+
+    # Otherwise, look for additional clues in the descriptions
     signals = []
     
-    if break_direction == "downward":
-        signals.append("short")
-    elif break_direction == "upward":
+    # Look for direct mentions of trade direction in descriptions
+    if "long" in mss_description or "buy" in mss_description:
         signals.append("long")
-        
-    if displacement_direction == "bearish":
+    elif "short" in mss_description or "sell" in mss_description:
         signals.append("short")
-    elif displacement_direction == "bullish":
+    
+    # Look for aligned movement descriptors
+    if (break_direction == "upward" and 
+        any(phrase in mss_description for phrase in ["bullish", "upward", "higher", "increased"])):
         signals.append("long")
-        
-    if price_lower_after:
+    elif (break_direction == "downward" and 
+          any(phrase in mss_description for phrase in ["bearish", "downward", "lower", "decreased"])):
         signals.append("short")
-    elif price_higher_after:
-        signals.append("long")
     
     # Count signal frequencies
-    if signals.count("short") > signals.count("long"):
-        return "short", signals.count("short")
-    elif signals.count("long") > signals.count("short"):
-        return "long", signals.count("long")
+    short_count = signals.count("short")
+    long_count = signals.count("long")
+    
+    if short_count > long_count:
+        return "short", min(short_count, 2)  # Cap confidence at 2 (medium)
+    elif long_count > short_count:
+        return "long", min(long_count, 2)  # Cap confidence at 2 (medium)
     else:
-        return "unknown", 0  # Equal signals or no signals        
+        return "unknown", 0  # Equal signals or no signals      
 
 def determine_setup_type(fvg_count: int, fvg_description: str = "", is_second_leg: bool = False) -> str:
     """
@@ -991,8 +1008,8 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     )
     final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
 
-    # --- CONSOLIDATED DIRECTION DETERMINATION ---
-    # Determine MSS direction from break direction
+    # --- CORRECTED DIRECTION DETERMINATION ---
+    # Map break direction to bullish/bearish terminology
     if break_direction == "upward":
         mss_direction = "bullish"
     elif break_direction == "downward":
@@ -1001,40 +1018,44 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
         mss_direction = "unclear"
     final_analysis["mss_direction"] = mss_direction
 
-    # Then consolidated direction logic that runs only once
-    if displacement_direction in ["bullish", "bearish"]:
-        # Primarily trust displacement direction
-        final_analysis["final_trade_direction"] = "long" if displacement_direction == "bullish" else "short"
-        
-        # Check if MSS and displacement align
-        if (mss_direction == "bullish" and displacement_direction == "bullish") or \
-           (mss_direction == "bearish" and displacement_direction == "bearish"):
-            final_analysis["direction_confidence"] = "high"
-        else:
-            final_analysis["direction_confidence"] = "medium"
-            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
+    # Always record alignment status for analysis
+    if mss_direction != "unclear" and displacement_direction != "unknown":
+        final_analysis["direction_alignment"] = (
+            (mss_direction == "bullish" and displacement_direction == "bullish") or 
+            (mss_direction == "bearish" and displacement_direction == "bearish")
+        )
     else:
-        # Fallback to MSS direction if displacement direction is unknown
-        if mss_direction == "bullish":
+        final_analysis["direction_alignment"] = False
+        
+    # CRITICAL: Both MSS and displacement must align for a valid trade direction
+    if final_analysis["direction_alignment"]:
+        # When aligned, the direction is clear and confident
+        if mss_direction == "bullish":  # upward break + bullish displacement
             final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "low" 
-        elif mss_direction == "bearish":
+            final_analysis["direction_confidence"] = "high"
+        elif mss_direction == "bearish":  # downward break + bearish displacement
             final_analysis["final_trade_direction"] = "short"
-            final_analysis["direction_confidence"] = "low"
-        else:
-            final_analysis["final_trade_direction"] = "unknown"
-            final_analysis["direction_confidence"] = "none"
-            final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
+            final_analysis["direction_confidence"] = "high"
+        final_analysis["_rule_engine_notes"] += f", Direction determined from aligned MSS and displacement: {final_analysis['final_trade_direction']}"
+    else:
+        # When not aligned, record the conflict and treat the direction as questionable
+        final_analysis["final_trade_direction"] = "unknown"  # Instead of defaulting to displacement
+        final_analysis["direction_confidence"] = "none"
+        final_analysis["_rule_engine_notes"] += ", MSS and displacement directions don't align - INVALID SETUP"
+
+        # Still record what we detected for diagnostics
+        if displacement_direction in ["bullish", "bearish"]:
+            final_analysis["displacement_suggests"] = "long" if displacement_direction == "bullish" else "short"
+        if mss_direction in ["bullish", "bearish"]:
+            final_analysis["mss_suggests"] = "long" if mss_direction == "bullish" else "short"
 
     # Add validation check as a safety net
-    validated_direction, confidence_score = validate_trade_direction(final_analysis)
-    if validated_direction != "unknown" and validated_direction != final_analysis["final_trade_direction"]:
-        final_analysis["_rule_engine_notes"] += f", Direction conflict detected, validated as {validated_direction}"
-        final_analysis["direction_conflict"] = True
-        # Only override if confidence is high in the validation
-        if confidence_score >= 2:
+    if final_analysis["final_trade_direction"] == "unknown":
+        validated_direction, confidence_score = validate_trade_direction(final_analysis)
+        if validated_direction != "unknown" and confidence_score >= 2:
             final_analysis["final_trade_direction"] = validated_direction
-            final_analysis["_rule_engine_notes"] += f", Direction corrected to {validated_direction} with confidence {confidence_score}"
+            final_analysis["direction_confidence"] = "low"  # Low confidence because we had to rely on validation
+            final_analysis["_rule_engine_notes"] += f", Direction determined from validation: {validated_direction}"
 
     # --- Process CV findings ---
     if cv_findings and cv_findings.get("cv_analysis_performed", False):
@@ -1229,8 +1250,8 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     if final_analysis.get("has_valid_fvg") is True: validity_score += 10 # Check for explicit True
     if final_analysis.get("displacement_matches_trade") is True: validity_score += 10 # Check for explicit True
 
-    # Add bonus for high direction confidence
-    if final_analysis.get("direction_confidence") == "high": validity_score += 5
+    # CRITICAL: Add points ONLY if direction alignment is confirmed
+    if final_analysis.get("direction_alignment") is True: validity_score += 20 # Higher weight for alignment
 
     validity_score = min(max(validity_score, 0), 100) # Ensure score is between 0 and 100
     final_analysis["setup_validity_score"] = validity_score
@@ -1342,6 +1363,64 @@ IMPORTANT: Your response must be a valid JSON object with this base structure:
   "confidence_level": "low"/"medium"/"high"
 }
 """
+
+    # Trade evaluation specific prompt (modify this section)
+    if query_type == "trade_evaluation_image_query" or query_type == "general_image_query":
+        vision_system_prompt_template = base_prompt + """
+Provide a comprehensive analysis of the trading chart, focusing on these key aspects:
+- Market Structure Shifts (MSS) - both Normal and Aggressive types
+- Candle and color patterns
+- Direction of the break (upward/downward)
+- Displacement after MSS - must align with break direction
+- FVG (Fair Value Gap) presence
+- Liquidity zones and whether they've been swept
+- Risk placement (above/below entry)
+- Potential trade outcome if visible
+
+Definitions:
+- MSS (Market Structure Shift): A break of market structure that signals a potential trend change.
+- Normal MSS: The pivot (higher low or lower high) that is broken must have at least 2 bearish AND 2 bullish candles.
+- Aggressive MSS: The pivot has fewer than 2 bearish OR fewer than 2 bullish candles.
+- FVG (Fair Value Gap): An unfilled gap created when price makes an impulsive move.
+- Liquidity: Price levels where stop losses or take profits are clustered.
+
+CRITICAL DIRECTION ANALYSIS INSTRUCTIONS:
+1. The direction of the break AND displacement must ALIGN for a valid trade
+2. UPWARD break + BULLISH displacement = LONG trade
+3. DOWNWARD break + BEARISH displacement = SHORT trade
+4. If break and displacement directions don't match, the setup is invalid
+
+PRICE MOVEMENT AFTER MSS:
+1. After an UPWARD break, price must continue HIGHER for a valid LONG trade
+2. After a DOWNWARD break, price must continue LOWER for a valid SHORT trade
+3. Pay special attention to displacement strength and direction
+4. The trade is only valid when both break and subsequent price action are in the same direction
+""" + base_json_structure + """
+Your JSON response MUST include the following full structure:
+{
+  "analysis_possible": true/false,
+  "candle_colors": "description of bullish/bearish candle colors or 'unknown'",
+  "is_risk_above_entry_suggestion": true/false/null,
+  "mss_location_description": "description of where the MSS is located",
+  "mss_pivot_analysis": {
+    "description": "description of the pivot structure",
+    "pivot_bearish_count": number,
+    "pivot_bullish_count": number
+  },
+  "break_direction_suggestion": "upward"/"downward"/"unclear",
+  "displacement_analysis": { 
+    "direction": "bullish"/"bearish"/"unclear", 
+    "strength": "weak"/"moderate"/"strong"
+  },
+  "fvg_analysis": { "count": number, "description": "description of FVGs present" },
+  "liquidity_zones_description": "description of liquidity zones and if they were swept",
+  "liquidity_status_suggestion": "swept"/"not_swept"/"unclear",
+  "trade_outcome_suggestion": "win"/"loss"/"breakeven"/"potential_setup"/"unknown",
+  "visible_labels_on_chart": ["MSS", "BE", etc.],
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+
     
     # For liquidity concept verification
     if query_type == "concept_verification_image_query" or query_type == "general_image_query":
