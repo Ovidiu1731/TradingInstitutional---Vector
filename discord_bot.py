@@ -63,15 +63,24 @@ class FeedbackView(discord.ui.View):
             print(f"Sending feedback to: {endpoint}")
             print(f"Feedback includes analysis_data: {self.analysis_data is not None}")
             
-            async with aiohttp.ClientSession() as session:
-                async with session.post(endpoint, json=payload) as resp:
-                    print(f"Feedback response status: {resp.status}")
-                    if resp.status == 200:
-                        # Just update the view with disabled buttons, don't change the text
-                        await interaction.response.edit_message(content=self.answer, view=self)
-                    else:
-                        # In case of error, you can either be silent or show a small error indicator
-                        await interaction.response.edit_message(content=self.answer, view=self)
+            # Add explicit timeout for feedback requests (30 seconds)
+            timeout = aiohttp.ClientTimeout(total=30)
+            async with aiohttp.ClientSession(timeout=timeout) as session:
+                try:
+                    async with session.post(endpoint, json=payload) as resp:
+                        print(f"Feedback response status: {resp.status}")
+                        if resp.status == 200:
+                            # Just update the view with disabled buttons, don't change the text
+                            await interaction.response.edit_message(content=self.answer, view=self)
+                        else:
+                            # In case of error, you can either be silent or show a small error indicator
+                            await interaction.response.edit_message(content=self.answer, view=self)
+                except asyncio.TimeoutError:
+                    print("Timeout while sending feedback")
+                    await interaction.response.edit_message(content=self.answer, view=self)
+                except aiohttp.ClientConnectorError as e:
+                    print(f"Connection error while sending feedback: {e}")
+                    await interaction.response.edit_message(content=self.answer, view=self)
             
         except Exception as e:
             print(f"Error sending feedback: {e}")
@@ -119,10 +128,18 @@ async def on_message(message):
                     print(f"💬 Routing to {endpoint} with payload: {payload}")
                 
                 print(f"Full request URL: {endpoint}")
-                async with aiohttp.ClientSession() as session:
+                
+                # Create longer timeout - complex AI processing can take time
+                # Use 60 seconds for image queries, 30 seconds for text queries
+                timeout = aiohttp.ClientTimeout(total=60 if is_image_query else 30)
+                
+                async with aiohttp.ClientSession(timeout=timeout) as session:
                     print(f"Making POST request to: {endpoint}")
                     try:
+                        start_time = asyncio.get_event_loop().time()
                         async with session.post(endpoint, json=payload) as resp:
+                            elapsed = asyncio.get_event_loop().time() - start_time
+                            print(f"Request took {elapsed:.2f} seconds")
                             print(f"Response status: {resp.status}")
                             print(f"Response headers: {resp.headers}")
                             if resp.status == 200:
@@ -140,6 +157,12 @@ async def on_message(message):
                                 response_text = await resp.text()
                                 print(f"Error response text: {response_text[:200]}...")
                                 answer = f"A apărut o eroare la server. Cod: {resp.status}"
+                    except asyncio.TimeoutError:
+                        print(f"Timeout connecting to server")
+                        answer = "⏱️ Serverul procesează o cerere complexă și are nevoie de mai mult timp. Încearcă din nou mai târziu."
+                    except aiohttp.ClientConnectorError as e:
+                        print(f"Connection error: {e}")
+                        answer = f"❌ Nu m-am putut conecta la server: {e}"
                     except Exception as e:
                         print(f"Exception during request: {type(e).__name__}: {str(e)}")
                         answer = f"❌ Eroare la conectarea cu serverul: {e}"
