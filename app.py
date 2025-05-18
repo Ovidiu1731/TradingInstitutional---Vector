@@ -1105,6 +1105,26 @@ def analyze_text_labels(vision_json: Dict[str, Any]) -> Dict[str, Any]:
         "has_mss_label": mss_position is not None
     }
 
+def determine_trade_direction_from_pivot(vision_json: Dict[str, Any]) -> str:
+    """Determine trade direction based on the type of pivot being broken"""
+    
+    # Extract pivot description
+    mss_pivot_data = vision_json.get("mss_pivot_analysis", {})
+    pivot_description = mss_pivot_data.get("description", "").lower()
+    
+    # Check for pivot type keywords
+    is_lower_high = any(term in pivot_description for term in ["lower high", "lower peak", "decreasing peak", "descending peak"])
+    is_higher_low = any(term in pivot_description for term in ["higher low", "higher trough", "increasing trough", "ascending trough"])
+    
+    # Apply the market structure rule
+    if is_lower_high:
+        return "long"  # Breaking a lower high = LONG trade
+    elif is_higher_low:
+        return "short"  # Breaking a higher low = SHORT trade
+    else:
+        return "unknown"  # Pivot type not clearly identified
+
+
 def determine_final_trade_direction(vision_json: Dict[str, Any], cv_analysis: Dict[str, Any]) -> str:
     """
     Integrate all analysis methods to make a final trade direction decision.
@@ -1266,7 +1286,11 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
 
     # --- INTEGRATED DIRECTION DETERMINATION ---
-    # Collect evidence from all subsystems
+    # FIRST: Try to determine direction based on pivot type (highest priority)
+    pivot_based_direction = determine_trade_direction_from_pivot(vision_json)
+    final_analysis["pivot_based_direction"] = pivot_based_direction
+
+    # Collect additional evidence from all subsystems
     mss_displacement = analyze_mss_and_displacement(vision_json)
     zone_analysis = analyze_trade_zones(vision_json)
     price_path = analyze_price_path(vision_json)
@@ -1274,14 +1298,21 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
 
     # Record all the evidence for transparency
     final_analysis["direction_evidence"] = {
+        "pivot_based_direction": pivot_based_direction,
         "mss_displacement_analysis": mss_displacement,
         "zone_analysis": zone_analysis,
         "price_path_analysis": price_path,
         "label_analysis": label_analysis
     }
 
-    # Get direction from integration function
-    final_analysis["final_trade_direction"] = determine_final_trade_direction(vision_json, cv_findings)
+    # PRIMARY RULE: Use pivot-based direction if available
+    if pivot_based_direction != "unknown":
+        final_analysis["final_trade_direction"] = pivot_based_direction
+        final_analysis["_rule_engine_notes"] += f", Direction determined from pivot type: {pivot_based_direction}"
+    else:
+        # Fall back to the integrated approach only if pivot type is unclear
+        final_analysis["final_trade_direction"] = determine_final_trade_direction(vision_json, cv_findings)
+        final_analysis["_rule_engine_notes"] += ", Direction determined from integrated analysis (pivot type unclear)"
     
     # Determine confidence based on agreement level
     evidence_directions = [
@@ -1661,7 +1692,7 @@ IMPORTANT: Your response must be a valid JSON object with this base structure:
 }
 """
 
-    # Trade evaluation specific prompt (modify this section)
+    # Trade evaluation specific prompt
     if query_type == "trade_evaluation_image_query" or query_type == "general_image_query":
         vision_system_prompt_template = base_prompt + """
 Provide a comprehensive analysis of the trading chart, focusing on these key aspects:
@@ -1686,16 +1717,25 @@ Definitions:
 - Liquidity: Price levels where stop losses or take profits are clustered.
 
 CRITICAL DIRECTION ANALYSIS INSTRUCTIONS:
-1. The direction of the break AND displacement must ALIGN for a valid trade
-2. UPWARD break + BULLISH displacement = LONG trade
-3. DOWNWARD break + BEARISH displacement = SHORT trade
-4. If break and displacement directions don't match, the setup is invalid
+1. MOST IMPORTANT: Identify the TYPE of pivot structure being broken:
+   - Breaking a LOWER HIGH = LONG trade (regardless of break direction)
+   - Breaking a HIGHER LOW = SHORT trade (regardless of break direction)
+2. A LOWER HIGH is a peak that's lower than the previous peak
+3. A HIGHER LOW is a trough/valley that's higher than the previous trough/valley
+4. In your pivot analysis, clearly state whether the pivot is a "lower high" or "higher low"
+
+AFTER IDENTIFYING PIVOT TYPE, ALSO ANALYZE:
+1. Direction of the break (upward/downward)
+2. Direction of displacement (bullish/bearish)
+3. Alignment between break and displacement directions
+4. The best setups have all factors aligned:
+   - Breaking a lower high downward with bullish displacement = strong LONG
+   - Breaking a higher low upward with bearish displacement = strong SHORT
 
 PRICE MOVEMENT AFTER MSS:
-1. After an UPWARD break, price must continue HIGHER for a valid LONG trade
-2. After a DOWNWARD break, price must continue LOWER for a valid SHORT trade
+1. After breaking a LOWER HIGH, price should move HIGHER (bullish displacement)
+2. After breaking a HIGHER LOW, price should move LOWER (bearish displacement)
 3. Pay special attention to displacement strength and direction
-4. The trade is only valid when both break and subsequent price action are in the same direction
 """ + base_json_structure + """
 Your JSON response MUST include the following full structure:
 {
@@ -1704,7 +1744,8 @@ Your JSON response MUST include the following full structure:
   "is_risk_above_entry_suggestion": true/false/null,
   "mss_location_description": "description of where the MSS is located",
   "mss_pivot_analysis": {
-    "description": "description of the pivot structure",
+    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+    "pivot_type": "lower_high"/"higher_low"/"unknown",
     "pivot_bearish_count": number,
     "pivot_bullish_count": number
   },
@@ -1788,7 +1829,8 @@ Your JSON response should include these specific fields:
   "candle_colors": "description of candle colors",
   "mss_location_description": "description of where the MSS is located",
   "mss_pivot_analysis": {
-    "description": "description of the pivot structure",
+    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+    "pivot_type": "lower_high"/"higher_low"/"unknown",
     "pivot_bearish_count": number,
     "pivot_bullish_count": number
   },
@@ -1861,7 +1903,8 @@ Your JSON response MUST include the following full structure:
   "is_risk_above_entry_suggestion": true/false/null,
   "mss_location_description": "description of where the MSS is located",
   "mss_pivot_analysis": {
-    "description": "description of the pivot structure",
+    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+    "pivot_type": "lower_high"/"higher_low"/"unknown",
     "pivot_bearish_count": number,
     "pivot_bullish_count": number
   },
@@ -2211,9 +2254,10 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             elif "mss" in question_lower or "structure" in question_lower:
                 vision_json["mss_location_description"] = "MSS location could not be determined with confidence"
                 vision_json["mss_pivot_analysis"] = {
-                    "description": "Pivot structure unclear",
-                    "pivot_bearish_count": None,
-                    "pivot_bullish_count": None
+                    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+                    "pivot_type": "lower_high"/"higher_low"/"unknown",
+                    "pivot_bearish_count": number,
+                    "pivot_bullish_count": number
                 }
                 vision_json["break_direction_suggestion"] = "unclear"
     
