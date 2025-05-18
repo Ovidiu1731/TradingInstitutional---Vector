@@ -887,6 +887,268 @@ def classify_mss_type(bullish_count: Optional[Any], bearish_count: Optional[Any]
     except (ValueError, TypeError):
         logging.warning("RuleEngine: Could not parse MSS pivot counts."); return "not_identified"
 
+def analyze_mss_and_displacement(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze the relationship between MSS and displacement to determine trade direction.
+    """
+    # Extract MSS location and text descriptions
+    mss_location = vision_json.get("mss_location_description", "")
+    
+    # Find MSS label coordinates if possible
+    mss_coords = None
+    for label in vision_json.get("visible_labels_on_chart", []):
+        if "MSS" in label.upper():
+            # If we have label coordinates, store them
+            if isinstance(label, dict) and "position" in label:
+                mss_coords = label["position"]
+                break
+    
+    # Analyze price path AFTER MSS by looking at price movement descriptions
+    displacement_info = vision_json.get("displacement_analysis", {})
+    
+    # Determine if price goes UP or DOWN after MSS
+    # This is critical - we need to detect the actual path regardless of "break direction"
+    
+    # Check for explicit direction in displacement description
+    displacement_description = displacement_info.get("description", "").lower()
+    
+    # Look for clear direction indicators in description
+    upward_indicators = ["upward", "higher", "increases", "rises", "bullish", "moving up"]
+    downward_indicators = ["downward", "lower", "decreases", "falls", "bearish", "moving down"]
+    
+    displacement_direction = "unknown"
+    
+    # Check for upward movement indicators
+    if any(indicator in displacement_description for indicator in upward_indicators):
+        displacement_direction = "bullish"
+    # Check for downward movement indicators
+    elif any(indicator in displacement_description for indicator in downward_indicators):
+        displacement_direction = "bearish"
+    # Fallback to the explicit direction field if available
+    elif displacement_info.get("direction") in ["bullish", "bearish"]:
+        displacement_direction = displacement_info.get("direction")
+    
+    # Map to trade direction
+    if displacement_direction == "bullish":
+        direction = "long"
+    elif displacement_direction == "bearish":
+        direction = "short"
+    else:
+        direction = "unknown"
+    
+    return {
+        "mss_location": mss_location,
+        "displacement_direction": displacement_direction,
+        "trade_direction_from_displacement": direction,
+        "confidence": "high" if displacement_direction in ["bullish", "bearish"] else "low"
+    }
+
+def analyze_trade_zones(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze the trade zones (boxes/rectangles) to determine trade direction.
+    This doesn't rely on specific colors but on the structural relationship
+    between risk and profit zones.
+    """
+    # Look for zone descriptions in the vision analysis
+    fvg_description = vision_json.get("fvg_analysis", {}).get("description", "").lower()
+    mss_description = vision_json.get("mss_location_description", "").lower()
+    
+    # Keywords that indicate zone relationships
+    profit_keywords = ["profit", "target", "tp", "take profit", "reward"]
+    risk_keywords = ["risk", "stop", "sl", "stop loss"]
+    
+    # Zone position indicators
+    zone_above = any(word in fvg_description + " " + mss_description for word in [
+        "above", "higher", "upper", "top"
+    ])
+    zone_below = any(word in fvg_description + " " + mss_description for word in [
+        "below", "lower", "bottom", "underneath" 
+    ])
+    
+    # Relationship between zones
+    risk_above_profit = vision_json.get("is_risk_above_entry_suggestion", None)
+    
+    # Attempt to determine direction based on zone relationship
+    direction = "unknown"
+    confidence = "low"
+    
+    # If we know risk is above entry, it's likely a short trade
+    if risk_above_profit is True:
+        direction = "short"
+        confidence = "medium"
+    # If we know risk is below entry, it's likely a long trade  
+    elif risk_above_profit is False:
+        direction = "long"
+        confidence = "medium"
+    # Otherwise try to infer from zone descriptions
+    elif zone_above and any(k in fvg_description for k in profit_keywords):
+        direction = "long"  # Profit zone above = long
+        confidence = "low"
+    elif zone_below and any(k in fvg_description for k in profit_keywords):
+        direction = "short"  # Profit zone below = short
+        confidence = "low"
+    
+    return {
+        "trade_direction_from_zones": direction,
+        "zone_confidence": confidence,
+        "risk_above_entry": risk_above_profit
+    }
+
+def analyze_price_path(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze the actual price movement pattern visible in the chart to determine direction.
+    This uses the candle patterns after MSS to determine if price is moving up or down.
+    """
+    # We need to analyze if price is moving up or down after MSS
+    # Look for candle pattern descriptions
+    candle_description = vision_json.get("candle_colors", "")
+    
+    # Extract all text fields for analysis
+    all_text = " ".join([
+        str(vision_json.get("mss_location_description", "")),
+        str(vision_json.get("displacement_analysis", {}).get("description", "")),
+        str(vision_json.get("fvg_analysis", {}).get("description", ""))
+    ]).lower()
+    
+    # Look for descriptions of price movement
+    price_increases = any(phrase in all_text for phrase in [
+        "price increases", "price rises", "moving upward", "moving higher",
+        "higher than before", "price goes up", "bullish movement"
+    ])
+    
+    price_decreases = any(phrase in all_text for phrase in [
+        "price decreases", "price falls", "moving downward", "moving lower",
+        "lower than before", "price goes down", "bearish movement"
+    ])
+    
+    # If movement description is inconclusive, check for price levels
+    if not price_increases and not price_decreases:
+        # Look for numeric patterns like "1.3245 to 1.3260" or "41,050 → 41,030"
+        price_pattern = r'(\d+[.,]\d+).*?(\d+[.,]\d+)'
+        matches = re.findall(price_pattern, all_text)
+        
+        if matches:
+            for match in matches:
+                try:
+                    price1 = float(match[0].replace(',', ''))
+                    price2 = float(match[1].replace(',', ''))
+                    
+                    if price2 > price1:
+                        price_increases = True
+                    elif price2 < price1:
+                        price_decreases = True
+                except:
+                    continue
+    
+    # Determine direction based on price movement
+    if price_increases:
+        return {"price_path_direction": "long", "confidence": "medium"}
+    elif price_decreases:
+        return {"price_path_direction": "short", "confidence": "medium"}
+    else:
+        return {"price_path_direction": "unknown", "confidence": "low"}
+
+def analyze_text_labels(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze text labels on the chart for directional clues.
+    """
+    # Get all visible labels
+    labels = vision_json.get("visible_labels_on_chart", [])
+    
+    # Look for direction-specific labels
+    long_indicators = ["LONG", "BUY", "BULLISH"]
+    short_indicators = ["SHORT", "SELL", "BEARISH"]
+    
+    # Check if BE (Break Even) or TP (Take Profit) positions indicate direction
+    be_position = None
+    tp_position = None
+    mss_position = None
+    
+    # Extract positions if available, otherwise just note presence
+    for label in labels:
+        label_text = label if isinstance(label, str) else label.get("text", "")
+        label_text = label_text.upper()
+        
+        if "BE" in label_text:
+            be_position = True
+        elif "TP" in label_text or "TARGET" in label_text:
+            tp_position = True
+        elif "MSS" in label_text:
+            mss_position = True
+    
+    # Check OCR text for additional directional clues
+    ocr_text = vision_json.get("extracted_text", "").upper()
+    
+    direction = "unknown"
+    confidence = "low"
+    
+    # Look for explicit direction indicators in labels
+    if any(indicator in " ".join(str(label).upper() for label in labels) for indicator in long_indicators):
+        direction = "long"
+        confidence = "high"
+    elif any(indicator in " ".join(str(label).upper() for label in labels) for indicator in short_indicators):
+        direction = "short"
+        confidence = "high"
+    # Look in OCR text if we have it
+    elif any(indicator in ocr_text for indicator in long_indicators):
+        direction = "long"
+        confidence = "medium"
+    elif any(indicator in ocr_text for indicator in short_indicators):
+        direction = "short"
+        confidence = "medium"
+    
+    return {
+        "label_suggested_direction": direction,
+        "label_confidence": confidence,
+        "has_be_label": be_position is not None,
+        "has_tp_label": tp_position is not None,
+        "has_mss_label": mss_position is not None
+    }
+
+def determine_final_trade_direction(vision_json: Dict[str, Any], cv_analysis: Dict[str, Any]) -> str:
+    """
+    Integrate all analysis methods to make a final trade direction decision.
+    Prioritizes displacement+MSS alignment but uses multiple evidence sources.
+    """
+    # Gather evidence from all analysis methods
+    mss_displacement = analyze_mss_and_displacement(vision_json)
+    zone_analysis = analyze_trade_zones(vision_json)
+    price_path = analyze_price_path(vision_json)
+    label_analysis = analyze_text_labels(vision_json)
+    
+    # Create a weighted voting system
+    direction_votes = {
+        "long": 0,
+        "short": 0,
+        "unknown": 0
+    }
+    
+    # MSS and displacement get highest weight
+    if mss_displacement["trade_direction_from_displacement"] != "unknown":
+        direction_votes[mss_displacement["trade_direction_from_displacement"]] += 3
+    
+    # Zone analysis gets good weight
+    if zone_analysis["trade_direction_from_zones"] != "unknown":
+        direction_votes[zone_analysis["trade_direction_from_zones"]] += 2
+    
+    # Price path gets medium weight
+    if price_path["price_path_direction"] != "unknown":
+        direction_votes[price_path["price_path_direction"]] += 2
+    
+    # Label analysis gets medium weight if high confidence
+    if label_analysis["label_suggested_direction"] != "unknown":
+        weight = 3 if label_analysis["label_confidence"] == "high" else 1
+        direction_votes[label_analysis["label_suggested_direction"]] += weight
+    
+    # Determine direction based on voting
+    if direction_votes["long"] > direction_votes["short"]:
+        return "long"
+    elif direction_votes["short"] > direction_votes["long"]:
+        return "short"
+    else:
+        # If tied, prioritize MSS+displacement
+        return mss_displacement["trade_direction_from_displacement"]
+
 def validate_trade_direction(vision_data: Dict[str, Any]) -> tuple:
     """Validate trade direction using multiple data points"""
     
@@ -897,18 +1159,18 @@ def validate_trade_direction(vision_data: Dict[str, Any]) -> tuple:
     
     # Map break direction to expected trade direction
     if break_direction == "upward":
-        expected_mss_direction = "bullish"
+        mss_direction = "bullish"
     elif break_direction == "downward":
-        expected_mss_direction = "bearish"
+        mss_direction = "bearish"
     else:
-        expected_mss_direction = "unknown"
+        mss_direction = "unknown"
 
     # Check if displacement matches expected direction
     direction_aligned = False
-    if expected_mss_direction == "bullish" and displacement_direction == "bullish":
+    if mss_direction == "bullish" and displacement_direction == "bullish":
         direction_aligned = True
         trade_direction = "long"
-    elif expected_mss_direction == "bearish" and displacement_direction == "bearish":
+    elif mss_direction == "bearish" and displacement_direction == "bearish":
         direction_aligned = True
         trade_direction = "short"
 
@@ -990,11 +1252,6 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     """
     final_analysis = copy.deepcopy(vision_json)  # Start with vision model output
     final_analysis["_rule_engine_notes"] = f"Rule engine applied for {query_type}"
-
-    # --- Get basic data from vision analysis ---
-    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
-    displacement = final_analysis.get("displacement_analysis", {})
-    displacement_direction = displacement.get("direction", "unknown")
     
     # --- Apply MSS type classification rule ---
     mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
@@ -1008,8 +1265,51 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     )
     final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
 
-    # --- CORRECTED DIRECTION DETERMINATION ---
-    # Map break direction to bullish/bearish terminology
+    # --- INTEGRATED DIRECTION DETERMINATION ---
+    # Collect evidence from all subsystems
+    mss_displacement = analyze_mss_and_displacement(vision_json)
+    zone_analysis = analyze_trade_zones(vision_json)
+    price_path = analyze_price_path(vision_json)
+    label_analysis = analyze_text_labels(vision_json)
+
+    # Record all the evidence for transparency
+    final_analysis["direction_evidence"] = {
+        "mss_displacement_analysis": mss_displacement,
+        "zone_analysis": zone_analysis,
+        "price_path_analysis": price_path,
+        "label_analysis": label_analysis
+    }
+
+    # Get direction from integration function
+    final_analysis["final_trade_direction"] = determine_final_trade_direction(vision_json, cv_findings)
+    
+    # Determine confidence based on agreement level
+    evidence_directions = [
+        mss_displacement["trade_direction_from_displacement"],
+        zone_analysis["trade_direction_from_zones"],
+        price_path["price_path_direction"],
+        label_analysis["label_suggested_direction"]
+    ]
+
+    # Filter out unknown directions
+    known_directions = [d for d in evidence_directions if d != "unknown"]
+
+     # Check if all known directions agree
+    if known_directions and all(d == known_directions[0] for d in known_directions):
+        final_analysis["direction_confidence"] = "high"
+    # If we have limited but consistent evidence
+    elif known_directions and len(set(known_directions)) == 1:
+        final_analysis["direction_confidence"] = "medium"
+    # If we have conflicting evidence
+    else:
+        final_analysis["direction_confidence"] = "low"
+        final_analysis["_rule_engine_notes"] += ", Note: Conflicting direction evidence, using weighted decision"
+
+    # Record if we have alignment between MSS break and displacement
+    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
+    displacement_direction = mss_displacement.get("displacement_direction", "unknown")
+
+    # First determine MSS direction from break direction
     if break_direction == "upward":
         mss_direction = "bullish"
     elif break_direction == "downward":
@@ -1018,36 +1318,33 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
         mss_direction = "unclear"
     final_analysis["mss_direction"] = mss_direction
 
-    # Always record alignment status for analysis
-    if mss_direction != "unclear" and displacement_direction != "unknown":
-        final_analysis["direction_alignment"] = (
-            (mss_direction == "bullish" and displacement_direction == "bullish") or 
-            (mss_direction == "bearish" and displacement_direction == "bearish")
-        )
-    else:
-        final_analysis["direction_alignment"] = False
+    # Then check for alignment between MSS and displacement
+    if break_direction != "unknown" and displacement_direction != "unknown":
+        if (break_direction == "upward" and displacement_direction == "bullish") or \
+            (break_direction == "downward" and displacement_direction == "bearish"):
+            final_analysis["direction_alignment"] = True
+        else:
+            final_analysis["direction_alignment"] = False
+            final_analysis["_rule_engine_notes"] += ", Warning: MSS and displacement directions don't align"
         
-    # CRITICAL: Both MSS and displacement must align for a valid trade direction
-    if final_analysis["direction_alignment"]:
-        # When aligned, the direction is clear and confident
-        if mss_direction == "bullish":  # upward break + bullish displacement
-            final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "high"
-        elif mss_direction == "bearish":  # downward break + bearish displacement
-            final_analysis["final_trade_direction"] = "short"
-            final_analysis["direction_confidence"] = "high"
-        final_analysis["_rule_engine_notes"] += f", Direction determined from aligned MSS and displacement: {final_analysis['final_trade_direction']}"
+    # Enrich the analysis with direction alignment information
+    if final_analysis.get("direction_alignment") is True:
+        # If directions align, increase confidence
+        final_analysis["direction_confidence"] = "high"
+        final_analysis["_rule_engine_notes"] += f", Direction confirmed by MSS and displacement alignment"
     else:
-        # When not aligned, record the conflict and treat the direction as questionable
-        final_analysis["final_trade_direction"] = "unknown"  # Instead of defaulting to displacement
-        final_analysis["direction_confidence"] = "none"
-        final_analysis["_rule_engine_notes"] += ", MSS and displacement directions don't align - INVALID SETUP"
-
-        # Still record what we detected for diagnostics
+        # When not aligned, record the conflict but keep the weighted decision
+        final_analysis["_rule_engine_notes"] += ", Warning: MSS and displacement directions don't align"
+        
+        # Record what each analysis suggests for diagnostics
         if displacement_direction in ["bullish", "bearish"]:
             final_analysis["displacement_suggests"] = "long" if displacement_direction == "bullish" else "short"
         if mss_direction in ["bullish", "bearish"]:
             final_analysis["mss_suggests"] = "long" if mss_direction == "bullish" else "short"
+        
+        # Lower confidence since we have conflicting signals
+        if final_analysis.get("direction_confidence") != "none":
+            final_analysis["direction_confidence"] = "low"
 
     # Add validation check as a safety net
     if final_analysis["final_trade_direction"] == "unknown":
@@ -1371,11 +1668,15 @@ Provide a comprehensive analysis of the trading chart, focusing on these key asp
 - Market Structure Shifts (MSS) - both Normal and Aggressive types
 - Candle and color patterns
 - Direction of the break (upward/downward)
-- Displacement after MSS - must align with break direction
-- FVG (Fair Value Gap) presence
-- Liquidity zones and whether they've been swept
-- Risk placement (above/below entry)
-- Potential trade outcome if visible
+- CRITICAL: Displacement after MSS - carefully describe the ACTUAL price movement AFTER the MSS
+
+EXTREMELY IMPORTANT FOR DISPLACEMENT ANALYSIS:
+1. Look at where the MSS is marked on the chart (usually with "MSS" label or arrows)
+2. CAREFULLY observe what happens to price AFTER this MSS point:
+   - If price MOVES HIGHER after MSS = "bullish" displacement
+   - If price MOVES LOWER after MSS = "bearish" displacement
+3. Don't just look at the break direction - analyze what ACTUALLY HAPPENS after the break
+4. In your displacement_analysis, include a detailed description of the actual price path
 
 Definitions:
 - MSS (Market Structure Shift): A break of market structure that signals a potential trend change.
@@ -1410,7 +1711,8 @@ Your JSON response MUST include the following full structure:
   "break_direction_suggestion": "upward"/"downward"/"unclear",
   "displacement_analysis": { 
     "direction": "bullish"/"bearish"/"unclear", 
-    "strength": "weak"/"moderate"/"strong"
+    "strength": "weak"/"moderate"/"strong",
+    "description": "DETAILED description of how price actually moves after the MSS point, including whether it goes higher or lower"
   },
   "fvg_analysis": { "count": number, "description": "description of FVGs present" },
   "liquidity_zones_description": "description of liquidity zones and if they were swept",
