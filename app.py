@@ -65,8 +65,32 @@ if not (OPENAI_API_KEY and PINECONE_API_KEY):
 # --- Initialize Async Clients (as per mentor's advice) ---
 async_openai_client = AsyncOpenAI(
     api_key=OPENAI_API_KEY,
-    http_client=httpx.AsyncClient(http2=True, timeout=30.0)
+    http_client=httpx.AsyncClient(
+        http2=True,
+        timeout=httpx.Timeout(30.0, connect=10.0),
+        limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+        # Add retry mechanism
+        transport=httpx.AsyncHTTPTransport(retries=3)
+    )
 )
+
+# Helper function to verify client before each request
+async def ensure_valid_client():
+    global async_openai_client
+    
+    # Check if client needs recreation
+    if not async_openai_client:
+        logging.warning("OpenAI client was None, recreating...")
+        async_openai_client = AsyncOpenAI(
+            api_key=OPENAI_API_KEY,
+            http_client=httpx.AsyncClient(
+                http2=True,
+                timeout=httpx.Timeout(30.0, connect=10.0),
+                limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+                transport=httpx.AsyncHTTPTransport(retries=3)
+            )
+        )
+    return async_openai_client
 aiohttp_session: Optional[aiohttp.ClientSession] = None # Initialized at startup
 
 # --- Pinecone Sync Client (use with asyncio.to_thread) ---
@@ -206,6 +230,19 @@ async def startup_event():
     global aiohttp_session
     aiohttp_session = aiohttp.ClientSession()
     logging.info("aiohttp.ClientSession initialized.")
+
+    # Validate OpenAI API key by making a simple test call
+    try:
+        test_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+        models = await test_client.models.list(timeout=5.0)
+        if models and models.data:
+            logging.info(f"OpenAI API key validated successfully. Available models: {len(models.data)}")
+        else:
+            logging.error("OpenAI API key validation failed: No models returned")
+            # Don't raise an exception here, as it would prevent startup
+    except Exception as e:
+        logging.error(f"OpenAI API key validation failed: {e}")
+        # Log but allow service to start (might recover later)
     
     # Check if Tesseract is available
     try:
@@ -215,6 +252,46 @@ async def startup_event():
         logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
     except Exception as e:
         logging.error(f"Error checking Tesseract: {e}")
+
+# Add this to app.py
+async def refresh_clients_periodically():
+    """Periodically refresh API clients to prevent stale connections"""
+    while True:
+        try:
+            await asyncio.sleep(3600)  # Refresh every hour
+            logging.info("Performing scheduled API client refresh")
+            
+            global async_openai_client
+            # Close the old client
+            if async_openai_client:
+                await async_openai_client.close()
+                
+            # Create a new client
+            async_openai_client = AsyncOpenAI(
+                api_key=OPENAI_API_KEY,
+                http_client=httpx.AsyncClient(
+                    http2=True, 
+                    timeout=httpx.Timeout(30.0, connect=10.0),
+                    limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+                    transport=httpx.AsyncHTTPTransport(retries=3)
+                )
+            )
+            logging.info("API clients refreshed successfully")
+            
+        except Exception as e:
+            logging.error(f"Error during scheduled client refresh: {e}")
+
+# Update startup event to start the refresh task
+@app.on_event("startup")
+async def startup_event():
+    global aiohttp_session
+    aiohttp_session = aiohttp.ClientSession()
+    logging.info("aiohttp.ClientSession initialized.")
+    
+    # Start the client refresh background task
+    asyncio.create_task(refresh_clients_periodically())
+    
+    # Rest of existing startup code...
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -1695,6 +1772,32 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         except RateLimitError:
             logging.warning("OpenAI rate limit hit during vision analysis.")
             raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI (Vision). Te rog să încerci mai târziu.")
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 401:
+                logging.error(f"Authentication error with OpenAI API: {e}")
+                # Re-create client to refresh auth
+                global async_openai_client
+                try:
+                    await async_openai_client.close()
+                except:
+                    pass
+                async_openai_client = AsyncOpenAI(
+                    api_key=OPENAI_API_KEY, 
+                    http_client=httpx.AsyncClient(
+                        http2=True, 
+                        timeout=httpx.Timeout(30.0, connect=10.0)
+                    )
+                )
+                vision_json = {
+                    "analysis_possible": False, 
+                    "_vision_note": "Authentication error with OpenAI. The system will attempt to recover."
+                }
+            else:
+                logging.error(f"HTTP error during vision analysis: {e}")
+                vision_json = {
+                    "analysis_possible": False, 
+                    "_vision_note": f"Communication error with OpenAI: HTTP {e.response.status_code}"
+                }
         except APIError as e:
             logging.error(f"OpenAI API error during vision analysis: {e}")
             vision_json = {"analysis_possible": False, "_vision_note": f"Vision analysis API error: {str(e)}"}
@@ -1805,45 +1908,89 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         final_analysis_report["_rule_engine_notes"] = (final_analysis_report.get("_rule_engine_notes","") + f" Rule engine failed: {str(e)}").strip()
 
 
-    # RAG
-    context_text = ""
-    try:
-        search_terms = [question]
-        if final_analysis_report.get("final_mss_type") not in [None, "not_identified", "unknown"]:
-            search_terms.append(f"MSS {final_analysis_report['final_mss_type']}")
-        if final_analysis_report.get("final_trade_direction") not in [None, "unknown"]:
-            search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
-        if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
-            search_terms.append("Fair Value Gap FVG")
-        # Include expanded query terms for better retrieval
-        if expanded:
-            search_terms.append(expanded)
-        search_query = " ".join(list(set(search_terms))) # Unique terms
+# RAG
+context_text = ""
+try:
+    search_terms = [question]
+    if final_analysis_report.get("final_mss_type") not in [None, "not_identified", "unknown"]:
+        search_terms.append(f"MSS {final_analysis_report['final_mss_type']}")
+    if final_analysis_report.get("final_trade_direction") not in [None, "unknown"]:
+        search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
+    if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
+        search_terms.append("Fair Value Gap FVG")
+    # Include expanded query terms for better retrieval
+    if expanded:
+        search_terms.append(expanded)
+    search_query = " ".join(list(set(search_terms))) # Unique terms
 
+    try:
         async with openai_call_limiter:
             embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
         query_vector = embedding_response.data[0].embedding
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 401:
+            logging.error(f"Authentication error with OpenAI API during embeddings: {e}")
+            # Re-create client to refresh auth
+            global async_openai_client
+            try:
+                await async_openai_client.close()
+            except:
+                pass
+            async_openai_client = AsyncOpenAI(
+                api_key=OPENAI_API_KEY, 
+                http_client=httpx.AsyncClient(
+                    http2=True, 
+                    timeout=httpx.Timeout(30.0, connect=10.0)
+                )
+            )
+            context_text = "Eroare de autentificare cu OpenAI. Sistemul va încerca să se recupereze."
+            logging.info(f"Retrieved 0 relevant context chunks due to authentication error.")
+            return context_text
+        else:
+            logging.error(f"HTTP error during embeddings: {e}")
+            context_text = f"Eroare de comunicare cu OpenAI: HTTP {e.response.status_code}"
+            logging.info(f"Retrieved 0 relevant context chunks due to HTTP error.")
+            return context_text
+    except RateLimitError:
+        logging.warning("OpenAI rate limit hit during embeddings.")
+        context_text = "Prea multe solicitări către OpenAI. Vom continua fără contextul suplimentar."
+        logging.info(f"Retrieved 0 relevant context chunks due to rate limiting.")
+        return context_text
+    except APIError as api_err:
+        logging.error(f"OpenAI API error during embeddings: {api_err}")
+        context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
+        logging.info(f"Retrieved 0 relevant context chunks due to API error.")
+        return context_text
+
+    # Only reach here if embeddings were successful
+    try:
         pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=7, include_metadata=True # Changed from 3 to 7
+            index.query, vector=query_vector, top_k=7, include_metadata=True
         )
+        
         # First collect all chunks regardless of score
         all_chunks = [
             match.metadata["text"] for match in pinecone_results.matches
             if match.metadata and "text" in match.metadata
         ]
-
+        
         # Apply sophisticated filtering to prioritize relevant content
         if all_chunks:
             context_text = retrieve_relevant_content(question, pinecone_results)
             logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
         else:
             context_text = ""
-        # FIX: Use len(all_chunks) instead of undefined context_chunks variable
+        
         logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for image query.")
-    except Exception as e: # Non-critical, so don't raise HTTPException
-        logging.error(f"RAG retrieval error: {e}")
-        context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
+    except Exception as pinecone_err:
+        logging.error(f"Pinecone retrieval error: {pinecone_err}")
+        context_text = "Nu am putut prelua informații suplimentare din baza de date vectorială."
+        
+except Exception as e: # Non-critical, so don't raise HTTPException
+    logging.error(f"RAG retrieval error: {e}")
+    context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
 
+return context_text
 
     # Final Response Generation
     try:
