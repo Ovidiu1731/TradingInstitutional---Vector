@@ -1898,54 +1898,54 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         final_analysis_report["_rule_engine_notes"] = (final_analysis_report.get("_rule_engine_notes","") + f" Rule engine failed: {str(e)}").strip()
 
 
-# RAG
-context_text = ""
-try:
-    search_terms = [question]
-    if final_analysis_report.get("final_mss_type") not in [None, "not_identified", "unknown"]:
-        search_terms.append(f"MSS {final_analysis_report['final_mss_type']}")
-    if final_analysis_report.get("final_trade_direction") not in [None, "unknown"]:
-        search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
-    if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
-        search_terms.append("Fair Value Gap FVG")
-    # Include expanded query terms for better retrieval
-    if expanded:
-        search_terms.append(expanded)
-    search_query = " ".join(list(set(search_terms))) # Unique terms
-
+    # RAG
+    context_text = ""
     try:
-        async with openai_call_limiter:
-            embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
-        query_vector = embedding_response.data[0].embedding
-    except httpx.HTTPStatusError as e:
-        if e.response.status_code == 401:
-            logging.error(f"Authentication error with OpenAI API during embeddings: {e}")
-            # Re-create client to refresh auth
-            try:
-                await async_openai_client.close()
-            except:
-                pass
-            async_openai_client = AsyncOpenAI(
-                api_key=OPENAI_API_KEY, 
-                http_client=httpx.AsyncClient(
-                    http2=True, 
-                    timeout=httpx.Timeout(30.0, connect=10.0)
+        search_terms = [question]
+        if final_analysis_report.get("final_mss_type") not in [None, "not_identified", "unknown"]:
+            search_terms.append(f"MSS {final_analysis_report['final_mss_type']}")
+        if final_analysis_report.get("final_trade_direction") not in [None, "unknown"]:
+            search_terms.append(f"trade {final_analysis_report['final_trade_direction']}")
+        if "FVG" in question.upper() or final_analysis_report.get("has_valid_fvg") is True:
+            search_terms.append("Fair Value Gap FVG")
+        # Include expanded query terms for better retrieval
+        if expanded:
+            search_terms.append(expanded)
+        search_query = " ".join(list(set(search_terms))) # Unique terms
+
+        try:
+            async with openai_call_limiter:
+                embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
+            query_vector = embedding_response.data[0].embedding
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 401:
+                logging.error(f"Authentication error with OpenAI API during embeddings: {e}")
+                # Re-create client to refresh auth
+                try:
+                    await async_openai_client.close()
+                except:
+                    pass
+                async_openai_client = AsyncOpenAI(
+                    api_key=OPENAI_API_KEY, 
+                    http_client=httpx.AsyncClient(
+                        http2=True, 
+                        timeout=httpx.Timeout(30.0, connect=10.0)
+                    )
                 )
-            )
-            context_text = "Eroare de autentificare cu OpenAI. Sistemul va încerca să se recupereze."
-            logging.info(f"Retrieved 0 relevant context chunks due to authentication error.")
-        else:
-            logging.error(f"HTTP error during embeddings: {e}")
-            context_text = f"Eroare de comunicare cu OpenAI: HTTP {e.response.status_code}"
-            logging.info(f"Retrieved 0 relevant context chunks due to HTTP error.")
-    except RateLimitError:
-        logging.warning("OpenAI rate limit hit during embeddings.")
-        context_text = "Prea multe solicitări către OpenAI. Vom continua fără contextul suplimentar."
-        logging.info(f"Retrieved 0 relevant context chunks due to rate limiting.")
-    except APIError as api_err:
-        logging.error(f"OpenAI API error during embeddings: {api_err}")
-        context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
-        logging.info(f"Retrieved 0 relevant context chunks due to API error.")
+                context_text = "Eroare de autentificare cu OpenAI. Sistemul va încerca să se recupereze."
+                logging.info(f"Retrieved 0 relevant context chunks due to authentication error.")
+            else:
+                logging.error(f"HTTP error during embeddings: {e}")
+                context_text = f"Eroare de comunicare cu OpenAI: HTTP {e.response.status_code}"
+                logging.info(f"Retrieved 0 relevant context chunks due to HTTP error.")
+        except RateLimitError:
+            logging.warning("OpenAI rate limit hit during embeddings.")
+            context_text = "Prea multe solicitări către OpenAI. Vom continua fără contextul suplimentar."
+            logging.info(f"Retrieved 0 relevant context chunks due to rate limiting.")
+        except APIError as api_err:
+            logging.error(f"OpenAI API error during embeddings: {api_err}")
+            context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
+            logging.info(f"Retrieved 0 relevant context chunks due to API error.")
 
     # Only reach here if embeddings were successful
     try:
