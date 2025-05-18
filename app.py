@@ -1960,7 +1960,6 @@ try:
         logging.error(f"OpenAI API error during embeddings: {api_err}")
         context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
         logging.info(f"Retrieved 0 relevant context chunks due to API error.")
-        return context_text
 
     # Only reach here if embeddings were successful
     try:
