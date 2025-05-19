@@ -318,6 +318,7 @@ class FeedbackModel(BaseModel):
     feedback: str
     query_type: Optional[str] = "unknown"
     analysis_data: Optional[Dict] = None
+    image_url: Optional[str] = None
 
 class TextQuery(BaseModel):
     question: str
@@ -339,12 +340,18 @@ async def ping():
 
 # --- Feedback Logging ---
 def log_feedback(session_id: str, question: str, answer: str, feedback: str,
-                 query_type: str, analysis_data: Optional[Dict] = None) -> bool:
+                 query_type: str, analysis_data: Optional[Dict] = None,
+                 image_url: Optional[str] = None) -> bool:
     try:
         feedback_entry = {
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"), "session_id": session_id,
             "question": question, "answer": answer, "feedback": feedback, "query_type": query_type
         }
+
+        # Include image URL in the feedback entry if provided
+        if image_url:
+            feedback_entry["image_url"] = image_url
+
         if analysis_data:
             relevant_fields = [
                 "final_trade_direction", "final_mss_type", "final_trade_outcome",
@@ -512,7 +519,8 @@ async def submit_feedback(feedback_data: FeedbackModel):
         feedback_data.answer,
         feedback_data.feedback,
         feedback_data.query_type,
-        feedback_data.analysis_data
+        feedback_data.analysis_data,
+        feedback_data.image_url
     )
     if success:
         return {"status": "success", "message": "Feedback înregistrat."}

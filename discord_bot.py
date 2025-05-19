@@ -31,12 +31,13 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game("Trading Assistant"))
 
 class FeedbackView(discord.ui.View):
-    def __init__(self, api_url, question, answer, analysis_data=None):
+    def __init__(self, api_url, question, answer, analysis_data=None, image_url=None):
         super().__init__(timeout=600)  # 10 minute timeout
         self.api_url = api_url
         self.question = question
         self.answer = answer
         self.analysis_data = analysis_data
+        self.image_url = image_url  # Store the image URL
         
     @discord.ui.button(label="★★★ Util", style=discord.ButtonStyle.gray, custom_id="positive_feedback", row=0)
     async def positive_button(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -64,11 +65,13 @@ class FeedbackView(discord.ui.View):
                 "answer": self.answer,
                 "feedback": feedback_type,
                 "query_type": "discord_query",
-                "analysis_data": self.analysis_data
+                "analysis_data": self.analysis_data,
+                "image_url": self.image_url  # Include the image URL in the payload
             }
             
             print(f"Sending feedback to: {endpoint}")
             print(f"Feedback includes analysis_data: {self.analysis_data is not None}")
+            print(f"Feedback includes image_url: {self.image_url is not None}")
             
             # Add explicit timeout for feedback requests (30 seconds)
             timeout = aiohttp.ClientTimeout(total=30)
@@ -138,10 +141,12 @@ async def on_message(message):
                 endpoint = API_BASE_URL
                 is_image_query = False
                 analysis_data = None
+                image_url_for_feedback = None  # Add this line to track image URL for feedback
                 
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
+                    image_url_for_feedback = image_url  # Add this line to save the URL for feedback
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
                         "question": question,
@@ -285,7 +290,7 @@ async def on_message(message):
         # Create feedback view with correct endpoint and analysis data
         # Extract the base URL without the path part for feedback
         base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
-        view = FeedbackView(base_url, question, answer, analysis_data)
+        view = FeedbackView(base_url, question, answer, analysis_data, image_url_for_feedback)
         
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer, view=view)
