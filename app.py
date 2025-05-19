@@ -152,6 +152,7 @@ FEW_SHOT_EXAMPLES = [
   "mss_location_description": "MSS is marked by text, breaking the higher low that formed after a sweep of multiple highs (white lines).",
   "mss_pivot_analysis": {
     "description": "The pivot for the MSS (the preceding higher low) appears formed primarily by one bullish (green) candle.",
+    "pivot_type": "higher_low",
     "pivot_bearish_count": 0,
     "pivot_bullish_count": 1
   },
@@ -175,7 +176,12 @@ FEW_SHOT_EXAMPLES = [
   "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
   "is_risk_above_entry_suggestion": false,
   "mss_location_description": "MSS breaks the lower high that formed after a re-sweep of liquidity near the 'Local' marked low.",
-  "mss_pivot_analysis": { "description": "The pivot is the lower high before the 'MSS' break, following the 'Local' low sweep.", "pivot_bearish_count": 2, "pivot_bullish_count": 3 },
+  "mss_pivot_analysis": { 
+    "description": "The pivot is the lower high before the 'MSS' break, following the 'Local' low sweep.",
+    "pivot_type": "higher_low", 
+    "pivot_bearish_count": 2, 
+    "pivot_bullish_count": 3 
+},
   "break_direction_suggestion": "upward",
   "displacement_analysis": { "direction": "bullish", "strength": "strong" },
   "fvg_analysis": { "count": 2, "description": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS." },
@@ -196,7 +202,12 @@ FEW_SHOT_EXAMPLES = [
   "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
   "is_risk_above_entry_suggestion": true,
   "mss_location_description": "Downward structure break (marked by arrow) occurs below prior higher low (orange circle), after 'Liq Locala' high sweep.",
-  "mss_pivot_analysis": { "description": "Pivot is the higher low marked by orange circle.", "pivot_bearish_count": 3, "pivot_bullish_count": 3 },
+  "mss_pivot_analysis": { 
+    "description": "Pivot is the higher low marked by orange circle.",
+    "pivot_type": "higher_low", 
+    "pivot_bearish_count": 3, 
+    "pivot_bullish_count": 3 
+},
   "break_direction_suggestion": "downward",
   "displacement_analysis": { "direction": "bearish", "strength": "strong" },
   "fvg_analysis": { "count": 2, "description": "Yes, two FVGs (marked by faint orange rectangles/lines) after MSS. Aligns with TCG setup." },
