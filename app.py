@@ -2176,6 +2176,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         logging.info(f"Using cached vision analysis for {cache_key}")
     else:
         try:
+<<<<<<< HEAD
             # ── Deterministic image analysis – no LLM needed
             async with httpx.AsyncClient(timeout=30) as client:
                 r = await client.get(
@@ -2186,6 +2187,200 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
                         "timeframe": "1min",
                         "from_time": from_time,
                         "to_time": to_time
+=======
+            # Get specialized prompt based on query type
+            vision_system_prompt_template = get_vision_system_prompt(query_type, question)
+            
+            # Optimize the image before sending to vision model
+            optimized_image_content = await asyncio.to_thread(optimize_image_before_vision, image_content)
+            if optimized_image_content != image_content:
+                logging.info(f"Image optimized: original size {len(image_content)} bytes, new size {len(optimized_image_content)} bytes")
+
+            content_items = [
+                {"type": "text", "text": vision_system_prompt_template},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(optimized_image_content).decode('utf-8')}"}}
+            ]
+            
+            async with openai_call_limiter:
+                vision_response = await async_openai_client.chat.completions.create(
+                    model=VISION_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a trading chart analysis assistant that outputs structured JSON."},
+                        {"role": "user", "content": content_items}
+                    ],
+                    max_tokens=2000, temperature=0.1 # Very low temp for structured JSON
+                )
+            
+            vision_analysis_text = vision_response.choices[0].message.content
+            vision_json_str = extract_json_from_text(vision_analysis_text)
+        
+            if not vision_json_str:
+                vision_json = {"analysis_possible": False, "_vision_note": "Could not extract JSON from vision model response."}
+            else:
+                try:
+                    vision_json = json.loads(vision_json_str)
+                    vision_json["_vision_note"] = "Vision analysis completed."
+                    logging.info("Vision model analysis extracted successfully.")
+                    # Cache the successful result
+                    vision_results_cache[cache_key] = vision_json
+                
+                except json.JSONDecodeError:
+                    logging.error(f"Failed to parse vision model JSON: {vision_json_str[:500]}")
+                    # Try to salvage partial JSON
+                    try:
+                        # Look for patterns that might indicate valid but incomplete JSON
+                        if '{' in vision_json_str and '"analysis_possible"' in vision_json_str:
+                            # Try to clean up and repair common JSON formatting issues
+                            cleaned_str = re.sub(r',\s*}', '}', vision_json_str)  # Remove trailing commas
+                            cleaned_str = re.sub(r',\s*]', ']', cleaned_str)     # Remove trailing commas in arrays
+                             # Find the largest valid JSON subset
+                            start_idx = vision_json_str.find('{')
+                            end_idx = vision_json_str.rfind('}')
+                            if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                                partial_json_str = cleaned_str[start_idx:end_idx+1]
+                                vision_json = json.loads(partial_json_str)
+                                vision_json["_vision_note"] = "Partial vision analysis (recovered from malformed JSON)"
+                                logging.info("Recovered partial JSON from vision model response")
+                            else:
+                                raise ValueError("Could not find valid JSON object boundaries")   
+                        else:
+                            raise ValueError("No valid JSON pattern found")   
+                    except Exception as recovery_error:
+                        logging.error(f"JSON recovery attempt failed: {recovery_error}")        
+                        #Fall back to a basic structure
+                        vision_json = {
+                            "analysis_possible": False,
+                            "confidence_level": "low",
+                            "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
+                        }
+                
+        except RateLimitError:
+            logging.warning("OpenAI rate limit hit during vision analysis.")
+            raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI (Vision). Te rog să încerci mai târziu.")
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 401:
+                logging.error(f"Authentication error with OpenAI API: {e}")
+                # Re-create client to refresh auth
+                try:
+                    await async_openai_client.close()
+                except:
+                    pass
+                async_openai_client = AsyncOpenAI(
+                    api_key=OPENAI_API_KEY, 
+                    http_client=httpx.AsyncClient(
+                        http2=True, 
+                        timeout=httpx.Timeout(30.0, connect=10.0)
+                    )
+                )
+                vision_json = {
+                    "analysis_possible": False, 
+                    "_vision_note": "Authentication error with OpenAI. The system will attempt to recover."
+                }
+            else:
+                logging.error(f"HTTP error during vision analysis: {e}")
+                vision_json = {
+                    "analysis_possible": False, 
+                    "_vision_note": f"Communication error with OpenAI: HTTP {e.response.status_code}"
+                }
+        except APIError as e:
+            logging.error(f"OpenAI API error during vision analysis: {e}")
+            vision_json = {"analysis_possible": False, "_vision_note": f"Vision analysis API error: {str(e)}"}
+        except Exception as e:
+            logging.error(f"Unexpected vision model error: {e}")
+            vision_json = {"analysis_possible": False, "_vision_note": f"Unexpected vision analysis error: {str(e)}"}
+
+        if not vision_json_str:
+            logging.warning("Could not extract JSON from vision model. Creating basic fallback structure.")
+    
+            # Create a fallback JSON structure based on the query type and question
+            question_lower = question.lower()
+    
+            vision_json = {
+                "analysis_possible": True,
+                "candle_colors": "unknown",
+                "confidence_level": "low",
+                "_vision_note": "Used fallback analysis due to JSON extraction failure"
+            }
+    
+            # If question is about liquidity, add basic liquidity info
+            if "liquidity" in question_lower or "lichidit" in question_lower or "liq" in question_lower:
+                vision_json["liquidity_zones_description"] = "Liquidity zones appear to be present in the chart"
+                vision_json["liquidity_status_suggestion"] = "unclear"
+        
+                # Try to infer from OCR text
+                if ocr_text:
+                    if "swept" in ocr_text.lower():
+                        vision_json["liquidity_status_suggestion"] = "swept"
+                        vision_json["_vision_note"] += ", Inferred liquidity status from OCR text"
+    
+            # If question is about FVGs
+            elif "fvg" in question_lower or "fair value gap" in question_lower:
+                vision_json["fvg_analysis"] = {
+                    "count": 0,
+                    "description": "Could not determine FVG details with confidence"
+                }
+    
+            # If question is about MSS
+            elif "mss" in question_lower or "structure" in question_lower:
+                vision_json["mss_location_description"] = "MSS location could not be determined with confidence"
+                vision_json["mss_pivot_analysis"] = {
+                    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+                    "pivot_type": "lower_high"/"higher_low"/"unknown",
+                    "pivot_bearish_count": number,
+                    "pivot_bullish_count": number
+                }
+                vision_json["break_direction_suggestion"] = "unclear"
+    
+            # Add general fallback for trade evaluation queries
+            else:
+                vision_json["mss_location_description"] = "Could not identify MSS with confidence"
+                vision_json["break_direction_suggestion"] = "unclear"
+                vision_json["liquidity_zones_description"] = "Could not analyze liquidity zones with confidence"
+                vision_json["fvg_analysis"] = {
+                    "count": 0,
+                    "description": "Could not identify FVGs with confidence"
+                }
+                vision_json["trade_outcome_suggestion"] = "unknown"
+        else:
+            try:
+                vision_json = json.loads(vision_json_str)
+                vision_json["_vision_note"] = "Vision analysis completed."
+                logging.info("Vision model analysis extracted successfully.")
+        
+                # Cache the successful result
+                vision_results_cache[cache_key] = vision_json     
+            except json.JSONDecodeError:
+                logging.error(f"Failed to parse vision model JSON: {vision_json_str[:500]}")
+                # Try to salvage partial JSON
+                try:
+                    # Look for patterns that might indicate valid but incomplete JSON
+                    if '{' in vision_json_str and '"analysis_possible"' in vision_json_str:
+                        # Try to clean up and repair common JSON formatting issues
+                        cleaned_str = re.sub(r',\s*}', '}', vision_json_str)  # Remove trailing commas
+                        cleaned_str = re.sub(r',\s*]', ']', cleaned_str)     # Remove trailing commas in arrays
+                
+                        # Find the largest valid JSON subset
+                        start_idx = vision_json_str.find('{')
+                        end_idx = vision_json_str.rfind('}')
+                
+                        if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                            partial_json_str = cleaned_str[start_idx:end_idx+1]
+                            vision_json = json.loads(partial_json_str)
+                            vision_json["_vision_note"] = "Partial vision analysis (recovered from malformed JSON)"
+                            logging.info("Recovered partial JSON from vision model response")
+                        else:
+                            raise ValueError("Could not find valid JSON object boundaries")
+                    else:
+                        raise ValueError("No valid JSON pattern found")
+                except Exception as recovery_error:
+                    logging.error(f"JSON recovery attempt failed: {recovery_error}")
+            
+                    # Fall back to a basic structure
+                    vision_json = {
+                        "analysis_possible": False,
+                        "confidence_level": "low",
+                        "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
+>>>>>>> b5014fc65cce36b4dea1e37571ef45224caec4ed
                     }
                 )
                 r.raise_for_status()          # will throw if HTTP-error

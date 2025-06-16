@@ -9,7 +9,11 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+<<<<<<< HEAD
 API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")  # Use local URL by default
+=======
+API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app")
+>>>>>>> b5014fc65cce36b4dea1e37571ef45224caec4ed
 
 # Set up intents
 intents = discord.Intents.default()
@@ -17,19 +21,27 @@ intents.messages = True
 intents.message_content = True
 intents.reactions = True  # Add this for button interactions
 
-client = discord.Client(intents=intents)
+client = discord.Client(
+    intents=intents,
+    status=discord.Status.online 
+)
 
 @client.event
 async def on_ready():
     print(f"✅ Logged in as {client.user.name} (ID: {client.user.id})")
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Trading Assistant"))
+     # Wait a bit and set it again to ensure it takes effect
+    await asyncio.sleep(5)
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Trading Assistant"))
 
 class FeedbackView(discord.ui.View):
-    def __init__(self, api_url, question, answer, analysis_data=None):
+    def __init__(self, api_url, question, answer, analysis_data=None, image_url=None):
         super().__init__(timeout=600)  # 10 minute timeout
         self.api_url = api_url
         self.question = question
         self.answer = answer
         self.analysis_data = analysis_data
+        self.image_url = image_url  # Store the image URL
         
     @discord.ui.button(label="★★★ Util", style=discord.ButtonStyle.gray, custom_id="positive_feedback", row=0)
     async def positive_button(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -57,26 +69,60 @@ class FeedbackView(discord.ui.View):
                 "answer": self.answer,
                 "feedback": feedback_type,
                 "query_type": "discord_query",
-                "analysis_data": self.analysis_data
+                "analysis_data": self.analysis_data,
+                "image_url": self.image_url  # Include the image URL in the payload
             }
             
             print(f"Sending feedback to: {endpoint}")
             print(f"Feedback includes analysis_data: {self.analysis_data is not None}")
+            print(f"Feedback includes image_url: {self.image_url is not None}")
             
-            async with aiohttp.ClientSession() as session:
-                async with session.post(endpoint, json=payload) as resp:
-                    print(f"Feedback response status: {resp.status}")
-                    if resp.status == 200:
-                        # Just update the view with disabled buttons, don't change the text
-                        await interaction.response.edit_message(content=self.answer, view=self)
-                    else:
-                        # In case of error, you can either be silent or show a small error indicator
-                        await interaction.response.edit_message(content=self.answer, view=self)
+            # Add explicit timeout for feedback requests (30 seconds)
+            timeout = aiohttp.ClientTimeout(total=30)
+            async with aiohttp.ClientSession(timeout=timeout) as session:
+                try:
+                    async with session.post(endpoint, json=payload) as resp:
+                        print(f"Feedback response status: {resp.status}")
+                        if resp.status == 200:
+                            # Just update the view with disabled buttons, don't change the text
+                            await interaction.response.edit_message(content=self.answer, view=self)
+                        else:
+                            # In case of error, you can either be silent or show a small error indicator
+                            await interaction.response.edit_message(content=self.answer, view=self)
+                except asyncio.TimeoutError:
+                    print("Timeout while sending feedback")
+                    await interaction.response.edit_message(content=self.answer, view=self)
+                except aiohttp.ClientConnectorError as e:
+                    print(f"Connection error while sending feedback: {e}")
+                    await interaction.response.edit_message(content=self.answer, view=self)
             
         except Exception as e:
             print(f"Error sending feedback: {e}")
             # Keep original answer unchanged
             await interaction.response.edit_message(content=self.answer, view=self)
+
+async def cache_training_examples():
+    """Cache the example images to prevent GitHub rate limiting issues"""
+    example_urls = [
+        "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/DE30EUR_2025-05-05_12-29-24_69c08.png",
+        "https://raw.githubusercontent.com/Ovidiu1731/Trade-images/main/Screenshot%202025-05-05%20at%2007.18.15%20copy.png",
+        "https://github.com/Ovidiu1731/Trade-images/raw/main/Screenshot%202025-05-05%20at%2011.04.35.png"
+    ]
+    
+    try:
+        timeout = aiohttp.ClientTimeout(total=30)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            for url in example_urls:
+                try:
+                    async with session.get(url) as resp:
+                        if resp.status == 200:
+                            print(f"Successfully connected to example URL: {url}")
+                        else:
+                            print(f"Failed to access example URL: {url} - Status: {resp.status}")
+                except Exception as e:
+                    print(f"Error accessing example URL: {url} - Error: {e}")
+    except Exception as e:
+        print(f"Error in cache_training_examples: {e}")
 
 @client.event
 async def on_message(message):
@@ -99,10 +145,12 @@ async def on_message(message):
                 endpoint = API_BASE_URL
                 is_image_query = False
                 analysis_data = None
+                image_url_for_feedback = None  # Add this line to track image URL for feedback
                 
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
+                    image_url_for_feedback = image_url  # Add this line to save the URL for feedback
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
                         "question": question,
@@ -119,30 +167,126 @@ async def on_message(message):
                     print(f"💬 Routing to {endpoint} with payload: {payload}")
                 
                 print(f"Full request URL: {endpoint}")
-                async with aiohttp.ClientSession() as session:
+                
+                # Create longer timeout - complex AI processing can take time
+                # Increase timeout for image queries (90 seconds)
+                timeout = aiohttp.ClientTimeout(total=90 if is_image_query else 30)
+                
+                async with aiohttp.ClientSession(timeout=timeout) as session:
+                    # First check API health to detect problems early
+                    try:
+                        health_timeout = aiohttp.ClientTimeout(total=5)  # Short timeout for health check
+                        async with session.get(f"{API_BASE_URL.rstrip('/')}/health", timeout=health_timeout) as health_resp:
+                            if health_resp.status == 200:
+                                health_data = await health_resp.json()
+                                print(f"Health check: {health_data.get('status', 'unknown')}")
+                                
+                                # If health check shows OpenAI API problems, report it
+                                if health_data.get("status") != "ok":
+                                    if "components" in health_data and "openai_api" in health_data["components"]:
+                                        if health_data["components"]["openai_api"]["status"] == "error":
+                                            await message.channel.send("⚠️ API-ul OpenAI este momentan indisponibil. Administratorii au fost notificați, dar răspunsul poate fi limitat.")
+                                            # Continue anyway, as some features might still work
+                            else:
+                                print(f"Health check failed with status: {health_resp.status}")
+                    except Exception as health_error:
+                        print(f"Health check error: {str(health_error)}")
+                        # Continue with main request even if health check fails
+                    
                     print(f"Making POST request to: {endpoint}")
                     try:
-                        async with session.post(endpoint, json=payload) as resp:
-                            print(f"Response status: {resp.status}")
-                            print(f"Response headers: {resp.headers}")
-                            if resp.status == 200:
-                                data = await resp.json()
-                                print(f"Response data: {data.keys()}")
-                                answer = data.get("answer", "Nu am găsit un răspuns.")
+                        start_time = asyncio.get_event_loop().time()
+                        retry_count = 0
+                        max_retries = 2
+                        
+                        # Implement basic retry logic for transient errors
+                        while retry_count <= max_retries:
+                            try:
+                                async with session.post(endpoint, json=payload) as resp:
+                                    elapsed = asyncio.get_event_loop().time() - start_time
+                                    print(f"Request took {elapsed:.2f} seconds")
+                                    print(f"Response status: {resp.status}")
+                                    
+                                    if resp.status == 200:
+                                        data = await resp.json()
+                                        print(f"Response data keys: {data.keys()}")
+                                        answer = data.get("answer", "Nu am găsit un răspuns.")
+                                        
+                                        # Capture analysis data for feedback if present
+                                        if "analysis_data" in data and is_image_query:
+                                            analysis_data = data["analysis_data"]
+                                            print("Image analysis data captured for feedback")
+                                        
+                                        print(f"Answer (first 100 chars): {answer[:100]}...")
+                                        break  # Success, exit retry loop
+                                    
+                                    elif resp.status == 429:  # Rate limit
+                                        response_text = await resp.text()
+                                        print(f"Rate limit error: {response_text[:200]}...")
+                                        if retry_count < max_retries:
+                                            retry_delay = (2 ** retry_count) * 2  # Exponential backoff
+                                            print(f"Rate limited, retrying in {retry_delay} seconds...")
+                                            await asyncio.sleep(retry_delay)
+                                            retry_count += 1
+                                        else:
+                                            answer = "⚠️ Serviciul este momentan supraîncărcat. Te rog să încerci mai târziu."
+                                            break
+                                    
+                                    elif resp.status in [502, 503, 504]:  # Server errors that might be temporary
+                                        response_text = await resp.text()
+                                        print(f"Server error ({resp.status}): {response_text[:200]}...")
+                                        if retry_count < max_retries:
+                                            retry_delay = (2 ** retry_count) * 2  # Exponential backoff
+                                            print(f"Server error, retrying in {retry_delay} seconds...")
+                                            await asyncio.sleep(retry_delay)
+                                            retry_count += 1
+                                        else:
+                                            answer = f"⚠️ Serverul întâmpină dificultăți tehnice (cod {resp.status}). Te rog să încerci mai târziu."
+                                            break
+                                    
+                                    else:  # Other errors, don't retry
+                                        response_text = await resp.text()
+                                        print(f"Error response ({resp.status}): {response_text[:200]}...")
+                                        
+                                        # More descriptive error messages based on status code
+                                        if resp.status == 400:
+                                            answer = "❌ Cererea nu a putut fi procesată corect. Verifică imaginea sau întrebarea."
+                                        elif resp.status == 401:
+                                            answer = "❌ Probleme de autentificare cu serverul API."
+                                        elif resp.status == 403:
+                                            answer = "❌ Nu am permisiunea să accesez această resursă."
+                                        elif resp.status >= 500:
+                                            answer = f"❌ Eroare internă de server (cod {resp.status}). Echipa tehnică a fost notificată."
+                                        else:
+                                            answer = f"❌ Eroare la server. Cod: {resp.status}"
+                                        break
                                 
-                                # Capture analysis data for feedback if present
-                                if "analysis_data" in data and is_image_query:
-                                    analysis_data = data["analysis_data"]
-                                    print("Image analysis data captured for feedback")
-                                
-                                print(f"Answer (first 100 chars): {answer[:100]}...")
-                            else:
-                                response_text = await resp.text()
-                                print(f"Error response text: {response_text[:200]}...")
-                                answer = f"A apărut o eroare la server. Cod: {resp.status}"
+                            except asyncio.TimeoutError:
+                                print(f"Timeout during attempt {retry_count + 1}")
+                                if retry_count < max_retries:
+                                    retry_count += 1
+                                    print(f"Retrying after timeout ({retry_count}/{max_retries})...")
+                                else:
+                                    answer = "⏱️ Serverul procesează o cerere complexă și nu a răspuns la timp. Încearcă o întrebare mai simplă sau mai târziu."
+                                    break
+                                    
+                            except aiohttp.ClientConnectorError as conn_err:
+                                print(f"Connection error: {conn_err}")
+                                answer = f"❌ Nu m-am putut conecta la server: {conn_err}"
+                                break
+                    
+                    except asyncio.TimeoutError:
+                        print(f"Final timeout after {timeout.total} seconds")
+                        answer = "⏱️ Serverul procesează o cerere complexă și are nevoie de mai mult timp. Încearcă din nou mai târziu."
+                        
+                    except aiohttp.ClientConnectorError as e:
+                        print(f"Connection error: {e}")
+                        answer = f"❌ Nu m-am putut conecta la server: {e}"
+                        
                     except Exception as e:
                         print(f"Exception during request: {type(e).__name__}: {str(e)}")
-                        answer = f"❌ Eroare la conectarea cu serverul: {e}"
+                        answer = f"❌ Eroare la procesarea cererii: {e}"
+                        
             except Exception as e:
                 print(f"❌ Exception occurred: {str(e)}")
                 answer = f"❌ Eroare la conectarea cu serverul: {e}"
@@ -150,7 +294,7 @@ async def on_message(message):
         # Create feedback view with correct endpoint and analysis data
         # Extract the base URL without the path part for feedback
         base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
-        view = FeedbackView(base_url, question, answer, analysis_data)
+        view = FeedbackView(base_url, question, answer, analysis_data, image_url_for_feedback)
         
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer, view=view)
