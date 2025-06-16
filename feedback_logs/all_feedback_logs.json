@@ -1,22 +1,1176 @@
 {
-  "last_updated": "2025-05-13 10:39:12",
-  "total_entries": 2,
+  "last_updated": "2025-05-23 06:08:07",
+  "total_entries": 67,
   "logs": [
     {
-      "timestamp": "2025-05-13 15:11:37",
+      "timestamp": "2025-05-19 18:14:53",
       "session_id": "discord-303240674822586368",
-      "question": "cum se noteaza liq locala?",
-      "answer": "Lichiditatea locală se recunoaște pe timeframe-uri mai mici și este relevantă pe termen scurt.",
+      "question": "ce parere ai de acest trade?",
+      "answer": "Tranzacția analizată arată un setup de tip \"One Gap Setup\" (OG) cu un Market Structure Shift (MSS) normal. Liquidity-ul a fost lichidat înainte de formarea MSS, ceea ce sugerează un potențial de schimbare a direcției. În ciuda unei deplasări puternice bearish, direcția finală a tranzacției a fost long, dar a rezultat într-un punct de break-even. Prezența unui singur gap FVG validează setup-ul, dar lipsa de aliniere între direcția deplasării și direcția tranzacției poate explica rezultatul de break-even.",
+      "feedback": "neutral",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374087446631022632/image.png?ex=682cc628&is=682b74a8&hm=a093f760f7eb6117f9b7d0dcaf2487c9ec53e40905d1b8283506ab46b5044a5d&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a lower high formed by a mix of bullish and bearish candles.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a grey box."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Warning: Displacement direction doesn't match trade direction, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-19 18:47:15",
+      "session_id": "discord-314451284843560970",
+      "question": "ce este lichiditatea majora?",
+      "answer": "Lichiditatea majoră este cel mai valoros tip de lichiditate din punct de vedere al probabilității de profit. Este clară, vizibilă și oferă reacții semnificative atunci când este atinsă. Aceste zone sunt tratate precum High of the Day sau Low of the Day și se tranzacționează contra trendului, având un winrate mai mare decât zonele obișnuite. Majoritatea execuțiilor se bazează pe aceste zone de lichiditate pentru a obține confluente favorabile.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-19 18:48:24",
+      "session_id": "discord-788061284800528445",
+      "question": "cum se face corect backtesting ?",
+      "answer": "Backtesting-ul este esențial pentru a înțelege cum funcționează diferitele tipuri de execuții în timp. Prin analiza rezultatelor săptămânale, poți identifica ce strategii au avut succes și să le folosești în continuare. Este important să te adaptezi la schimbările pieței și să nu te limitezi la un singur model de execuție, ci să jonglezi între concepte și să te bazezi pe statistici pentru a lua decizii informate.",
       "feedback": "neutral",
       "query_type": "discord_query"
     },
     {
-      "timestamp": "2025-05-13 15:12:35",
-      "session_id": "discord-303240674822586368",
-      "question": "cum identific un trend puternic?",
-      "answer": "În context, se menționează că un trend puternic poate fi identificat atunci când prețul continuă să crească constant, indicând o creștere continuă. Este important să observi că nu există putere de continuare a trendului, semn că acesta ar putea fi pe final. Trendurile sunt esențiale în piață și se bazează pe mișcări de waveri.",
+      "timestamp": "2025-05-19 18:53:17",
+      "session_id": "discord-1159105713918980166",
+      "question": "ce parere ai despre acest trade?  a doua poza este pentru a vedea lichiditatea si prima este poza pentru executie un pic atipica.",
+      "answer": "Analizând trade-ul din prima poză, observ că este un setup de tip TG (Two Gap Setup), ceea ce înseamnă că avem două gap-uri FVG după un Market Structure Shift (MSS) normal. Direcția tranzacției este short, indicată de un MSS bearish după ce lichiditatea a fost luată deasupra unor maxime anterioare. Displacement-ul este puternic și bearish, susținând direcția short. Lichiditatea a fost deja \"swept\", ceea ce sugerează o potențială inversare. Setup-ul are o calitate ridicată și un scor de validitate maxim. Dacă ai detalii suplimentare sau întrebări specifice, îți pot oferi mai multe informații.",
+      "feedback": "neutral",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374097177231626240/Screenshot_2025-05-19_215000.png?ex=682ccf38&is=682b7db8&hm=777fe9789572ce89860735c63115cdb291089da8407962962080011667e7a65f&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot is a higher low formed by a mix of bullish and bearish candles.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 2,
+          "description": "Two FVGs are visible after the MSS, marked by grey rectangles."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as TG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-19 18:55:33",
+      "session_id": "discord-1159105713918980166",
+      "question": "Crezi ca e o varianta buna sa se faca executia din primul gap deoarece displkacementul este destul de consistent si in al doilea gap ar fi un stop loss imens, gandindu-ne ca este si o ora destul de tarzie",
+      "answer": "Nu există informații specifice în contextul furnizat care să indice clar dacă este o variantă bună să se facă execuția din primul gap sau nu. Este important să ții cont de structura pieței, de lichiditate și de stop loss-ul la ultimul high/low relevant. Decizia de execuție trebuie să fie bine fundamentată și să se bazeze pe analiza corectă a condițiilor de piață.",
       "feedback": "neutral",
       "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-19 21:39:43",
+      "session_id": "discord-691028870002114633",
+      "question": "cum se tranzactioneaza intr-o zi cu FOMC meeting? dar in cea cu CPI?",
+      "answer": "Într-o zi cu FOMC meeting, este recomandat să eviți complet tranzacționarea. În schimb, în ziua cu CPI (Consumer Price Index), poți tranzacționa după ce se publică MINI-ți, care este un rezumat al discuțiilor și nu aduce informații noi. Este important să fii precaut și să eviți FOMC meeting-ul, iar la MINI-ți poți considera tranzacționarea, dar cu atenție.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 01:48:37",
+      "session_id": "discord-1214090480086945844",
+      "question": "avem aici un SLG?",
+      "answer": "Da, avem aici un Second Leg Setup (SLG) conform informațiilor din context. Acest setup este esențial de stăpânit și este cel mai frecvent întâlnit în practică. SLG apare atunci când prețul dezvoltă o a doua structură (al doilea picior) înainte de a forma un gap valid. Este important să identifici momentul execuției corect și să plasezi stop loss-ul în mod adecvat pentru a gestiona riscul în mod eficient.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 06:07:05",
+      "session_id": "discord-728266668152848416",
+      "question": "e ok setup-ul?",
+      "answer": "Setup-ul prezentat este un **One Gap Setup (OG)** și pare a fi de calitate înaltă conform analizei tehnice. MSS-ul este de tip normal, având loc după o serie de lower highs și lower lows, indicând o ruptură bullish. Direcția tranzacției este **long**, cu lichiditatea fiind deja lichidată înainte de MSS, ceea ce este un semn pozitiv. Există un FVG valid, marcat după MSS, ceea ce întărește potențialul setup-ului. Cu toate acestea, rezultatul final al tranzacției nu este clar vizibil, dar setup-ul are o validitate ridicată și o aliniere bună conform raportului.",
+      "feedback": "negative",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374266883087532173/image.png?ex=682d6d45&is=682c1bc5&hm=645560fb812c326557edf8a12632327b3c3fdee39d4caea6d5aa3ecc61d1c5fe&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is the lower high before the MSS break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a grey box."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "medium",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 06:29:43",
+      "session_id": "discord-303240674822586368",
+      "question": "ce parere ai de acest setup?",
+      "answer": "Acest setup este un Three Gap Setup (3G), ceea ce înseamnă că sunt vizibile trei gap-uri instituționale după un Market Structure Shift (MSS) normal. Direcția tranzacției este \"long\", adică de cumpărare, confirmată de un displacement bullish puternic și de alinierea cu direcția MSS. Lichiditatea a fost \"swept\", ceea ce indică faptul că zonele de lichiditate au fost luate înainte de MSS. Setup-ul este considerat de calitate înaltă, cu un scor de validitate de 100, ceea ce sugerează că este un setup potențial viabil pentru execuție.",
+      "feedback": "neutral",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374272647721914468/Screenshot_2025-05-20_at_01.27.58.png?ex=682d72a3&is=682c2123&hm=32824f544ddb0a8b4244885b82f5f053e2622c36213979b1685db746a15d962f&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is the lower high before the MSS break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 3,
+          "description": "Three FVGs are visible after the MSS, marked by orange rectangles."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as 3G",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 06:32:14",
+      "session_id": "discord-303240674822586368",
+      "question": "ce parere ai de acest setup?",
+      "answer": "Setup-ul prezentat este un \"Three Gap Setup\" (3G), ceea ce înseamnă că există trei gap-uri instituționale vizibile după un Market Structure Shift (MSS). MSS-ul identificat este de tip normal, indicând o rupere de structură după ce lichiditatea majoră a fost luată, iar direcția tranzacției este short. Deși există un displacement puternic și alinierea direcțională este confirmată, rezultatul tranzacției a fost o pierdere. Este important să observi și să înveți din acest setup pentru a înțelege mai bine cum să gestionezi astfel de situații în viitor.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374273244932210770/Screenshot_2025-05-20_at_01.27.58.png?ex=682d7332&is=682c21b2&hm=10c3e98d81b00e958a1ad770854b38a6bc92200365082625895e2c3e0004c798&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "loss",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a higher low marked by a blue circle.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 3,
+          "description": "Three FVGs are visible after the MSS, marked by orange rectangles."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Note: Conflicting direction evidence, using weighted decision, Direction confirmed by MSS and displacement alignment, Added CV-detected labels, Added risk box data from CV, Setup classified as 3G",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 06:40:42",
+      "session_id": "discord-303240674822586368",
+      "question": "Spune-mi parerea ta despre acest setup. Analizeaza lichiditatea notata care a fost luata, spune-mi daca MSS-ul este unul valid si ce varianta de risc ar fi meritat: mic, mediu sau mare",
+      "answer": "Setup-ul prezentat este un \"3G\" (Three Gap Setup), care este considerat de calitate înaltă conform raportului, cu un scor de validitate de 80. Lichiditatea a fost luată, ceea ce este un semn bun pentru potențialul setup-ului. MSS-ul este clasificat ca fiind agresiv, dar direcția tranzacției rămâne neclară din cauza dovezilor contradictorii și a lipsei de claritate în structura pivotului. Având în vedere incertitudinea direcției și natura agresivă a MSS-ului, o variantă de risc mic ar fi fost mai potrivită pentru a gestiona riscurile. Rezultatul final al tranzacției a fost break-even, indicând că a fost o execuție prudentă cu un potențial limitat de profit.",
+      "feedback": "neutral",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374275457457065995/Screenshot_2025-05-20_at_01.36.05.png?ex=682d7541&is=682c23c1&hm=a19c88cf0cf1854f8f323ead3f99b163dd20f96ad1863a3c288108e30722427e&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "unknown",
+        "final_mss_type": "agresiv",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": null,
+        "mss_pivot_analysis": {
+          "description": "The pivot structure is unclear due to lack of explicit marking.",
+          "pivot_type": "unknown",
+          "pivot_bearish_count": 0,
+          "pivot_bullish_count": 0
+        },
+        "fvg_analysis": {
+          "count": 3,
+          "description": "Three FVGs are visible, marked by shaded areas in blue and green."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "unclear",
+        "confidence_level": "medium",
+        "setup_validity_score": 80,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as agresiv, Direction determined from integrated analysis (pivot type unclear), Note: Conflicting direction evidence, using weighted decision, Warning: MSS and displacement directions don't align, Used CV candle colors, Added risk box data from CV, Setup classified as 3G",
+        "pivot_bearish_count_vision": 0,
+        "pivot_bullish_count_vision": 0
+      }
+    },
+    {
+      "timestamp": "2025-05-20 06:43:16",
+      "session_id": "discord-303240674822586368",
+      "question": "Analizeaza acest setup conform regulilor programului \"Trading Institutional\". Spune-mi daca MSS-ul este unul valid, daca displacement-ul este de calitate si ce varianta de risc ar fi meritat: mic, mediu sau mare",
+      "answer": "În analiza acestui setup, MSS-ul este clasificat ca \"agresiv\", indicând o rupere de structură cu un pivot format dintr-un mix de lumânări bullish și bearish. Direcția tranzacției este \"long\", însă displacement-ul este puternic și bearish, ceea ce nu se aliniază cu direcția tranzacției sugerate de pivot. Lichiditatea a fost măturată, fiind marcată ca \"Liq Locala\", iar setup-ul este de tip \"TG\" (Two Gap Setup), cu două FVG-uri vizibile. Având în vedere aceste aspecte, varianta de risc ar fi medie, dar trebuie să reții că rezultatul tranzacției a fost break-even. Este esențial să iei în considerare toate aceste elemente înainte de a lua o decizie de tranzacționare.",
+      "feedback": "negative",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374276009427472504/Screenshot_2025-05-20_at_01.35.38.png?ex=682d75c5&is=682c2445&hm=07a5ea989f6e68462a2ebc7b71d49ee7a2b8a06d448cb5ba8458492657c18028&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "agresiv",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a lower high formed by a mix of bullish and bearish candles.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 1
+        },
+        "fvg_analysis": {
+          "count": 2,
+          "description": "Two FVGs are visible after the MSS, marked by orange rectangles."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as agresiv, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Warning: Displacement direction doesn't match trade direction, Setup classified as TG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 1
+      }
+    },
+    {
+      "timestamp": "2025-05-20 07:11:22",
+      "session_id": "discord-691047509564325900",
+      "question": "ce inseamna mss agresiv?",
+      "answer": "MSS Agresiv (Market Structure Shift Agresiv) este o rupere de structură unde ultimul higher low sau lower high are o singură candela bearish/bullish în componența sa. Este o tehnică avansată și riscantă, care nu este recomandată în primul an de trading conform materialelor cursului \"Trading Instituțional\".",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 07:12:53",
+      "session_id": "discord-1304458745962565682",
+      "question": "este corect sa intru intr-o tranzactie la ora 16:00?",
+      "answer": "Nu este recomandat să intri într-o tranzacție la ora 16:00 conform informațiilor din CONTEXT. Intervalul recomandat pentru execuții începe la 16:45 și se încheie la ora 19:00. Este important să eviți intervalul 16:15 – 16:45, deoarece este considerat critic din cauza mișcărilor false datorate algoritmilor.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 08:00:46",
+      "session_id": "discord-210828844142297090",
+      "question": "analiza trade mai jos si raspuns daca este valid conform strategiei?",
+      "answer": "Analizând raportul tehnic, tranzacția este validă conform strategiei \"Trading Instituțional\". Setup-ul este un \"TG\" (Two Gap Setup), cu două FVG-uri vizibile după un MSS normal. Direcția de tranzacționare este short, confirmată de displacement-ul bearish și de lichiditatea măturată anterior. Setup-ul are un scor de validitate ridicat și un rezultat câștigător, indicând o execuție corectă conform regulilor stabilite.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374295510818750495/vywiKlCQ.png?ex=682d87ee&is=682c366e&hm=bd7dedd0441901a2d39ba603d3dbc69038b522cc2c7e1dfc1a642ef847eb6d5b&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "win",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a higher low formed by a mix of bullish and bearish candles.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 2,
+          "description": "Two FVGs are visible after the MSS: one larger gap marked by a grey box and a smaller subsequent gap."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added CV-detected labels, Added risk box data from CV, Setup classified as TG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 08:11:58",
+      "session_id": "discord-392659856877682690",
+      "question": "Cerere de Analiză a Trade-ului:\n\nTimeframe: 1 minut\nInstrument: DAX\n\nCe cred că observ:\nTipul MSS: Normal\nDirecția tranzacției: Short\nNumăr de FVG: 2\nTipul de setup: TG\n\nÎntrebări specifice: \n \n- Este un trade valid conform strategie?\n- Minusuri pe care le vezi in aceasta tranzactie?\n- Plusuri pe care le vezi in aceasta tranzactie?",
+      "answer": "Trade-ul tău pe DAX este considerat valid conform strategiei \"Trading Instituțional\". Ai identificat corect tipul de MSS ca fiind normal, iar direcția tranzacției este short, susținută de un displacement bearish puternic. Setup-ul este de tip TG (Two Gap Setup), iar lichiditatea a fost luată înainte de apariția MSS-ului, ceea ce este un semnal pozitiv.\n\nCa plusuri, setup-ul are o calitate înaltă și o probabilitate favorabilă de succes, confirmată de raportul de analiză tehnică. Minusurile posibile ar putea include riscul de a intra într-un trade care să nu fie susținut pe termen lung, dar având în vedere că trade-ul a fost câștigător, acestea sunt limitate. Asigură-te că urmezi mereu regulile de execuție și riscul predefinit pentru a menține consistența succesului.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374298392972361809/vywiKlCQ.png?ex=682d8a9e&is=682c391e&hm=654e43355015b4b0f34f9f75118e50a62052ee49447510db68a3f46851d722ad&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "win",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a higher low formed by multiple candles.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 3
+        },
+        "fvg_analysis": {
+          "count": 2,
+          "description": "Two FVGs are visible after the MSS: one large gap marked by a grey box and a smaller gap below it."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added CV-detected labels, Added risk box data from CV, Setup classified as TG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 3
+      }
+    },
+    {
+      "timestamp": "2025-05-20 09:19:03",
+      "session_id": "discord-1351887980150788198",
+      "question": "Timeframe: 1 minut\nInstrument: DAX\n\nCe cred că observ:\nTipul MSS: xxx Normal\nDirecția tranzacției: Long\nNumăr de FVG: 2\nTipul de setup: 3GS\n\nÎntrebări specifice: \n \n\nCe minusuri vezi la aceasta tranzactie?\nTi se pare o executie calitativa in contextul in care DAX este la ATH?\nAnalizeaza acest trade alaturi de lichiditatea LOD pe care a fost bazat?",
+      "answer": "Observând raportul și detaliile oferite, iată câteva observații legate de tranzacția ta pe DAX:\n\n1. **Minusuri ale tranzacției:** Chiar dacă tranzacția a fost bazată pe lichiditatea LOD, ai menționat un setup de tip \"3GS\", dar raportul indică un \"OG\". Așadar, e posibil să fi interpretat greșit numărul de FVG-uri. În plus, fiind la un all-time high (ATH), riscul de mișcări false este mai mare, ceea ce poate afecta calitatea execuției.\n\n2. **Calitatea execuției:** În contextul în care DAX este la ATH, există un risc crescut de mișcări false. Totuși, setup-ul tău este considerat de calitate în raport, având un scor de validitate maxim și o aliniere clară cu displacement-ul bullish.\n\n3. **Analiza lichidității LOD:** Lichiditatea sub LOD a fost luată înainte de MSS, ceea ce este un semnal pozitiv pentru un potențial reversal și sprijină direcția long. Totuși, asigură-te că setup-ul tău este corect clasificat pentru a evita erori de execuție.\n\nÎn concluzie, tranzacția are potențial și este bine aliniată cu displacement-ul și MSS-ul, dar fii atent la numărul și tipul de gap-uri pentru a evita confuzii. Fiind la ATH, rămâi precaut și asigură-te că toate condițiile sunt îndeplinite.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374315222059192340/DE30EUR_2025-05-20_12-17-45.png?ex=682d9a4a&is=682c48ca&hm=c4222c6eb841aaa57b1547352ec897fdf41f64631d1ade7c5782c07d12449b1b&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is the lower high before the break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a purple box during the bullish displacement."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 10:00:27",
+      "session_id": "discord-1345331398416007240",
+      "question": "Salut  ! Spune-mi parerea ta despre aceasta tranzactie?",
+      "answer": "Analizând raportul tehnic, tranzacția pare să aibă un nivel de breakout la 8734.0, cu punctul de intrare la 8721.8 și stop loss la 8711.0. Direcția trendului este ascendentă, dar există un nivel de încredere scăzut în determinarea direcției finale a tranzacției, iar MSS nu a fost identificat. De asemenea, nu s-au detectat gap-uri de valoare corectă (FVG), iar calitatea setup-ului este considerată discutabilă. Ar fi bine să revizuiești detaliile și să discuți cu un mentor pentru mai multă claritate.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374325749494059068/11..png?ex=682da418&is=682c5298&hm=e33df9a794e622e9154d77c5ad34d21777d5926ab5567b92a49e345800bab105&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "unknown",
+        "final_mss_type": "not_identified",
+        "final_trade_outcome": "unknown",
+        "liquidity_status_suggestion": "unclear",
+        "confidence_level": "high",
+        "setup_validity_score": 50,
+        "setup_quality_summary": "questionable",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as not_identified, Direction determined from integrated analysis (pivot type unclear), Note: Conflicting direction evidence, using weighted decision, Warning: MSS and displacement directions don't align, Used CV candle colors, Added risk box data from CV, Could not determine trade outcome from suggestions or labels, Warning: No valid FVGs detected or count is not a number, Setup classified as unknown"
+      }
+    },
+    {
+      "timestamp": "2025-05-20 11:10:23",
+      "session_id": "discord-1247858855321407575",
+      "question": "Cerere de Analiză a Trade-ului:\n\nTimeframe: [1 minut]\nInstrument: [uk100gbp]\n\nCe cred că observ:\nTipul MSS: normal \nDirecția tranzacției: long\nNumăr de FVG: 2 valide, cel marcat cu rosu are dimensiune prea mica.\nTipul de setup: TG\n\nÎntrebare: 1. Ce parere ai despre acest trade pe liq minora, tinand cont ca trendul este unul proeminent ascendent, lichiditatea minora este ok dar inainte a lichidat o locala de sell ?",
+      "answer": "Analizând informațiile din raportul tehnic și materialele cursului, trade-ul tău pare bine aliniat cu strategia programului. Ai identificat corect tipul de MSS ca fiind normal, iar direcția tranzacției este long, ceea ce este susținut de trendul ascendent proeminent. Lichiditatea minoră a fost lichidată înainte de MSS, ceea ce oferă o bază solidă pentru o execuție în direcția trendului.\n\nPrezența unui FVG valid după MSS ajută la confirmarea oportunității de tranzacționare, deși dimensiunea unui FVG marcat poate fi mai mică. Setup-ul TG indicat de tine este corect, cu toate că raportul sugerează un setup OG. Trade-ul a ajuns la breakeven, ceea ce sugerează că execuția a fost bine fundamentată, dar condițiile pieței au dus la un rezultat neutru. Continuă să urmărești lichiditățile și să aplici setup-urile conform strategiei pentru a îmbunătăți rezultatele viitoare.",
+      "feedback": "neutral",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374343223727624293/image.png?ex=682db45e&is=682c62de&hm=15e6868c5f0e25368e115a288d6d83921f7df30867847d79d4df27a314c190fa&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is a lower high before the MSS break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a grey box."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 11:45:22",
+      "session_id": "discord-525368007439155210",
+      "question": "CE PARERE AI DESPRE ACEST TRADE ?",
+      "answer": "Acest trade este un set-up de tip OG (One Gap Setup) cu un MSS agresiv. Direcția tranzacției este long, indicată de break-ul de structură deasupra unui lower high anterior și susținută de un displacement bullish puternic. Lichiditatea de deasupra maximelor anterioare a fost lichidată, ceea ce susține validitatea setup-ului. Este un setup de calitate înaltă, cu o singură zonă FVG vizibilă. Momentan, este considerat un \"potential setup\", iar decizia de a-l executa depinde de analiza riscului și de strategia personală.",
+      "feedback": "negative",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374351484707143710/US30USD_2025-05-20_12-41-25.png?ex=682dbc10&is=682c6a90&hm=11797fb6fae09d54e7dde78c6fe61f95dcfb7d175fd57da3e2ba3efb1bb8e38a&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "agresiv",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a lower high formed by a series of bearish candles.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 3,
+          "pivot_bullish_count": 1
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a grey box above the break."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as agresiv, Direction determined from pivot type: long, Note: Conflicting direction evidence, using weighted decision, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 3,
+        "pivot_bullish_count_vision": 1
+      }
+    },
+    {
+      "timestamp": "2025-05-20 13:25:54",
+      "session_id": "discord-854721448606564372",
+      "question": "consideri ca aceste doua lichiditati sunt de calitate?",
+      "answer": "Pe baza raportului tehnic, cele două zone de lichiditate marcate ca \"LIQ LOCALA S\" și \"LIQ LOCALA B\" sunt considerate lichidități locale. Acestea nu sunt la fel de puternice ca lichiditățile majore, dar totuși pot avea un randament pozitiv. Totuși, pentru a determina calitatea lor, ar fi important să vedem dacă au fost \"măturate\" sau nu, ceea ce în acest caz nu s-a întâmplat conform raportului. Calitatea unei lichidități este mai evidentă atunci când este combinată cu alte elemente de confluență, precum un shift de structură sau un gap.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374377263620952257/liq_2.JPG?ex=682dd412&is=682c8292&hm=6fade778353882837c6bd0eed01672acf907395696ee0877280d22860754f941&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "unknown",
+        "final_mss_type": "not_identified",
+        "final_trade_outcome": "unknown",
+        "liquidity_status_suggestion": "not_swept",
+        "confidence_level": "high",
+        "setup_validity_score": 50,
+        "setup_quality_summary": "questionable",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as not_identified, Direction determined from integrated analysis (pivot type unclear), Note: Conflicting direction evidence, using weighted decision, Warning: MSS and displacement directions don't align, Added risk box data from CV, Could not determine trade outcome from suggestions or labels, Warning: No valid FVGs detected or count is not a number, Setup classified as unknown"
+      }
+    },
+    {
+      "timestamp": "2025-05-20 13:55:31",
+      "session_id": "discord-303240674822586368",
+      "question": "Cerere de Analiză a Trade-ului:\n\nTimeframe: 1m\nInstrument: GBP/USD\n\nCe cred că observ:\nTipul MSS: Agresiv\nDirecția tranzacției: Long\nNumăr de FVG: 2 gap-uri\nTipul de setup: TCG Setup\n\nÎntrebări specifice: \n analizeaza imaginea acestui trade, si identifica tipul de MSS si Setup-ul format. Spune-mi daca trade-ul este unul de calitate, conform Programului \"Trading Institutional\". Tinand cont ca am luat BE aici, asta inseamna ca este un trade mai putin calitativ?",
+      "answer": "Din analiza trade-ului pe care ai oferit-o, pot să confirm că setup-ul identificat este un **Two Gap Setup (TG)**, nu un TCG Setup, așa cum ai menționat inițial. Tipul de MSS este **normal**, nu agresiv, conform raportului de analiză tehnică. Direcția tranzacției este corect identificată ca fiind **long**, iar lichiditatea a fost **lichidată** înainte de ruperea structurii.\n\nAi menționat că ai obținut un BE, ceea ce nu neapărat indică un trade de calitate inferioară. În program, se subliniază că decizia de a seta un BE ar trebui să se bazeze pe statistici proprii și nu pe impulsuri emoționale. Setup-ul este considerat de **calitate înaltă**, cu un scor de validitate de 100, ceea ce sugerează că toate condițiile de execuție au fost îndeplinite corect. Totuși, fiecare trade poate avea rezultate variabile, iar atingerea unui BE face parte din gestionarea riscului și a strategiei pe termen lung.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374384626239279184/Screenshot_2025-05-20_at_08.45.40.png?ex=682ddaed&is=682c896d&hm=e80b0fad58c2459094ea99478455e30b6847c38d669fb6d01071c3370ba0810d&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is the lower high before the 'MSS' break, following the 'Local' low sweep.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 2,
+          "description": "Two FVGs are visible after the MSS, marked by orange rectangles."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added CV-detected labels, Added risk box data from CV, Setup classified as TG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 13:55:33",
+      "session_id": "discord-303240674822586368",
+      "question": "Cerere de Analiză a Trade-ului:\n\nTimeframe: 1m\nInstrument: GBP/USD\n\nCe cred că observ:\nTipul MSS: Normal\nDirecția tranzacției: Long\nNumăr de FVG: 2 gap-uri\nTipul de setup: TCG Setup\n\nÎntrebări specifice: \n analizeaza imaginea acestui trade, si identifica tipul de MSS si Setup-ul format. Spune-mi daca trade-ul este unul de calitate, conform Programului \"Trading Institutional\". Tinand cont ca am luat BE aici, asta inseamna ca este un trade mai putin calitativ?",
+      "answer": "Conform raportului de analiză tehnică, tranzacția ta pe GBP/USD a fost un setup de tip TG (Two Gap Setup), cu un MSS normal și direcția long. Lichiditatea a fost lichidată înainte de formarea MSS, ceea ce sugerează un setup de calitate, iar cele două FVG-uri sunt prezente și valide. Deși ai obținut un rezultat de break-even (BE), acest lucru nu neapărat indică un trade de calitate inferioară, ci poate fi doar o circumstanță specifică a execuției sau a condițiilor de piață în acel moment. În general, setup-ul este considerat de calitate înaltă conform programului \"Trading Instituțional\".",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1374383677743829052/Screenshot_2025-05-20_at_08.45.40.png?ex=682dda0b&is=682c888b&hm=b9ecdbd5779c6e531704a31d94649d62de895d81cd8f6f7a7ba779154365904c&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is the lower high before the MSS break.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 2,
+          "description": "Two FVGs are visible after the MSS, marked by orange rectangles."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added CV-detected labels, Added risk box data from CV, Setup classified as TG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-20 16:46:15",
+      "session_id": "discord-1203060023459319928",
+      "question": "Ce inseamna FTMO?",
+      "answer": "FTMO este o platformă excelentă pentru traderii serioși care doresc finanțare profesionistă și stabilă. Free trial-ul este ideal pentru testare, iar conturile live oferă un cadru bine structurat și scalabil. Cu respectarea regulilor și o strategie solidă, poți construi cariera de trader fără un capital personal mare.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 17:08:23",
+      "session_id": "discord-410901713810227200",
+      "question": "ce platforma pentru finantare recomanzi?",
+      "answer": "În contextul prezentat, platforma recomandată pentru finanțare este FTM-ul. Se menționează că aceștia sunt considerați cei mai profesioniști în domeniu, oferind servicii variate și serioase. Deși au prețuri mai mari, se subliniază importanța calității și a siguranței oferite de o companie de încredere. Este esențial să faci o cercetare amănunțită a mai multor firme de finanțare pentru a alege cea potrivită nevoilor tale.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 17:11:54",
+      "session_id": "discord-1147523884489375765",
+      "question": "ce inseamna la raspunsul tau precedent ca mentorul tranzacționează 100% cu bani finanțați de o firmă proprie?",
+      "answer": "Răspunsul din context indică faptul că mentorul tranzacționează cu peste 500.000 € capital finanțat, fără fonduri proprii mari. Acest lucru înseamnă că el nu tranzacționează cu banii săi personali, ci cu capitalul oferit de o firmă de finanțare. Compania își asumă pierderile pentru trader, iar acesta împarte profiturile cu firma, păstrând 80%.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-20 20:13:17",
+      "session_id": "discord-1360644700582973600",
+      "question": "mai este valid un gap dacă acesta este atins înainte de producerea MSS-ului ?",
+      "answer": "Informațiile din context nu oferă detalii specifice cu privire la validitatea unui gap atins înainte de producerea unui MSS. Pentru clarificări suplimentare, te rog să verifici cu unul dintre mentori sau să întrebi un membru cu mai multă experiență.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 07:40:38",
+      "session_id": "discord-314843733159837700",
+      "question": "Ce parere ai despre entry point",
+      "answer": "Nu sunt sigur pe baza materialului disponibil. Îți recomand să verifici cu unul dintre mentori sau să întrebi un membru cu mai multă experiență.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 09:55:19",
+      "session_id": "discord-700704419523854437",
+      "question": "Care sunt punctele minime pentru ca un gap pe DAX, UK100, US30, US100, GBPUSD, sa fie considerat valid?",
+      "answer": "Pentru ca un gap pe DAX, UK100, US30, US100, GBPUSD să fie considerat valid, trebuie să fie minim de un punct. Regula poate varia în funcție de prețul activului, iar dimensiunea exactă a gap-ului este evaluată vizual. Nu există o dimensiune minimă fixă pentru celelalte active menționate în materialul de curs.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 13:08:37",
+      "session_id": "discord-1312800721522917401",
+      "question": "la ce oră e market opening pe NY",
+      "answer": "Market opening-ul pe New York este la ora 16:30, conform informațiilor din CONTEXT. Este important de reținut că la această oră băncile încep tranzacționarea și piața se deschide pentru retail.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 13:09:58",
+      "session_id": "discord-1312800721522917401",
+      "question": "Cum identific lichiditatile Minore si cum le diferentiez de cele Locale?",
+      "answer": "Lichiditatea locală este definită ca fiind zone vizibile pe M1 sau M5, similare cu lichiditatea majoră, dar mai mici și mai frecvente. Aceste zone atrag stop loss-urile și sunt locuri bune pentru posibile reacții. Se aplică shift + gap pentru intrare, preferând un risc redus (0.3–0.5%) din cauza incertitudinii mai mari. Uneori, poate apărea un shift agresiv. Este important să fii atent la oră și la setup-ul în momentul executării.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 15:47:04",
+      "session_id": "discord-207522723742744576",
+      "question": "Cate lichiditati avem?",
+      "answer": "În programul \"Trading Instituțional\", avem patru tipuri de lichiditate:\n\n1. **High of the Day / Low of the Day (HOD / LOD):** Maximele și minimele zilei curente.\n2. **Lichiditate Majoră:** Zone vizibile pe timeframe-uri mari, asociate cu mișcări instituționale.\n3. **Lichiditate Locală:** Vizibilă pe timeframe-uri mai mici, relevantă pe termen scurt.\n4. **Lichiditate Minoră:** Reacții mai mici, potențial profitabile dar cu risc mai mare.\n\nEste important să înțelegem cum să identificăm și să folosim aceste tipuri de lichiditate pentru a lua decizii de tranzacționare eficiente.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 15:49:22",
+      "session_id": "discord-303937560969740300",
+      "question": "Referitor la răspunsul tău anterior , cum putem să indentificăm cel mai eficient aceste lichidități ?",
+      "answer": "În programul \"Trading Instituțional\", lichiditatea majoră este esențială pentru probabilitatea de profit. Aceasta este clară, vizibilă și oferă reacții semnificative când este atinsă. Pentru a identifica aceste lichidități eficient, trebuie să căutăm zone unde se află bani, adică zone cu lichiditate. Aceste zone sunt marcate de toți traderii și pot fi identificate pe diferite time frame-uri, precum 5 minute sau 15 minute, cu accent pe simplitate, vizibilitate și disciplină în execuție conform strategiei din curs.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-21 15:49:29",
+      "session_id": "discord-303937560969740300",
+      "question": "poți să oferi exemple concrete ?",
+      "answer": "Informația nu e disponibilă în materialul de curs. Te recomand să verifici cu unul dintre mentori sau să întrebi un membru cu mai multă experiență.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 07:07:55",
+      "session_id": "discord-814982263531372605",
+      "question": "da mi toate intervalele de timp tranzactionabile din strategia trading institutional",
+      "answer": "**Intervalele recomandate pentru tranzacționare** din strategia \"Trading Instituțional\" sunt:\n1. **10:00 – 12:00** - Execuția strategiilor *High of the Day / Low of the Day*.\n2. **12:00 – 16:15** - Lucrul cu lichidități, aplicarea unor strategii mai complexe.\n3. **16:45 – 22:00** - Continuarea lucrului cu lichidități, o sesiune profitabilă.\n4. **(19:00 – 20:00) – opțional** - Ora lansării ordinului, interval cu execuții mai proaste. Nu este recomandat pentru majoritatea traderilor.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 07:09:16",
+      "session_id": "discord-130377578350379009",
+      "question": "Ora recomandata pentu inceperea tranzactionarii este 10:00 sau 10:15 ?",
+      "answer": "Ora recomandată pentru începerea tranzacționării este 10:15. Evităm intervalul 09:45 – 10:15, care include 15 minute înainte și după deschidere pentru a evita algoritmii de calibrare.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 07:31:44",
+      "session_id": "discord-954656532321169408",
+      "question": "Ce parere ai despre acest setup?",
+      "answer": "Acest setup este un \"One Gap Setup\" (OG), ceea ce înseamnă că a fost identificat un singur gap instituțional după un Market Structure Shift (MSS) normal. Direcția de tranzacționare sugerată este short, datorită unui displacement bearish puternic și a lichidității care a fost lichidată deasupra maximelor anterioare. FVG-ul identificat este valid și contribuie la calitatea setup-ului. Setup-ul este considerat de înaltă calitate, cu un scor de validitate maxim, indicând o oportunitate potențială de tranzacționare.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375013100524142622/image.png?ex=6830243d&is=682ed2bd&hm=57730f460a655122652abc51ad80eac10589c435efa5a0e74dff05f46c136e89&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a higher low formed by a mix of bullish and bearish candles.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a gap in price action."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-22 07:34:46",
+      "session_id": "discord-954656532321169408",
+      "question": "Nu crezi ca TP ar fi trebuit pus in LOD?",
+      "answer": "Nu există informații specifice în contextul dat despre plasarea take profit-ului în LOD. Este important să urmărești structura și să identifici momentele potrivite pentru a plasa TP-ul conform instrucțiunilor din curs. Dacă ai întrebări suplimentare, te rog să clarifici pentru a oferi un răspuns mai detaliat.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 07:44:12",
+      "session_id": "discord-954656532321169408",
+      "question": "Crezi ca ar fi indicat ca in momentul in care pretul ajunge in LOD si revine sa fie un break even?",
+      "answer": "În programul \"Trading Instituțional\", se recomandă să nu folosești break-even în mod automat. Este important să ai o statistică extinsă pentru a evalua dacă folosirea break-even-ului este benefică pentru tine. Poți considera să iei profit parțial la un anumit raport de recompensă-riscuri, de exemplu la 1.8 RR, pentru a securiza o parte din profit și a echilibra situațiile în care break-even-ul poate afecta performanța.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 09:09:37",
+      "session_id": "discord-985994057249603604",
+      "question": ",parere despre aceasta tranzactie",
+      "answer": "Analizând tranzacția ta, observ că ai executat un setup de tip OG (One Gap Setup) cu un MSS normal. Direcția tranzacției este SHORT, confirmată de un displacement puternic bearish și de lichiditatea care a fost măturată deasupra recentelor maxime. După MSS, a apărut un FVG valid, oferind un punct de intrare clar. Rezultatul final al tranzacției este câștigător, ceea ce confirmă calitatea ridicată a setup-ului. Totul a fost bine aliniat, conform regulilor din program.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375037657763287081/Screenshot_898.png?ex=68303b1c&is=682ee99c&hm=f9ed188ad2c3be65864dfe9d13e74c8fca7fbb648ce12145ac7f64321c874d13&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "win",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot is a higher low before the MSS break.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a gap in the price movement."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-22 09:13:44",
+      "session_id": "discord-985994057249603604",
+      "question": "parere tranzactie",
+      "answer": "Setup-ul prezentat pe grafic este un \"One Gap Setup\" (OG) de calitate înaltă. Tranzacția este direcționată LONG, bazându-se pe un Market Structure Shift (MSS) normal, marcat printr-o rupere deasupra ultimului lower high, după o perioadă de consolidare. Lichiditatea a fost măturată sub minimele anterioare înainte de apariția MSS-ului, iar un Fair Value Gap (FVG) valid este vizibil după acest MSS, indicând un displacement bullish puternic. Direcția și alinierea sunt clare, iar setup-ul are un scor de validitate maxim, ceea ce sugerează o oportunitate potențială de tranzacționare.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375038660885352478/Screenshot_891.png?ex=68303c0b&is=682eea8b&hm=9f4f6276b85747a1a0eea6771bca4cff0484fdaa0a3a2d563385e727b10ba1e7&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is the lower high before the MSS break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a grey box during the bullish displacement."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-22 10:42:08",
+      "session_id": "discord-954656532321169408",
+      "question": "Aici nu am specificat intreg contextul\nTimeframe-ul este de 1 min\nTranzactia este pe DAX\nMSS-ul este unul normal\nTranzactia este una short\n2 gap-uri institutionale\nIntrarea in tranzactie a avut loc putin dupa al 2-lea gap\nSetup-ul este TG\n\nEra valida o intrare in tranzactie la fel ca si in imagine cu un RR mai mic 1:1.65 datorita intrarii sau e o tranzactie care nu mai trebuie luata? \nSau era o alegere mai buna ca SL-ul sa fie in HOD si atunci RR-ul putea fi 1:2 ?",
+      "answer": "În baza raportului de analiză tehnică și a materialelor de curs, tranzacția ta short pe DAX cu setup-ul TG (Two Gap Setup) pare să aibă o validitate ridicată datorită aliniamentului direcției către short, a unui MSS normal și a unui displacement bearish puternic. Totuși, având în vedere că ai menționat un RR de 1:1.65, acesta este sub nivelul de 2R recomandat în mod obișnuit pentru setup-urile TG, ceea ce ar putea influența rentabilitatea pe termen lung.\n\nPlasarea stop loss-ului la HOD și vizarea unui RR de 1:2 ar putea fi o alternativă mai solidă, conform regulilor de gestionare a riscului din program, dar aceasta depinde și de toleranța ta personală la risc și de strategia pe care o urmezi. În general, este important să te asiguri că setup-ul respectă toate criteriile de calitate și confluentele necesare înainte de a-l executa.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375060727500374036/image.png?ex=68305098&is=682eff18&hm=54d6c09e240af302f6f453f9695fbb0e39101fe22a5f5e6b7bd463d3cb1e8c57&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is a higher low formed by a mix of bullish and bearish candles.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a shaded area."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-22 11:13:24",
+      "session_id": "discord-303937560969740300",
+      "question": "sa presupunem ca am statistica urmatoare: 200 de tranzactii si un winning rate de 40%; la ce losing streak m-as putea astepta?",
+      "answer": "Dacă ai un win rate de 40%, ai 100% șanse să treci printr-un losing streak de 5 tranzacții consecutive. Este un aspect normal și nu indică neapărat o problemă, conform informațiilor din materialul de curs.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 11:34:22",
+      "session_id": "discord-253599704917606410",
+      "question": "Ce este overtrading ul?",
+      "answer": "Overtrading-ul înseamnă să faci prea multe tranzacții din impuls, fără a avea setup-uri clare. Soluția este să te axezi pe calitate în loc de cantitate, adică să faci mai puține tranzacții, dar mai bine selectate. Este important să nu simți nevoia să faci tranzacții în mod continuu, ci să aștepți cele mai bune oportunități de pe piață. Evitarea overtrading-ului poate contribui la îmbunătățirea performanței tale în trading.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 11:34:56",
+      "session_id": "discord-253599704917606410",
+      "question": "ce este FOMO?",
+      "answer": "FOMO înseamnă teama de a rata oportunități de pe piață și de a fi exclus din tranzacții profitabile. Este important să eviți această emoție pentru a-ți menține calmul și luciditatea în timpul tranzacționării.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 11:35:33",
+      "session_id": "discord-253599704917606410",
+      "question": "Cum o eviti? Cum scapi de ea?",
+      "answer": "Pentru a evita anumite zile de trading sau trade-uri care pot duce la pierderi, trebuie să aplici și logică, nu doar matematică. De exemplu, dacă ești cel mai bun dintr-o cameră, ar trebui să cauți alte medii unde să înveți și să evoluezi constant. Este important să fii deschis la dezvoltare personală și să eviți situațiile care te pot împiedica să progresezi.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 11:36:18",
+      "session_id": "discord-253599704917606410",
+      "question": "ce este FEAR?",
+      "answer": "În contextul dat, \"FEAR\" se referă la stagiul de frică în tranzacționare. Acesta apare după primele pierderi serioase sau o serie de pierderi consecutive și este considerat cea mai grea etapă. Aproximativ 98% dintre traderi renunță aici, iar autorul descrie emoții puternice, vise și coșmaruri legate de trading, neîncredere în sistem și disconfort total în fața butonului de execuție. Ieșirea completă din această fază poate dura aproximativ 10 luni.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 11:37:26",
+      "session_id": "discord-253599704917606410",
+      "question": "Si cum scap de FEAR?",
+      "answer": "În stagiul de frică (Fear), este esențial să te pregătești pentru impactul acestei emoții. Este perioada cea mai dificilă, în care poți pierde încrederea în strategie și în tine. Schimbarea frecventă a strategiilor și blocarea execuției din cauza fricii și nesiguranței sunt aspecte comune în această etapă. Ieșirea din stadiul de frică necesită timp și efort, iar recunoașterea acestei faze te poate ajuta să treci mai ușor prin ea.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 12:33:45",
+      "session_id": "discord-368794639723134997",
+      "question": "Cate tipuri de lichiditati avem?",
+      "answer": "Cele patru tipuri de lichidități sunt:\n1. High of the Day / Low of the Day (HOD / LOD)\n2. Lichiditate Majoră\n3. Lichiditate Locală\n4. Lichiditate Minoră\n\nAceste tipuri de lichidități sunt esențiale în strategia de tranzacționare și vor fi analizate detaliat în lecțiile următoare.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 12:46:30",
+      "session_id": "discord-130377578350379009",
+      "question": "Care sunt ratele de castig pe fiecare tip de lichiditate ?",
+      "answer": "În programul \"Trading Instituțional\", lichiditatea majoră este considerată cel mai valoros tip de lichiditate din punct de vedere al probabilității de profit. Este clară, vizibilă și oferă reacții semnificative atunci când este atinsă. Nu există informații specifice despre ratele de câștig pentru fiecare tip de lichiditate prezentate în materialul de curs.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 12:50:09",
+      "session_id": "discord-130377578350379009",
+      "question": "Prezintă-mi toate tipurile de setup , de la cel mai profitabil la cel mai putin profitabil .",
+      "answer": "Conform informațiilor din CONTEXT, strategia include următoarele 7 tipuri de setup-uri, prezentate fără o ierarhie de la cel mai profitabil la cel mai puțin profitabil: TG (Two Gap Setup), TCG (Two Consecutive Gap Setup), 3CG (Three Consecutive Gap Setup), SLG (Second Leg Setup).",
+      "feedback": "negative",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 12:51:05",
+      "session_id": "discord-130377578350379009",
+      "question": "Care sunt toate tipurile de setup ?",
+      "answer": "În programul \"Trading Instituțional\", tipurile de setup-uri sunt:\n1. One Simple Gap Setup (OSG)\n2. Two Gap Setup (TG)\n3. Two Consecutive Gaps Setup (TCG)\n4. Three Gaps Setup (3G)\n5. Three Consecutive Gaps Setup (3CG)\n6. Second Leg Setup (SLG)",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 12:55:37",
+      "session_id": "discord-1247858855321407575",
+      "question": "cum ai definii displacementul ?",
+      "answer": "Displacement-ul este o mișcare puternică arătată opus zonei lichidate, care trebuie să conțină un gap în cadrul său. Este important ca un displacement să aibă un gap pentru a fi considerat valid. Acesta reprezintă o mișcare semnificativă care vine după lichidarea unei zone și indică o schimbare de direcție pe piață.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 13:07:16",
+      "session_id": "discord-691028870002114633",
+      "question": "Timeframe: 1m\nInstrument: US30\n\nCe cred că observ:\nTipul MSS: MSS normal\nDirecția tranzacției: Short\nNumăr de FVG: 3 FVG\nTipul de setup: 3CG\n\ncrezi ca era bine sa fi lasat tot trade-ul sa se desfasoare normal, fara sa pun BE la 1.4 ? sau avand in vedere ca mergea in zig-zag a fost o idee buna ca am pus BE de la inceput sa fiu acoperit?",
+      "answer": "Conform raportului de analiză tehnică, tranzacția ta a fost un setup de tip OG, nu 3CG cum ai menționat. MSS a fost identificat ca fiind agresiv, iar direcția tranzacției a fost short. Lichiditatea a fost luată înainte de apariția MSS, iar rezultatul tranzacției a fost breakeven.\n\nÎn ceea ce privește decizia de a pune BE la 1.4R, aceasta depinde de preferințele tale și de statistici. În program, se recomandă utilizarea BE la 1.4R, dar este important să te bazezi pe datele tale statistice și nu doar pe mișcările imediate ale pieței, cum ar fi mișcările de tip zig-zag.",
+      "feedback": "neutral",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375095427103461517/US30USD_2025-05-22_15-49-54.png?ex=683070e9&is=682f1f69&hm=87e5a55babd29485558d5e6babcc65a0c1afcce6d4359aa00a448b291538729d&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "short",
+        "final_mss_type": "agresiv",
+        "final_trade_outcome": "breakeven",
+        "is_risk_above_entry_suggestion": true,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS (the preceding higher low) appears formed primarily by one bullish candle.",
+          "pivot_type": "higher_low",
+          "pivot_bearish_count": 0,
+          "pivot_bullish_count": 1
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a red box."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as agresiv, Direction determined from pivot type: short, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 0,
+        "pivot_bullish_count_vision": 1
+      }
+    },
+    {
+      "timestamp": "2025-05-22 18:20:37",
+      "session_id": "discord-954656532321169408",
+      "question": "Care este numarul recomandat de trade-uri pentru ca o statistica sa fie considerata valida?   \n1. Doar pentru HOD si LOD\n2. HOD, LOD + Lichiditati majore\n3. HOD + LOD + Lichiditati majore + Lichiditati locale si minore",
+      "answer": "3. HOD + LOD + Lichiditati majore + Lichiditati locale si minore.",
+      "feedback": "negative",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 18:21:12",
+      "session_id": "discord-954656532321169408",
+      "question": "Care este numarul recomandat de trade-uri pentru ca o statistica sa fie considerata valida pentru HOD si LOD?",
+      "answer": "În programul \"Trading Instituțional\", pentru ca o statistică să fie considerată validă pentru HOD și LOD, se recomandă un număr minim de 30 de trade-uri. Acest lucru asigură o bază solidă pentru analiza și interpretarea corectă a comportamentului prețului în jurul zonelor HOD și LOD.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 18:21:51",
+      "session_id": "discord-954656532321169408",
+      "question": "Care este numarul recomandat de trade-uri pentru ca o statistica sa fie considerata valida pentru Lichiditati majore?",
+      "answer": "Pentru ca o statistică să fie considerată validă pentru Lichidități Majore, trebuie să aibă un număr minim de trade-uri. Conform materialelor cursului, dacă primul trade este câștigător, ziua se închide; dacă este pierzător, se permite un al doilea trade. La două pierderi consecutive, ziua este închisă. Nu există un număr exact de trade-uri menționat în material pentru validarea statisticilor.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 18:31:27",
+      "session_id": "discord-691047509564325900",
+      "question": "Ce inseamna Liq Majora?",
+      "answer": "Lichiditatea majoră este cel mai valoros tip de lichiditate, cu cea mai mare probabilitate de câștig. Este rar întâlnită, dar oferă cele mai clare și profitabile puncte de reacție ale pieței. Apare în punctele cele mai evidente și extreme ale unei mișcări de preț, fiind adesea contra-trend.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 19:33:52",
+      "session_id": "discord-368794639723134997",
+      "question": "cum diferentiezi o Lichiditate Majora de o Lichiditate Locala?",
+      "answer": "Lichiditatea majoră este definită ca zone evidente de pe grafic unde se află cele mai multe stop loss-uri și se tranzacționează contra trendului. Pe de altă parte, lichiditatea locală este similară cu cea majoră, dar se marchează pe intervale de timp mai mici, cum ar fi 1 și 5 minute, și are o probabilitate mai mică de câștig comparativ cu lichiditatea majoră.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 19:52:06",
+      "session_id": "discord-691047509564325900",
+      "question": "Ce inseamna CPI?",
+      "answer": "**Răspuns:** CPI (Consumer Price Index) este un indicator economic esențial care măsoară evoluția prețurilor pentru bunuri și servicii consumate de gospodării. Este considerat un barometru al inflației și este exprimat procentual, de exemplu 2.4%, 2.6%, 2.8%. Inflația „sănătoasă” este în jurul valorii de 2%. Aceste informații sunt esențiale pentru a înțelege impactul inflației asupra economiei și piețelor financiare.",
+      "feedback": "positive",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 20:46:58",
+      "session_id": "discord-237203722545922048",
+      "question": "ce parere ai despre acest setup ?",
+      "answer": "Setup-ul prezentat este un One Gap Setup (OG), identificat prin prezența unui singur FVG după un Market Structure Shift (MSS) agresiv. MSS-ul este marcat de ruperea unui lower high format din două lumânări bearish, indicând o direcție de tranzacționare long (cumpărare). Lichiditatea a fost măturată sub minimele anterioare înainte de MSS, ceea ce întărește validitatea setup-ului. Displacement-ul este puternic și bullish, iar setup-ul are o calitate înaltă conform raportului, indicând un potențial bun pentru execuție.",
+      "feedback": "negative",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375212983269200004/US.png?ex=6830de65&is=682f8ce5&hm=4bb57a680b7ba551161d8ab1bb764e2961d8e41487a6d86140d797a62a3b9132&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "agresiv",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS (the preceding lower high) appears formed primarily by two bearish (black) candles.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 1
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a red box during the bullish displacement."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as agresiv, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 1
+      }
+    },
+    {
+      "timestamp": "2025-05-22 20:49:09",
+      "session_id": "discord-237203722545922048",
+      "question": "ce parere ai despre acest setup ?",
+      "answer": "Acest setup este un One Gap Setup (OG), ceea ce înseamnă că avem un singur gap vizibil după un Market Structure Shift (MSS). MSS-ul este de tip normal, indicând o direcție de tranzacționare long (cumpărare), după ce lichiditatea majoră a fost eliminată. Prezența unui FVG (fair value gap) și direcția bullish a displacement-ului sugerează o oportunitate de tranzacționare validă. Setup-ul este considerat de înaltă calitate, cu un scor de validitate maxim și o încredere ridicată în direcția long, conform analizei.",
+      "feedback": "negative",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375213585982296155/Screenshot_2025-05-22_200434.png?ex=6830def5&is=682f8d75&hm=41061bc7510888b7d4be5e3a86a23e58b2833cd31cfaddb4e2a07d79d7ccbd45&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot for the MSS is the lower high before the break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a yellow box during the bullish displacement."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-22 20:50:42",
+      "session_id": "discord-237203722545922048",
+      "question": "ce inseamna un late entry ?",
+      "answer": "În contextul prezentat, un \"late entry\" se referă la un tip de intrare atipic care nu face încă parte din categoria de setup-uri stabilite. Este o execuție folosită ca extra confluență în tranzacționare, nu ca semnal primar. Este important de menționat că acest tip de intrare nu este recomandat pentru începători și necesită testare intensă înainte de utilizare în conturi reale.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-22 20:53:09",
+      "session_id": "discord-237203722545922048",
+      "question": "cum imi dau seama ca un gap este prea mic ?",
+      "answer": "În contextul dat, se menționează că un gap este considerat prea mic atunci când este \"aproape invizibil\" și nu merită riscul unei tranzacții. Este important să te uiți la dimensiunea gap-ului într-o perspectivă mai mare pentru a decide dacă este suficient de semnificativ pentru a fi considerat valid.",
+      "feedback": "neutral",
+      "query_type": "discord_query"
+    },
+    {
+      "timestamp": "2025-05-23 03:28:04",
+      "session_id": "discord-1098143406523424819",
+      "question": "Cum ar trebui să tratez ziua cu așa știri",
+      "answer": "În cazul zilelor cu știri importante, cum ar fi cele menționate în raportul tău tehnic, este recomandat să eviți tranzacționarea cu o oră înainte și o oră după publicarea știrilor. Acest lucru ajută la evitarea volatilitații imprevizibile și a mișcărilor false care pot apărea în acele momente. În cazul știrilor de impact mai mare, cum sunt cele din SUA, se poate extinde această perioadă de evitare la trei ore înainte și trei ore după. În primul an de experiență, este indicat să eviți complet zilele cu știri majore.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375314215618875475/IMG_5204.png?ex=68313cad&is=682feb2d&hm=640ad0eb2afa9074f88a0158750b24b22490323ef9a1cb49b0cb08b3769c2077&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "unknown",
+        "final_mss_type": "not_identified",
+        "final_trade_outcome": "unknown",
+        "fvg_analysis": {
+          "count": 0,
+          "description": "Could not identify FVGs with confidence"
+        },
+        "liquidity_status_suggestion": "unclear",
+        "break_direction_suggestion": "unclear",
+        "confidence_level": "low",
+        "setup_validity_score": 50,
+        "setup_quality_summary": "questionable",
+        "_vision_note": "Used fallback analysis due to JSON extraction failure",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as not_identified, Direction determined from integrated analysis (pivot type unclear), Note: Conflicting direction evidence, using weighted decision, Warning: MSS and displacement directions don't align, Used CV candle colors, Added risk box data from CV, Could not determine trade outcome from suggestions or labels, Warning: No valid FVGs detected or count is not a number, Setup classified as unknown"
+      }
+    },
+    {
+      "timestamp": "2025-05-23 07:34:06",
+      "session_id": "discord-130377578350379009",
+      "question": "este MSS ul din poza unul agresiv sau normal?",
+      "answer": "MSS-ul din poza este clasificat ca fiind normal, conform analizei tehnice disponibile. Dacă ai nevoie de mai multe detalii sau clarificări, te pot ajuta cu informații suplimentare din materialele cursului.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375376146190962758/image.png?ex=6831765a&is=683024da&hm=23a2fa36b04358dfb75e7b0e3be1845c7e40dcaefc8f3a4f196b070893e299ab&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "unknown",
+        "mss_pivot_analysis": {
+          "description": "The pivot structure shows a 'lower high' formation.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 3,
+          "pivot_bullish_count": 2
+        },
+        "liquidity_status_suggestion": "unclear",
+        "break_direction_suggestion": "downward",
+        "confidence_level": "high",
+        "setup_validity_score": 70,
+        "setup_quality_summary": "acceptable",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Note: Conflicting direction evidence, using weighted decision, Warning: MSS and displacement directions don't align, Added risk box data from CV, Could not determine trade outcome from suggestions or labels, Warning: No valid FVGs detected or count is not a number, Setup classified as unknown",
+        "pivot_bearish_count_vision": 3,
+        "pivot_bullish_count_vision": 2
+      }
+    },
+    {
+      "timestamp": "2025-05-23 08:25:13",
+      "session_id": "discord-1332009144277925940",
+      "question": "Ce parere ai despre acest trade",
+      "answer": "Acest trade pare a fi un setup de calitate ridicată, conform analizei tehnice. Avem un MSS normal după o lichidare a lichidității sub minimele anterioare, ceea ce sugerează o direcție long. Existența unui FVG validează setup-ul, iar direcția bullish a displacement-ului confirmă potențialul pentru o mișcare ascendentă. Setup-ul este clasificat ca \"OG\" și are un scor de validitate maxim, ceea ce indică o probabilitate mare de succes.",
+      "feedback": "positive",
+      "query_type": "discord_query",
+      "image_url": "https://cdn.discordapp.com/attachments/1362144772105437315/1375388844400185424/DE30EUR_2025-05-23_11-13-29.png?ex=6831822d&is=683030ad&hm=2caad0c75e1748a3f14fc615cbba195d6f4854b43fe2baf74bd10e46c72504de&",
+      "analysis_data_from_report": {
+        "final_trade_direction": "long",
+        "final_mss_type": "normal",
+        "final_trade_outcome": "potential_setup",
+        "is_risk_above_entry_suggestion": false,
+        "mss_pivot_analysis": {
+          "description": "The pivot is a lower high formed before the MSS break.",
+          "pivot_type": "lower_high",
+          "pivot_bearish_count": 2,
+          "pivot_bullish_count": 2
+        },
+        "fvg_analysis": {
+          "count": 1,
+          "description": "One FVG is visible after the MSS, marked by a yellow box."
+        },
+        "liquidity_status_suggestion": "swept",
+        "break_direction_suggestion": "upward",
+        "confidence_level": "high",
+        "setup_validity_score": 100,
+        "setup_quality_summary": "high_quality",
+        "_vision_note": "Vision analysis completed.",
+        "_rule_engine_notes": "Rule engine applied for trade_evaluation_image_query, MSS classified as normal, Direction determined from pivot type: long, Direction confirmed by MSS and displacement alignment, Added risk box data from CV, Setup classified as OG",
+        "pivot_bearish_count_vision": 2,
+        "pivot_bullish_count_vision": 2
+      }
     }
   ]
 }

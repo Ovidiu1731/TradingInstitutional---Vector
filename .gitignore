@@ -1,18 +1,78 @@
 # ─── Secrets & Environment Variables ─────────────────
 .env
-.env.*          # catches .env.save, .env.prod, etc.
+.env.*
+!.env.example
 
-# ─── macOS System Files ───────────────────────────────
-.DS_Store
-
-# ─── Python Artifacts ────────────────────────────────
+# ─── Python ────────────────────────────────────────
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# ─── Node Dependencies ──────────────────────────────
-node_modules/
+# ─── Virtual Environments ─────────────────────────
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
 
-# ─── Development & Debug Tools ─────────────────────
+# ─── IDE & Editors ────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# ─── OS Files ─────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ─── Logs & Databases ─────────────────────────────
+*.log
+logs/
+*.sqlite
+*.db
+
+# ─── Testing & Coverage ───────────────────────────
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.hypothesis/
+
+# ─── Project Specific ─────────────────────────────
 debug_pinecone.py
 test_pinecone.py
 verify_pinecone.py
+feedback_log.jsonl
+node_modules/
+
+# ─── Docker ───────────────────────────────────────
+.docker/

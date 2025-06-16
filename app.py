@@ -31,6 +31,7 @@ from pydantic import BaseModel
 
 from openai import AsyncOpenAI, OpenAI, RateLimitError, APIError # Added sync OpenAI
 import pinecone
+from datetime import datetime
 
 # ---------------------------------------------------------------------------
 # LOGGING SETUP
@@ -65,8 +66,32 @@ if not (OPENAI_API_KEY and PINECONE_API_KEY):
 # --- Initialize Async Clients (as per mentor's advice) ---
 async_openai_client = AsyncOpenAI(
     api_key=OPENAI_API_KEY,
-    http_client=httpx.AsyncClient(http2=True, timeout=30.0)
+    http_client=httpx.AsyncClient(
+        http2=True,
+        timeout=httpx.Timeout(30.0, connect=10.0),
+        limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+        # Add retry mechanism
+        transport=httpx.AsyncHTTPTransport(retries=3)
+    )
 )
+
+# Helper function to verify client before each request
+async def ensure_valid_client():
+    global async_openai_client
+    
+    # Check if client needs recreation
+    if not async_openai_client:
+        logging.warning("OpenAI client was None, recreating...")
+        async_openai_client = AsyncOpenAI(
+            api_key=OPENAI_API_KEY,
+            http_client=httpx.AsyncClient(
+                http2=True,
+                timeout=httpx.Timeout(30.0, connect=10.0),
+                limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+                transport=httpx.AsyncHTTPTransport(retries=3)
+            )
+        )
+    return async_openai_client
 aiohttp_session: Optional[aiohttp.ClientSession] = None # Initialized at startup
 
 # --- Pinecone Sync Client (use with asyncio.to_thread) ---
@@ -128,6 +153,7 @@ FEW_SHOT_EXAMPLES = [
   "mss_location_description": "MSS is marked by text, breaking the higher low that formed after a sweep of multiple highs (white lines).",
   "mss_pivot_analysis": {
     "description": "The pivot for the MSS (the preceding higher low) appears formed primarily by one bullish (green) candle.",
+    "pivot_type": "higher_low",
     "pivot_bearish_count": 0,
     "pivot_bullish_count": 1
   },
@@ -151,7 +177,12 @@ FEW_SHOT_EXAMPLES = [
   "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
   "is_risk_above_entry_suggestion": false,
   "mss_location_description": "MSS breaks the lower high that formed after a re-sweep of liquidity near the 'Local' marked low.",
-  "mss_pivot_analysis": { "description": "The pivot is the lower high before the 'MSS' break, following the 'Local' low sweep.", "pivot_bearish_count": 2, "pivot_bullish_count": 3 },
+  "mss_pivot_analysis": { 
+    "description": "The pivot is the lower high before the 'MSS' break, following the 'Local' low sweep.",
+    "pivot_type": "higher_low", 
+    "pivot_bearish_count": 2, 
+    "pivot_bullish_count": 3 
+},
   "break_direction_suggestion": "upward",
   "displacement_analysis": { "direction": "bullish", "strength": "strong" },
   "fvg_analysis": { "count": 2, "description": "Yes, two distinct FVGs (marked with blue boxes) were created during the bullish displacement after the MSS." },
@@ -172,7 +203,12 @@ FEW_SHOT_EXAMPLES = [
   "candle_colors": "Bullish candles have a solid white body, Bearish candles have a solid black body.",
   "is_risk_above_entry_suggestion": true,
   "mss_location_description": "Downward structure break (marked by arrow) occurs below prior higher low (orange circle), after 'Liq Locala' high sweep.",
-  "mss_pivot_analysis": { "description": "Pivot is the higher low marked by orange circle.", "pivot_bearish_count": 3, "pivot_bullish_count": 3 },
+  "mss_pivot_analysis": { 
+    "description": "Pivot is the higher low marked by orange circle.",
+    "pivot_type": "higher_low", 
+    "pivot_bearish_count": 3, 
+    "pivot_bullish_count": 3 
+},
   "break_direction_suggestion": "downward",
   "displacement_analysis": { "direction": "bearish", "strength": "strong" },
   "fvg_analysis": { "count": 2, "description": "Yes, two FVGs (marked by faint orange rectangles/lines) after MSS. Aligns with TCG setup." },
@@ -207,6 +243,20 @@ async def startup_event():
     aiohttp_session = aiohttp.ClientSession()
     logging.info("aiohttp.ClientSession initialized.")
     
+    # Validate OpenAI API key
+    try:
+        test_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+        models = await test_client.models.list(timeout=5.0)
+        if models and models.data:
+            logging.info(f"OpenAI API key validated successfully. Available models: {len(models.data)}")
+        else:
+            logging.error("OpenAI API key validation failed: No models returned")
+    except Exception as e:
+        logging.error(f"OpenAI API key validation failed: {e}")
+    
+    # Start the client refresh background task
+    asyncio.create_task(refresh_clients_periodically())
+    
     # Check if Tesseract is available
     try:
         test_version = pytesseract.get_tesseract_version()
@@ -215,6 +265,34 @@ async def startup_event():
         logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
     except Exception as e:
         logging.error(f"Error checking Tesseract: {e}")
+
+# Add this to app.py
+async def refresh_clients_periodically():
+    """Periodically refresh API clients to prevent stale connections"""
+    while True:
+        try:
+            await asyncio.sleep(3600)  # Refresh every hour
+            logging.info("Performing scheduled API client refresh")
+            
+            global async_openai_client
+            # Close the old client
+            if async_openai_client:
+                await async_openai_client.close()
+                
+            # Create a new client
+            async_openai_client = AsyncOpenAI(
+                api_key=OPENAI_API_KEY,
+                http_client=httpx.AsyncClient(
+                    http2=True, 
+                    timeout=httpx.Timeout(30.0, connect=10.0),
+                    limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+                    transport=httpx.AsyncHTTPTransport(retries=3)
+                )
+            )
+            logging.info("API clients refreshed successfully")
+            
+        except Exception as e:
+            logging.error(f"Error during scheduled client refresh: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -241,6 +319,7 @@ class FeedbackModel(BaseModel):
     feedback: str
     query_type: Optional[str] = "unknown"
     analysis_data: Optional[Dict] = None
+    image_url: Optional[str] = None
 
 class TextQuery(BaseModel):
     question: str
@@ -255,14 +334,25 @@ class ImageHybridQuery(BaseModel):
 
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
+@app.get("/ping")
+async def ping():
+    """Simple endpoint to verify API connection without complex processing"""
+    return {"status": "ok", "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")}
+
 # --- Feedback Logging ---
 def log_feedback(session_id: str, question: str, answer: str, feedback: str,
-                 query_type: str, analysis_data: Optional[Dict] = None) -> bool:
+                 query_type: str, analysis_data: Optional[Dict] = None,
+                 image_url: Optional[str] = None) -> bool:
     try:
         feedback_entry = {
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"), "session_id": session_id,
             "question": question, "answer": answer, "feedback": feedback, "query_type": query_type
         }
+
+        # Include image URL in the feedback entry if provided
+        if image_url:
+            feedback_entry["image_url"] = image_url
+
         if analysis_data:
             relevant_fields = [
                 "final_trade_direction", "final_mss_type", "final_trade_outcome",
@@ -430,7 +520,8 @@ async def submit_feedback(feedback_data: FeedbackModel):
         feedback_data.answer,
         feedback_data.feedback,
         feedback_data.query_type,
-        feedback_data.analysis_data
+        feedback_data.analysis_data,
+        feedback_data.image_url
     )
     if success:
         return {"status": "success", "message": "Feedback înregistrat."}
@@ -816,6 +907,288 @@ def classify_mss_type(bullish_count: Optional[Any], bearish_count: Optional[Any]
     except (ValueError, TypeError):
         logging.warning("RuleEngine: Could not parse MSS pivot counts."); return "not_identified"
 
+def analyze_mss_and_displacement(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze the relationship between MSS and displacement to determine trade direction.
+    """
+    # Extract MSS location and text descriptions
+    mss_location = vision_json.get("mss_location_description", "")
+    
+    # Find MSS label coordinates if possible
+    mss_coords = None
+    for label in vision_json.get("visible_labels_on_chart", []):
+        if "MSS" in label.upper():
+            # If we have label coordinates, store them
+            if isinstance(label, dict) and "position" in label:
+                mss_coords = label["position"]
+                break
+    
+    # Analyze price path AFTER MSS by looking at price movement descriptions
+    displacement_info = vision_json.get("displacement_analysis", {})
+    
+    # Determine if price goes UP or DOWN after MSS
+    # This is critical - we need to detect the actual path regardless of "break direction"
+    
+    # Check for explicit direction in displacement description
+    displacement_description = displacement_info.get("description", "").lower()
+    
+    # Look for clear direction indicators in description
+    upward_indicators = ["upward", "higher", "increases", "rises", "bullish", "moving up"]
+    downward_indicators = ["downward", "lower", "decreases", "falls", "bearish", "moving down"]
+    
+    displacement_direction = "unknown"
+    
+    # Check for upward movement indicators
+    if any(indicator in displacement_description for indicator in upward_indicators):
+        displacement_direction = "bullish"
+    # Check for downward movement indicators
+    elif any(indicator in displacement_description for indicator in downward_indicators):
+        displacement_direction = "bearish"
+    # Fallback to the explicit direction field if available
+    elif displacement_info.get("direction") in ["bullish", "bearish"]:
+        displacement_direction = displacement_info.get("direction")
+    
+    # Map to trade direction
+    if displacement_direction == "bullish":
+        direction = "long"
+    elif displacement_direction == "bearish":
+        direction = "short"
+    else:
+        direction = "unknown"
+    
+    return {
+        "mss_location": mss_location,
+        "displacement_direction": displacement_direction,
+        "trade_direction_from_displacement": direction,
+        "confidence": "high" if displacement_direction in ["bullish", "bearish"] else "low"
+    }
+
+def analyze_trade_zones(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze the trade zones (boxes/rectangles) to determine trade direction.
+    This doesn't rely on specific colors but on the structural relationship
+    between risk and profit zones.
+    """
+    # Look for zone descriptions in the vision analysis
+    fvg_description = vision_json.get("fvg_analysis", {}).get("description", "").lower()
+    mss_description = vision_json.get("mss_location_description", "").lower()
+    
+    # Keywords that indicate zone relationships
+    profit_keywords = ["profit", "target", "tp", "take profit", "reward"]
+    risk_keywords = ["risk", "stop", "sl", "stop loss"]
+    
+    # Zone position indicators
+    zone_above = any(word in fvg_description + " " + mss_description for word in [
+        "above", "higher", "upper", "top"
+    ])
+    zone_below = any(word in fvg_description + " " + mss_description for word in [
+        "below", "lower", "bottom", "underneath" 
+    ])
+    
+    # Relationship between zones
+    risk_above_profit = vision_json.get("is_risk_above_entry_suggestion", None)
+    
+    # Attempt to determine direction based on zone relationship
+    direction = "unknown"
+    confidence = "low"
+    
+    # If we know risk is above entry, it's likely a short trade
+    if risk_above_profit is True:
+        direction = "short"
+        confidence = "medium"
+    # If we know risk is below entry, it's likely a long trade  
+    elif risk_above_profit is False:
+        direction = "long"
+        confidence = "medium"
+    # Otherwise try to infer from zone descriptions
+    elif zone_above and any(k in fvg_description for k in profit_keywords):
+        direction = "long"  # Profit zone above = long
+        confidence = "low"
+    elif zone_below and any(k in fvg_description for k in profit_keywords):
+        direction = "short"  # Profit zone below = short
+        confidence = "low"
+    
+    return {
+        "trade_direction_from_zones": direction,
+        "zone_confidence": confidence,
+        "risk_above_entry": risk_above_profit
+    }
+
+def analyze_price_path(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze the actual price movement pattern visible in the chart to determine direction.
+    This uses the candle patterns after MSS to determine if price is moving up or down.
+    """
+    # We need to analyze if price is moving up or down after MSS
+    # Look for candle pattern descriptions
+    candle_description = vision_json.get("candle_colors", "")
+    
+    # Extract all text fields for analysis
+    all_text = " ".join([
+        str(vision_json.get("mss_location_description", "")),
+        str(vision_json.get("displacement_analysis", {}).get("description", "")),
+        str(vision_json.get("fvg_analysis", {}).get("description", ""))
+    ]).lower()
+    
+    # Look for descriptions of price movement
+    price_increases = any(phrase in all_text for phrase in [
+        "price increases", "price rises", "moving upward", "moving higher",
+        "higher than before", "price goes up", "bullish movement"
+    ])
+    
+    price_decreases = any(phrase in all_text for phrase in [
+        "price decreases", "price falls", "moving downward", "moving lower",
+        "lower than before", "price goes down", "bearish movement"
+    ])
+    
+    # If movement description is inconclusive, check for price levels
+    if not price_increases and not price_decreases:
+        # Look for numeric patterns like "1.3245 to 1.3260" or "41,050 → 41,030"
+        price_pattern = r'(\d+[.,]\d+).*?(\d+[.,]\d+)'
+        matches = re.findall(price_pattern, all_text)
+        
+        if matches:
+            for match in matches:
+                try:
+                    price1 = float(match[0].replace(',', ''))
+                    price2 = float(match[1].replace(',', ''))
+                    
+                    if price2 > price1:
+                        price_increases = True
+                    elif price2 < price1:
+                        price_decreases = True
+                except:
+                    continue
+    
+    # Determine direction based on price movement
+    if price_increases:
+        return {"price_path_direction": "long", "confidence": "medium"}
+    elif price_decreases:
+        return {"price_path_direction": "short", "confidence": "medium"}
+    else:
+        return {"price_path_direction": "unknown", "confidence": "low"}
+
+def analyze_text_labels(vision_json: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Analyze text labels on the chart for directional clues.
+    """
+    # Get all visible labels
+    labels = vision_json.get("visible_labels_on_chart", [])
+    
+    # Look for direction-specific labels
+    long_indicators = ["LONG", "BUY", "BULLISH"]
+    short_indicators = ["SHORT", "SELL", "BEARISH"]
+    
+    # Check if BE (Break Even) or TP (Take Profit) positions indicate direction
+    be_position = None
+    tp_position = None
+    mss_position = None
+    
+    # Extract positions if available, otherwise just note presence
+    for label in labels:
+        label_text = label if isinstance(label, str) else label.get("text", "")
+        label_text = label_text.upper()
+        
+        if "BE" in label_text:
+            be_position = True
+        elif "TP" in label_text or "TARGET" in label_text:
+            tp_position = True
+        elif "MSS" in label_text:
+            mss_position = True
+    
+    # Check OCR text for additional directional clues
+    ocr_text = vision_json.get("extracted_text", "").upper()
+    
+    direction = "unknown"
+    confidence = "low"
+    
+    # Look for explicit direction indicators in labels
+    if any(indicator in " ".join(str(label).upper() for label in labels) for indicator in long_indicators):
+        direction = "long"
+        confidence = "high"
+    elif any(indicator in " ".join(str(label).upper() for label in labels) for indicator in short_indicators):
+        direction = "short"
+        confidence = "high"
+    # Look in OCR text if we have it
+    elif any(indicator in ocr_text for indicator in long_indicators):
+        direction = "long"
+        confidence = "medium"
+    elif any(indicator in ocr_text for indicator in short_indicators):
+        direction = "short"
+        confidence = "medium"
+    
+    return {
+        "label_suggested_direction": direction,
+        "label_confidence": confidence,
+        "has_be_label": be_position is not None,
+        "has_tp_label": tp_position is not None,
+        "has_mss_label": mss_position is not None
+    }
+
+def determine_trade_direction_from_pivot(vision_json: Dict[str, Any]) -> str:
+    """Determine trade direction based on the type of pivot being broken"""
+    
+    # Extract pivot description
+    mss_pivot_data = vision_json.get("mss_pivot_analysis", {})
+    pivot_description = mss_pivot_data.get("description", "").lower()
+    
+    # Check for pivot type keywords
+    is_lower_high = any(term in pivot_description for term in ["lower high", "lower peak", "decreasing peak", "descending peak"])
+    is_higher_low = any(term in pivot_description for term in ["higher low", "higher trough", "increasing trough", "ascending trough"])
+    
+    # Apply the market structure rule
+    if is_lower_high:
+        return "long"  # Breaking a lower high = LONG trade
+    elif is_higher_low:
+        return "short"  # Breaking a higher low = SHORT trade
+    else:
+        return "unknown"  # Pivot type not clearly identified
+
+
+def determine_final_trade_direction(vision_json: Dict[str, Any], cv_analysis: Dict[str, Any]) -> str:
+    """
+    Integrate all analysis methods to make a final trade direction decision.
+    Prioritizes displacement+MSS alignment but uses multiple evidence sources.
+    """
+    # Gather evidence from all analysis methods
+    mss_displacement = analyze_mss_and_displacement(vision_json)
+    zone_analysis = analyze_trade_zones(vision_json)
+    price_path = analyze_price_path(vision_json)
+    label_analysis = analyze_text_labels(vision_json)
+    
+    # Create a weighted voting system
+    direction_votes = {
+        "long": 0,
+        "short": 0,
+        "unknown": 0
+    }
+    
+    # MSS and displacement get highest weight
+    if mss_displacement["trade_direction_from_displacement"] != "unknown":
+        direction_votes[mss_displacement["trade_direction_from_displacement"]] += 3
+    
+    # Zone analysis gets good weight
+    if zone_analysis["trade_direction_from_zones"] != "unknown":
+        direction_votes[zone_analysis["trade_direction_from_zones"]] += 2
+    
+    # Price path gets medium weight
+    if price_path["price_path_direction"] != "unknown":
+        direction_votes[price_path["price_path_direction"]] += 2
+    
+    # Label analysis gets medium weight if high confidence
+    if label_analysis["label_suggested_direction"] != "unknown":
+        weight = 3 if label_analysis["label_confidence"] == "high" else 1
+        direction_votes[label_analysis["label_suggested_direction"]] += weight
+    
+    # Determine direction based on voting
+    if direction_votes["long"] > direction_votes["short"]:
+        return "long"
+    elif direction_votes["short"] > direction_votes["long"]:
+        return "short"
+    else:
+        # If tied, prioritize MSS+displacement
+        return mss_displacement["trade_direction_from_displacement"]
+
 def validate_trade_direction(vision_data: Dict[str, Any]) -> tuple:
     """Validate trade direction using multiple data points"""
     
@@ -824,37 +1197,54 @@ def validate_trade_direction(vision_data: Dict[str, Any]) -> tuple:
     displacement_direction = vision_data.get("displacement_analysis", {}).get("direction", "unknown")
     mss_description = vision_data.get("mss_location_description", "").lower()
     
-    # Look for price level indicators in the description
-    price_lower_after = any(phrase in mss_description for phrase in 
-                          ["price lower", "price decreased", "price moved down", "price fell"])
-    price_higher_after = any(phrase in mss_description for phrase in 
-                           ["price higher", "price increased", "price moved up", "price rose"])
-    
-    # Determine direction based on multiple signals
+    # Map break direction to expected trade direction
+    if break_direction == "upward":
+        mss_direction = "bullish"
+    elif break_direction == "downward":
+        mss_direction = "bearish"
+    else:
+        mss_direction = "unknown"
+
+    # Check if displacement matches expected direction
+    direction_aligned = False
+    if mss_direction == "bullish" and displacement_direction == "bullish":
+        direction_aligned = True
+        trade_direction = "long"
+    elif mss_direction == "bearish" and displacement_direction == "bearish":
+        direction_aligned = True
+        trade_direction = "short"
+
+     # Return immediately if we have high confidence alignment
+    if direction_aligned:
+        return trade_direction, 3  # High confidence
+
+    # Otherwise, look for additional clues in the descriptions
     signals = []
     
-    if break_direction == "downward":
-        signals.append("short")
-    elif break_direction == "upward":
+    # Look for direct mentions of trade direction in descriptions
+    if "long" in mss_description or "buy" in mss_description:
         signals.append("long")
-        
-    if displacement_direction == "bearish":
+    elif "short" in mss_description or "sell" in mss_description:
         signals.append("short")
-    elif displacement_direction == "bullish":
+    
+    # Look for aligned movement descriptors
+    if (break_direction == "upward" and 
+        any(phrase in mss_description for phrase in ["bullish", "upward", "higher", "increased"])):
         signals.append("long")
-        
-    if price_lower_after:
+    elif (break_direction == "downward" and 
+          any(phrase in mss_description for phrase in ["bearish", "downward", "lower", "decreased"])):
         signals.append("short")
-    elif price_higher_after:
-        signals.append("long")
     
     # Count signal frequencies
-    if signals.count("short") > signals.count("long"):
-        return "short", signals.count("short")
-    elif signals.count("long") > signals.count("short"):
-        return "long", signals.count("long")
+    short_count = signals.count("short")
+    long_count = signals.count("long")
+    
+    if short_count > long_count:
+        return "short", min(short_count, 2)  # Cap confidence at 2 (medium)
+    elif long_count > short_count:
+        return "long", min(long_count, 2)  # Cap confidence at 2 (medium)
     else:
-        return "unknown", 0  # Equal signals or no signals        
+        return "unknown", 0  # Equal signals or no signals      
 
 def determine_setup_type(fvg_count: int, fvg_description: str = "", is_second_leg: bool = False) -> str:
     """
@@ -902,11 +1292,6 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     """
     final_analysis = copy.deepcopy(vision_json)  # Start with vision model output
     final_analysis["_rule_engine_notes"] = f"Rule engine applied for {query_type}"
-
-    # --- Get basic data from vision analysis ---
-    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
-    displacement = final_analysis.get("displacement_analysis", {})
-    displacement_direction = displacement.get("direction", "unknown")
     
     # --- Apply MSS type classification rule ---
     mss_pivot_data = final_analysis.get("mss_pivot_analysis", {})
@@ -920,8 +1305,62 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     )
     final_analysis["_rule_engine_notes"] += f", MSS classified as {final_analysis['final_mss_type']}"
 
-    # --- CONSOLIDATED DIRECTION DETERMINATION ---
-    # Determine MSS direction from break direction
+    # --- INTEGRATED DIRECTION DETERMINATION ---
+    # FIRST: Try to determine direction based on pivot type (highest priority)
+    pivot_based_direction = determine_trade_direction_from_pivot(vision_json)
+    final_analysis["pivot_based_direction"] = pivot_based_direction
+
+    # Collect additional evidence from all subsystems
+    mss_displacement = analyze_mss_and_displacement(vision_json)
+    zone_analysis = analyze_trade_zones(vision_json)
+    price_path = analyze_price_path(vision_json)
+    label_analysis = analyze_text_labels(vision_json)
+
+    # Record all the evidence for transparency
+    final_analysis["direction_evidence"] = {
+        "pivot_based_direction": pivot_based_direction,
+        "mss_displacement_analysis": mss_displacement,
+        "zone_analysis": zone_analysis,
+        "price_path_analysis": price_path,
+        "label_analysis": label_analysis
+    }
+
+    # PRIMARY RULE: Use pivot-based direction if available
+    if pivot_based_direction != "unknown":
+        final_analysis["final_trade_direction"] = pivot_based_direction
+        final_analysis["_rule_engine_notes"] += f", Direction determined from pivot type: {pivot_based_direction}"
+    else:
+        # Fall back to the integrated approach only if pivot type is unclear
+        final_analysis["final_trade_direction"] = determine_final_trade_direction(vision_json, cv_findings)
+        final_analysis["_rule_engine_notes"] += ", Direction determined from integrated analysis (pivot type unclear)"
+    
+    # Determine confidence based on agreement level
+    evidence_directions = [
+        mss_displacement["trade_direction_from_displacement"],
+        zone_analysis["trade_direction_from_zones"],
+        price_path["price_path_direction"],
+        label_analysis["label_suggested_direction"]
+    ]
+
+    # Filter out unknown directions
+    known_directions = [d for d in evidence_directions if d != "unknown"]
+
+     # Check if all known directions agree
+    if known_directions and all(d == known_directions[0] for d in known_directions):
+        final_analysis["direction_confidence"] = "high"
+    # If we have limited but consistent evidence
+    elif known_directions and len(set(known_directions)) == 1:
+        final_analysis["direction_confidence"] = "medium"
+    # If we have conflicting evidence
+    else:
+        final_analysis["direction_confidence"] = "low"
+        final_analysis["_rule_engine_notes"] += ", Note: Conflicting direction evidence, using weighted decision"
+
+    # Record if we have alignment between MSS break and displacement
+    break_direction = final_analysis.get("break_direction_suggestion", "unknown")
+    displacement_direction = mss_displacement.get("displacement_direction", "unknown")
+
+    # First determine MSS direction from break direction
     if break_direction == "upward":
         mss_direction = "bullish"
     elif break_direction == "downward":
@@ -930,40 +1369,41 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
         mss_direction = "unclear"
     final_analysis["mss_direction"] = mss_direction
 
-    # Then consolidated direction logic that runs only once
-    if displacement_direction in ["bullish", "bearish"]:
-        # Primarily trust displacement direction
-        final_analysis["final_trade_direction"] = "long" if displacement_direction == "bullish" else "short"
+    # Then check for alignment between MSS and displacement
+    if break_direction != "unknown" and displacement_direction != "unknown":
+        if (break_direction == "upward" and displacement_direction == "bullish") or \
+            (break_direction == "downward" and displacement_direction == "bearish"):
+            final_analysis["direction_alignment"] = True
+        else:
+            final_analysis["direction_alignment"] = False
+            final_analysis["_rule_engine_notes"] += ", Warning: MSS and displacement directions don't align"
         
-        # Check if MSS and displacement align
-        if (mss_direction == "bullish" and displacement_direction == "bullish") or \
-           (mss_direction == "bearish" and displacement_direction == "bearish"):
-            final_analysis["direction_confidence"] = "high"
-        else:
-            final_analysis["direction_confidence"] = "medium"
-            final_analysis["_rule_engine_notes"] += ", Note: Displacement and MSS direction don't align"
+    # Enrich the analysis with direction alignment information
+    if final_analysis.get("direction_alignment") is True:
+        # If directions align, increase confidence
+        final_analysis["direction_confidence"] = "high"
+        final_analysis["_rule_engine_notes"] += f", Direction confirmed by MSS and displacement alignment"
     else:
-        # Fallback to MSS direction if displacement direction is unknown
-        if mss_direction == "bullish":
-            final_analysis["final_trade_direction"] = "long"
-            final_analysis["direction_confidence"] = "low" 
-        elif mss_direction == "bearish":
-            final_analysis["final_trade_direction"] = "short"
+        # When not aligned, record the conflict but keep the weighted decision
+        final_analysis["_rule_engine_notes"] += ", Warning: MSS and displacement directions don't align"
+        
+        # Record what each analysis suggests for diagnostics
+        if displacement_direction in ["bullish", "bearish"]:
+            final_analysis["displacement_suggests"] = "long" if displacement_direction == "bullish" else "short"
+        if mss_direction in ["bullish", "bearish"]:
+            final_analysis["mss_suggests"] = "long" if mss_direction == "bullish" else "short"
+        
+        # Lower confidence since we have conflicting signals
+        if final_analysis.get("direction_confidence") != "none":
             final_analysis["direction_confidence"] = "low"
-        else:
-            final_analysis["final_trade_direction"] = "unknown"
-            final_analysis["direction_confidence"] = "none"
-            final_analysis["_rule_engine_notes"] += ", Could not determine trade direction"
 
     # Add validation check as a safety net
-    validated_direction, confidence_score = validate_trade_direction(final_analysis)
-    if validated_direction != "unknown" and validated_direction != final_analysis["final_trade_direction"]:
-        final_analysis["_rule_engine_notes"] += f", Direction conflict detected, validated as {validated_direction}"
-        final_analysis["direction_conflict"] = True
-        # Only override if confidence is high in the validation
-        if confidence_score >= 2:
+    if final_analysis["final_trade_direction"] == "unknown":
+        validated_direction, confidence_score = validate_trade_direction(final_analysis)
+        if validated_direction != "unknown" and confidence_score >= 2:
             final_analysis["final_trade_direction"] = validated_direction
-            final_analysis["_rule_engine_notes"] += f", Direction corrected to {validated_direction} with confidence {confidence_score}"
+            final_analysis["direction_confidence"] = "low"  # Low confidence because we had to rely on validation
+            final_analysis["_rule_engine_notes"] += f", Direction determined from validation: {validated_direction}"
 
     # --- Process CV findings ---
     if cv_findings and cv_findings.get("cv_analysis_performed", False):
@@ -1158,8 +1598,8 @@ def apply_rule_engine(vision_json: Dict[str, Any], cv_findings: Dict[str, Any], 
     if final_analysis.get("has_valid_fvg") is True: validity_score += 10 # Check for explicit True
     if final_analysis.get("displacement_matches_trade") is True: validity_score += 10 # Check for explicit True
 
-    # Add bonus for high direction confidence
-    if final_analysis.get("direction_confidence") == "high": validity_score += 5
+    # CRITICAL: Add points ONLY if direction alignment is confirmed
+    if final_analysis.get("direction_alignment") is True: validity_score += 20 # Higher weight for alignment
 
     validity_score = min(max(validity_score, 0), 100) # Ensure score is between 0 and 100
     final_analysis["setup_validity_score"] = validity_score
@@ -1271,6 +1711,79 @@ IMPORTANT: Your response must be a valid JSON object with this base structure:
   "confidence_level": "low"/"medium"/"high"
 }
 """
+
+    # Trade evaluation specific prompt
+    if query_type == "trade_evaluation_image_query" or query_type == "general_image_query":
+        vision_system_prompt_template = base_prompt + """
+Provide a comprehensive analysis of the trading chart, focusing on these key aspects:
+- Market Structure Shifts (MSS) - both Normal and Aggressive types
+- Candle and color patterns
+- Direction of the break (upward/downward)
+- CRITICAL: Displacement after MSS - carefully describe the ACTUAL price movement AFTER the MSS
+
+EXTREMELY IMPORTANT FOR DISPLACEMENT ANALYSIS:
+1. Look at where the MSS is marked on the chart (usually with "MSS" label or arrows)
+2. CAREFULLY observe what happens to price AFTER this MSS point:
+   - If price MOVES HIGHER after MSS = "bullish" displacement
+   - If price MOVES LOWER after MSS = "bearish" displacement
+3. Don't just look at the break direction - analyze what ACTUALLY HAPPENS after the break
+4. In your displacement_analysis, include a detailed description of the actual price path
+
+Definitions:
+- MSS (Market Structure Shift): A break of market structure that signals a potential trend change.
+- Normal MSS: The pivot (higher low or lower high) that is broken must have at least 2 bearish AND 2 bullish candles.
+- Aggressive MSS: The pivot has fewer than 2 bearish OR fewer than 2 bullish candles.
+- FVG (Fair Value Gap): An unfilled gap created when price makes an impulsive move.
+- Liquidity: Price levels where stop losses or take profits are clustered.
+
+CRITICAL DIRECTION ANALYSIS INSTRUCTIONS:
+1. MOST IMPORTANT: Identify the TYPE of pivot structure being broken:
+   - Breaking a LOWER HIGH = LONG trade (regardless of break direction)
+   - Breaking a HIGHER LOW = SHORT trade (regardless of break direction)
+2. A LOWER HIGH is a peak that's lower than the previous peak
+3. A HIGHER LOW is a trough/valley that's higher than the previous trough/valley
+4. In your pivot analysis, clearly state whether the pivot is a "lower high" or "higher low"
+
+AFTER IDENTIFYING PIVOT TYPE, ALSO ANALYZE:
+1. Direction of the break (upward/downward)
+2. Direction of displacement (bullish/bearish)
+3. Alignment between break and displacement directions
+4. The best setups have all factors aligned:
+   - Breaking a lower high downward with bullish displacement = strong LONG
+   - Breaking a higher low upward with bearish displacement = strong SHORT
+
+PRICE MOVEMENT AFTER MSS:
+1. After breaking a LOWER HIGH, price should move HIGHER (bullish displacement)
+2. After breaking a HIGHER LOW, price should move LOWER (bearish displacement)
+3. Pay special attention to displacement strength and direction
+""" + base_json_structure + """
+Your JSON response MUST include the following full structure:
+{
+  "analysis_possible": true/false,
+  "candle_colors": "description of bullish/bearish candle colors or 'unknown'",
+  "is_risk_above_entry_suggestion": true/false/null,
+  "mss_location_description": "description of where the MSS is located",
+  "mss_pivot_analysis": {
+    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+    "pivot_type": "lower_high"/"higher_low"/"unknown",
+    "pivot_bearish_count": number,
+    "pivot_bullish_count": number
+  },
+  "break_direction_suggestion": "upward"/"downward"/"unclear",
+  "displacement_analysis": { 
+    "direction": "bullish"/"bearish"/"unclear", 
+    "strength": "weak"/"moderate"/"strong",
+    "description": "DETAILED description of how price actually moves after the MSS point, including whether it goes higher or lower"
+  },
+  "fvg_analysis": { "count": number, "description": "description of FVGs present" },
+  "liquidity_zones_description": "description of liquidity zones and if they were swept",
+  "liquidity_status_suggestion": "swept"/"not_swept"/"unclear",
+  "trade_outcome_suggestion": "win"/"loss"/"breakeven"/"potential_setup"/"unknown",
+  "visible_labels_on_chart": ["MSS", "BE", etc.],
+  "confidence_level": "low"/"medium"/"high"
+}
+"""
+
     
     # For liquidity concept verification
     if query_type == "concept_verification_image_query" or query_type == "general_image_query":
@@ -1336,7 +1849,8 @@ Your JSON response should include these specific fields:
   "candle_colors": "description of candle colors",
   "mss_location_description": "description of where the MSS is located",
   "mss_pivot_analysis": {
-    "description": "description of the pivot structure",
+    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+    "pivot_type": "lower_high"/"higher_low"/"unknown",
     "pivot_bearish_count": number,
     "pivot_bullish_count": number
   },
@@ -1409,7 +1923,8 @@ Your JSON response MUST include the following full structure:
   "is_risk_above_entry_suggestion": true/false/null,
   "mss_location_description": "description of where the MSS is located",
   "mss_pivot_analysis": {
-    "description": "description of the pivot structure",
+    "description": "description of the pivot structure (clearly state if it's a 'lower high' or 'higher low')",
+    "pivot_type": "lower_high"/"higher_low"/"unknown",
     "pivot_bearish_count": number,
     "pivot_bullish_count": number
   },
@@ -1571,6 +2086,8 @@ async def ask_question(query: TextQuery):
 
 @app.post("/ask-image-hybrid", response_model=Dict[str, Any]) # Return type more flexible
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
+    global async_openai_client
+
     start_time = time.time()
     session_id = payload.session_id or generate_session_id()
     question = payload.question.strip()
@@ -1579,6 +2096,45 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
 
     if not question: raise HTTPException(status_code=400, detail="Întrebarea nu poate fi goală.")
     if not image_url: raise HTTPException(status_code=400, detail="URL-ul imaginii nu poate fi gol.")
+
+    # Extract parameters from the question
+    # Expected format: "analizeaza SYMBOL de la HH:MM pana la HH:MM"
+    # Example: "analizeaza DAX de la 10:15 pana la 10:30"
+    try:
+        # Use regex to extract parameters
+        pattern = r"analizeaza\s+(\w+)\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})"
+        match = re.search(pattern, question.lower())
+        
+        if not match:
+            raise HTTPException(
+                status_code=400, 
+                detail="Format invalid. Vă rugăm folosiți: analizeaza SYMBOL de la HH:MM pana la HH:MM"
+            )
+        
+        symbol = match.group(1).upper()
+        from_time = match.group(2)
+        to_time = match.group(3)
+        
+        # Get today's date for the analysis
+        today = datetime.now().strftime("%Y-%m-%d")
+        from_date = today
+        to_date = today
+        
+        # Validate time format
+        try:
+            datetime.strptime(from_time, "%H:%M")
+            datetime.strptime(to_time, "%H:%M")
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="Format oră invalid. Vă rugăm folosiți formatul HH:MM (ex: 10:15)"
+            )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Eroare la procesarea parametrilor: {str(e)}. Vă rugăm folosiți formatul: analizeaza SYMBOL de la HH:MM pana la HH:MM"
+        )
 
     history_store_key = f"image_hybrid:{session_id}" # Separate history for image queries
     history = []
@@ -1611,7 +2167,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
     ocr_text = await extract_text_from_image_async(image_content) # General OCR of the whole image
     logging.info(f"OCR (full image) extracted text length: {len(ocr_text)}")
 
-
     # Vision Model Analysis
     vision_json = {"analysis_possible": False, "_vision_note": "Vision analysis not performed yet"}
     cache_key = f"{image_url}:{query_type}"
@@ -1621,174 +2176,25 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         logging.info(f"Using cached vision analysis for {cache_key}")
     else:
         try:
-            # Get specialized prompt based on query type
-            vision_system_prompt_template = get_vision_system_prompt(query_type, question)
-            
-            # Optimize the image before sending to vision model
-            optimized_image_content = await asyncio.to_thread(optimize_image_before_vision, image_content)
-            if optimized_image_content != image_content:
-                logging.info(f"Image optimized: original size {len(image_content)} bytes, new size {len(optimized_image_content)} bytes")
-
-            content_items = [
-                {"type": "text", "text": vision_system_prompt_template},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(optimized_image_content).decode('utf-8')}"}}
-            ]
-            
-            async with openai_call_limiter:
-                vision_response = await async_openai_client.chat.completions.create(
-                    model=VISION_MODEL,
-                    messages=[
-                        {"role": "system", "content": "You are a trading chart analysis assistant that outputs structured JSON."},
-                        {"role": "user", "content": content_items}
-                    ],
-                    max_tokens=2000, temperature=0.1 # Very low temp for structured JSON
-                )
-            
-            vision_analysis_text = vision_response.choices[0].message.content
-            vision_json_str = extract_json_from_text(vision_analysis_text)
-        
-            if not vision_json_str:
-                vision_json = {"analysis_possible": False, "_vision_note": "Could not extract JSON from vision model response."}
-            else:
-                try:
-                    vision_json = json.loads(vision_json_str)
-                    vision_json["_vision_note"] = "Vision analysis completed."
-                    logging.info("Vision model analysis extracted successfully.")
-                    # Cache the successful result
-                    vision_results_cache[cache_key] = vision_json
-                
-                except json.JSONDecodeError:
-                    logging.error(f"Failed to parse vision model JSON: {vision_json_str[:500]}")
-                    # Try to salvage partial JSON
-                    try:
-                        # Look for patterns that might indicate valid but incomplete JSON
-                        if '{' in vision_json_str and '"analysis_possible"' in vision_json_str:
-                            # Try to clean up and repair common JSON formatting issues
-                            cleaned_str = re.sub(r',\s*}', '}', vision_json_str)  # Remove trailing commas
-                            cleaned_str = re.sub(r',\s*]', ']', cleaned_str)     # Remove trailing commas in arrays
-                             # Find the largest valid JSON subset
-                            start_idx = vision_json_str.find('{')
-                            end_idx = vision_json_str.rfind('}')
-                            if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
-                                partial_json_str = cleaned_str[start_idx:end_idx+1]
-                                vision_json = json.loads(partial_json_str)
-                                vision_json["_vision_note"] = "Partial vision analysis (recovered from malformed JSON)"
-                                logging.info("Recovered partial JSON from vision model response")
-                            else:
-                                raise ValueError("Could not find valid JSON object boundaries")   
-                        else:
-                            raise ValueError("No valid JSON pattern found")   
-                    except Exception as recovery_error:
-                        logging.error(f"JSON recovery attempt failed: {recovery_error}")        
-                        #Fall back to a basic structure
-                        vision_json = {
-                            "analysis_possible": False,
-                            "confidence_level": "low",
-                            "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
-                        }
-                
-        except RateLimitError:
-            logging.warning("OpenAI rate limit hit during vision analysis.")
-            raise HTTPException(status_code=429, detail="Prea multe solicitări către OpenAI (Vision). Te rog să încerci mai târziu.")
-        except APIError as e:
-            logging.error(f"OpenAI API error during vision analysis: {e}")
-            vision_json = {"analysis_possible": False, "_vision_note": f"Vision analysis API error: {str(e)}"}
-        except Exception as e:
-            logging.error(f"Unexpected vision model error: {e}")
-            vision_json = {"analysis_possible": False, "_vision_note": f"Unexpected vision analysis error: {str(e)}"}
-
-        if not vision_json_str:
-            logging.warning("Could not extract JSON from vision model. Creating basic fallback structure.")
-    
-            # Create a fallback JSON structure based on the query type and question
-            question_lower = question.lower()
-    
-            vision_json = {
-                "analysis_possible": True,
-                "candle_colors": "unknown",
-                "confidence_level": "low",
-                "_vision_note": "Used fallback analysis due to JSON extraction failure"
-            }
-    
-            # If question is about liquidity, add basic liquidity info
-            if "liquidity" in question_lower or "lichidit" in question_lower or "liq" in question_lower:
-                vision_json["liquidity_zones_description"] = "Liquidity zones appear to be present in the chart"
-                vision_json["liquidity_status_suggestion"] = "unclear"
-        
-                # Try to infer from OCR text
-                if ocr_text:
-                    if "swept" in ocr_text.lower():
-                        vision_json["liquidity_status_suggestion"] = "swept"
-                        vision_json["_vision_note"] += ", Inferred liquidity status from OCR text"
-    
-            # If question is about FVGs
-            elif "fvg" in question_lower or "fair value gap" in question_lower:
-                vision_json["fvg_analysis"] = {
-                    "count": 0,
-                    "description": "Could not determine FVG details with confidence"
-                }
-    
-            # If question is about MSS
-            elif "mss" in question_lower or "structure" in question_lower:
-                vision_json["mss_location_description"] = "MSS location could not be determined with confidence"
-                vision_json["mss_pivot_analysis"] = {
-                    "description": "Pivot structure unclear",
-                    "pivot_bearish_count": None,
-                    "pivot_bullish_count": None
-                }
-                vision_json["break_direction_suggestion"] = "unclear"
-    
-            # Add general fallback for trade evaluation queries
-            else:
-                vision_json["mss_location_description"] = "Could not identify MSS with confidence"
-                vision_json["break_direction_suggestion"] = "unclear"
-                vision_json["liquidity_zones_description"] = "Could not analyze liquidity zones with confidence"
-                vision_json["fvg_analysis"] = {
-                    "count": 0,
-                    "description": "Could not identify FVGs with confidence"
-                }
-                vision_json["trade_outcome_suggestion"] = "unknown"
-        else:
-            try:
-                vision_json = json.loads(vision_json_str)
-                vision_json["_vision_note"] = "Vision analysis completed."
-                logging.info("Vision model analysis extracted successfully.")
-        
-                # Cache the successful result
-                vision_results_cache[cache_key] = vision_json     
-            except json.JSONDecodeError:
-                logging.error(f"Failed to parse vision model JSON: {vision_json_str[:500]}")
-                # Try to salvage partial JSON
-                try:
-                    # Look for patterns that might indicate valid but incomplete JSON
-                    if '{' in vision_json_str and '"analysis_possible"' in vision_json_str:
-                        # Try to clean up and repair common JSON formatting issues
-                        cleaned_str = re.sub(r',\s*}', '}', vision_json_str)  # Remove trailing commas
-                        cleaned_str = re.sub(r',\s*]', ']', cleaned_str)     # Remove trailing commas in arrays
-                
-                        # Find the largest valid JSON subset
-                        start_idx = vision_json_str.find('{')
-                        end_idx = vision_json_str.rfind('}')
-                
-                        if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
-                            partial_json_str = cleaned_str[start_idx:end_idx+1]
-                            vision_json = json.loads(partial_json_str)
-                            vision_json["_vision_note"] = "Partial vision analysis (recovered from malformed JSON)"
-                            logging.info("Recovered partial JSON from vision model response")
-                        else:
-                            raise ValueError("Could not find valid JSON object boundaries")
-                    else:
-                        raise ValueError("No valid JSON pattern found")
-                except Exception as recovery_error:
-                    logging.error(f"JSON recovery attempt failed: {recovery_error}")
-            
-                    # Fall back to a basic structure
-                    vision_json = {
-                        "analysis_possible": False,
-                        "confidence_level": "low",
-                        "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
+            # ── Deterministic image analysis – no LLM needed
+            async with httpx.AsyncClient(timeout=30) as client:
+                r = await client.get(
+                    f"https://strategy-analysis-service-production.up.railway.app/candles/{symbol}/analysis/assistant",
+                    params={
+                        "from_date": from_date,
+                        "to_date": to_date,
+                        "timeframe": "1min",
+                        "from_time": from_time,
+                        "to_time": to_time
                     }
+                )
+                r.raise_for_status()          # will throw if HTTP-error
+                vision_json = r.json()        # this JSON matches the old schema
+                vision_json["_vision_note"] = "Fetched from deterministic endpoint"
 
+        except Exception as e:
+            logging.error(f"Deterministic image analysis failed: {e}")
+            # fall back to an empty/placeholder vision_json if you need one
 
     # Rule Engine
     try:
@@ -1798,7 +2204,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         logging.error(f"Rule engine error: {e}")
         final_analysis_report = vision_json # Fallback to vision results
         final_analysis_report["_rule_engine_notes"] = (final_analysis_report.get("_rule_engine_notes","") + f" Rule engine failed: {str(e)}").strip()
-
 
     # RAG
     context_text = ""
@@ -1815,30 +2220,67 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
             search_terms.append(expanded)
         search_query = " ".join(list(set(search_terms))) # Unique terms
 
-        async with openai_call_limiter:
-            embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
-        query_vector = embedding_response.data[0].embedding
-        pinecone_results = await asyncio.to_thread(
-            index.query, vector=query_vector, top_k=7, include_metadata=True # Changed from 3 to 7
-        )
-        # First collect all chunks regardless of score
-        all_chunks = [
-            match.metadata["text"] for match in pinecone_results.matches
-            if match.metadata and "text" in match.metadata
-        ]
+        try:
+            async with openai_call_limiter:
+                embedding_response = await async_openai_client.embeddings.create(input=search_query, model=EMBEDDING_MODEL)
+            query_vector = embedding_response.data[0].embedding
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 401:
+                logging.error(f"Authentication error with OpenAI API during embeddings: {e}")
+                # Re-create client to refresh auth
+                try:
+                    await async_openai_client.close()
+                except:
+                    pass
+                async_openai_client = AsyncOpenAI(
+                    api_key=OPENAI_API_KEY, 
+                    http_client=httpx.AsyncClient(
+                        http2=True, 
+                        timeout=httpx.Timeout(30.0, connect=10.0)
+                    )
+                )
+                context_text = "Eroare de autentificare cu OpenAI. Sistemul va încerca să se recupereze."
+                logging.info(f"Retrieved 0 relevant context chunks due to authentication error.")
+            else:
+                logging.error(f"HTTP error during embeddings: {e}")
+                context_text = f"Eroare de comunicare cu OpenAI: HTTP {e.response.status_code}"
+                logging.info(f"Retrieved 0 relevant context chunks due to HTTP error.")
+        except RateLimitError:
+            logging.warning("OpenAI rate limit hit during embeddings.")
+            context_text = "Prea multe solicitări către OpenAI. Vom continua fără contextul suplimentar."
+            logging.info(f"Retrieved 0 relevant context chunks due to rate limiting.")
+        except APIError as api_err:
+            logging.error(f"OpenAI API error during embeddings: {api_err}")
+            context_text = "Eroare API OpenAI. Vom continua fără contextul suplimentar."
+            logging.info(f"Retrieved 0 relevant context chunks due to API error.")
 
-        # Apply sophisticated filtering to prioritize relevant content
-        if all_chunks:
-            context_text = retrieve_relevant_content(question, pinecone_results)
-            logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
-        else:
-            context_text = ""
-        # FIX: Use len(all_chunks) instead of undefined context_chunks variable
-        logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for image query.")
+        # Only reach here if embeddings were successful
+        try:
+            pinecone_results = await asyncio.to_thread(
+                index.query, vector=query_vector, top_k=7, include_metadata=True
+            )
+        
+            # First collect all chunks regardless of score
+            all_chunks = [
+                match.metadata["text"] for match in pinecone_results.matches
+                if match.metadata and "text" in match.metadata
+            ]
+        
+            # Apply sophisticated filtering to prioritize relevant content
+            if all_chunks:
+                context_text = retrieve_relevant_content(question, pinecone_results)
+                logging.info(f"Retrieved and prioritized content: {len(context_text)} bytes")
+            else:
+                context_text = ""
+        
+            logging.info(f"Retrieved {len(all_chunks)} relevant context chunks for image query.")
+        except Exception as pinecone_err:
+            logging.error(f"Pinecone retrieval error: {pinecone_err}")
+            context_text = "Nu am putut prelua informații suplimentare din baza de date vectorială."
+        
     except Exception as e: # Non-critical, so don't raise HTTPException
         logging.error(f"RAG retrieval error: {e}")
         context_text = "Nu am putut prelua informații suplimentare din materialul de curs pentru această imagine."
-
 
     # Final Response Generation
     try:

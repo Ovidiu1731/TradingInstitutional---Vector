@@ -6,7 +6,9 @@ import os
 # Configuration
 API_URL = "https://web-production-4b33.up.railway.app/admin/export-feedback"
 API_KEY = "e4784571eb1350e2f70bfa9f74ca86af"
-BACKUP_DIR = os.path.join(os.path.expanduser("~/Desktop/Current GitHub TI Project Files"), "feedback_logs")
+
+# Use current project directory instead of hardcoded path
+BACKUP_DIR = os.path.join(os.getcwd(), "feedback_logs")
 MASTER_FILE = os.path.join(BACKUP_DIR, "all_feedback_logs.json")
 
 # Print configuration details for logging
