@@ -304,6 +304,33 @@ FEW_SHOT_EXAMPLES = [
 # ---------------------------------------------------------------------------
 # FASTAPI APP LIFECYCLE
 # ---------------------------------------------------------------------------
+async def refresh_clients_periodically():
+    """Periodically refresh API clients to prevent stale connections"""
+    while True:
+        try:
+            await asyncio.sleep(3600)  # Refresh every hour
+            logging.info("Performing scheduled API client refresh")
+            
+            global async_openai_client
+            # Close the old client
+            if async_openai_client:
+                await async_openai_client.close()
+                
+            # Create a new client
+            async_openai_client = AsyncOpenAI(
+                api_key=OPENAI_API_KEY,
+                http_client=httpx.AsyncClient(
+                    http2=True, 
+                    timeout=httpx.Timeout(30.0, connect=10.0),
+                    limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+                    transport=httpx.AsyncHTTPTransport(retries=3)
+                )
+            )
+            logging.info("API clients refreshed successfully")
+            
+        except Exception as e:
+            logging.error(f"Error during scheduled client refresh: {e}")
+
 @app.on_event("startup")
 async def startup_event():
     global aiohttp_session
