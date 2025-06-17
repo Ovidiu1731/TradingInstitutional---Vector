@@ -70,7 +70,7 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
         
         # Process and filter results
         processed_results = []
-        seen_paths = set()
+        seen_content = set()  # Changed from seen_paths to seen_content
         
         # Lower confidence threshold for liquidity queries
         min_score = 0.50 if "liq" in query.lower() or "lichidit" in query.lower() else 0.55
@@ -96,18 +96,21 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
                 if lesson_num:
                     match.metadata["lesson_number"] = lesson_num
             
-            # Skip if we've seen this path before
-            if path in seen_paths:
-                logger.info(f"  Skipping result {i+1}: duplicate path {path}")
+            # Better deduplication: check content similarity instead of path
+            text_content = match.metadata.get("text", "")
+            content_fingerprint = text_content[:100].strip().lower()  # First 100 chars as fingerprint
+            
+            if content_fingerprint in seen_content:
+                logger.info(f"  Skipping result {i+1}: similar content already included")
                 continue
-            seen_paths.add(path)
+            seen_content.add(content_fingerprint)
             
             # Add to processed results
             processed_results.append({
                 "score": match.score,
                 "chapter": match.metadata.get("chapter", "Unknown"),
                 "lesson": match.metadata.get("lesson_number", "Unknown"),
-                "text": match.metadata.get("text", "")
+                "text": text_content
             })
             
             logger.info(f"✅ Added result {len(processed_results)}: score={match.score:.4f}")
