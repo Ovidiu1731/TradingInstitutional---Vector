@@ -9,6 +9,7 @@ import re
 from datetime import datetime
 import hashlib
 import json
+from zoneinfo import ZoneInfo
 
 # Load environment variables
 load_dotenv()
@@ -134,41 +135,66 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
     # Common patterns for market analysis
     patterns = [
         r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})",
-        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})"
+        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})",
+        # New pattern: analyze symbol from time to time (defaults to today)
+        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})"
     ]
     
-    for pattern in patterns:
+    for i, pattern in enumerate(patterns):
         match = re.search(pattern, question.lower())
         if match:
             symbol = match.group(1)
-            date_str = match.group(2)
             
-            # Parse the date
-            try:
-                from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
-                to_date = from_date
-            except ValueError:
-                continue  # Skip this pattern if date is invalid
-            
-            # If we have time range
-            if len(match.groups()) > 2:
+            # Handle different pattern types
+            if i == 0:  # Full pattern with date and time
+                date_str = match.group(2)
                 from_time = match.group(3)
                 to_time = match.group(4)
+                
+                try:
+                    from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
+                    to_date = from_date
+                except ValueError:
+                    continue
+                    
                 return True, {
                     "symbol": symbol,
                     "from_date": from_date.strftime("%Y-%m-%d"),
                     "to_date": to_date.strftime("%Y-%m-%d"),
                     "from_time": from_time,
                     "to_time": to_time,
-                    "timeframe": "1min"  # default timeframe
+                    "timeframe": "1min"
                 }
-            else:
-                # If no time range specified, use full day
+            elif i == 1:  # Date only pattern
+                date_str = match.group(2)
+                
+                try:
+                    from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
+                    to_date = from_date
+                except ValueError:
+                    continue
+                    
                 return True, {
                     "symbol": symbol,
                     "from_date": from_date.strftime("%Y-%m-%d"),
                     "to_date": to_date.strftime("%Y-%m-%d"),
-                    "timeframe": "1min"  # default timeframe
+                    "timeframe": "1min"
+                }
+            elif i == 2:  # Time only pattern (defaults to today)
+                from_time = match.group(2)
+                to_time = match.group(3)
+                
+                # Use today's date in Romanian timezone (Europe/Bucharest)
+                romanian_tz = ZoneInfo("Europe/Bucharest")
+                today = datetime.now(romanian_tz).date()
+                
+                return True, {
+                    "symbol": symbol,
+                    "from_date": today.strftime("%Y-%m-%d"),
+                    "to_date": today.strftime("%Y-%m-%d"),
+                    "from_time": from_time,
+                    "to_time": to_time,
+                    "timeframe": "1min"
                 }
     
     return False, {}
