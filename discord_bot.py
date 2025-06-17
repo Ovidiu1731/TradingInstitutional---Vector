@@ -6,6 +6,7 @@ import aiohttp
 import asyncio
 from dotenv import load_dotenv
 import re
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
@@ -125,23 +126,43 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
     """Detect if the question is a market analysis request"""
     # Common patterns for market analysis
     patterns = [
-        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+de\s+la\s+(\d{4}-\d{2}-\d{2})\s+pana\s+la\s+(\d{4}-\d{2}-\d{2})",
-        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{4}-\d{2}-\d{2})"
+        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})",
+        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})"
     ]
     
     for pattern in patterns:
         match = re.search(pattern, question.lower())
         if match:
             symbol = match.group(1)
-            from_date = match.group(2)
-            to_date = match.group(3) if len(match.groups()) > 2 else from_date
+            date_str = match.group(2)
             
-            return True, {
-                "symbol": symbol,
-                "from_date": from_date,
-                "to_date": to_date,
-                "timeframe": "1min"  # default timeframe
-            }
+            # Parse the date
+            try:
+                from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
+                to_date = from_date
+            except ValueError:
+                continue  # Skip this pattern if date is invalid
+            
+            # If we have time range
+            if len(match.groups()) > 2:
+                from_time = match.group(3)
+                to_time = match.group(4)
+                return True, {
+                    "symbol": symbol,
+                    "from_date": from_date.strftime("%Y-%m-%d"),
+                    "to_date": to_date.strftime("%Y-%m-%d"),
+                    "from_time": from_time,
+                    "to_time": to_time,
+                    "timeframe": "1min"  # default timeframe
+                }
+            else:
+                # If no time range specified, use full day
+                return True, {
+                    "symbol": symbol,
+                    "from_date": from_date.strftime("%Y-%m-%d"),
+                    "to_date": to_date.strftime("%Y-%m-%d"),
+                    "timeframe": "1min"  # default timeframe
+                }
     
     return False, {}
 

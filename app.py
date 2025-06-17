@@ -2178,27 +2178,33 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
     if not image_url: raise HTTPException(status_code=400, detail="URL-ul imaginii nu poate fi gol.")
 
     # Extract parameters from the question
-    # Expected format: "analizeaza SYMBOL de la HH:MM pana la HH:MM"
-    # Example: "analizeaza DAX de la 10:15 pana la 10:30"
+    # Expected format: "analizeaza SYMBOL pentru DD-MM-YYYY de la HH:MM pana la HH:MM"
+    # Example: "analizeaza EUR/USD pentru 16-03-2024 de la 10:15 pana la 10:30"
     try:
         # Use regex to extract parameters
-        pattern = r"analizeaza\s+(\w+)\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})"
+        pattern = r"analizeaza\s+(\w+)\s+pentru\s+(\d{2}-\d{2}-\d{4})\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})"
         match = re.search(pattern, question.lower())
         
         if not match:
             raise HTTPException(
                 status_code=400, 
-                detail="Format invalid. Vă rugăm folosiți: analizeaza SYMBOL de la HH:MM pana la HH:MM"
+                detail="Format invalid. Vă rugăm folosiți: analizeaza SYMBOL pentru DD-MM-YYYY de la HH:MM pana la HH:MM"
             )
         
         symbol = match.group(1).upper()
-        from_time = match.group(2)
-        to_time = match.group(3)
+        date_str = match.group(2)
+        from_time = match.group(3)
+        to_time = match.group(4)
         
-        # Get today's date for the analysis
-        today = datetime.now().strftime("%Y-%m-%d")
-        from_date = today
-        to_date = today
+        # Parse the date from DD-MM-YYYY format
+        try:
+            from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
+            to_date = from_date  # Same date for both from and to
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="Format dată invalid. Vă rugăm folosiți formatul DD-MM-YYYY (ex: 16-03-2024)"
+            )
         
         # Validate time format
         try:
@@ -2213,7 +2219,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
     except Exception as e:
         raise HTTPException(
             status_code=400,
-            detail=f"Eroare la procesarea parametrilor: {str(e)}. Vă rugăm folosiți formatul: analizeaza SYMBOL de la HH:MM pana la HH:MM"
+            detail=f"Eroare la procesarea parametrilor: {str(e)}. Vă rugăm folosiți formatul: analizeaza SYMBOL pentru DD-MM-YYYY de la HH:MM pana la HH:MM"
         )
 
     history_store_key = f"image_hybrid:{session_id}" # Separate history for image queries
