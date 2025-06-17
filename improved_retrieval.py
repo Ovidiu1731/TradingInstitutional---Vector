@@ -72,8 +72,11 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
         processed_results = []
         seen_paths = set()
         
+        # Lower confidence threshold for liquidity queries
+        min_score = 0.65 if "liq" in query.lower() or "lichidit" in query.lower() else 0.70
+        
         for match in results["matches"]:
-            if not match.metadata:
+            if not match.metadata or match.score < min_score:
                 continue
                 
             # Extract chapter and lesson from path if not in metadata

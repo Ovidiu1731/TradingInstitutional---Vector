@@ -262,87 +262,36 @@ async def on_message(message):
         await message.channel.send(answer, view=view)
 
 async def process_request(endpoint, payload, is_image_query):
-    """Helper function to process the API request and return the answer"""
-    timeout = aiohttp.ClientTimeout(total=90 if is_image_query else 30)
-    
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        try:
-            # First check API health
-            health_timeout = aiohttp.ClientTimeout(total=5)
-            async with session.get(f"{API_BASE_URL.rstrip('/')}/health", timeout=health_timeout) as health_resp:
-                if health_resp.status == 200:
-                    health_data = await health_resp.json()
-                    print(f"Health check: {health_data.get('status', 'unknown')}")
+    """Process the API request and return the formatted response."""
+    try:
+        timeout = aiohttp.ClientTimeout(total=30)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.post(endpoint, json=payload) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
                     
-                    if health_data.get("status") != "ok":
-                        if "components" in health_data and "openai_api" in health_data["components"]:
-                            if health_data["components"]["openai_api"]["status"] == "error":
-                                return "⚠️ API-ul OpenAI este momentan indisponibil. Administratorii au fost notificați, dar răspunsul poate fi limitat."
+                    # Handle the new response format
+                    if "answer" in data:
+                        answer = data["answer"]
+                        sources = data.get("sources", [])
+                        
+                        # Format the response with sources if available
+                        if sources:
+                            formatted_response = f"{answer}\n\n**Surse:**"
+                            for i, source in enumerate(sources, 1):
+                                chapter = source.get("chapter", "Unknown")
+                                lesson = source.get("lesson", "Unknown")
+                                formatted_response += f"\n{i}. Capitolul {chapter}, Lecția {lesson}"
+                            
+                            return formatted_response
+                        return answer
+                    else:
+                        # Fallback for old format
+                        return data.get("context", "Nu am putut procesa răspunsul.")
                 else:
-                    print(f"Health check failed with status: {health_resp.status}")
-        except Exception as health_error:
-            print(f"Health check error: {str(health_error)}")
-        
-        # Make the main request
-        start_time = asyncio.get_event_loop().time()
-        retry_count = 0
-        max_retries = 2
-        
-        while retry_count <= max_retries:
-            try:
-                async with session.post(endpoint, json=payload) as resp:
-                    elapsed = asyncio.get_event_loop().time() - start_time
-                    print(f"Request took {elapsed:.2f} seconds")
-                    print(f"Response status: {resp.status}")
-                    
-                    if resp.status == 200:
-                        data = await resp.json()
-                        print(f"Response data keys: {data.keys()}")
-                        return data.get("answer", "Nu am găsit un răspuns.")
-                    
-                    elif resp.status == 429:  # Rate limit
-                        if retry_count < max_retries:
-                            retry_delay = (2 ** retry_count) * 2
-                            print(f"Rate limited, retrying in {retry_delay} seconds...")
-                            await asyncio.sleep(retry_delay)
-                            retry_count += 1
-                        else:
-                            return "⚠️ Serviciul este momentan supraîncărcat. Te rog să încerci mai târziu."
-                    
-                    elif resp.status in [502, 503, 504]:  # Server errors
-                        if retry_count < max_retries:
-                            retry_delay = (2 ** retry_count) * 2
-                            print(f"Server error, retrying in {retry_delay} seconds...")
-                            await asyncio.sleep(retry_delay)
-                            retry_count += 1
-                        else:
-                            return f"⚠️ Serverul întâmpină dificultăți tehnice (cod {resp.status}). Te rog să încerci mai târziu."
-                    
-                    else:  # Other errors
-                        if resp.status == 400:
-                            return "❌ Cererea nu a putut fi procesată corect. Verifică imaginea sau întrebarea."
-                        elif resp.status == 401:
-                            return "❌ Probleme de autentificare cu serverul API."
-                        elif resp.status == 403:
-                            return "❌ Nu am permisiunea să accesez această resursă."
-                        elif resp.status >= 500:
-                            return f"❌ Eroare internă de server (cod {resp.status}). Echipa tehnică a fost notificată."
-                        else:
-                            return f"❌ Eroare la server. Cod: {resp.status}"
-            
-            except asyncio.TimeoutError:
-                if retry_count < max_retries:
-                    retry_count += 1
-                    print(f"Retrying after timeout ({retry_count}/{max_retries})...")
-                else:
-                    return "⏱️ Serverul procesează o cerere complexă și nu a răspuns la timp. Încearcă o întrebare mai simplă sau mai târziu."
-            
-            except aiohttp.ClientConnectorError as conn_err:
-                return f"❌ Nu m-am putut conecta la server: {conn_err}"
-            
-            except Exception as e:
-                return f"❌ Eroare la procesarea cererii: {e}"
-        
-        return "❌ Nu s-a putut procesa cererea după mai multe încercări."
+                    return f"Eroare la procesarea cererii (Status: {resp.status})"
+    except Exception as e:
+        print(f"Error in process_request: {e}")
+        return "Am întâmpinat o eroare la procesarea cererii."
 
 client.run(DISCORD_TOKEN)

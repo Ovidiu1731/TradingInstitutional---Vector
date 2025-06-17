@@ -2059,15 +2059,54 @@ async def ask_question(query: TextQuery):
             # Combine top results for context
             context_text = "\n\n".join([r["text"] for r in results])
             logging.info(f"Combined context length: {len(context_text)} characters")
+            
+            # Generate answer using OpenAI
+            system_prompt = SYSTEM_PROMPT_CORE + "\n\nRăspunde în română și fii concis dar complet. Bazează-te strict pe informațiile furnizate."
+            
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": f"Întrebare: {question}\n\nContext din material:\n{context_text}"}
+            ]
+            
+            # Ensure we have a valid client
+            client = await ensure_valid_client()
+            
+            async with openai_call_limiter:
+                completion = await client.chat.completions.create(
+                    model=COMPLETION_MODEL,
+                    messages=messages,
+                    temperature=0.3,
+                    max_tokens=1000
+                )
+            
+            answer = completion.choices[0].message.content.strip()
+            
+            # Format the response
+            response = {
+                "answer": answer,
+                "sources": [
+                    {
+                        "chapter": r.get("chapter", "Unknown"),
+                        "lesson": r.get("lesson", "Unknown"),
+                        "text": r.get("text", "")[:200] + "..."
+                    }
+                    for r in results
+                ]
+            }
         else:
-            context_text = ""
+            response = {
+                "answer": "Nu am găsit un răspuns specific în materialul de curs pentru această întrebare.",
+                "sources": []
+            }
             logging.info("No relevant context found for text query.")
     except Exception as e:
-        logging.error(f"Improved retrieval error: {e}")
-        context_text = "Am întâmpinat o problemă la accesarea materialului de curs din baza de date Pinecone."
+        logging.error(f"Error in ask_question: {e}")
+        response = {
+            "answer": "Am întâmpinat o problemă la procesarea întrebării. Te rog să încerci din nou.",
+            "sources": []
+        }
     
-    # ... rest of the endpoint logic ...
-    return {"context": context_text}
+    return response
 
 @app.post("/ask-image-hybrid", response_model=Dict[str, Any])
 async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
