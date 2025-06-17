@@ -15,6 +15,7 @@ API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway
 
 # Simple message deduplication
 processed_messages = set()
+processing_messages = set()  # Track messages currently being processed
 
 # Set up intents
 intents = discord.Intents.default()
@@ -177,35 +178,74 @@ async def on_message(message):
     if client.user.mentioned_in(message):
         # More robust deduplication 
         message_key = f"{message.author.id}:{hash(message.content)}:{message.id}"
+        
+        # Check if already processed
         if message_key in processed_messages:
-            print(f"Skipping duplicate message: {message_key}")
+            print(f"❌ DUPLICATE: Already processed message: {message_key}")
             return
+            
+        # Check if currently being processed
+        if message_key in processing_messages:
+            print(f"❌ CONCURRENT: Message already being processed: {message_key}")
+            return
+            
+        # Mark as being processed
+        processing_messages.add(message_key)
         processed_messages.add(message_key)
         
-        # Clean up old entries (keep only last 50)
-        if len(processed_messages) > 50:
-            # Remove oldest half
-            old_keys = list(processed_messages)[:25]
-            for key in old_keys:
-                processed_messages.discard(key)
-        
-        question = message.content.replace(f"<@{client.user.id}>", "").strip()
-        
-        # Check if it's a market analysis request
-        is_market_analysis, market_params = is_market_analysis_request(question)
-        
-        # DEBUG
-        print(f"Processing message ID: {message.id}")
-        print("Raw message content:", message.content)
-        print("Extracted question:", question)
-        
-        if not question:
-            await message.channel.send("Întrebarea este goală.")
-            return
-        
-        # Single processing path - no duplicated variables
         try:
-            async with message.channel.typing():
+            # Clean up old entries (keep only last 50)
+            if len(processed_messages) > 50:
+                # Remove oldest half
+                old_keys = list(processed_messages)[:25]
+                for key in old_keys:
+                    processed_messages.discard(key)
+            
+            question = message.content.replace(f"<@{client.user.id}>", "").strip()
+            
+            # Check if it's a market analysis request
+            is_market_analysis, market_params = is_market_analysis_request(question)
+            
+            # DEBUG
+            print(f"🔄 PROCESSING message ID: {message.id}")
+            print(f"📝 Message key: {message_key}")
+            print("Raw message content:", message.content)
+            print("Extracted question:", question)
+            
+            if not question:
+                await message.channel.send("Întrebarea este goală.")
+                return
+            
+            # Single processing path - no duplicated variables
+            try:
+                async with message.channel.typing():
+                    # Check for image
+                    if message.attachments:
+                        image_url = message.attachments[0].url
+                        endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
+                        payload = {
+                            "question": question,
+                            "image_url": image_url
+                        }
+                        is_image_query = True
+                        image_url_for_feedback = image_url
+                        print(f"📷 Routing to {endpoint} with payload: {payload}")
+                    else:
+                        endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
+                        payload = {
+                            "question": question
+                        }
+                        is_image_query = False
+                        image_url_for_feedback = None
+                        print(f"💬 Routing to {endpoint} with payload: {payload}")
+                    
+                    # Process the request and get the answer - SINGLE CALL
+                    answer = await process_request(endpoint, payload, is_image_query)
+                    
+            except discord.Forbidden:
+                # If we don't have permission to show typing, continue without it
+                print("No permission to show typing indicator, continuing without it")
+                
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
@@ -228,40 +268,18 @@ async def on_message(message):
                 
                 # Process the request and get the answer - SINGLE CALL
                 answer = await process_request(endpoint, payload, is_image_query)
-                
-        except discord.Forbidden:
-            # If we don't have permission to show typing, continue without it
-            print("No permission to show typing indicator, continuing without it")
-            
-            # Check for image
-            if message.attachments:
-                image_url = message.attachments[0].url
-                endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
-                payload = {
-                    "question": question,
-                    "image_url": image_url
-                }
-                is_image_query = True
-                image_url_for_feedback = image_url
-                print(f"📷 Routing to {endpoint} with payload: {payload}")
-            else:
-                endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
-                payload = {
-                    "question": question
-                }
-                is_image_query = False
-                image_url_for_feedback = None
-                print(f"💬 Routing to {endpoint} with payload: {payload}")
-            
-            # Process the request and get the answer - SINGLE CALL
-            answer = await process_request(endpoint, payload, is_image_query)
 
-        # Create feedback view with correct endpoint and analysis data
-        base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
-        view = FeedbackView(base_url, question, answer, None, image_url_for_feedback)
-        
-        print(f"About to send answer to Discord: {answer[:100]}...")
-        await message.channel.send(answer, view=view)
+            # Create feedback view with correct endpoint and analysis data
+            base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
+            view = FeedbackView(base_url, question, answer, None, image_url_for_feedback)
+            
+            print(f"✅ SENDING answer for message {message.id}: {answer[:100]}...")
+            await message.channel.send(answer, view=view)
+            
+        finally:
+            # Remove from processing set when done
+            processing_messages.discard(message_key)
+            print(f"🏁 FINISHED processing message: {message_key}")
 
 async def process_request(endpoint, payload, is_image_query):
     """Process the API request and return the formatted response."""
