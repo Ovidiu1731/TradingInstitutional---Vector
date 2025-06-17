@@ -7,6 +7,8 @@ import asyncio
 from dotenv import load_dotenv
 import re
 from datetime import datetime
+import hashlib
+import json
 
 # Load environment variables
 load_dotenv()
@@ -16,6 +18,7 @@ API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway
 # Simple message deduplication
 processed_messages = set()
 processing_messages = set()  # Track messages currently being processed
+api_request_cache = {}  # Cache API responses to prevent duplicate requests
 
 # Set up intents
 intents = discord.Intents.default()
@@ -283,6 +286,16 @@ async def on_message(message):
 
 async def process_request(endpoint, payload, is_image_query):
     """Process the API request and return the formatted response."""
+    # Create a cache key for this request
+    cache_key = hashlib.md5(f"{endpoint}:{json.dumps(payload, sort_keys=True)}".encode()).hexdigest()
+    
+    # Check if we've already made this exact request recently
+    if cache_key in api_request_cache:
+        print(f"🔄 CACHE HIT: Returning cached response for {cache_key[:8]}...")
+        return api_request_cache[cache_key]
+    
+    print(f"🌐 API REQUEST: Making new request {cache_key[:8]} to {endpoint}")
+    
     try:
         timeout = aiohttp.ClientTimeout(total=30)
         async with aiohttp.ClientSession(timeout=timeout) as session:
@@ -293,14 +306,27 @@ async def process_request(endpoint, payload, is_image_query):
                     # Handle the new response format - return only the answer, no sources
                     if "answer" in data:
                         answer = data["answer"]
+                        # Cache the response for 60 seconds
+                        api_request_cache[cache_key] = answer
+                        
+                        # Clean up old cache entries (keep only last 10)
+                        if len(api_request_cache) > 10:
+                            old_keys = list(api_request_cache.keys())[:5]
+                            for key in old_keys:
+                                del api_request_cache[key]
+                        
+                        print(f"✅ API SUCCESS: Cached response {cache_key[:8]}")
                         return answer
                     else:
                         # Fallback for old format
                         return data.get("context", "Nu am putut procesa răspunsul.")
                 else:
-                    return f"Eroare la procesarea cererii (Status: {resp.status})"
+                    error_msg = f"Eroare la procesarea cererii (Status: {resp.status})"
+                    print(f"❌ API ERROR: {error_msg}")
+                    return error_msg
     except Exception as e:
-        print(f"Error in process_request: {e}")
-        return "Am întâmpinat o eroare la procesarea cererii."
+        error_msg = "Am întâmpinat o eroare la procesarea cererii."
+        print(f"❌ API EXCEPTION: {e}")
+        return error_msg
 
 client.run(DISCORD_TOKEN)
