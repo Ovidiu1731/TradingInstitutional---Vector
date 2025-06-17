@@ -60,3 +60,4 @@ wrapt==1.17.2
 zipp==3.22.0
 pandas>=2.0.0
 python-dateutil>=2.8.2
+discord.py>=2.3.2
