@@ -10,6 +10,7 @@ ENV PYTHONUNBUFFERED=1 \
 RUN apt-get update && apt-get install -y \
     # Tesseract OCR
     tesseract-ocr \
+    libtesseract-dev \
     # OpenCV dependencies
     libglib2.0-0 \
     libsm6 \

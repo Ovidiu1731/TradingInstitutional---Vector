@@ -2,35 +2,35 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from pinecone import Pinecone
-import json
+import logging
 import re
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
 
 # Initialize clients
-openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index = pc.Index(os.getenv("PINECONE_INDEX_NAME", "trading-lessons"))
 
 def get_embedding(text):
-    """Get embedding for a text using OpenAI's API."""
+    """Get embedding for text using OpenAI's API."""
     try:
-        response = openai_client.embeddings.create(
-            input=text,
-            model="text-embedding-ada-002"
+        response = client.embeddings.create(
+            model="text-embedding-3-small",
+            input=text
         )
         return response.data[0].embedding
     except Exception as e:
-        print(f"Error getting embedding: {e}")
+        logger.error(f"Error getting embedding: {e}")
         return None
 
 def extract_lesson_info_from_path(path):
-    """Extract chapter and lesson numbers from the path metadata."""
-    if not path:
-        return None, None
-    
-    # Try to extract from path format: Capitolul_X/Lectia_Y/...
+    """Extract chapter and lesson numbers from path metadata."""
     chapter_match = re.search(r'Capitolul_(\d+)', path)
     lesson_match = re.search(r'lectia_(\d+)', path)
     
@@ -40,53 +40,39 @@ def extract_lesson_info_from_path(path):
     return chapter, lesson
 
 def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
-    """
-    Retrieve lesson content using semantic search and metadata filtering.
-    
-    Args:
-        query (str): The search query
-        chapter (int, optional): Chapter number to filter by
-        lesson (int, optional): Lesson number to filter by
-        top_k (int): Number of results to return
-        
-    Returns:
-        list: List of matching content with metadata
-    """
-    # Log the incoming query
-    print(f"\nProcessing query: {query}")
-    print(f"Filters - Chapter: {chapter}, Lesson: {lesson}")
-    
-    # Get embedding for the query
-    query_embedding = get_embedding(query)
-    if not query_embedding:
-        print("Failed to get embedding for query")
-        return []
-    
-    # Build filter conditions
-    filter_conditions = {}
-    
-    if chapter is not None:
-        filter_conditions["chapter"] = f"Capitolul {chapter}"
-    
-    if lesson is not None:
-        filter_conditions["lesson_number"] = str(lesson).zfill(2)
+    """Retrieve lesson content based on semantic search and metadata filtering."""
+    logger.info(f"Processing query: {query}")
+    logger.info(f"Filters - Chapter: {chapter}, Lesson: {lesson}")
     
     try:
-        # Query Pinecone with semantic search and metadata filters
+        # Get embedding for the query
+        query_embedding = get_embedding(query)
+        if not query_embedding:
+            logger.error("Failed to get query embedding")
+            return []
+        
+        # Build filter conditions
+        filter_conditions = {}
+        if chapter:
+            filter_conditions["chapter"] = f"Capitolul {chapter}"
+        if lesson:
+            filter_conditions["lesson_number"] = str(lesson).zfill(2)
+        
+        # Query Pinecone with semantic search
         results = index.query(
             vector=query_embedding,
             filter=filter_conditions if filter_conditions else None,
-            top_k=top_k * 2,  # Get more results initially for filtering
+            top_k=top_k * 2,  # Get more results initially for better filtering
             include_metadata=True
         )
         
-        print(f"Raw results count: {len(results.matches)}")
+        logger.info(f"Raw results count: {len(results['matches'])}")
         
-        # Process and format results
-        formatted_results = []
-        seen_paths = set()  # Track unique paths to avoid duplicates
+        # Process and filter results
+        processed_results = []
+        seen_paths = set()
         
-        for match in results.matches:
+        for match in results["matches"]:
             if not match.metadata:
                 continue
                 
@@ -104,68 +90,63 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
                 continue
             seen_paths.add(path)
             
-            # Only add results with valid metadata
-            if match.metadata.get("text"):
-                formatted_results.append({
-                    "text": match.metadata["text"],
-                    "chapter": match.metadata.get("chapter", "Unknown"),
-                    "lesson": match.metadata.get("lesson_number", "Unknown"),
-                    "score": match.score
-                })
+            # Add to processed results
+            processed_results.append({
+                "score": match.score,
+                "chapter": match.metadata.get("chapter", "Unknown"),
+                "lesson": match.metadata.get("lesson_number", "Unknown"),
+                "text": match.metadata.get("text", "")
+            })
+            
+            logger.info(f"\nResult {len(processed_results)}:")
+            logger.info(f"Chapter: {processed_results[-1]['chapter']}")
+            logger.info(f"Lesson: {processed_results[-1]['lesson']}")
+            logger.info(f"Text preview: {processed_results[-1]['text'][:200]}...")
         
         # Sort by score and take top_k
-        formatted_results.sort(key=lambda x: x["score"], reverse=True)
-        final_results = formatted_results[:top_k]
+        processed_results.sort(key=lambda x: x["score"], reverse=True)
+        final_results = processed_results[:top_k]
         
-        print(f"Final results count: {len(final_results)}")
-        for i, result in enumerate(final_results):
-            print(f"\nResult {i+1} (Score: {result['score']:.4f}):")
-            print(f"Chapter: {result['chapter']}")
-            print(f"Lesson: {result['lesson']}")
-            print(f"Text preview: {result['text'][:200]}...")
-        
+        logger.info(f"Final results count: {len(final_results)}")
         return final_results
         
     except Exception as e:
-        print(f"Error in retrieval: {str(e)}")
+        logger.error(f"Error in retrieve_lesson_content: {e}")
         return []
 
 def test_retrieval():
-    """Test the retrieval with some example queries."""
-    test_cases = [
-        {
-            "query": "What are the types of liquidity?",
-            "chapter": 11,
-            "lesson": 2
-        },
-        {
-            "query": "Explain Fair Value Gap",
-            "chapter": None,
-            "lesson": None
-        },
-        {
-            "query": "What is institutional liquidity?",
-            "chapter": None,
-            "lesson": None
-        }
-    ]
+    """Test the retrieval logic with example queries."""
+    # Test case 1: Query about liquidity types
+    print("\nTest Case 1: Query about liquidity types")
+    results = retrieve_lesson_content(
+        "What are the types of liquidity?",
+        chapter=6,
+        lesson=2
+    )
     
-    for test in test_cases:
-        print(f"\nTesting query: {test['query']}")
-        print(f"Chapter: {test['chapter']}, Lesson: {test['lesson']}")
-        print("-" * 50)
-        
-        results = retrieve_lesson_content(
-            query=test["query"],
-            chapter=test["chapter"],
-            lesson=test["lesson"]
-        )
-        
+    if results:
+        print("\nResults found:")
         for i, result in enumerate(results, 1):
             print(f"\nResult {i} (Score: {result['score']:.4f}):")
             print(f"Chapter: {result['chapter']}")
             print(f"Lesson: {result['lesson']}")
-            print(f"Text: {result['text'][:200]}...")
+            print(f"Text preview: {result['text'][:200]}...")
+    else:
+        print("No results found")
+    
+    # Test case 2: Query about Fair Value Gap
+    print("\nTest Case 2: Query about Fair Value Gap")
+    results = retrieve_lesson_content("Explain Fair Value Gap")
+    
+    if results:
+        print("\nResults found:")
+        for i, result in enumerate(results, 1):
+            print(f"\nResult {i} (Score: {result['score']:.4f}):")
+            print(f"Chapter: {result['chapter']}")
+            print(f"Lesson: {result['lesson']}")
+            print(f"Text preview: {result['text'][:200]}...")
+    else:
+        print("No results found")
 
 if __name__ == "__main__":
     test_retrieval() 

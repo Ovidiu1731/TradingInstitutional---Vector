@@ -4,536 +4,260 @@ import tiktoken
 import re
 from dotenv import load_dotenv
 import time
-
-# New OpenAI SDK import
+import logging
+from pinecone import Pinecone
 from openai import OpenAI
 
-# Pinecone SDK import
-from pinecone import Pinecone, ServerlessSpec
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Load environment variables
+load_dotenv()
+
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 # Function to sanitize IDs (remove special characters, replace spaces with underscores)
 def sanitize_id(text):
-    # Remove non-ASCII characters
-    ascii_text = re.sub(r'[^\x00-\x7F]+', '', text)
-    # Replace spaces, dots and other special chars with underscores
-    sanitized = re.sub(r'[^a-zA-Z0-9_-]', '_', ascii_text)
-    # Ensure it's not empty and starts with a letter or number
-    if not sanitized:
-        return "vector_id"
-    return sanitized
-
-# Function to extract chapter and lesson numbers for sorting
-def extract_lesson_info(lesson_id):
-    # Try to extract chapter and lesson numbers
-    chapter_match = re.search(r'Capitolul\s+(\d+)', lesson_id)
-    lesson_match = re.search(r'Lectia\s+(\d+)', lesson_id)
-    
-    chapter_num = int(chapter_match.group(1)) if chapter_match else 999
-    lesson_num = int(lesson_match.group(1)) if lesson_match else 999
-    
-    return (chapter_num, lesson_num, lesson_id)  # Return original id as tie-breaker
-
-def extract_document_structure(lesson_id, text):
-    """
-    Extract hierarchical structure from a lesson document.
-    
-    Args:
-        lesson_id: The identifier of the lesson
-        text: The full content of the lesson
-        
-    Returns:
-        Dict with document metadata and list of sections with paragraphs
-    """
-    # Extract document-level metadata
-    chapter_match = re.search(r'(Capitolul\s+\d+)', lesson_id)
-    chapter = chapter_match.group(1) if chapter_match else ""
-    
-    lesson_match = re.search(r'Lectia\s+(\d+)', lesson_id)
-    lesson_num = lesson_match.group(1) if lesson_match else ""
-    
-    title_match = re.search(r'Lectia\s+\d+\s*[-–]\s*(.*?)(?:\s*-\s*Capitolul|$)', lesson_id)
-    title = title_match.group(1).strip() if title_match else ""
-    
-    # Create document metadata
-    doc_metadata = {
-        "document_id": f"{chapter.replace(' ', '_').lower()}_lectia_{lesson_num.zfill(2)}",
-        "document_title": lesson_id,
-        "chapter": chapter,
-        "lesson_number": lesson_num,
-        "title": title
+    """Clean up text to create valid vector IDs - ASCII only."""
+    # Romanian character replacements
+    replacements = {
+        'ă': 'a', 'â': 'a', 'î': 'i', 'ș': 's', 'ț': 't',
+        'Ă': 'A', 'Â': 'A', 'Î': 'I', 'Ș': 'S', 'Ț': 'T',
+        'ü': 'u', 'Ü': 'U', 'ö': 'o', 'Ö': 'O',
+        '–': '-', '—': '-', ''': "'", ''': "'", '"': '"', '"': '"'
     }
     
-    # First split text into key parts - detect if it contains "Rezumat:" and "Trascriere:"
-    rezumat_match = re.search(r'Rezumat:(.*?)(?=Trascriere:|$)', text, re.DOTALL)
-    transcriere_match = re.search(r'Trascriere:(.*?)$', text, re.DOTALL)
+    # Replace Romanian characters
+    for romanian, replacement in replacements.items():
+        text = text.replace(romanian, replacement)
     
+    # Keep only ASCII letters, numbers, hyphens, and underscores
+    text = re.sub(r'[^a-zA-Z0-9\-_]', '_', text)
+    
+    # Remove multiple consecutive underscores
+    text = re.sub(r'_+', '_', text)
+    
+    # Remove leading/trailing underscores
+    text = text.strip('_')
+    
+    # Ensure it's not empty
+    if not text:
+        text = "document"
+    
+    return text
+
+# Function to extract chapter and lesson numbers for sorting
+def extract_lesson_info(filepath):
+    """Extract chapter and lesson numbers from the actual file pattern."""
+    filename = os.path.basename(filepath)
+    chapter_num = 0
+    lesson_num = 0
+    
+    # Extract from directory path first (most reliable)
+    if 'Capitolul' in filepath:
+        dir_match = re.search(r'Capitolul\s*(\d+)', filepath)
+        if dir_match:
+            chapter_num = int(dir_match.group(1))
+    
+    # Extract lesson number from filename
+    # Pattern: "Lectia X - Title - Capitolul Y - Summary/Transcript.txt"
+    lesson_match = re.search(r'Lectia\s*(\d+)', filename)
+    if lesson_match:
+        lesson_num = int(lesson_match.group(1))
+    
+    # If chapter not found from directory, try from filename
+    if chapter_num == 0:
+        chapter_match = re.search(r'Capitolul\s*(\d+)', filename)
+        if chapter_match:
+            chapter_num = int(chapter_match.group(1))
+    
+    return chapter_num, lesson_num
+
+def extract_document_structure(filepath, text):
+    """Extracts the hierarchical structure and ensures metadata is always present."""
+    # Use filename as document_id
+    document_id = os.path.basename(filepath)
+    # Try to extract a title from the first markdown header, else use filename
+    title_match = re.search(r'^#+\s*(.+)', text, re.MULTILINE)
+    title = title_match.group(1).strip() if title_match else document_id
+    
+    # Split into sections by markdown headers
     sections = []
+    header_matches = list(re.finditer(r'(^#+\s*.+$)', text, re.MULTILINE))
     
-    # If there's a summary, add it as a section
-    if rezumat_match:
-        summary_text = rezumat_match.group(1).strip()
-        summary_paragraphs = [p.strip() for p in summary_text.split("\n\n") if p.strip()]
-        
-        summary_section = {
-            "title": "Rezumat",
-            "section_type": "summary",
-            "paragraphs": []
-        }
-        
-        for idx, paragraph in enumerate(summary_paragraphs):
-            summary_section["paragraphs"].append({
-                "text": paragraph,
-                "paragraph_id": f"summary_{idx}"
-            })
+    if header_matches:
+        for i, match in enumerate(header_matches):
+            section_title = match.group(0).strip('#').strip()
+            start = match.end()
             
-        sections.append(summary_section)
-    
-    # If there's a transcript, process it with potential section headings
-    if transcriere_match:
-        transcript_text = transcriere_match.group(1).strip()
-        transcript_paragraphs = [p.strip() for p in transcript_text.split("\n\n") if p.strip()]
-        
-        current_section = {
-            "title": "Introducere",
-            "section_type": "transcript",
-            "paragraphs": []
-        }
-        
-        # Pattern for potential section headings
-        section_heading_pattern = r'^(?:\d+\.\s+)?([A-Z0-9][A-Za-z0-9\s:]+)$'
-        paragraph_counter = 0
-        
-        for paragraph in transcript_paragraphs:
-            # Check if this paragraph looks like a section heading
-            if re.match(section_heading_pattern, paragraph.strip()):
-                # If we've been collecting paragraphs, save the current section
-                if current_section["paragraphs"]:
-                    sections.append(current_section)
-                
-                # Start a new section
-                current_section = {
-                    "title": paragraph.strip(),
-                    "section_type": "transcript",
-                    "paragraphs": []
-                }
+            # Find the end of this section (start of next header or end of text)
+            if i + 1 < len(header_matches):
+                end = header_matches[i + 1].start()
             else:
-                # Add this paragraph to the current section
-                current_section["paragraphs"].append({
-                    "text": paragraph,
-                    "paragraph_id": f"transcript_{paragraph_counter}"
-                })
-                paragraph_counter += 1
-        
-        # Add the last section if it has content
-        if current_section["paragraphs"]:
-            sections.append(current_section)
-    
-    # If no specific sections were found, create a default one with all paragraphs
-    if not sections:
-        default_paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
-        default_section = {
-            "title": "Content",
-            "section_type": "default",
-            "paragraphs": []
-        }
-        
-        for idx, paragraph in enumerate(default_paragraphs):
-            default_section["paragraphs"].append({
-                "text": paragraph,
-                "paragraph_id": f"default_{idx}"
-            })
+                end = len(text)
             
-        sections.append(default_section)
+            section_content = text[start:end].strip()
+            
+            sections.append({
+                'title': section_title,
+                'content': section_content
+            })
+    else:
+        # If no headers, treat the whole text as one section
+        sections = [{
+            'title': title,
+            'content': text.strip()
+        }]
+    
+    # Ensure all sections have both title and content
+    for i, section in enumerate(sections):
+        if 'title' not in section:
+            section['title'] = f"Section_{i+1}"
+        if 'content' not in section:
+            section['content'] = ""
     
     return {
-        "metadata": doc_metadata,
-        "sections": sections
+        'metadata': {
+            'document_id': document_id,
+            'title': title
+        },
+        'content': text.strip(),
+        'sections': sections
     }
 
 def create_hierarchical_embeddings(document_structure, client):
-    """
-    Create embeddings with hierarchical metadata for a document structure.
+    """Create embeddings with hierarchical metadata for a document structure."""
+    embeddings = []
     
-    Args:
-        document_structure: Output from extract_document_structure
-        client: OpenAI client for creating embeddings
-        
-    Returns:
-        List of vector objects ready to be uploaded to Pinecone
-    """
-    doc_metadata = document_structure["metadata"]
-    sections = document_structure["sections"]
+    # Get chapter and lesson numbers using the filepath
+    # We need to pass the original filepath, which we can get from document_id
+    filepath = document_structure['metadata']['document_id']
+    chapter_num, lesson_num = extract_lesson_info(filepath)
     
-    vectors = []
+    # Create embedding for the entire document
+    full_text = document_structure['content']
+    embedding = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=full_text
+    ).data[0].embedding
     
-    # For each section in the document
-    for section_idx, section in enumerate(sections):
-        section_id = f"{doc_metadata['document_id']}_section_{section_idx}"
-        section_title = section["title"]
-        section_type = section.get("section_type", "default")
-        
-        # For each paragraph in the section
-        for para_idx, paragraph in enumerate(section["paragraphs"]):
-            para_text = paragraph["text"]
-            para_id = paragraph["paragraph_id"]
+    # Create sanitized document ID
+    sanitized_doc_id = sanitize_id(document_structure['metadata']['document_id'])
+    
+    # Add document-level metadata
+    metadata = {
+        'document_id': document_structure['metadata']['document_id'],
+        'title': document_structure['metadata']['title'],
+        'chapter': chapter_num,
+        'lesson': lesson_num,
+        'type': 'document'
+    }
+    
+    embeddings.append({
+        'id': f"{sanitized_doc_id}_full",
+        'values': embedding,
+        'metadata': metadata
+    })
+    
+    # Create embeddings for each section
+    for i, section in enumerate(document_structure['sections']):
+        section_text = section['content']
+        if not section_text.strip():
+            continue  # Skip empty sections
             
-            # Skip empty paragraphs
-            if not para_text.strip():
+        section_embedding = client.embeddings.create(
+            model="text-embedding-3-small",
+            input=section_text
+        ).data[0].embedding
+        
+        # Get section title, use fallback if missing
+        section_title = section.get('title', f'Section_{i+1}')
+        sanitized_section_title = sanitize_id(section_title)
+        
+        # Add section-level metadata
+        section_metadata = {
+            'document_id': document_structure['metadata']['document_id'],
+            'title': section_title,
+            'chapter': chapter_num,
+            'lesson': lesson_num,
+            'type': 'section'
+        }
+        
+        embeddings.append({
+            'id': f"{sanitized_doc_id}_{sanitized_section_title}",
+            'values': section_embedding,
+            'metadata': section_metadata
+        })
+    
+    return embeddings
+
+def process_directory(directory_path):
+    """Process all lesson files in the directory and upload to Pinecone."""
+    # Initialize clients
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+    
+    pc = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
+    index = pc.Index(os.getenv('PINECONE_INDEX_NAME', 'trading-lessons'))
+    
+    # Find all lesson files - ONLY from Capitolul directories
+    lesson_files = []
+    
+    # Process each Capitolul directory
+    for i in range(1, 12):  # Capitolul 1 through 11
+        capitolul_dir = f"Capitolul {i}"
+        if os.path.exists(capitolul_dir):
+            for file in os.listdir(capitolul_dir):
+                if (file.endswith('.txt') and 
+                    not file.startswith('.') and
+                    ('Lectia' in file or 'Summary Capitolul' in file)):
+                    lesson_files.append(os.path.join(capitolul_dir, file))
+    
+    print(f"Found {len(lesson_files)} lesson files to process")
+    
+    # Process each file
+    for file_path in lesson_files:
+        try:
+            print(f"Processing: {file_path}")
+            
+            # Read file content
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            if not content.strip():
+                print(f"Skipping empty file: {file_path}")
                 continue
             
-            # Create a unique ID for this vector
-            vector_id = f"{section_id}_para_{para_id}"
+            # Create document structure
+            doc_structure = extract_document_structure(file_path, content)
             
-            # Get embedding from OpenAI
-            try:
-                resp = client.embeddings.create(
-                    input=[para_text],
-                    model="text-embedding-ada-002"
-                )
-                embedding = resp.data[0].embedding
-                
-                # Create the complete metadata
-                metadata = {
-                    # Document-level metadata
-                    "document_id": doc_metadata["document_id"],
-                    "document_title": doc_metadata["document_title"],
-                    "chapter": doc_metadata["chapter"],
-                    "lesson_number": doc_metadata["lesson_number"],
-                    "lesson_title": doc_metadata["title"],
-                    
-                    # Section-level metadata
-                    "section_id": section_id,
-                    "section_title": section_title,
-                    "section_index": section_idx,
-                    "section_type": section_type,
-                    
-                    # Paragraph-level metadata
-                    "paragraph_id": para_id,
-                    "paragraph_index": para_idx,
-                    
-                    # Hierarchy path
-                    "path": f"{doc_metadata['chapter']}/{doc_metadata['document_id']}/{section_id}/{para_id}",
-                    
-                    # Original lesson ID for backward compatibility
-                    "lesson_id": doc_metadata["document_title"],
-                    
-                    # The actual text content
-                    "text": para_text,
-                    
-                    # Special field to identify this as a hierarchical vector
-                    "vector_type": "hierarchical_paragraph"
-                }
-                
-                # Add to our list of vectors
-                vectors.append({
-                    "id": vector_id,
-                    "values": embedding,
-                    "metadata": metadata
-                })
-                
-            except Exception as e:
-                print(f"Error creating embedding for {vector_id}: {e}")
-                continue
-                
-    return vectors
-
-# 1. Load environment variables
-load_dotenv()
-OPENAI_KEY    = os.getenv("OPENAI_API_KEY")
-PINECONE_KEY  = os.getenv("PINECONE_API_KEY")
-PINECONE_ENV  = os.getenv("PINECONE_ENVIRONMENT")
-INDEX_NAME    = os.getenv("PINECONE_INDEX_NAME", "trading-lessons")
-
-# 2. Init clients
-client = OpenAI(api_key=OPENAI_KEY)
-pc     = Pinecone(api_key=PINECONE_KEY)
-
-# 3. Ensure Pinecone index exists
-if INDEX_NAME not in pc.list_indexes().names():
-    pc.create_index(
-        name=INDEX_NAME,
-        dimension=1536,
-        metric="cosine",
-        spec=ServerlessSpec(cloud="aws", region=PINECONE_ENV)
-    )
-index = pc.Index(INDEX_NAME)
-
-# Add after initializing the Pinecone index
-try:
-    # Backup existing vectors
-    print("Creating backup of current vectors...")
-    backup_path = f"pinecone_backup_{time.strftime('%Y%m%d_%H%M%S')}.json"
-    
-    # Get existing vectors (adjust top_k based on your data size)
-    existing_data = index.query(
-        vector=[0.0] * 1536,  # Dummy vector
-        top_k=10000,          # Adjust as needed for your data size
-        include_metadata=True,
-        include_values=True
-    )
-    
-    # Save to file
-    with open(backup_path, "w", encoding="utf-8") as f:
-        json.dump(existing_data.to_dict(), f, ensure_ascii=False)
-    
-    print(f"Backup saved to {backup_path}")
-except Exception as e:
-    print(f"Warning: Failed to create backup: {e}")
-    if input("Continue anyway? (y/n): ").lower() != 'y':
-        print("Aborted.")
-        exit(1)
-
-# 4. Load your lessons.json (dict of lesson_id → combined text)
-base_dir = os.getcwd()
-lessons_path = os.path.join(base_dir, "lessons.json")
-with open(lessons_path, "r", encoding="utf-8") as f:
-    lessons_dict = json.load(f)
-
-# Initialize counters for final summary
-total_lessons = len(lessons_dict)
-processed_count = 0
-skipped_count = 0
-failed_count = 0
-total_chunks = 0
-
-# Load checkpoint file if it exists
-checkpoint_path = os.path.join(base_dir, "embedding_checkpoint.json")
-processed_lessons = set()
-if os.path.exists(checkpoint_path):
-    try:
-        with open(checkpoint_path, "r", encoding="utf-8") as f:
-            processed_lessons = set(json.load(f))
-        print(f"Loaded checkpoint: {len(processed_lessons)} lessons already processed")
-    except Exception as e:
-        print(f"Error loading checkpoint file: {e}")
-        print("Starting fresh")
-
-# 5. Optional: a splitter if you want to chunk long texts (kept for backward compatibility)
-def split_text(text, max_tokens=500):
-    """
-    Split text into chunks while preserving section integrity and respecting token limits.
-    Prioritizes keeping important sections together when possible.
-    """
-    # Identify key topics that should be kept together when possible
-    key_topics = ["Sesiuni", "Principale", "Tranzacționare", "Market Structure", "MSS", "FVG", "Rezumat"]
-    
-    # Improved section splitting pattern that preserves headers
-    section_pattern = r'((?:#{1,4}\s+[^\n]+\n)|(?:---\n))'
-    section_matches = re.split(section_pattern, text, flags=re.MULTILINE)
-    
-    chunks = []
-    current_chunk = []
-    current_tokens = 0
-    current_header = ""
-    enc = tiktoken.encoding_for_model("gpt-3.5-turbo")
-    
-    i = 0
-    while i < len(section_matches):
-        section = section_matches[i]
-        
-        # Skip empty sections
-        if not section.strip():
-            i += 1
-            continue
-        
-        # Check if this is a header
-        if re.match(r'^#{1,4}\s+', section) or section.strip() == '---':
-            current_header = section
-            i += 1
-            if i < len(section_matches):
-                section = section_matches[i]
-            else:
-                break
-        
-        section_with_header = current_header + section if current_header else section
-        section_tokens = len(enc.encode(section_with_header))
-        
-        # If this is a key topic section, try to keep it together
-        is_key_section = any(topic in current_header for topic in key_topics)
-        
-        # Special handling for summary sections
-        is_summary = "Rezumat" in current_header
-        
-        # If this section would exceed max_tokens but is an important section,
-        # finish the current chunk and put this important section in its own chunk
-        if current_tokens > 0 and (current_tokens + section_tokens > max_tokens):
-            if current_chunk:
-                chunks.append("\n".join(current_chunk))
-                current_chunk = []
-                current_tokens = 0
+            # Create embeddings
+            embeddings = create_hierarchical_embeddings(doc_structure, client)
             
-            # For important sections that are still too big, we might need to split
-            if section_tokens > max_tokens:
-                if is_key_section or is_summary:
-                    # For key sections, try to keep more together - increase token limit
-                    max_section_tokens = max_tokens * 1.5  # Allow 50% more tokens for important sections
-                    
-                    if section_tokens <= max_section_tokens:
-                        # It fits within our expanded limit
-                        chunks.append(section_with_header)
-                    else:
-                        # Still too big, split by paragraphs but keep header
-                        paragraphs = section.split("\n\n")
-                        temp_chunk = [current_header] if current_header else []
-                        temp_tokens = len(enc.encode(current_header)) if current_header else 0
-                        
-                        for para in paragraphs:
-                            para_tokens = len(enc.encode(para))
-                            if temp_tokens + para_tokens > max_tokens and temp_chunk:
-                                chunks.append("\n\n".join(temp_chunk))
-                                temp_chunk = [current_header] if current_header else []
-                                temp_tokens = len(enc.encode(current_header)) if current_header else 0
-                            
-                            temp_chunk.append(para)
-                            temp_tokens += para_tokens
-                        
-                        if temp_chunk:
-                            chunks.append("\n\n".join(temp_chunk))
-                else:
-                    # For regular sections, use the original paragraph splitting approach
-                    paragraphs = section.split("\n\n")
-                    temp_chunk = [current_header] if current_header else []
-                    temp_tokens = len(enc.encode(current_header)) if current_header else 0
-                    
-                    for para in paragraphs:
-                        para_tokens = len(enc.encode(para))
-                        if temp_tokens + para_tokens > max_tokens and temp_chunk:
-                            chunks.append("\n\n".join(temp_chunk))
-                            temp_chunk = [current_header] if current_header else []
-                            temp_tokens = len(enc.encode(current_header)) if current_header else 0
-                        
-                        temp_chunk.append(para)
-                        temp_tokens += para_tokens
-                    
-                    if temp_chunk:
-                        chunks.append("\n\n".join(temp_chunk))
-            else:
-                # It fits as a single chunk
-                chunks.append(section_with_header)
-        else:
-            # Add to current chunk
-            if current_header and not current_chunk:
-                current_chunk.append(current_header)
-            current_chunk.append(section)
-            current_tokens += section_tokens
-        
-        i += 1
-    
-    # Don't forget the last chunk
-    if current_chunk:
-        chunks.append("\n\n".join(current_chunk))
-    
-    return chunks
-
-# Sort lesson IDs by chapter number, then lesson number
-# Convert list of lessons to a dictionary with ID as key
-lessons_dict_by_id = {}
-for lesson in lessons_dict:
-    # Create a dict entry for each lesson using its ID as the key
-    lesson_id = lesson["id"]
-    
-    # We need to load the actual content from the files
-    summary_path = lesson["files"].get("summary", "")
-    transcript_path = lesson["files"].get("transcript", "")
-    
-    combined_text = ""
-    
-    # Load summary content if available
-    if summary_path and os.path.exists(summary_path):
-        try:
-            with open(summary_path, "r", encoding="utf-8") as f:
-                summary_content = f.read().strip()
-                if summary_content:
-                    combined_text += f"Rezumat:\n{summary_content}\n\n"
+            # Upload to Pinecone in batches
+            batch_size = 50  # Smaller batches for reliability
+            for i in range(0, len(embeddings), batch_size):
+                batch = embeddings[i:i+batch_size]
+                index.upsert(vectors=batch)
+            
+            print(f"✓ Successfully processed: {os.path.basename(file_path)}")
+            
         except Exception as e:
-            print(f"Error reading summary file {summary_path}: {e}")
+            print(f"✗ Error processing {file_path}: {e}")
+            continue  # Continue with next file
     
-    # Load transcript content if available
-    if transcript_path and os.path.exists(transcript_path):
-        try:
-            with open(transcript_path, "r", encoding="utf-8") as f:
-                transcript_content = f.read().strip()
-                if transcript_content:
-                    combined_text += f"Trascriere:\n{transcript_content}"
-        except Exception as e:
-            print(f"Error reading transcript file {transcript_path}: {e}")
+    print(f"\n🎉 Upload process completed! Processed {len(lesson_files)} files.")
     
-    # Store the combined content
-    lessons_dict_by_id[lesson_id] = combined_text
+    # Verify the upload
+    stats = index.describe_index_stats()
+    print(f"📊 Total vectors in index: {stats['total_vector_count']}")
+    
+    return True
 
-# Use the new dictionary for processing
-lessons_dict = lessons_dict_by_id
-sorted_lesson_ids = sorted(lessons_dict.keys(), key=extract_lesson_info)
-print(f"Will process {len(sorted_lesson_ids)} lessons ({len(processed_lessons)} already done)")
-
-# Track start time
-start_time = time.time()
-
-# 6. Process each lesson in order using the new hierarchical approach
-for lesson_id in sorted_lesson_ids:
-    # Skip lessons that have already been processed
-    if lesson_id in processed_lessons:
-        print(f"Skipping already processed lesson: {lesson_id}")
-        skipped_count += 1
-        continue
-        
-    combined_text = lessons_dict[lesson_id]
+if __name__ == "__main__":
+    # Load environment variables
+    load_dotenv()
     
-    # Use the new hierarchical approach
-    print(f"Processing lesson: {lesson_id}")
-    
-    # Extract hierarchical structure
-    document_structure = extract_document_structure(lesson_id, combined_text)
-    
-    # Create vectors with hierarchical metadata
-    vectors = create_hierarchical_embeddings(document_structure, client)
-    lesson_chunks = len(vectors)
-    total_chunks += lesson_chunks
-    
-    print(f"Created {lesson_chunks} vectors with hierarchical metadata")
-    
-    # Track if all vectors for this lesson were uploaded successfully
-    all_vectors_successful = True
-    
-    # Batch upload vectors to Pinecone (in batches of 100)
-    for i in range(0, len(vectors), 100):
-        batch = vectors[i:i+100]
-        try:
-            index.upsert(batch)
-            print(f"  ✅ Uploaded batch {i//100 + 1}/{(len(vectors)//100) + 1} ({len(batch)} vectors)")
-        except Exception as e:
-            print(f"  ❌ Error uploading batch: {e}")
-            all_vectors_successful = False
-    
-    if all_vectors_successful:
-        # Mark lesson as processed and update checkpoint
-        processed_lessons.add(lesson_id)
-        with open(checkpoint_path, "w", encoding="utf-8") as f:
-            json.dump(list(processed_lessons), f)
-        print(f"✅ Uploaded {lesson_id} ({lesson_chunks} vectors) - Checkpoint updated")
-        processed_count += 1
-    else:
-        print(f"⚠️ Uploaded {lesson_id} with some errors - Not marked as complete")
-        failed_count += 1
-
-# Calculate elapsed time
-elapsed_time = time.time() - start_time
-minutes, seconds = divmod(elapsed_time, 60)
-hours, minutes = divmod(minutes, 60)
-
-# Print final summary
-print("\n" + "="*50)
-print("UPLOAD SUMMARY")
-print("="*50)
-print(f"Total lessons processed: {processed_count + skipped_count} of {total_lessons}")
-print(f"  - Successfully processed: {processed_count}")
-print(f"  - Previously processed: {skipped_count}")
-print(f"  - Failed: {failed_count}")
-print(f"Total chunks uploaded: {total_chunks}")
-print(f"Total time elapsed: {int(hours)}h {int(minutes)}m {int(seconds)}s")
-print(f"Average time per lesson: {elapsed_time/(processed_count or 1):.2f}s")
-print("="*50)
-print("🎉 All done!")
-
-index_stats = index.describe_index_stats()
-print(f"Total vectors in index: {index_stats.total_vector_count}")
+    # Process current directory
+    process_directory(".")

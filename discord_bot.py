@@ -199,14 +199,15 @@ async def on_message(message):
             await message.channel.send("Întrebarea este goală.")
             return
         
+        # Initialize variables that need to be accessible in both try and except blocks
+        endpoint = API_BASE_URL
+        is_image_query = False
+        analysis_data = None
+        image_url_for_feedback = None
+        answer = None  # Initialize answer variable
+        
         try:
             async with message.channel.typing():
-                # Initialize variables for tracking query type and analysis data
-                endpoint = API_BASE_URL
-                is_image_query = False
-                analysis_data = None
-                image_url_for_feedback = None
-                
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
@@ -225,135 +226,12 @@ async def on_message(message):
                     }
                     print(f"💬 Routing to {endpoint} with payload: {payload}")
                 
-                print(f"Full request URL: {endpoint}")
+                # Process the request and get the answer
+                answer = await process_request(endpoint, payload, is_image_query)
                 
-                # Create longer timeout - complex AI processing can take time
-                # Increase timeout for image queries (90 seconds)
-                timeout = aiohttp.ClientTimeout(total=90 if is_image_query else 30)
-                
-                async with aiohttp.ClientSession(timeout=timeout) as session:
-                    # First check API health to detect problems early
-                    try:
-                        health_timeout = aiohttp.ClientTimeout(total=5)  # Short timeout for health check
-                        async with session.get(f"{API_BASE_URL.rstrip('/')}/health", timeout=health_timeout) as health_resp:
-                            if health_resp.status == 200:
-                                health_data = await health_resp.json()
-                                print(f"Health check: {health_data.get('status', 'unknown')}")
-                                
-                                # If health check shows OpenAI API problems, report it
-                                if health_data.get("status") != "ok":
-                                    if "components" in health_data and "openai_api" in health_data["components"]:
-                                        if health_data["components"]["openai_api"]["status"] == "error":
-                                            await message.channel.send("⚠️ API-ul OpenAI este momentan indisponibil. Administratorii au fost notificați, dar răspunsul poate fi limitat.")
-                                            # Continue anyway, as some features might still work
-                            else:
-                                print(f"Health check failed with status: {health_resp.status}")
-                    except Exception as health_error:
-                        print(f"Health check error: {str(health_error)}")
-                        # Continue with main request even if health check fails
-                    
-                    print(f"Making POST request to: {endpoint}")
-                    try:
-                        start_time = asyncio.get_event_loop().time()
-                        retry_count = 0
-                        max_retries = 2
-                        
-                        # Implement basic retry logic for transient errors
-                        while retry_count <= max_retries:
-                            try:
-                                async with session.post(endpoint, json=payload) as resp:
-                                    elapsed = asyncio.get_event_loop().time() - start_time
-                                    print(f"Request took {elapsed:.2f} seconds")
-                                    print(f"Response status: {resp.status}")
-                                    
-                                    if resp.status == 200:
-                                        data = await resp.json()
-                                        print(f"Response data keys: {data.keys()}")
-                                        answer = data.get("answer", "Nu am găsit un răspuns.")
-                                        
-                                        # Capture analysis data for feedback if present
-                                        if "analysis_data" in data and is_image_query:
-                                            analysis_data = data["analysis_data"]
-                                            print("Image analysis data captured for feedback")
-                                        
-                                        print(f"Answer (first 100 chars): {answer[:100]}...")
-                                        break  # Success, exit retry loop
-                                    
-                                    elif resp.status == 429:  # Rate limit
-                                        response_text = await resp.text()
-                                        print(f"Rate limit error: {response_text[:200]}...")
-                                        if retry_count < max_retries:
-                                            retry_delay = (2 ** retry_count) * 2  # Exponential backoff
-                                            print(f"Rate limited, retrying in {retry_delay} seconds...")
-                                            await asyncio.sleep(retry_delay)
-                                            retry_count += 1
-                                        else:
-                                            answer = "⚠️ Serviciul este momentan supraîncărcat. Te rog să încerci mai târziu."
-                                            break
-                                    
-                                    elif resp.status in [502, 503, 504]:  # Server errors that might be temporary
-                                        response_text = await resp.text()
-                                        print(f"Server error ({resp.status}): {response_text[:200]}...")
-                                        if retry_count < max_retries:
-                                            retry_delay = (2 ** retry_count) * 2  # Exponential backoff
-                                            print(f"Server error, retrying in {retry_delay} seconds...")
-                                            await asyncio.sleep(retry_delay)
-                                            retry_count += 1
-                                        else:
-                                            answer = f"⚠️ Serverul întâmpină dificultăți tehnice (cod {resp.status}). Te rog să încerci mai târziu."
-                                            break
-                                    
-                                    else:  # Other errors, don't retry
-                                        response_text = await resp.text()
-                                        print(f"Error response ({resp.status}): {response_text[:200]}...")
-                                        
-                                        # More descriptive error messages based on status code
-                                        if resp.status == 400:
-                                            answer = "❌ Cererea nu a putut fi procesată corect. Verifică imaginea sau întrebarea."
-                                        elif resp.status == 401:
-                                            answer = "❌ Probleme de autentificare cu serverul API."
-                                        elif resp.status == 403:
-                                            answer = "❌ Nu am permisiunea să accesez această resursă."
-                                        elif resp.status >= 500:
-                                            answer = f"❌ Eroare internă de server (cod {resp.status}). Echipa tehnică a fost notificată."
-                                        else:
-                                            answer = f"❌ Eroare la server. Cod: {resp.status}"
-                                        break
-                                
-                            except asyncio.TimeoutError:
-                                print(f"Timeout during attempt {retry_count + 1}")
-                                if retry_count < max_retries:
-                                    retry_count += 1
-                                    print(f"Retrying after timeout ({retry_count}/{max_retries})...")
-                                else:
-                                    answer = "⏱️ Serverul procesează o cerere complexă și nu a răspuns la timp. Încearcă o întrebare mai simplă sau mai târziu."
-                                    break
-                                    
-                            except aiohttp.ClientConnectorError as conn_err:
-                                print(f"Connection error: {conn_err}")
-                                answer = f"❌ Nu m-am putut conecta la server: {conn_err}"
-                                break
-                    
-                    except asyncio.TimeoutError:
-                        print(f"Final timeout after {timeout.total} seconds")
-                        answer = "⏱️ Serverul procesează o cerere complexă și are nevoie de mai mult timp. Încearcă din nou mai târziu."
-                        
-                    except aiohttp.ClientConnectorError as e:
-                        print(f"Connection error: {e}")
-                        answer = f"❌ Nu m-am putut conecta la server: {e}"
-                        
-                    except Exception as e:
-                        print(f"Exception during request: {type(e).__name__}: {str(e)}")
-                        answer = f"❌ Eroare la procesarea cererii: {e}"
-                        
         except discord.Forbidden:
             # If we don't have permission to show typing, continue without it
             print("No permission to show typing indicator, continuing without it")
-            # Initialize variables for tracking query type and analysis data
-            endpoint = API_BASE_URL
-            is_image_query = False
-            analysis_data = None
-            image_url_for_feedback = None
             
             # Check for image
             if message.attachments:
@@ -373,14 +251,98 @@ async def on_message(message):
                 }
                 print(f"💬 Routing to {endpoint} with payload: {payload}")
             
-            # Rest of the code...
+            # Process the request and get the answer
+            answer = await process_request(endpoint, payload, is_image_query)
 
         # Create feedback view with correct endpoint and analysis data
-        # Extract the base URL without the path part for feedback
         base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
         view = FeedbackView(base_url, question, answer, analysis_data, image_url_for_feedback)
         
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer, view=view)
+
+async def process_request(endpoint, payload, is_image_query):
+    """Helper function to process the API request and return the answer"""
+    timeout = aiohttp.ClientTimeout(total=90 if is_image_query else 30)
+    
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        try:
+            # First check API health
+            health_timeout = aiohttp.ClientTimeout(total=5)
+            async with session.get(f"{API_BASE_URL.rstrip('/')}/health", timeout=health_timeout) as health_resp:
+                if health_resp.status == 200:
+                    health_data = await health_resp.json()
+                    print(f"Health check: {health_data.get('status', 'unknown')}")
+                    
+                    if health_data.get("status") != "ok":
+                        if "components" in health_data and "openai_api" in health_data["components"]:
+                            if health_data["components"]["openai_api"]["status"] == "error":
+                                return "⚠️ API-ul OpenAI este momentan indisponibil. Administratorii au fost notificați, dar răspunsul poate fi limitat."
+                else:
+                    print(f"Health check failed with status: {health_resp.status}")
+        except Exception as health_error:
+            print(f"Health check error: {str(health_error)}")
+        
+        # Make the main request
+        start_time = asyncio.get_event_loop().time()
+        retry_count = 0
+        max_retries = 2
+        
+        while retry_count <= max_retries:
+            try:
+                async with session.post(endpoint, json=payload) as resp:
+                    elapsed = asyncio.get_event_loop().time() - start_time
+                    print(f"Request took {elapsed:.2f} seconds")
+                    print(f"Response status: {resp.status}")
+                    
+                    if resp.status == 200:
+                        data = await resp.json()
+                        print(f"Response data keys: {data.keys()}")
+                        return data.get("answer", "Nu am găsit un răspuns.")
+                    
+                    elif resp.status == 429:  # Rate limit
+                        if retry_count < max_retries:
+                            retry_delay = (2 ** retry_count) * 2
+                            print(f"Rate limited, retrying in {retry_delay} seconds...")
+                            await asyncio.sleep(retry_delay)
+                            retry_count += 1
+                        else:
+                            return "⚠️ Serviciul este momentan supraîncărcat. Te rog să încerci mai târziu."
+                    
+                    elif resp.status in [502, 503, 504]:  # Server errors
+                        if retry_count < max_retries:
+                            retry_delay = (2 ** retry_count) * 2
+                            print(f"Server error, retrying in {retry_delay} seconds...")
+                            await asyncio.sleep(retry_delay)
+                            retry_count += 1
+                        else:
+                            return f"⚠️ Serverul întâmpină dificultăți tehnice (cod {resp.status}). Te rog să încerci mai târziu."
+                    
+                    else:  # Other errors
+                        if resp.status == 400:
+                            return "❌ Cererea nu a putut fi procesată corect. Verifică imaginea sau întrebarea."
+                        elif resp.status == 401:
+                            return "❌ Probleme de autentificare cu serverul API."
+                        elif resp.status == 403:
+                            return "❌ Nu am permisiunea să accesez această resursă."
+                        elif resp.status >= 500:
+                            return f"❌ Eroare internă de server (cod {resp.status}). Echipa tehnică a fost notificată."
+                        else:
+                            return f"❌ Eroare la server. Cod: {resp.status}"
+            
+            except asyncio.TimeoutError:
+                if retry_count < max_retries:
+                    retry_count += 1
+                    print(f"Retrying after timeout ({retry_count}/{max_retries})...")
+                else:
+                    return "⏱️ Serverul procesează o cerere complexă și nu a răspuns la timp. Încearcă o întrebare mai simplă sau mai târziu."
+            
+            except aiohttp.ClientConnectorError as conn_err:
+                return f"❌ Nu m-am putut conecta la server: {conn_err}"
+            
+            except Exception as e:
+                return f"❌ Eroare la procesarea cererii: {e}"
+        
+        return "❌ Nu s-a putut procesa cererea după mai multe încercări."
 
 client.run(DISCORD_TOKEN)
