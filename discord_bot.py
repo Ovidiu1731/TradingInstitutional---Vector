@@ -13,6 +13,9 @@ load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app")
 
+# Simple message deduplication
+processed_messages = set()
+
 # Set up intents
 intents = discord.Intents.default()
 intents.messages = True
@@ -172,6 +175,17 @@ async def on_message(message):
         return
     
     if client.user.mentioned_in(message):
+        # Simple deduplication based on message content and timestamp
+        message_key = f"{message.author.id}:{message.content}:{message.created_at.timestamp():.0f}"
+        if message_key in processed_messages:
+            print(f"Skipping duplicate message: {message_key}")
+            return
+        processed_messages.add(message_key)
+        
+        # Clean up old entries (keep only last 100)
+        if len(processed_messages) > 100:
+            processed_messages.clear()
+        
         question = message.content.replace(f"<@{client.user.id}>", "").strip()
         
         # Check if it's a market analysis request

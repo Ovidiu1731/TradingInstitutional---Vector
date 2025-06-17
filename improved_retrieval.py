@@ -73,7 +73,7 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
         seen_paths = set()
         
         # Lower confidence threshold for liquidity queries
-        min_score = 0.60 if "liq" in query.lower() or "lichidit" in query.lower() else 0.65
+        min_score = 0.50 if "liq" in query.lower() or "lichidit" in query.lower() else 0.55
         logger.info(f"Using minimum score threshold: {min_score}")
         
         for i, match in enumerate(results["matches"]):
