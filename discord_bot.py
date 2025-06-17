@@ -199,18 +199,18 @@ async def on_message(message):
             await message.channel.send("Întrebarea este goală.")
             return
         
-        async with message.channel.typing():
-            try:
+        try:
+            async with message.channel.typing():
                 # Initialize variables for tracking query type and analysis data
                 endpoint = API_BASE_URL
                 is_image_query = False
                 analysis_data = None
-                image_url_for_feedback = None  # Add this line to track image URL for feedback
+                image_url_for_feedback = None
                 
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    image_url_for_feedback = image_url  # Add this line to save the URL for feedback
+                    image_url_for_feedback = image_url
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
                         "question": question,
@@ -219,7 +219,6 @@ async def on_message(message):
                     is_image_query = True
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
-                    # For text-only queries, use the base URL as is
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
                     payload = {
                         "question": question
@@ -347,9 +346,34 @@ async def on_message(message):
                         print(f"Exception during request: {type(e).__name__}: {str(e)}")
                         answer = f"❌ Eroare la procesarea cererii: {e}"
                         
-            except Exception as e:
-                print(f"❌ Exception occurred: {str(e)}")
-                answer = f"❌ Eroare la conectarea cu serverul: {e}"
+        except discord.Forbidden:
+            # If we don't have permission to show typing, continue without it
+            print("No permission to show typing indicator, continuing without it")
+            # Initialize variables for tracking query type and analysis data
+            endpoint = API_BASE_URL
+            is_image_query = False
+            analysis_data = None
+            image_url_for_feedback = None
+            
+            # Check for image
+            if message.attachments:
+                image_url = message.attachments[0].url
+                image_url_for_feedback = image_url
+                endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
+                payload = {
+                    "question": question,
+                    "image_url": image_url
+                }
+                is_image_query = True
+                print(f"📷 Routing to {endpoint} with payload: {payload}")
+            else:
+                endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
+                payload = {
+                    "question": question
+                }
+                print(f"💬 Routing to {endpoint} with payload: {payload}")
+            
+            # Rest of the code...
 
         # Create feedback view with correct endpoint and analysis data
         # Extract the base URL without the path part for feedback
