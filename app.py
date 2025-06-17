@@ -131,7 +131,7 @@ MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.70"))
 TOP_K = int(os.getenv("PINECONE_TOP_K", "7"))
 
 # --- Model selection ---
-EMBEDDING_MODEL = "text-embedding-ada-002"
+EMBEDDING_MODEL = "text-embedding-ada-002"  # FIXED: Match the vector database
 VISION_MODEL = "gpt-4o"
 COMPLETION_MODEL = "gpt-4o"
 TEXT_MODEL = "gpt-3.5-turbo"
@@ -634,6 +634,113 @@ async def export_feedback(request: Request, api_key: str = None):
     except Exception as e:
         logging.error(f"Error exporting feedback logs: {e}")
         raise HTTPException(status_code=500, detail=f"Error reading logs: {str(e)}")
+
+@app.get("/admin/feedback-analysis")
+async def get_feedback_analysis(request: Request, api_key: str = None):
+    """Analyze feedback patterns and provide improvement insights"""
+    ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+    
+    if not ADMIN_API_KEY or api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    try:
+        from feedback_analyzer import FeedbackAnalyzer
+        analyzer = FeedbackAnalyzer(FEEDBACK_LOG)
+        analysis = analyzer.analyze_feedback_patterns()
+        return analysis
+    except Exception as e:
+        logging.error(f"Error analyzing feedback: {e}")
+        raise HTTPException(status_code=500, detail=f"Analysis error: {str(e)}")
+
+@app.get("/admin/generate-improvement-report")
+async def generate_improvement_report(request: Request, api_key: str = None):
+    """Generate a comprehensive improvement report"""
+    ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+    
+    if not ADMIN_API_KEY or api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    try:
+        from feedback_analyzer import FeedbackAnalyzer
+        analyzer = FeedbackAnalyzer(FEEDBACK_LOG)
+        report = analyzer.generate_improvement_report()
+        return {"report": report, "generated_at": datetime.now().isoformat()}
+    except Exception as e:
+        logging.error(f"Error generating report: {e}")
+        raise HTTPException(status_code=500, detail=f"Report generation error: {str(e)}")
+
+@app.post("/admin/optimize-prompts")
+async def optimize_system_prompts(request: Request, api_key: str = None):
+    """Generate optimized system prompts based on feedback"""
+    ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+    
+    if not ADMIN_API_KEY or api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    try:
+        from prompt_optimizer import PromptOptimizer
+        optimizer = PromptOptimizer()
+        
+        # Generate optimized prompt
+        optimized_prompt = optimizer.generate_optimized_prompt()
+        improvements_summary = optimizer.get_prompt_improvements_summary()
+        
+        # Save the optimized prompt
+        filename = optimizer.save_optimized_prompt()
+        
+        return {
+            "status": "success",
+            "optimized_prompt": optimized_prompt,
+            "improvements_summary": improvements_summary,
+            "saved_to": filename,
+            "generated_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        logging.error(f"Error optimizing prompts: {e}")
+        raise HTTPException(status_code=500, detail=f"Optimization error: {str(e)}")
+
+@app.get("/admin/system-health")
+async def get_system_health_metrics(request: Request, api_key: str = None):
+    """Get system health metrics including feedback trends"""
+    ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
+    
+    if not ADMIN_API_KEY or api_key != ADMIN_API_KEY:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    
+    try:
+        from feedback_analyzer import FeedbackAnalyzer
+        analyzer = FeedbackAnalyzer(FEEDBACK_LOG)
+        analysis = analyzer.analyze_feedback_patterns()
+        
+        if "error" not in analysis:
+            # Calculate key metrics
+            total_feedback = analysis.get("total_feedback", 0)
+            positive_count = analysis.get("feedback_distribution", {}).get("positive", 0)
+            negative_count = analysis.get("feedback_distribution", {}).get("negative", 0)
+            
+            satisfaction_rate = (positive_count / total_feedback * 100) if total_feedback > 0 else 0
+            recent_trends = analysis.get("recent_trends", {})
+            
+            health_metrics = {
+                "overall_satisfaction_rate": round(satisfaction_rate, 2),
+                "total_feedback_count": total_feedback,
+                "recent_satisfaction_rate": recent_trends.get("satisfaction_rate", 0) if isinstance(recent_trends, dict) else 0,
+                "improvement_opportunities": len(analysis.get("improvement_suggestions", [])),
+                "common_issues_count": len(analysis.get("common_issues", {})),
+                "last_updated": datetime.now().isoformat(),
+                "status": "healthy" if satisfaction_rate > 70 else "needs_attention"
+            }
+        else:
+            health_metrics = {
+                "status": "no_data",
+                "message": "No feedback data available for health metrics",
+                "last_updated": datetime.now().isoformat()
+            }
+        
+        return health_metrics
+    except Exception as e:
+        logging.error(f"Error getting health metrics: {e}")
+        raise HTTPException(status_code=500, detail=f"Health metrics error: {str(e)}")
 
 # --- Query Type Identification ---
 def identify_query_type(question: str) -> Dict[str, Any]:

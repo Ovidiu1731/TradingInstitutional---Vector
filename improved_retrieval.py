@@ -21,7 +21,7 @@ def get_embedding(text):
     """Get embedding for text using OpenAI's API."""
     try:
         response = client.embeddings.create(
-            model="text-embedding-3-small",
+            model="text-embedding-ada-002",
             input=text
         )
         return response.data[0].embedding
@@ -45,8 +45,13 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
     logger.info(f"Filters - Chapter: {chapter}, Lesson: {lesson}")
     
     try:
-        # Get embedding for the query
-        query_embedding = get_embedding(query)
+        # Expand query with related terms
+        expanded_query = expand_query_terms(query)
+        search_query = f"{query} {expanded_query}".strip()
+        logger.info(f"Expanded query: {search_query}")
+        
+        # Get embedding for the expanded query
+        query_embedding = get_embedding(search_query)
         if not query_embedding:
             logger.error("Failed to get query embedding")
             return []
@@ -72,8 +77,8 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
         processed_results = []
         seen_content = set()  # Changed from seen_paths to seen_content
         
-        # Lower confidence threshold for liquidity queries
-        min_score = 0.50 if "liq" in query.lower() or "lichidit" in query.lower() else 0.55
+        # Dynamic threshold based on query type
+        min_score = get_dynamic_threshold(query)
         logger.info(f"Using minimum score threshold: {min_score}")
         
         for i, match in enumerate(results["matches"]):
@@ -128,6 +133,49 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
     except Exception as e:
         logger.error(f"Error in retrieve_lesson_content: {e}")
         return []
+
+def get_dynamic_threshold(query):
+    """Get dynamic threshold based on query type and complexity."""
+    query_lower = query.lower()
+    
+    # FIXED: Much lower thresholds based on diagnostic data
+    # With ada-002, we get scores 0.80-0.95 for good matches
+    if any(term in query_lower for term in ["mss", "market structure", "structura"]):
+        return 0.75  # MSS queries - expect high scores with ada-002
+    elif any(term in query_lower for term in ["liq", "lichidit", "lichiditate"]):
+        return 0.80  # Liquidity queries - should get very high scores
+    elif any(term in query_lower for term in ["setup", "fvg", "gap"]):
+        return 0.75  # Technical setups
+    else:
+        return 0.70  # Default threshold - much higher with ada-002
+
+def expand_query_terms(query):
+    """Expand query with related trading terms."""
+    query_lower = query.lower()
+    expansions = []
+    
+    # MSS related expansions
+    if "mss" in query_lower or "market structure" in query_lower or "structura" in query_lower:
+        expansions.extend([
+            "market structure shift", "structura de piață", "schimbare structură",
+            "pivot", "higher low", "lower high", "agresiv", "normal"
+        ])
+    
+    # Aggressive MSS specific
+    if "agresiv" in query_lower:
+        expansions.extend([
+            "aggressive", "pivot", "candle", "bearish", "bullish", 
+            "definire", "identificare", "recunoaștere"
+        ])
+    
+    # Liquidity expansions
+    if any(term in query_lower for term in ["liq", "lichidit"]):
+        expansions.extend([
+            "liquidity", "HOD", "LOD", "majoră", "locală", "minoră",
+            "zone", "levels", "sweep"
+        ])
+    
+    return " ".join(expansions)
 
 def test_retrieval():
     """Test the retrieval logic with example queries."""
