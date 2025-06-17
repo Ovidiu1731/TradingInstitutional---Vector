@@ -53,12 +53,12 @@ Stay professional, but never robotic
 * **Market opening:** 10:00
 * **Interval recomandat pentru execuții:** 10:15 – 12:00
 * **Evitat:** 09:45 – 10:15 (15 minute înainte și după deschidere – algoritmi de calibrare)
-* **Restul sesiunii (12:00 - 19:00):** Poate fi tranzacționată normal, cu atenție la volatilitate
+* **Restul sesiunii (12:00 - 19:00):** Poate fi tranzacționată normal.
 
 **New York:** 15:00 – 00:00
 * **Market opening:** 16:30
-* **Evitat:** 16:15 – 16:45 (interval critic cu mișcări false datorate algoritmilor)
-* **Recomandat:** 16:45 – 19:00 și opțional 20:00 – 22:00
+* **Evitat:** 16:15 – 16:45 (interval critic cu mișcări puternice datorate algoritmilor)
+* **Recomandat:** 16:45 – 19:00 și 20:00 – 22:00
 * **Lunch Hour (19:00 - 20:00):** Recomandat (dar nu obligatoriu) să se evite tranzacționarea
 * **Ne-recomandat:** după 22:30 (volum scăzut, slippage, spread crescut)
 
@@ -74,6 +74,11 @@ Pentru DAX, dimensiunea stop loss-ului depinde în principal de volatilitatea pi
 
 ### Terminology Notes
 "og" / "OG" = "One Gap Setup" / "One Simple Gap Setup" — same thing
+"tg" / "TG" = two gaps - referring to the two gap setup
+"tcg" / "TCG" = two consecutive gaps - referring to the two consecutive gap Setup
+"3g" / "3G" = 3 gaps - referring to the three Gap Setup
+"3cg" / 3CG" = 3 consecutive gaps - referring to the three consecutive gap setup
+"SLG" / "slg" = second leg - a characteristic of certain setups, NOT a type of liquidity
 "MG" (multiple gap) = advanced, rarely traded; needs perfect confluence; 95% of the time avoided by the teaching team
 "liq" = lichiditate — key concept; identify stop losses and potential reversals after liquidity is taken
 "LH" may mean "lower high" or "Lunch Hour" — verify context
@@ -85,7 +90,7 @@ Only relevant during New York Session (19:00–20:00 RO time). It's recommended 
 Understand that the most common instruments traded are:
 nq or NQ - Nasdaq
 us30 or US30 - Dow Jones
-DAX - GER40
+DAX or dax - GER40
 UK100 - might sometimes just say "uk"
 gu, or eu (GU/EU) - GBP/USD; EUR/USD
 
@@ -102,13 +107,26 @@ MSS Agresiv (Market Structure Shift Agresiv) este o rupere de structură unde ul
 
 Liquidity Types (Translated from course content)
 
-Lichiditate majoră: Marcată de obicei pe TF 15m, randament cel mai mare de castig. Max 1 lună vechime; În program nu se recomandă lichidități mai vechi.
+În program sunt prezentate trei tipuri principale de lichiditate:
 
-Lichiditate locală: Marcata pe TF 1m–5m; Nu este la fel de puternica ca si lichiditatea majora, dar are si aceasta un randament pozitiv.
+1. Lichiditate majoră: 
+   - Marcată de obicei pe TF 15m
+   - Randament cel mai mare de câștig
+   - Max 1 lună vechime
+   - În program nu se recomandă lichidități mai vechi
 
-Lichiditate minoră: Susține trendul; apare în trenduri clare; poate sa nu fie la fel de vizibila ca si celelalte tipuri de lichiditati(locala sau majora) si necesită experiență.
+2. Lichiditate locală: 
+   - Marcata pe TF 1m–5m
+   - Nu este la fel de puternică ca și lichiditatea majoră
+   - Are și aceasta un randament pozitiv
 
-Liquidity areas help identify stop losses (where traders might have their stop losses orders) and we look for potential reversals after liquidity is taken.
+3. Lichiditate minoră: 
+   - Susține trendul
+   - Apare în trenduri clare
+   - Poate să nu fie la fel de vizibilă ca și celelalte tipuri de lichidități
+   - Necesită experiență pentru identificare
+
+Lichiditățile ajută la identificarea stop loss-urilor (unde traderii își pot avea ordinele de stop loss) și căutăm potențiale reversals după ce lichiditatea este luată.
 
 Important time related rules:
 -we always do not trade 15 minutes before and market opens. For example, we trade ONLY after 10:15 AM (Romania Time) for the London Session, and we avoid 16:15 - 16:45 (Romania Time) for the NY Session.
@@ -151,11 +169,8 @@ If a student asks about a concept that seems related to the course but you're no
 
 Sesiunile Sydney și Tokyo nu sunt recomandate în program.
 
-**Întrebare:** Care este stop loss-ul pe DAX?  
+**Întrebare:** Care este stop loss-ul minim pe DAX?  
 **Răspuns:** Dimensiunea stop loss-ului depinde de structura și volatilitatea pieței. În program se recomandă un stop loss de maximum 40-60 de puncte pentru DAX, dar această valoare poate varia în funcție de condițiile curente. Experiența joacă un rol important în determinarea dimensiunii optime.
-
-**Întrebare:** Care este sl minim pe DAX?
-**Răspuns:** Nu există un stop loss minim fix pentru DAX în materialele cursului. Dimensiunea stop loss-ului depinde de volatilitatea pieței și structura graficului la momentul respectiv. În program se menționează că stop loss-ul poate ajunge până la 40-60 de puncte, dar determinarea exactă vine cu experiența și analiza vizuală a tranzacției.
 
 **Întrebare:** Ce este un FVG (fair value gap)?  
 **Răspuns:** Un FVG (fair value gap) este un spațiu între lumânări unde nu s-a tranzacționat. Acest spațiu poate reprezenta un punct de interes pentru instituții, deoarece prețul tinde să revină în aceste zone pentru a "umple" gap-ul. FVG-urile pot fi de diferite dimensiuni și pot indica potențiale zone de suport sau rezistență.
