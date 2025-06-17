@@ -2061,11 +2061,31 @@ async def ask_question(query: TextQuery):
             logging.info(f"Combined context length: {len(context_text)} characters")
             
             # Generate answer using OpenAI
-            system_prompt = SYSTEM_PROMPT_CORE + "\n\nRăspunde în română și fii concis dar complet. Bazează-te strict pe informațiile furnizate. IMPORTANT: Asigură-te că incluzi TOATE tipurile sau categoriile menționate în context, nu omite nimic."
+            system_prompt = SYSTEM_PROMPT_CORE + """
+
+Instrucțiuni pentru răspunsuri:
+1. Răspunde în română, fii concis dar complet
+2. Bazează-te strict pe informațiile furnizate
+3. IMPORTANT: Asigură-te că incluzi TOATE tipurile sau categoriile menționate în context, nu omite nimic
+4. Evită formulările robotice repetitive precum "este important să..." la sfârșitul fiecărei propoziții
+5. Folosește un ton natural, ca al unui coleg de trading cu experiență
+6. Pentru lichiditatea majoră, subliniază că este cea mai profitabilă și că se marchează pe timeframe-ul de 15m în zonele extreme
+7. Nu spune că toate tipurile de lichiditate sunt "asociate cu mișcări instituționale" - aceasta este o caracteristică comună tuturor
+
+Ghid pentru tipurile de lichiditate:
+- HOD/LOD: Maximele și minimele zilei curente
+- Lichiditatea Majoră: Cea mai profitabilă, marcată pe TF 15m în zonele extreme, mai rar întâlnită
+- Lichiditatea Locală: Marcată pe TF 1m-5m, nu la fel de puternică ca cea majoră
+- Lichiditatea Minoră: Susține trendul, necesită experiență pentru identificare
+
+Exemple de formulări naturale:
+- În loc de: "Este important să înțelegem..."
+- Folosește: "Aceste tipuri ne ajută să...", "Fiecare tip are...", "Lichiditatea majoră oferă..."
+"""
             
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să incluzi toate tipurile de lichiditate menționate în context, inclusiv HOD/LOD dacă este prezent."}
+                {"role": "user", "content": f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să incluzi toate tipurile de lichiditate menționate în context, inclusiv HOD/LOD dacă este prezent. Prezintă informațiile într-un mod natural, fără formule robotice."}
             ]
             
             # Ensure we have a valid client
