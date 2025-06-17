@@ -10,6 +10,7 @@ from datetime import datetime
 import hashlib
 import json
 from zoneinfo import ZoneInfo
+import uuid
 
 # Load environment variables
 load_dotenv()
@@ -20,6 +21,10 @@ API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway
 processed_messages = set()
 processing_messages = set()  # Track messages currently being processed
 api_request_cache = {}  # Cache API responses to prevent duplicate requests
+
+# Generate a unique session ID for this bot instance
+BOT_SESSION_ID = str(uuid.uuid4())[:8]
+print(f"🤖 Discord Bot Session ID: {BOT_SESSION_ID}")
 
 # Set up intents
 intents = discord.Intents.default()
@@ -269,7 +274,8 @@ async def on_message(message):
                         endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                         payload = {
                             "question": question,
-                            "image_url": image_url
+                            "image_url": image_url,
+                            "session_id": f"discord-bot-{BOT_SESSION_ID}-{message.author.id}"
                         }
                         is_image_query = True
                         image_url_for_feedback = image_url
@@ -277,7 +283,8 @@ async def on_message(message):
                     else:
                         endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
                         payload = {
-                            "question": question
+                            "question": question,
+                            "session_id": f"discord-bot-{BOT_SESSION_ID}-{message.author.id}"
                         }
                         is_image_query = False
                         image_url_for_feedback = None
@@ -314,7 +321,8 @@ async def on_message(message):
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
                         "question": question,
-                        "image_url": image_url
+                        "image_url": image_url,
+                        "session_id": f"discord-bot-{BOT_SESSION_ID}-{message.author.id}"
                     }
                     is_image_query = True
                     image_url_for_feedback = image_url
@@ -322,7 +330,8 @@ async def on_message(message):
                 else:
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
                     payload = {
-                        "question": question
+                        "question": question,
+                        "session_id": f"discord-bot-{BOT_SESSION_ID}-{message.author.id}"
                     }
                     is_image_query = False
                     image_url_for_feedback = None
@@ -348,15 +357,16 @@ async def on_message(message):
 
 async def process_request(endpoint, payload, is_image_query, method="POST"):
     """Process the API request and return the formatted response."""
-    # Create a cache key for this request
+    # Create a more specific cache key that includes the session ID
     cache_key = hashlib.md5(f"{method}:{endpoint}:{json.dumps(payload, sort_keys=True)}".encode()).hexdigest()
     
     # Check if we've already made this exact request recently
     if cache_key in api_request_cache:
-        print(f"🔄 CACHE HIT: Returning cached response for {cache_key[:8]}...")
+        print(f"🔄 CACHE HIT: Returning cached response for {cache_key[:8]} (Session: {BOT_SESSION_ID})")
         return api_request_cache[cache_key]
     
-    print(f"🌐 API REQUEST: Making new {method} request {cache_key[:8]} to {endpoint}")
+    print(f"🌐 API REQUEST: Making new {method} request {cache_key[:8]} to {endpoint} (Session: {BOT_SESSION_ID})")
+    print(f"📋 Request payload: {payload}")
     
     try:
         timeout = aiohttp.ClientTimeout(total=60)  # Longer timeout for market analysis
@@ -371,7 +381,7 @@ async def process_request(endpoint, payload, is_image_query, method="POST"):
                     return await handle_response(resp, cache_key)
     except Exception as e:
         error_msg = "Am întâmpinat o eroare la procesarea cererii."
-        print(f"❌ API EXCEPTION: {e}")
+        print(f"❌ API EXCEPTION (Session: {BOT_SESSION_ID}): {e}")
         return error_msg
 
 async def handle_response(resp, cache_key):
