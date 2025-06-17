@@ -6,7 +6,7 @@ import aiohttp
 import asyncio
 from dotenv import load_dotenv
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 import json
 from zoneinfo import ZoneInfo
@@ -136,78 +136,138 @@ async def cache_training_examples():
         print(f"Error in cache_training_examples: {e}")
 
 def is_market_analysis_request(question: str) -> tuple[bool, dict]:
-    """Detect if the question is a market analysis request"""
-    # Common patterns for market analysis
-    patterns = [
-        # Pattern 1: Full pattern with date and time
-        r"analizeaza\s+([A-Z]{3}/?[A-Z]{3})\s+pentru\s+(\d{2}-\d{2}-\d{4})\s+de\s+la\s+(\d{1,2}:\d{2})\s+(pana\s+)?la\s+(\d{1,2}:\d{2})",
-        # Pattern 2: Date only pattern  
-        r"analizeaza\s+([A-Z]{3}/?[A-Z]{3})\s+pentru\s+(\d{2}-\d{2}-\d{4})",
-        # Pattern 3: Time only pattern (defaults to today) - more flexible
-        r"analizeaza\s+([A-Z]{3}/?[A-Z]{3})\s+de\s+la\s+(\d{1,2}:\d{2})\s+(pana\s+)?la\s+(\d{1,2}:\d{2})"
+    """Detect if the question is a market analysis request using flexible NLP approach"""
+    import re
+    from datetime import datetime, timedelta
+    
+    # Clean and normalize the question
+    question_lower = question.lower().strip()
+    
+    # Key indicators that this is a market analysis request
+    analysis_indicators = [
+        'analizeaza', 'analiza', 'analyze', 'chart', 'grafic', 'analiza-mi', 'analizami'
     ]
     
-    for i, pattern in enumerate(patterns):
-        match = re.search(pattern, question.lower())
+    # Check if it contains analysis indicators
+    has_analysis_indicator = any(indicator in question_lower for indicator in analysis_indicators)
+    if not has_analysis_indicator:
+        return False, {}
+    
+    # Extract currency pair using flexible patterns
+    currency_patterns = [
+        r'([A-Z]{3}/?[A-Z]{3})',  # GBPUSD or GBP/USD
+        r'([A-Z]{6})',            # GBPUSD
+        r'([a-z]{3}/?[a-z]{3})',  # gbpusd or gbp/usd
+        r'([a-z]{6})',            # gbpusd
+    ]
+    
+    symbol = None
+    for pattern in currency_patterns:
+        match = re.search(pattern, question)
         if match:
-            # Normalize currency pair format (add slash if missing)
             symbol = match.group(1).upper()
+            # Normalize to standard format with slash
             if '/' not in symbol and len(symbol) == 6:
                 symbol = f"{symbol[:3]}/{symbol[3:]}"
-            
-            # Handle different pattern types
-            if i == 0:  # Full pattern with date and time
-                date_str = match.group(2)
-                from_time = match.group(3)
-                to_time = match.group(5)  # Skip the optional "pana" group
-                
-                try:
-                    from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
-                    to_date = from_date
-                except ValueError:
-                    continue
-                    
-                return True, {
-                    "symbol": symbol,
-                    "from_date": from_date.strftime("%Y-%m-%d"),
-                    "to_date": to_date.strftime("%Y-%m-%d"),
-                    "from_time": from_time,
-                    "to_time": to_time,
-                    "timeframe": "1min"
-                }
-            elif i == 1:  # Date only pattern
-                date_str = match.group(2)
-                
-                try:
-                    from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
-                    to_date = from_date
-                except ValueError:
-                    continue
-                    
-                return True, {
-                    "symbol": symbol,
-                    "from_date": from_date.strftime("%Y-%m-%d"),
-                    "to_date": to_date.strftime("%Y-%m-%d"),
-                    "timeframe": "1min"
-                }
-            elif i == 2:  # Time only pattern (defaults to today)
-                from_time = match.group(2)
-                to_time = match.group(4)  # Skip the optional "pana" group
-                
-                # Use today's date in Romanian timezone (Europe/Bucharest)
-                romanian_tz = ZoneInfo("Europe/Bucharest")
-                today = datetime.now(romanian_tz).date()
-                
-                return True, {
-                    "symbol": symbol,
-                    "from_date": today.strftime("%Y-%m-%d"),
-                    "to_date": today.strftime("%Y-%m-%d"),
-                    "from_time": from_time,
-                    "to_time": to_time,
-                    "timeframe": "1min"
-                }
+            break
     
-    return False, {}
+    if not symbol:
+        return False, {}  # No valid currency pair found
+    
+    # Extract time ranges - be very flexible with formats
+    time_patterns = [
+        r'(\d{1,2}):(\d{2})',  # Any time format like 10:15, 9:30, etc.
+        r'(\d{1,2})\.(\d{2})',  # 10.15 format
+        r'(\d{1,2}):(\d{1,2})', # 10:5 format
+    ]
+    
+    times = []
+    for pattern in time_patterns:
+        matches = re.findall(pattern, question)
+        for match in matches:
+            hour, minute = match
+            # Normalize minutes to 2 digits
+            minute = minute.zfill(2)
+            times.append(f"{hour}:{minute}")
+    
+    # Extract dates - flexible date detection
+    date_patterns = [
+        r'(\d{1,2})[.-](\d{1,2})[.-](\d{4})',     # DD-MM-YYYY or DD.MM.YYYY
+        r'(\d{1,2})/(\d{1,2})/(\d{4})',           # MM/DD/YYYY or DD/MM/YYYY
+        r'(\d{4})[.-](\d{1,2})[.-](\d{1,2})',     # YYYY-MM-DD
+        r'(\d{2})[.-](\d{2})[.-](\d{4})',         # DD-MM-YYYY
+    ]
+    
+    extracted_date = None
+    date_keywords = ['data', 'date', 'pentru', 'pe', 'in', 'la']
+    
+    for pattern in date_patterns:
+        match = re.search(pattern, question)
+        if match:
+            try:
+                parts = match.groups()
+                if len(parts[0]) == 4:  # YYYY format first
+                    year, month, day = parts
+                else:
+                    # Try both DD-MM-YYYY and MM-DD-YYYY
+                    day_or_month, month_or_day, year = parts
+                    
+                    # Smart date detection based on context
+                    if int(day_or_month) > 12:  # Must be day first
+                        day, month = day_or_month, month_or_day
+                    elif int(month_or_day) > 12:  # Must be month first
+                        month, day = day_or_month, month_or_day
+                    else:
+                        # Default to European format (DD-MM-YYYY) for Romanian users
+                        day, month = day_or_month, month_or_day
+                
+                extracted_date = datetime(int(year), int(month), int(day)).date()
+                break
+            except ValueError:
+                continue
+    
+    # If no date found, check for relative date keywords
+    if not extracted_date:
+        today_keywords = ['azi', 'astazi', 'today', 'vandaag']
+        yesterday_keywords = ['ieri', 'yesterday'] 
+        tomorrow_keywords = ['maine', 'mâine', 'tomorrow']
+        
+        romanian_tz = ZoneInfo("Europe/Bucharest")
+        today = datetime.now(romanian_tz).date()
+        
+        if any(keyword in question_lower for keyword in today_keywords):
+            extracted_date = today
+        elif any(keyword in question_lower for keyword in yesterday_keywords):
+            extracted_date = today - timedelta(days=1)
+        elif any(keyword in question_lower for keyword in tomorrow_keywords):
+            extracted_date = today + timedelta(days=1)
+        else:
+            # Default to today if no date specified
+            extracted_date = today
+    
+    # Build the result
+    result = {
+        "symbol": symbol,
+        "from_date": extracted_date.strftime("%Y-%m-%d"),
+        "to_date": extracted_date.strftime("%Y-%m-%d"),
+        "timeframe": "1min"
+    }
+    
+    # Add times if found
+    if len(times) >= 2:
+        result["from_time"] = times[0]
+        result["to_time"] = times[1]
+    elif len(times) == 1:
+        # If only one time, assume it's the start time and add 15 minutes
+        try:
+            start_time = datetime.strptime(times[0], "%H:%M")
+            end_time = start_time + timedelta(minutes=15)
+            result["from_time"] = times[0]
+            result["to_time"] = end_time.strftime("%H:%M")
+        except:
+            pass
+    
+    return True, result
 
 @client.event
 async def on_message(message):
