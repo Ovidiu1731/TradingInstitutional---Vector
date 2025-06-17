@@ -73,10 +73,18 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
         seen_paths = set()
         
         # Lower confidence threshold for liquidity queries
-        min_score = 0.65 if "liq" in query.lower() or "lichidit" in query.lower() else 0.70
+        min_score = 0.60 if "liq" in query.lower() or "lichidit" in query.lower() else 0.65
+        logger.info(f"Using minimum score threshold: {min_score}")
         
-        for match in results["matches"]:
-            if not match.metadata or match.score < min_score:
+        for i, match in enumerate(results["matches"]):
+            logger.info(f"Raw result {i+1}: score={match.score:.4f}, has_metadata={bool(match.metadata)}")
+            
+            if not match.metadata:
+                logger.info(f"  Skipping result {i+1}: no metadata")
+                continue
+                
+            if match.score < min_score:
+                logger.info(f"  Skipping result {i+1}: score {match.score:.4f} below threshold {min_score}")
                 continue
                 
             # Extract chapter and lesson from path if not in metadata
@@ -90,6 +98,7 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
             
             # Skip if we've seen this path before
             if path in seen_paths:
+                logger.info(f"  Skipping result {i+1}: duplicate path {path}")
                 continue
             seen_paths.add(path)
             
@@ -101,10 +110,10 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
                 "text": match.metadata.get("text", "")
             })
             
-            logger.info(f"\nResult {len(processed_results)}:")
-            logger.info(f"Chapter: {processed_results[-1]['chapter']}")
-            logger.info(f"Lesson: {processed_results[-1]['lesson']}")
-            logger.info(f"Text preview: {processed_results[-1]['text'][:200]}...")
+            logger.info(f"✅ Added result {len(processed_results)}: score={match.score:.4f}")
+            logger.info(f"  Chapter: {processed_results[-1]['chapter']}")
+            logger.info(f"  Lesson: {processed_results[-1]['lesson']}")
+            logger.info(f"  Text preview: {processed_results[-1]['text'][:200]}...")
         
         # Sort by score and take top_k
         processed_results.sort(key=lambda x: x["score"], reverse=True)
