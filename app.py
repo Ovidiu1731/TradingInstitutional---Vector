@@ -2061,11 +2061,11 @@ async def ask_question(query: TextQuery):
             logging.info(f"Combined context length: {len(context_text)} characters")
             
             # Generate answer using OpenAI
-            system_prompt = SYSTEM_PROMPT_CORE + "\n\nRăspunde în română și fii concis dar complet. Bazează-te strict pe informațiile furnizate."
+            system_prompt = SYSTEM_PROMPT_CORE + "\n\nRăspunde în română și fii concis dar complet. Bazează-te strict pe informațiile furnizate. IMPORTANT: Asigură-te că incluzi TOATE tipurile sau categoriile menționate în context, nu omite nimic."
             
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Întrebare: {question}\n\nContext din material:\n{context_text}"}
+                {"role": "user", "content": f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să incluzi toate tipurile de lichiditate menționate în context, inclusiv HOD/LOD dacă este prezent."}
             ]
             
             # Ensure we have a valid client

@@ -175,37 +175,27 @@ async def on_message(message):
         return
     
     if client.user.mentioned_in(message):
-        # Simple deduplication based on message content and timestamp
-        message_key = f"{message.author.id}:{message.content}:{message.created_at.timestamp():.0f}"
+        # More robust deduplication 
+        message_key = f"{message.author.id}:{hash(message.content)}:{message.id}"
         if message_key in processed_messages:
             print(f"Skipping duplicate message: {message_key}")
             return
         processed_messages.add(message_key)
         
-        # Clean up old entries (keep only last 100)
-        if len(processed_messages) > 100:
-            processed_messages.clear()
+        # Clean up old entries (keep only last 50)
+        if len(processed_messages) > 50:
+            # Remove oldest half
+            old_keys = list(processed_messages)[:25]
+            for key in old_keys:
+                processed_messages.discard(key)
         
         question = message.content.replace(f"<@{client.user.id}>", "").strip()
         
         # Check if it's a market analysis request
         is_market_analysis, market_params = is_market_analysis_request(question)
         
-        if is_market_analysis:
-            # Use market analysis endpoint
-            endpoint = f"{API_BASE_URL}/candles/{market_params['symbol']}/analysis/assistant"
-            params = {
-                "from_date": market_params["from_date"],
-                "to_date": market_params["to_date"],
-                "timeframe": market_params["timeframe"]
-            }
-            # Make the request...
-        else:
-            # Use the regular ask endpoint
-            endpoint = f"{API_BASE_URL}/ask"
-            # Make the request...
-
         # DEBUG
+        print(f"Processing message ID: {message.id}")
         print("Raw message content:", message.content)
         print("Extracted question:", question)
         
@@ -213,34 +203,30 @@ async def on_message(message):
             await message.channel.send("Întrebarea este goală.")
             return
         
-        # Initialize variables that need to be accessible in both try and except blocks
-        endpoint = API_BASE_URL
-        is_image_query = False
-        analysis_data = None
-        image_url_for_feedback = None
-        answer = None  # Initialize answer variable
-        
+        # Single processing path - no duplicated variables
         try:
             async with message.channel.typing():
                 # Check for image
                 if message.attachments:
                     image_url = message.attachments[0].url
-                    image_url_for_feedback = image_url
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
                         "question": question,
                         "image_url": image_url
                     }
                     is_image_query = True
+                    image_url_for_feedback = image_url
                     print(f"📷 Routing to {endpoint} with payload: {payload}")
                 else:
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
                     payload = {
                         "question": question
                     }
+                    is_image_query = False
+                    image_url_for_feedback = None
                     print(f"💬 Routing to {endpoint} with payload: {payload}")
                 
-                # Process the request and get the answer
+                # Process the request and get the answer - SINGLE CALL
                 answer = await process_request(endpoint, payload, is_image_query)
                 
         except discord.Forbidden:
@@ -250,27 +236,29 @@ async def on_message(message):
             # Check for image
             if message.attachments:
                 image_url = message.attachments[0].url
-                image_url_for_feedback = image_url
                 endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                 payload = {
                     "question": question,
                     "image_url": image_url
                 }
                 is_image_query = True
+                image_url_for_feedback = image_url
                 print(f"📷 Routing to {endpoint} with payload: {payload}")
             else:
                 endpoint = f"{API_BASE_URL.rstrip('/')}/ask"
                 payload = {
                     "question": question
                 }
+                is_image_query = False
+                image_url_for_feedback = None
                 print(f"💬 Routing to {endpoint} with payload: {payload}")
             
-            # Process the request and get the answer
+            # Process the request and get the answer - SINGLE CALL
             answer = await process_request(endpoint, payload, is_image_query)
 
         # Create feedback view with correct endpoint and analysis data
         base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
-        view = FeedbackView(base_url, question, answer, analysis_data, image_url_for_feedback)
+        view = FeedbackView(base_url, question, answer, None, image_url_for_feedback)
         
         print(f"About to send answer to Discord: {answer[:100]}...")
         await message.channel.send(answer, view=view)
@@ -284,20 +272,9 @@ async def process_request(endpoint, payload, is_image_query):
                 if resp.status == 200:
                     data = await resp.json()
                     
-                    # Handle the new response format
+                    # Handle the new response format - return only the answer, no sources
                     if "answer" in data:
                         answer = data["answer"]
-                        sources = data.get("sources", [])
-                        
-                        # Format the response with sources if available
-                        if sources:
-                            formatted_response = f"{answer}\n\n**Surse:**"
-                            for i, source in enumerate(sources, 1):
-                                chapter = source.get("chapter", "Unknown")
-                                lesson = source.get("lesson", "Unknown")
-                                formatted_response += f"\n{i}. Capitolul {chapter}, Lecția {lesson}"
-                            
-                            return formatted_response
                         return answer
                     else:
                         # Fallback for old format
