@@ -153,22 +153,71 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
     if not has_analysis_indicator:
         return False, {}
     
-    # Extract currency pair using flexible patterns
+    # Extract currency pair/instrument using flexible patterns
+    # Handle the most traded instruments in the community
+    instrument_mappings = {
+        # Forex pairs
+        'EURUSD': 'EURUSD',
+        'EUR/USD': 'EURUSD', 
+        'EUR-USD': 'EURUSD',
+        'GBPUSD': 'GBPUSD',
+        'GBP/USD': 'GBPUSD',
+        'GBP-USD': 'GBPUSD',
+        'GBPU/USD': 'GBPUSD',  # User's specific example
+        'GBPU-USD': 'GBPUSD',
+        
+        # Indices - map to FMP format
+        'GER30': 'GER30',
+        'GERMAN': 'GER30',
+        'DAX': 'GER30',
+        'GER': 'GER30',
+        'DE30': 'GER30',
+        'NASDAQ': 'NASDAQ',
+        'NAS100': 'NASDAQ',
+        'NAS': 'NASDAQ',
+        'US30': 'US30',
+        'DJI': 'US30',
+        'DOW': 'US30',
+        'DOWJONES': 'US30',
+        'UK100': 'UK100',
+        'FTSE': 'UK100',
+        'FTSE100': 'UK100',
+        'UKX': 'UK100',
+        'BRITISH': 'UK100',
+    }
+    
+    # More flexible patterns to catch variations
     currency_patterns = [
-        r'([A-Z]{3}/?[A-Z]{3})',  # GBPUSD or GBP/USD
-        r'([A-Z]{6})',            # GBPUSD
-        r'([a-z]{3}/?[a-z]{3})',  # gbpusd or gbp/usd
-        r'([a-z]{6})',            # gbpusd
+        r'([A-Z]{3}/?[A-Z]{3})',      # GBPUSD or GBP/USD
+        r'([A-Z]{6})',                # GBPUSD
+        r'([a-z]{3}/?[a-z]{3})',      # gbpusd or gbp/usd  
+        r'([a-z]{6})',                # gbpusd
+        r'([A-Z]{2,6})',              # GER30, US30, etc.
+        r'([a-z]{2,6})',              # ger30, nasdaq, etc.
+        r'(GBPU/?USD)',               # Special case for GBPU/USD
+        r'(gbpu/?usd)',               # lowercase version
     ]
     
     symbol = None
     for pattern in currency_patterns:
-        match = re.search(pattern, question)
-        if match:
-            symbol = match.group(1).upper()
-            # Normalize to standard format with slash
-            if '/' not in symbol and len(symbol) == 6:
-                symbol = f"{symbol[:3]}/{symbol[3:]}"
+        matches = re.findall(pattern, question)
+        for match in matches:
+            candidate = match.upper().replace('-', '').replace('/', '')
+            
+            # First check direct mappings
+            if candidate in instrument_mappings:
+                symbol = instrument_mappings[candidate]
+                break
+                
+            # Then check partial matches for indices
+            for key, value in instrument_mappings.items():
+                if candidate in key or key in candidate:
+                    symbol = value
+                    break
+            
+            if symbol:
+                break
+        if symbol:
             break
     
     if not symbol:
