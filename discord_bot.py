@@ -222,8 +222,23 @@ async def on_message(message):
             # Single processing path - no duplicated variables
             try:
                 async with message.channel.typing():
+                    # Check if it's a market analysis request first
+                    if is_market_analysis:
+                        print(f"📊 MARKET ANALYSIS REQUEST detected: {market_params}")
+                        endpoint = f"{API_BASE_URL.rstrip('/')}/candles/{market_params['symbol']}/analysis/assistant"
+                        payload = {
+                            "from_date": market_params["from_date"],
+                            "to_date": market_params["to_date"],
+                            "timeframe": market_params["timeframe"]
+                        }
+                        if "from_time" in market_params and "to_time" in market_params:
+                            payload["from_time"] = market_params["from_time"]
+                            payload["to_time"] = market_params["to_time"]
+                        is_image_query = False
+                        image_url_for_feedback = None
+                        print(f"📊 Routing to {endpoint} with payload: {payload}")
                     # Check for image
-                    if message.attachments:
+                    elif message.attachments:
                         image_url = message.attachments[0].url
                         endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                         payload = {
@@ -243,14 +258,32 @@ async def on_message(message):
                         print(f"💬 Routing to {endpoint} with payload: {payload}")
                     
                     # Process the request and get the answer - SINGLE CALL
-                    answer = await process_request(endpoint, payload, is_image_query)
+                    if is_market_analysis:
+                        answer = await process_request(endpoint, payload, is_image_query, "GET")
+                    else:
+                        answer = await process_request(endpoint, payload, is_image_query)
                     
             except discord.Forbidden:
                 # If we don't have permission to show typing, continue without it
                 print("No permission to show typing indicator, continuing without it")
                 
+                # Check if it's a market analysis request first
+                if is_market_analysis:
+                    print(f"📊 MARKET ANALYSIS REQUEST detected: {market_params}")
+                    endpoint = f"{API_BASE_URL.rstrip('/')}/candles/{market_params['symbol']}/analysis/assistant"
+                    payload = {
+                        "from_date": market_params["from_date"],
+                        "to_date": market_params["to_date"],
+                        "timeframe": market_params["timeframe"]
+                    }
+                    if "from_time" in market_params and "to_time" in market_params:
+                        payload["from_time"] = market_params["from_time"]
+                        payload["to_time"] = market_params["to_time"]
+                    is_image_query = False
+                    image_url_for_feedback = None
+                    print(f"📊 Routing to {endpoint} with payload: {payload}")
                 # Check for image
-                if message.attachments:
+                elif message.attachments:
                     image_url = message.attachments[0].url
                     endpoint = f"{API_BASE_URL.rstrip('/')}/ask-image-hybrid"
                     payload = {
@@ -270,7 +303,10 @@ async def on_message(message):
                     print(f"💬 Routing to {endpoint} with payload: {payload}")
                 
                 # Process the request and get the answer - SINGLE CALL
-                answer = await process_request(endpoint, payload, is_image_query)
+                if is_market_analysis:
+                    answer = await process_request(endpoint, payload, is_image_query, "GET")
+                else:
+                    answer = await process_request(endpoint, payload, is_image_query)
 
             # Create feedback view with correct endpoint and analysis data
             base_url = API_BASE_URL.split("/ask")[0] if "/ask" in API_BASE_URL else API_BASE_URL
@@ -284,49 +320,63 @@ async def on_message(message):
             processing_messages.discard(message_key)
             print(f"🏁 FINISHED processing message: {message_key}")
 
-async def process_request(endpoint, payload, is_image_query):
+async def process_request(endpoint, payload, is_image_query, method="POST"):
     """Process the API request and return the formatted response."""
     # Create a cache key for this request
-    cache_key = hashlib.md5(f"{endpoint}:{json.dumps(payload, sort_keys=True)}".encode()).hexdigest()
+    cache_key = hashlib.md5(f"{method}:{endpoint}:{json.dumps(payload, sort_keys=True)}".encode()).hexdigest()
     
     # Check if we've already made this exact request recently
     if cache_key in api_request_cache:
         print(f"🔄 CACHE HIT: Returning cached response for {cache_key[:8]}...")
         return api_request_cache[cache_key]
     
-    print(f"🌐 API REQUEST: Making new request {cache_key[:8]} to {endpoint}")
+    print(f"🌐 API REQUEST: Making new {method} request {cache_key[:8]} to {endpoint}")
     
     try:
-        timeout = aiohttp.ClientTimeout(total=30)
+        timeout = aiohttp.ClientTimeout(total=60)  # Longer timeout for market analysis
         async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.post(endpoint, json=payload) as resp:
-                if resp.status == 200:
-                    data = await resp.json()
-                    
-                    # Handle the new response format - return only the answer, no sources
-                    if "answer" in data:
-                        answer = data["answer"]
-                        # Cache the response for 60 seconds
-                        api_request_cache[cache_key] = answer
-                        
-                        # Clean up old cache entries (keep only last 10)
-                        if len(api_request_cache) > 10:
-                            old_keys = list(api_request_cache.keys())[:5]
-                            for key in old_keys:
-                                del api_request_cache[key]
-                        
-                        print(f"✅ API SUCCESS: Cached response {cache_key[:8]}")
-                        return answer
-                    else:
-                        # Fallback for old format
-                        return data.get("context", "Nu am putut procesa răspunsul.")
-                else:
-                    error_msg = f"Eroare la procesarea cererii (Status: {resp.status})"
-                    print(f"❌ API ERROR: {error_msg}")
-                    return error_msg
+            if method == "GET":
+                # For market analysis endpoint (GET with query parameters)
+                async with session.get(endpoint, params=payload) as resp:
+                    return await handle_response(resp, cache_key)
+            else:
+                # For regular POST requests
+                async with session.post(endpoint, json=payload) as resp:
+                    return await handle_response(resp, cache_key)
     except Exception as e:
         error_msg = "Am întâmpinat o eroare la procesarea cererii."
         print(f"❌ API EXCEPTION: {e}")
+        return error_msg
+
+async def handle_response(resp, cache_key):
+    """Handle API response for both GET and POST requests."""
+    if resp.status == 200:
+        data = await resp.json()
+        
+        # Handle the new response format - return only the answer, no sources
+        if "answer" in data:
+            answer = data["answer"]
+        elif "analysis" in data:
+            # Market analysis response format
+            answer = data["analysis"]
+        else:
+            # Fallback for old format
+            answer = data.get("context", "Nu am putut procesa răspunsul.")
+        
+        # Cache the response
+        api_request_cache[cache_key] = answer
+        
+        # Clean up old cache entries (keep only last 10)
+        if len(api_request_cache) > 10:
+            old_keys = list(api_request_cache.keys())[:5]
+            for key in old_keys:
+                del api_request_cache[key]
+        
+        print(f"✅ API SUCCESS: Cached response {cache_key[:8]}")
+        return answer
+    else:
+        error_msg = f"Eroare la procesarea cererii (Status: {resp.status})"
+        print(f"❌ API ERROR: {error_msg}")
         return error_msg
 
 client.run(DISCORD_TOKEN)
