@@ -2185,9 +2185,19 @@ Ghid pentru tipurile de lichiditate:
 - Lichiditatea Locală: Marcată pe TF 1m-5m, nu la fel de puternică ca cea majoră
 - Lichiditatea Minoră: Susține trendul, necesită experiență pentru identificare
 
+IMPORTANT - Ore de tranzacționare:
+- EXECUȚII RECOMANDATE (highest probability): Londra 10:15-12:00, NY 16:45-19:00 și opțional 20:00-22:00
+- ORE VALIDE PENTRU TRANZACȚIONARE: Întreaga zi (inclusiv 12:00-16:15), doar să eviți calibrările de algoritmi
+- INTERVALE DE EVITAT: 09:45-10:15 și 16:15-16:45 (calibrare algoritmi)
+- LUNCH HOUR: 19:00-20:00 (recomandat să eviți, dar nu obligatoriu)
+- Când răspunzi la întrebări despre ore, explică diferența între "ore recomandate pentru execuții" și "ore valide pentru tranzacționare"
+
 Exemple de formulări naturale:
 - În loc de: "Este important să înțelegem..."
 - Folosește: "Aceste tipuri ne ajută să...", "Fiecare tip are...", "Lichiditatea majoră oferă..."
+
+Exemplu pentru întrebări despre ore de tranzacționare:
+"Poți tranzacționa pe întreaga durată a zilei, inclusiv intervalul 12:00-16:15. Cu toate acestea, execuțiile sunt recomandate în anumite ferestre de timp cu probabilitate mai mare: sesiunea Londra (10:15-12:00) și sesiunea New York (16:45-19:00, opțional 20:00-22:00). Evită doar intervalele de calibrare: 09:45-10:15 și 16:15-16:45."
 """
             
             messages = [

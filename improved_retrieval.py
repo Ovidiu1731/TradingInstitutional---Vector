@@ -110,21 +110,26 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
                 continue
             seen_content.add(content_fingerprint)
             
+            # Quality scoring for better ranking
+            quality_score = calculate_content_quality(text_content)
+            combined_score = match.score * 0.7 + quality_score * 0.3  # Weighted combination
+            
             # Add to processed results
             processed_results.append({
                 "score": match.score,
+                "combined_score": combined_score,
                 "chapter": match.metadata.get("chapter", "Unknown"),
                 "lesson": match.metadata.get("lesson_number", "Unknown"),
                 "text": text_content
             })
             
-            logger.info(f"✅ Added result {len(processed_results)}: score={match.score:.4f}")
+            logger.info(f"✅ Added result {len(processed_results)}: score={match.score:.4f}, quality={quality_score:.2f}")
             logger.info(f"  Chapter: {processed_results[-1]['chapter']}")
             logger.info(f"  Lesson: {processed_results[-1]['lesson']}")
             logger.info(f"  Text preview: {processed_results[-1]['text'][:200]}...")
         
-        # Sort by score and take top_k
-        processed_results.sort(key=lambda x: x["score"], reverse=True)
+        # Sort by combined score (similarity + quality) and take top_k
+        processed_results.sort(key=lambda x: x["combined_score"], reverse=True)
         final_results = processed_results[:top_k]
         
         logger.info(f"Final results count: {len(final_results)}")
@@ -148,6 +153,36 @@ def get_dynamic_threshold(query):
         return 0.75  # Technical setups
     else:
         return 0.70  # Default threshold - much higher with ada-002
+
+def calculate_content_quality(text):
+    """Calculate content quality score to prioritize complete explanations."""
+    if not text or len(text.strip()) < 50:
+        return 0.0
+    
+    score = 0.5  # Base score
+    text_lower = text.lower()
+    
+    # Positive indicators (complete explanations)
+    if any(indicator in text for indicator in ["###", "**", "1.", "2.", "3.", "- "]):
+        score += 0.3  # Structured content
+    
+    if any(word in text_lower for word in ["definiție", "definire", "exemplu", "spre exemplu", "principalele", "tipuri"]):
+        score += 0.2  # Educational content
+        
+    if len(text) > 300:
+        score += 0.2  # Comprehensive content
+    
+    # Negative indicators (conversational snippets)
+    if any(filler in text_lower for filler in ["uite", "bam", "deci", "aia", "să zicem", "nu știu"]):
+        score -= 0.2  # Conversational filler
+        
+    if text.count("...") > 2:
+        score -= 0.1  # Truncated content
+        
+    if any(platform in text_lower for platform in ["platforme", "pe anumite", "nu ți este permis"]):
+        score -= 0.1  # Platform-specific rather than educational
+    
+    return max(0.0, min(1.0, score))  # Clamp between 0 and 1
 
 def expand_query_terms(query):
     """Expand query with related trading terms."""
