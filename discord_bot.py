@@ -139,22 +139,27 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
     """Detect if the question is a market analysis request"""
     # Common patterns for market analysis
     patterns = [
-        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})",
-        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{2}-\d{2}-\d{4})",
-        # New pattern: analyze symbol from time to time (defaults to today)
-        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+de\s+la\s+(\d{1,2}:\d{2})\s+pana\s+la\s+(\d{1,2}:\d{2})"
+        # Pattern 1: Full pattern with date and time
+        r"analizeaza\s+([A-Z]{3}/?[A-Z]{3})\s+pentru\s+(\d{2}-\d{2}-\d{4})\s+de\s+la\s+(\d{1,2}:\d{2})\s+(pana\s+)?la\s+(\d{1,2}:\d{2})",
+        # Pattern 2: Date only pattern  
+        r"analizeaza\s+([A-Z]{3}/?[A-Z]{3})\s+pentru\s+(\d{2}-\d{2}-\d{4})",
+        # Pattern 3: Time only pattern (defaults to today) - more flexible
+        r"analizeaza\s+([A-Z]{3}/?[A-Z]{3})\s+de\s+la\s+(\d{1,2}:\d{2})\s+(pana\s+)?la\s+(\d{1,2}:\d{2})"
     ]
     
     for i, pattern in enumerate(patterns):
         match = re.search(pattern, question.lower())
         if match:
-            symbol = match.group(1)
+            # Normalize currency pair format (add slash if missing)
+            symbol = match.group(1).upper()
+            if '/' not in symbol and len(symbol) == 6:
+                symbol = f"{symbol[:3]}/{symbol[3:]}"
             
             # Handle different pattern types
             if i == 0:  # Full pattern with date and time
                 date_str = match.group(2)
                 from_time = match.group(3)
-                to_time = match.group(4)
+                to_time = match.group(5)  # Skip the optional "pana" group
                 
                 try:
                     from_date = datetime.strptime(date_str, "%d-%m-%Y").date()
@@ -187,7 +192,7 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
                 }
             elif i == 2:  # Time only pattern (defaults to today)
                 from_time = match.group(2)
-                to_time = match.group(3)
+                to_time = match.group(4)  # Skip the optional "pana" group
                 
                 # Use today's date in Romanian timezone (Europe/Bucharest)
                 romanian_tz = ZoneInfo("Europe/Bucharest")
