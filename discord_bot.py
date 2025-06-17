@@ -503,12 +503,16 @@ async def handle_response(resp, cache_key):
     if resp.status == 200:
         data = await resp.json()
         
-        # Handle the new response format - return only the answer, no sources
+        # Handle different response formats
         if "answer" in data:
+            # Regular text query response
             answer = data["answer"]
         elif "analysis" in data:
-            # Market analysis response format
+            # Direct analysis response
             answer = data["analysis"]
+        elif "analysis_possible" in data:
+            # Market analysis AssistantContract response - convert to readable format
+            answer = format_market_analysis_response(data)
         else:
             # Fallback for old format
             answer = data.get("context", "Nu am putut procesa răspunsul.")
@@ -528,5 +532,67 @@ async def handle_response(resp, cache_key):
         error_msg = f"Eroare la procesarea cererii (Status: {resp.status})"
         print(f"❌ API ERROR: {error_msg}")
         return error_msg
+
+def format_market_analysis_response(data: dict) -> str:
+    """Convert AssistantContract data to a readable format for Discord users."""
+    try:
+        if not data.get("analysis_possible", False):
+            return "Nu am putut realiza analiza pentru perioada solicitată. Te rog să verifici că instrumentul și intervalul de timp sunt corecte."
+        
+        # Build the response
+        response_parts = []
+        
+        # Add direction and setup info
+        direction = data.get("final_trade_direction", "necunoscut").upper()
+        setup_type = data.get("setup_type", "Nedefinit")
+        
+        if direction != "UNKNOWN" and direction != "NECUNOSCUT":
+            response_parts.append(f"🎯 **Direcție sugerată**: {direction}")
+        
+        if setup_type and setup_type != "Nedefinit":
+            response_parts.append(f"📊 **Tip setup**: {setup_type}")
+        
+        # Add MSS info
+        mss_type = data.get("final_mss_type")
+        if mss_type:
+            response_parts.append(f"📈 **MSS detectat**: {mss_type}")
+        
+        # Add FVG analysis
+        fvg_analysis = data.get("fvg_analysis", {})
+        if fvg_analysis and fvg_analysis.get("count", 0) > 0:
+            fvg_count = fvg_analysis.get("count", 0)
+            fvg_desc = fvg_analysis.get("description", "")
+            response_parts.append(f"⚡ **FVG-uri**: {fvg_count} detectate - {fvg_desc}")
+        
+        # Add liquidity status
+        liquidity_status = data.get("liquidity_status_suggestion")
+        if liquidity_status:
+            response_parts.append(f"💧 **Lichiditate**: {liquidity_status}")
+        
+        # Add confidence level
+        confidence = data.get("direction_confidence", "low")
+        confidence_emoji = {"high": "🟢", "medium": "🟡", "low": "🔴"}.get(confidence, "⚪")
+        response_parts.append(f"{confidence_emoji} **Nivel de încredere**: {confidence}")
+        
+        # Add setup quality if available
+        setup_quality = data.get("setup_quality_summary")
+        if setup_quality and setup_quality != "No clear setup detected":
+            response_parts.append(f"📝 **Calitate setup**: {setup_quality}")
+        
+        # Add validity score
+        validity_score = data.get("setup_validity_score")
+        if validity_score is not None:
+            score_percentage = int(validity_score * 100)
+            response_parts.append(f"📊 **Scor validitate**: {score_percentage}%")
+        
+        # Join all parts
+        if response_parts:
+            return "\n".join(response_parts)
+        else:
+            return "Analiza a fost completată, dar nu am găsit semnale clare de tranzacționare pentru perioada specificată."
+    
+    except Exception as e:
+        print(f"Error formatting market analysis response: {e}")
+        return "Am primit datele de analiză, dar am întâmpinat o problemă la formatarea răspunsului."
 
 client.run(DISCORD_TOKEN)
