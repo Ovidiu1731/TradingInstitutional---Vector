@@ -4,7 +4,7 @@ import json
 import logging
 import time
 import copy
-import base64 # Added for image encoding in ask_image_hybrid
+import base64
 from io import BytesIO
 from typing import Dict, Any, Optional, List, Union
 
@@ -12,27 +12,25 @@ from typing import Dict, Any, Optional, List, Union
 import asyncio
 import httpx
 import math
-import aiohttp # For async image downloads
+import aiohttp
 import cv2
 from utils.chunk_filtering import filter_and_rank_chunks
 import numpy as np
-import cachetools # For TTLCache
+import cachetools
 
 import pytesseract
-from PIL import Image # ImageDraw can be added if debugging CV by drawing on images
+from PIL import Image
 from dotenv import load_dotenv
 from utils.query_expansion import expand_query
-# No explicit threading import needed if TTLCache handles its own thread safety for basic ops
-# and FastAPI handles request concurrency.
-from collections import deque # For conversation history fallback if TTLCache fails or for /ask
+from collections import deque
 from fastapi import FastAPI, Request, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from openai import AsyncOpenAI, OpenAI, RateLimitError, APIError # Added sync OpenAI
+from openai import AsyncOpenAI, OpenAI, RateLimitError, APIError
 import pinecone
 from datetime import datetime
-from routers import candles  # Add this import
+from routers import candles
 from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -40,6 +38,9 @@ from slowapi.errors import RateLimitExceeded
 from services.config import get_settings
 from services.market_data import MarketDataService
 from services.market_analysis import MarketAnalysisService
+
+# Import the improved retrieval function
+from improved_retrieval import retrieve_lesson_content
 
 settings = get_settings()
 
@@ -731,13 +732,6 @@ def optimize_image_before_vision(image_content: bytes, max_size: int = 1024*1024
         logging.error(f"Image optimization failed: {e}")
         return image_content  # Return original if optimization fails    
 
-def extract_json_from_text(text: str) -> Optional[str]:
-    logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
-    # Priority for markdown ```json ... ```
-    json_pattern_markdown = r"```(?:json)?\s*(\{[\s\S]*?\})\s*```"
-    match_md = re.search(json_pattern_markdown, text, re.MULTILINE | re.DOTALL)
-    if match_md:
-        extracted = match_md.group(1).strip()
 def extract_json_from_text(text: str) -> Optional[str]:
     logging.debug(f"Attempting to extract JSON from text: {text[:200]}...")
     # Priority for markdown ```json ... ```
