@@ -307,6 +307,8 @@ FEW_SHOT_EXAMPLES = [
 @app.on_event("startup")
 async def startup_event():
     global aiohttp_session
+    
+    # Initialize aiohttp session
     aiohttp_session = aiohttp.ClientSession()
     logging.info("aiohttp.ClientSession initialized.")
     
@@ -321,7 +323,12 @@ async def startup_event():
     except Exception as e:
         logging.error(f"OpenAI API key validation failed: {e}")
     
-    # Start the client refresh background task
+    # Initialize market analysis services
+    app.state.market_data_service = MarketDataService()
+    app.state.market_analysis_service = MarketAnalysisService()
+    logger.info("Market analysis services initialized")
+    
+    # Start background task for client refresh
     asyncio.create_task(refresh_clients_periodically())
     
     # Check if Tesseract is available
@@ -332,47 +339,6 @@ async def startup_event():
         logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
     except Exception as e:
         logging.error(f"Error checking Tesseract: {e}")
-
-
-
-@app.on_event("startup")
-async def startup_event():
-    # Initialize market analysis services
-    market_data_service = MarketDataService()
-    market_analysis_service = MarketAnalysisService()
-
-    # Add services to app state
-    app.state.market_data_service = market_data_service
-    app.state.market_analysis_service = market_analysis_service
-    logger.info("Market analysis services initialized")
-
-# Add this to app.py
-async def refresh_clients_periodically():
-    """Periodically refresh API clients to prevent stale connections"""
-    while True:
-        try:
-            await asyncio.sleep(3600)  # Refresh every hour
-            logging.info("Performing scheduled API client refresh")
-            
-            global async_openai_client
-            # Close the old client
-            if async_openai_client:
-                await async_openai_client.close()
-                
-            # Create a new client
-            async_openai_client = AsyncOpenAI(
-                api_key=OPENAI_API_KEY,
-                http_client=httpx.AsyncClient(
-                    http2=True, 
-                    timeout=httpx.Timeout(30.0, connect=10.0),
-                    limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
-                    transport=httpx.AsyncHTTPTransport(retries=3)
-                )
-            )
-            logging.info("API clients refreshed successfully")
-            
-        except Exception as e:
-            logging.error(f"Error during scheduled client refresh: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
