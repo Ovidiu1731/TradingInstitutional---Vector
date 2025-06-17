@@ -52,9 +52,14 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
     Returns:
         list: List of matching content with metadata
     """
+    # Log the incoming query
+    print(f"\nProcessing query: {query}")
+    print(f"Filters - Chapter: {chapter}, Lesson: {lesson}")
+    
     # Get embedding for the query
     query_embedding = get_embedding(query)
     if not query_embedding:
+        print("Failed to get embedding for query")
         return []
     
     # Build filter conditions
@@ -75,50 +80,54 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
             include_metadata=True
         )
         
+        print(f"Raw results count: {len(results.matches)}")
+        
         # Process and format results
         formatted_results = []
         seen_paths = set()  # Track unique paths to avoid duplicates
         
         for match in results.matches:
-            metadata = match.metadata
-            
+            if not match.metadata:
+                continue
+                
             # Extract chapter and lesson from path if not in metadata
-            path = metadata.get("path", "")
-            if not metadata.get("chapter") or not metadata.get("lesson_number"):
-                path_chapter, path_lesson = extract_lesson_info_from_path(path)
-                if path_chapter:
-                    metadata["chapter"] = f"Capitolul {path_chapter}"
-                if path_lesson:
-                    metadata["lesson_number"] = path_lesson
+            path = match.metadata.get("path", "")
+            if not match.metadata.get("chapter") and path:
+                chapter_num, lesson_num = extract_lesson_info_from_path(path)
+                if chapter_num:
+                    match.metadata["chapter"] = f"Capitolul {chapter_num}"
+                if lesson_num:
+                    match.metadata["lesson_number"] = lesson_num
             
             # Skip if we've seen this path before
             if path in seen_paths:
                 continue
             seen_paths.add(path)
             
-            # Create formatted result
-            result = {
-                "score": match.score,
-                "text": metadata.get("text", ""),
-                "chapter": metadata.get("chapter", ""),
-                "lesson_number": metadata.get("lesson_number", ""),
-                "section_title": metadata.get("section_title", ""),
-                "document_title": metadata.get("document_title", ""),
-                "path": path
-            }
-            
-            # Only add if it has valid chapter and lesson info
-            if result["chapter"] and result["lesson_number"]:
-                formatted_results.append(result)
-            
-            # Stop if we have enough results
-            if len(formatted_results) >= top_k:
-                break
+            # Only add results with valid metadata
+            if match.metadata.get("text"):
+                formatted_results.append({
+                    "text": match.metadata["text"],
+                    "chapter": match.metadata.get("chapter", "Unknown"),
+                    "lesson": match.metadata.get("lesson_number", "Unknown"),
+                    "score": match.score
+                })
         
-        return formatted_results
-    
+        # Sort by score and take top_k
+        formatted_results.sort(key=lambda x: x["score"], reverse=True)
+        final_results = formatted_results[:top_k]
+        
+        print(f"Final results count: {len(final_results)}")
+        for i, result in enumerate(final_results):
+            print(f"\nResult {i+1} (Score: {result['score']:.4f}):")
+            print(f"Chapter: {result['chapter']}")
+            print(f"Lesson: {result['lesson']}")
+            print(f"Text preview: {result['text'][:200]}...")
+        
+        return final_results
+        
     except Exception as e:
-        print(f"Error querying Pinecone: {e}")
+        print(f"Error in retrieval: {str(e)}")
         return []
 
 def test_retrieval():
@@ -155,8 +164,7 @@ def test_retrieval():
         for i, result in enumerate(results, 1):
             print(f"\nResult {i} (Score: {result['score']:.4f}):")
             print(f"Chapter: {result['chapter']}")
-            print(f"Lesson: {result['lesson_number']}")
-            print(f"Section: {result['section_title']}")
+            print(f"Lesson: {result['lesson']}")
             print(f"Text: {result['text'][:200]}...")
 
 if __name__ == "__main__":

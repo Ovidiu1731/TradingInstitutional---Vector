@@ -2031,6 +2031,12 @@ async def ask_question(query: TextQuery):
     question = query.question
     chapter = query.chapter if hasattr(query, 'chapter') else None
     lesson = query.lesson if hasattr(query, 'lesson') else None
+    
+    # Add detailed logging for liquidity queries
+    if "liq" in question.lower() or "lichidit" in question.lower():
+        logging.info(f"Processing liquidity query: {question}")
+        logging.info(f"Chapter filter: {chapter}, Lesson filter: {lesson}")
+    
     try:
         # Use improved retrieval logic
         results = await asyncio.to_thread(
@@ -2040,18 +2046,27 @@ async def ask_question(query: TextQuery):
             lesson,
             TOP_K
         )
+        
+        # Add detailed logging of results
         if results:
+            logging.info(f"Retrieved {len(results)} results:")
+            for i, r in enumerate(results):
+                logging.info(f"Result {i+1}:")
+                logging.info(f"Chapter: {r.get('chapter', 'N/A')}")
+                logging.info(f"Lesson: {r.get('lesson', 'N/A')}")
+                logging.info(f"Text preview: {r.get('text', '')[:200]}...")
+            
             # Combine top results for context
             context_text = "\n\n".join([r["text"] for r in results])
-            logging.info(f"Retrieved {len(results)} relevant context chunks for text query.")
+            logging.info(f"Combined context length: {len(context_text)} characters")
         else:
             context_text = ""
             logging.info("No relevant context found for text query.")
     except Exception as e:
         logging.error(f"Improved retrieval error: {e}")
         context_text = "Am întâmpinat o problemă la accesarea materialului de curs din baza de date Pinecone."
+    
     # ... rest of the endpoint logic ...
-    # Return context_text as part of the response as before
     return {"context": context_text}
 
 @app.post("/ask-image-hybrid", response_model=Dict[str, Any])
