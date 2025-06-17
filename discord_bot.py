@@ -5,15 +5,12 @@ from discord.ui import Button, View
 import aiohttp
 import asyncio
 from dotenv import load_dotenv
+import re
 
 # Load environment variables
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-<<<<<<< HEAD
-API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")  # Use local URL by default
-=======
 API_BASE_URL = os.getenv("API_BASE_URL", "https://web-production-4b33.up.railway.app")
->>>>>>> b5014fc65cce36b4dea1e37571ef45224caec4ed
 
 # Set up intents
 intents = discord.Intents.default()
@@ -124,15 +121,57 @@ async def cache_training_examples():
     except Exception as e:
         print(f"Error in cache_training_examples: {e}")
 
+def is_market_analysis_request(question: str) -> tuple[bool, dict]:
+    """Detect if the question is a market analysis request"""
+    # Common patterns for market analysis
+    patterns = [
+        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+de\s+la\s+(\d{4}-\d{2}-\d{2})\s+pana\s+la\s+(\d{4}-\d{2}-\d{2})",
+        r"analizeaza\s+([A-Z]+/[A-Z]+)\s+pentru\s+(\d{4}-\d{2}-\d{2})"
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, question.lower())
+        if match:
+            symbol = match.group(1)
+            from_date = match.group(2)
+            to_date = match.group(3) if len(match.groups()) > 2 else from_date
+            
+            return True, {
+                "symbol": symbol,
+                "from_date": from_date,
+                "to_date": to_date,
+                "timeframe": "1min"  # default timeframe
+            }
+    
+    return False, {}
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
     
     if client.user.mentioned_in(message):
+        question = message.content.replace(f"<@{client.user.id}>", "").strip()
+        
+        # Check if it's a market analysis request
+        is_market_analysis, market_params = is_market_analysis_request(question)
+        
+        if is_market_analysis:
+            # Use market analysis endpoint
+            endpoint = f"{API_BASE_URL}/candles/{market_params['symbol']}/analysis/assistant"
+            params = {
+                "from_date": market_params["from_date"],
+                "to_date": market_params["to_date"],
+                "timeframe": market_params["timeframe"]
+            }
+            # Make the request...
+        else:
+            # Use the regular ask endpoint
+            endpoint = f"{API_BASE_URL}/ask"
+            # Make the request...
+
         # DEBUG
         print("Raw message content:", message.content)
-        question = message.content.replace(f"<@{client.user.id}>", "").replace(f"<@!{client.user.id}>", "").strip()
         print("Extracted question:", question)
         
         if not question:

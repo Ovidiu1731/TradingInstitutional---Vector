@@ -2,17 +2,12 @@
 # fastapi_app.py  (or whichever module mounts this router)
 # ----------------------------------------------------------------------
 from datetime import datetime, date, time, timedelta
-from fastapi import FastAPI, APIRouter, HTTPException, Query
-from app.services.market_data import MarketDataService
-from app.services.market_analysis import MarketAnalysisService
-from app.models.candle import CandleResponse, MarketStructure, SymbolsResponse
-from app.models.assistant_contract import AssistantContract
+from fastapi import FastAPI, APIRouter, HTTPException, Query, Request
+from models.candle import CandleResponse, MarketStructure, SymbolsResponse
+from models.assistant_contract import AssistantContract
 
 app = FastAPI()
 router = APIRouter(prefix="/candles", tags=["candles"])
-
-market_data_service = MarketDataService()
-market_analysis_service = MarketAnalysisService()
 
 
 @router.get(
@@ -20,13 +15,13 @@ market_analysis_service = MarketAnalysisService()
     response_model=SymbolsResponse,
     summary="Fetch all available forex symbols"
 )
-async def get_symbols():
+async def get_symbols(request: Request):
     """
     Fetch all available forex symbols from the FMP API.
     Returns a list of symbols with their currency pairs and names.
     """
     try:
-        symbols = await market_data_service.get_available_symbols()
+        symbols = await request.app.state.market_data_service.get_available_symbols()
         return SymbolsResponse(symbols=symbols)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -38,6 +33,7 @@ async def get_symbols():
     summary="Fetch raw candle data for a symbol in a date/time range"
 )
 async def get_candles(
+    request: Request,
     symbol: str,
     from_date: date = Query(
         ..., 
@@ -70,7 +66,7 @@ async def get_candles(
 
     # 2) Delegate to MarketDataService
     try:
-        return await market_data_service.get_candles(
+        return await request.app.state.market_data_service.get_candles(
             symbol=symbol,
             from_date=from_date,
             to_date=to_date,
@@ -90,6 +86,7 @@ async def get_candles(
     summary="Analyze market structure for a symbol in a date/time range"
 )
 async def analyze_market(
+    request: Request,
     symbol: str,
     from_date: date = Query(
         ..., 
@@ -121,7 +118,7 @@ async def analyze_market(
 
     try:
         # 1) Get raw candles
-        candle_response = await market_data_service.get_candles(
+        candle_response = await request.app.state.market_data_service.get_candles(
             symbol=symbol,
             from_date=from_date,
             to_date=to_date,
@@ -130,7 +127,7 @@ async def analyze_market(
             timeframe=timeframe
         )
         # 2) Analyze structure
-        return market_analysis_service.analyze_market_structure(candle_response.candles)
+        return request.app.state.market_analysis_service.analyze_market_structure(candle_response.candles)
     except HTTPException:
         raise
     except Exception as e:
@@ -143,6 +140,7 @@ async def analyze_market(
     summary="Get analysis in assistant-ready format"
 )
 async def get_assistant_ready_analysis(
+    request: Request,
     symbol: str,
     from_date: date = Query(
         ..., 
@@ -174,7 +172,7 @@ async def get_assistant_ready_analysis(
 
     try:
         # 1) Get raw candles
-        candle_response = await market_data_service.get_candles(
+        candle_response = await request.app.state.market_data_service.get_candles(
             symbol=symbol,
             from_date=from_date,
             to_date=to_date,
@@ -184,7 +182,7 @@ async def get_assistant_ready_analysis(
         )
         
         # 2) Analyze structure
-        market_structure = market_analysis_service.analyze_market_structure(candle_response.candles)
+        market_structure = request.app.state.market_analysis_service.analyze_market_structure(candle_response.candles)
         
         # 3) Convert to assistant format
         assistant_contract = AssistantContract.from_market_structure(market_structure)

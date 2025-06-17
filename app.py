@@ -32,6 +32,85 @@ from pydantic import BaseModel
 from openai import AsyncOpenAI, OpenAI, RateLimitError, APIError # Added sync OpenAI
 import pinecone
 from datetime import datetime
+from routers import candles  # Add this import
+from fastapi.responses import JSONResponse
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from services.config import get_settings
+from services.market_data import MarketDataService
+from services.market_analysis import MarketAnalysisService
+
+settings = get_settings()
+
+# Configure logging
+logging.basicConfig(
+    level=settings.log_level,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# Initialize rate limiter
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=[f"{settings.rate_limit_requests}/{settings.rate_limit_period}"]
+)
+
+# Initialize FastAPI app
+app = FastAPI(
+    title="Market Analysis API",
+    description="API for analyzing market structure and candlestick patterns",
+    version=settings.version,
+    docs_url="/docs" if settings.debug else None,
+    redoc_url="/redoc" if settings.debug else None
+)
+
+# Add rate limiter to app state
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Include routers
+app.include_router(candles.router)
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Global error handler caught: {exc}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error"}
+    )
+
+@app.get("/health")
+@limiter.limit("5/minute")
+async def health_check(request: Request):
+    return {"status": "ok"}
+
+@app.get("/version")
+@limiter.limit("5/minute")
+async def version(request: Request):
+    return {"version": settings.version}
+
+@app.get("/ready")
+@limiter.limit("5/minute")
+async def ready(request: Request):
+    return {"ready": True}
 
 # ---------------------------------------------------------------------------
 # LOGGING SETUP
@@ -225,18 +304,6 @@ FEW_SHOT_EXAMPLES = [
 # ---------------------------------------------------------------------------
 # FASTAPI APP LIFECYCLE
 # ---------------------------------------------------------------------------
-app = FastAPI(title="Trading Instituțional AI Assistant")
-
-def normalize_diacritics(text: str) -> str:
-    """Remove diacritics from Romanian text"""
-    replacements = {
-        'ă': 'a', 'â': 'a', 'î': 'i', 'ș': 's', 'ț': 't',
-        'Ă': 'A', 'Â': 'A', 'Î': 'I', 'Ș': 'S', 'Ț': 'T'
-    }
-    for rom, eng in replacements.items():
-        text = text.replace(rom, eng)
-    return text
-
 @app.on_event("startup")
 async def startup_event():
     global aiohttp_session
@@ -265,6 +332,19 @@ async def startup_event():
         logging.warning("Tesseract OCR not found. OCR functionality will be limited.")
     except Exception as e:
         logging.error(f"Error checking Tesseract: {e}")
+
+
+
+@app.on_event("startup")
+async def startup_event():
+    # Initialize market analysis services
+    market_data_service = MarketDataService()
+    market_analysis_service = MarketAnalysisService()
+
+    # Add services to app state
+    app.state.market_data_service = market_data_service
+    app.state.market_analysis_service = market_analysis_service
+    logger.info("Market analysis services initialized")
 
 # Add this to app.py
 async def refresh_clients_periodically():
@@ -303,13 +383,15 @@ async def shutdown_event():
         await async_openai_client.close()
         logging.info("AsyncOpenAI client closed.")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
+def normalize_diacritics(text: str) -> str:
+    """Remove diacritics from Romanian text"""
+    replacements = {
+        'ă': 'a', 'â': 'a', 'î': 'i', 'ș': 's', 'ț': 't',
+        'Ă': 'A', 'Â': 'A', 'Î': 'I', 'Ș': 'S', 'Ț': 'T'
+    }
+    for rom, eng in replacements.items():
+        text = text.replace(rom, eng)
+    return text
 
 # --- Pydantic Models for Feedback and Requests ---
 class FeedbackModel(BaseModel):
@@ -331,8 +413,6 @@ class ImageHybridQuery(BaseModel):
     image_url: str
     session_id: Optional[str] = None
     conversation_history: Optional[List[Dict[str, str]]] = None
-
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 @app.get("/ping")
 async def ping():
@@ -2176,18 +2256,6 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
         logging.info(f"Using cached vision analysis for {cache_key}")
     else:
         try:
-<<<<<<< HEAD
-            # ── Deterministic image analysis – no LLM needed
-            async with httpx.AsyncClient(timeout=30) as client:
-                r = await client.get(
-                    f"https://strategy-analysis-service-production.up.railway.app/candles/{symbol}/analysis/assistant",
-                    params={
-                        "from_date": from_date,
-                        "to_date": to_date,
-                        "timeframe": "1min",
-                        "from_time": from_time,
-                        "to_time": to_time
-=======
             # Get specialized prompt based on query type
             vision_system_prompt_template = get_vision_system_prompt(query_type, question)
             
@@ -2247,7 +2315,7 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
                             raise ValueError("No valid JSON pattern found")   
                     except Exception as recovery_error:
                         logging.error(f"JSON recovery attempt failed: {recovery_error}")        
-                        #Fall back to a basic structure
+                        # Fall back to a basic structure
                         vision_json = {
                             "analysis_possible": False,
                             "confidence_level": "low",
@@ -2380,16 +2448,16 @@ async def ask_image_hybrid(payload: ImageHybridQuery) -> Dict[str, Any]:
                         "analysis_possible": False,
                         "confidence_level": "low",
                         "_vision_note": f"Failed to parse JSON from vision model: {str(recovery_error)}"
->>>>>>> b5014fc65cce36b4dea1e37571ef45224caec4ed
                     }
-                )
-                r.raise_for_status()          # will throw if HTTP-error
-                vision_json = r.json()        # this JSON matches the old schema
-                vision_json["_vision_note"] = "Fetched from deterministic endpoint"
 
-        except Exception as e:
-            logging.error(f"Deterministic image analysis failed: {e}")
-            # fall back to an empty/placeholder vision_json if you need one
+            except Exception as e:
+                logging.error(f"Deterministic image analysis failed: {e}")
+                # fall back to an empty/placeholder vision_json if you need one
+                vision_json = {
+                    "analysis_possible": False,
+                    "confidence_level": "low",
+                    "_vision_note": f"Deterministic analysis failed: {str(e)}"
+                }
 
     # Rule Engine
     try:
