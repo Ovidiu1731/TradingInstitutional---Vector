@@ -2219,7 +2219,7 @@ Exemplu pentru întrebări despre ore de tranzacționare:
                 completion = await client.chat.completions.create(
                     model=COMPLETION_MODEL,
                     messages=[
-                        {"role": "system", "content": "You are a friendly, experienced trading colleague from Romania. Speak naturally and conversationally like you're explaining analysis to a trusted friend. NEVER use technical scores, percentages, or robotic phrases. Be warm, helpful, and human in your explanations."},
+                        {"role": "system", "content": "You are a close trading buddy from Romania. Be concise and specific - talk about what you actually found in THIS analysis, not general trading theory. Avoid robotic phrases, timestamps, win rates, or generic advice. Sound natural and friendly, like you're quickly explaining what you discovered to a friend."},
                         {"role": "user", "content": conversion_prompt}
                     ],
                     temperature=0.3,
@@ -2565,45 +2565,40 @@ async def process_api_response_to_natural_language(structured_data: Dict[str, An
     }
     
     # LLM prompt template for natural language conversion
-    conversion_prompt = f"""Convert this trading setup analysis into a natural, conversational summary based on Romanian institutional trading methodology:
+    conversion_prompt = f"""Convert this trading setup analysis into a natural, conversational summary:
 
 Original user request: "{user_input}"
 
 Setup analysis data:
 {json.dumps(analysis_summary, indent=2, ensure_ascii=False)}
 
-Focus on explaining the SETUP ANALYSIS specifically:
-1. MSS (Market Structure Shift) - whether it's valid or aggressive, and what type
-2. Displacement - whether rapid directional movement was detected
-3. Gaps - how many institutional gaps were found
-4. Setup Classification - OSG, TG, TCG, SLG, etc.
+RESPONSE REQUIREMENTS:
+- Write in Romanian, sound like a close trading buddy
+- Be concise and direct - NO fluff or generic trading advice
+- DON'T mention timestamps, timeframes, or technical data back to the user
+- Focus ONLY on what was actually found: MSS, displacement, gaps, setup type
+- Explain what it means for THIS specific trade
 
-Requirements for a NATURAL and HUMAN response:
-- Write in Romanian (the user always asks in Romanian)
-- Sound like a friendly, experienced trading colleague explaining the setup analysis
-- Use conversational, natural language - avoid technical jargon and robotic phrases
-- Focus ONLY on the setup elements (MSS, displacement, gaps, setup type)
-- Explain what each component means for the trade potential
-- If MSS is "aggressive", explain that it means the 2-candle validation rule wasn't fully met
-- For setup types, briefly explain what they mean:
-  * OSG = One Simple Gap (basic setup)
-  * TCG = Two Consecutive Gaps (highest win rate)
-  * TG = Two Gaps (non-consecutive)
-  * SLG = Second Leg Setup (most common)
-  * 3G/3CG = Three Gaps (less reliable)
-  * MG = Multiple Gaps (not recommended)
-- Mention the timeframe analyzed naturally
-- Use a warm, helpful tone like you're talking to a friend who's learning trading
+AVOID these robotic phrases:
+❌ "Gap-urile sunt indicatori buni de volatilitate și pot oferi oportunități interesante"
+❌ "Acest tip de setup este considerat destul de solid" + win rate comparisons
+❌ "Analiza a fost realizată pe o fereastră de timp de la X la Y"
+❌ Any mention of dates/times - the user already knows when they asked
+❌ Generic setup descriptions from textbooks
 
-Examples of natural explanations:
-- "Am găsit un MSS valid care arată o schimbare de la trend ascendent la descendent"
-- "Displacement-ul este clar - o mișcare rapidă în direcția bearish"
-- "Am identificat două gap-uri consecutive, ceea ce înseamnă un TCG setup cu șanse mari de succes"
-- "MSS-ul pare agresiv pentru că nu am găsit cele 2 candele necesare pentru validare"
-- "Setup-ul SLG arată că avem un al doilea picior - cel mai frecvent setup"
+GOOD examples (natural & specific):
+✅ "Am găsit un MSS valid - prețul a rupt nivelul și trendul s-a schimbart"
+✅ "Displacement-ul e clar bearish, mișcare rapidă în jos"
+✅ "Două gap-uri bearish după MSS - setup TG solid"
+✅ "MSS agresiv - nu s-au întrunite toate regulile dar structura s-a rupt"
 
-Be specific about what was found and what it means for trading potential.
-"""
+Structure: 
+1. MSS status (valid/aggressive, what broke)
+2. Displacement direction and strength  
+3. Gap count and relevance to setup
+4. Final setup classification (OSG/TCG/TG/SLG) - just name it, don't lecture about it
+
+Keep it short, specific, and friendly. Talk about what YOU found, not what gaps "generally do" in trading."""
 
     try:
         # Ensure we have a valid client
@@ -2613,7 +2608,7 @@ Be specific about what was found and what it means for trading potential.
             completion = await client.chat.completions.create(
                 model=COMPLETION_MODEL,
                 messages=[
-                    {"role": "system", "content": "You are a friendly, experienced trading colleague from Romania. Speak naturally and conversationally like you're explaining analysis to a trusted friend. NEVER use technical scores, percentages, or robotic phrases. Be warm, helpful, and human in your explanations."},
+                    {"role": "system", "content": "You are a close trading buddy from Romania. Be concise and specific - talk about what you actually found in THIS analysis, not general trading theory. Avoid robotic phrases, timestamps, win rates, or generic advice. Sound natural and friendly, like you're quickly explaining what you discovered to a friend."},
                     {"role": "user", "content": conversion_prompt}
                 ],
                 temperature=0.3,
