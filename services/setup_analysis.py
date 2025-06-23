@@ -32,7 +32,7 @@ class SetupAnalysisService:
         # Analyze components
         mss_analysis = self._analyze_mss(sorted_candles)
         displacement_analysis = self._analyze_displacement(sorted_candles)
-        gap_analysis = self._analyze_gaps(sorted_candles, displacement_analysis)
+        gap_analysis = self._analyze_gaps(sorted_candles, displacement_analysis, mss_analysis)
         setup_classification = self._classify_setup(gap_analysis, mss_analysis, displacement_analysis)
         
         return {
@@ -315,13 +315,14 @@ class SetupAnalysisService:
                 "reason": "No significant displacement detected"
             }
     
-    def _analyze_gaps(self, candles: List[CandleData], displacement_analysis: Dict = None) -> Dict:
+    def _analyze_gaps(self, candles: List[CandleData], displacement_analysis: Dict = None, mss_analysis: Dict = None) -> Dict:
         """
         Analyze institutional gaps using the proper 3-candle formation.
         According to Romanian methodology:
         - Gap = space between 1st and 3rd candle (ignoring middle candle)
         - No wick overlap between candle 1 and candle 3
         - Gaps can ONLY exist within displacement movements
+        - Gaps must be AFTER MSS and align with the setup direction
         """
         if len(candles) < 3:
             return {
@@ -338,16 +339,47 @@ class SetupAnalysisService:
                 "reason": "No gaps possible without displacement (institutional rule)"
             }
         
+        # Determine the MSS breakpoint - gaps should only count AFTER this point
+        mss_break_index = None
+        if mss_analysis and mss_analysis.get("detected", False):
+            # Find the MSS break timestamp and convert to index
+            break_timestamp = mss_analysis.get("break_timestamp")
+            if break_timestamp:
+                for i, candle in enumerate(candles):
+                    if candle.date >= break_timestamp:
+                        mss_break_index = i
+                        break
+        
+        # Determine setup direction from MSS type
+        setup_direction = None
+        if mss_analysis and mss_analysis.get("detected", False):
+            mss_type = mss_analysis.get("type", "")
+            if "uptrend_to_downtrend" in mss_type:
+                setup_direction = "bearish"  # Breaking uptrend = bearish setup
+            elif "downtrend_to_uptrend" in mss_type:
+                setup_direction = "bullish"  # Breaking downtrend = bullish setup
+        
         gaps = []
         displacement_movements = displacement_analysis.get("movements", [])
         
-        # Only check for gaps within displacement areas
+        # Only check for gaps within displacement areas AFTER MSS break
         for movement in displacement_movements:
             start_idx = movement["start_index"]
             end_idx = movement["end_index"]
             
-            # Check 3-candle formations within this displacement
-            for i in range(start_idx, min(end_idx - 1, len(candles) - 2)):
+            # Skip movements that occur entirely before MSS break
+            if mss_break_index is not None and end_idx < mss_break_index:
+                continue
+            
+            # For movements that cross the MSS break, start from the MSS break point
+            gap_start_idx = max(start_idx, mss_break_index) if mss_break_index is not None else start_idx
+            
+            # Only consider displacement movements that align with setup direction
+            if setup_direction and movement["direction"] != setup_direction:
+                continue
+            
+            # Check 3-candle formations within this relevant displacement
+            for i in range(gap_start_idx, min(end_idx - 1, len(candles) - 2)):
                 candle_1 = candles[i]      # First candle
                 candle_3 = candles[i + 2]  # Third candle (skip middle one)
                 
@@ -355,9 +387,9 @@ class SetupAnalysisService:
                 if candle_3.low > candle_1.high:
                     gap_size = candle_3.low - candle_1.high
                     
-                    # Validate gap direction aligns with displacement
-                    # Bullish gaps should appear in bullish displacement
-                    if movement["direction"] == "bullish":
+                    # Validate gap direction aligns with setup direction
+                    # Bullish gaps should appear in bullish setups
+                    if setup_direction == "bullish" and movement["direction"] == "bullish":
                         gaps.append({
                             "type": "bullish_gap",
                             "start_index": i,
@@ -370,6 +402,8 @@ class SetupAnalysisService:
                             "formation": f"3-candle gap between candle {i+1} and {i+3}",
                             "within_displacement": True,
                             "displacement_direction": movement["direction"],
+                            "setup_direction": setup_direction,
+                            "after_mss": True,
                             "direction_aligned": True
                         })
                 
@@ -377,9 +411,9 @@ class SetupAnalysisService:
                 elif candle_3.high < candle_1.low:
                     gap_size = candle_1.low - candle_3.high
                     
-                    # Validate gap direction aligns with displacement
-                    # Bearish gaps should appear in bearish displacement
-                    if movement["direction"] == "bearish":
+                    # Validate gap direction aligns with setup direction
+                    # Bearish gaps should appear in bearish setups
+                    if setup_direction == "bearish" and movement["direction"] == "bearish":
                         gaps.append({
                             "type": "bearish_gap",
                             "start_index": i,
@@ -392,6 +426,8 @@ class SetupAnalysisService:
                             "formation": f"3-candle gap between candle {i+1} and {i+3}",
                             "within_displacement": True,
                             "displacement_direction": movement["direction"],
+                            "setup_direction": setup_direction,
+                            "after_mss": True,
                             "direction_aligned": True
                         })
         
@@ -399,7 +435,9 @@ class SetupAnalysisService:
             "detected": len(gaps) > 0,
             "count": len(gaps),
             "gaps": gaps,
-            "displacement_restricted": True  # Flag indicating we only looked within displacement
+            "displacement_restricted": True,
+            "mss_restricted": True,  # Flag indicating we only looked after MSS break
+            "setup_direction": setup_direction
         }
     
     def _classify_setup(self, gap_analysis: Dict, mss_analysis: Dict, displacement_analysis: Dict) -> Dict:
@@ -519,9 +557,13 @@ class SetupAnalysisService:
         # Gap Analysis
         gaps = analysis["gaps"]
         if gaps["detected"]:
-            output.append(f"Gaps: ✅ {gaps['count']} gap(s) identified")
+            setup_direction = gaps.get("setup_direction", "unknown")
+            output.append(f"Gaps: ✅ {gaps['count']} {setup_direction} gap(s) after MSS")
+            if gaps.get("mss_restricted"):
+                output.append(f"   (Only counted gaps relevant to {setup_direction} setup)")
         else:
-            output.append(f"Gaps: ❌ No gaps detected")
+            reason = gaps.get("reason", "No gaps detected")
+            output.append(f"Gaps: ❌ {reason}")
         
         # Setup Classification
         setup = analysis["setup"]
