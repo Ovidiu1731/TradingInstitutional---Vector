@@ -316,46 +316,56 @@ class SetupAnalysisService:
             }
     
     def _analyze_gaps(self, candles: List[CandleData]) -> Dict:
-        """Analyze institutional gaps within displacement."""
-        if len(candles) < 2:
+        """
+        Analyze institutional gaps using the proper 3-candle formation.
+        According to Romanian methodology:
+        - Gap = space between 1st and 3rd candle (ignoring middle candle)
+        - No wick overlap between candle 1 and candle 3
+        """
+        if len(candles) < 3:
             return {
                 "detected": False,
                 "count": 0,
-                "reason": "Insufficient data for gap analysis"
+                "reason": "Need at least 3 candles for gap analysis"
             }
         
         gaps = []
         
-        for i in range(len(candles) - 1):
-            current_candle = candles[i]
-            next_candle = candles[i + 1]
+        # Check 3-candle formations: candle[i], candle[i+1], candle[i+2]
+        for i in range(len(candles) - 2):
+            candle_1 = candles[i]      # First candle
+            candle_3 = candles[i + 2]  # Third candle (skip middle one)
             
             # Check for bullish gap (gap up)
-            if next_candle.low > current_candle.high:
-                gap_size = next_candle.low - current_candle.high
+            # Candle 3's low is higher than Candle 1's high
+            if candle_3.low > candle_1.high:
+                gap_size = candle_3.low - candle_1.high
                 gaps.append({
                     "type": "bullish_gap",
                     "start_index": i,
-                    "end_index": i + 1,
-                    "gap_start": current_candle.high,
-                    "gap_end": next_candle.low,
+                    "end_index": i + 2,
+                    "gap_start": candle_1.high,
+                    "gap_end": candle_3.low,
                     "gap_size": gap_size,
-                    "start_time": current_candle.date,
-                    "end_time": next_candle.date
+                    "start_time": candle_1.date,
+                    "end_time": candle_3.date,
+                    "formation": f"3-candle gap between candle {i+1} and {i+3}"
                 })
             
-            # Check for bearish gap (gap down)
-            elif next_candle.high < current_candle.low:
-                gap_size = current_candle.low - next_candle.high
+            # Check for bearish gap (gap down)  
+            # Candle 3's high is lower than Candle 1's low
+            elif candle_3.high < candle_1.low:
+                gap_size = candle_1.low - candle_3.high
                 gaps.append({
                     "type": "bearish_gap",
                     "start_index": i,
-                    "end_index": i + 1,
-                    "gap_start": current_candle.low,
-                    "gap_end": next_candle.high,
+                    "end_index": i + 2,
+                    "gap_start": candle_1.low,
+                    "gap_end": candle_3.high,
                     "gap_size": gap_size,
-                    "start_time": current_candle.date,
-                    "end_time": next_candle.date
+                    "start_time": candle_1.date,
+                    "end_time": candle_3.date,
+                    "formation": f"3-candle gap between candle {i+1} and {i+3}"
                 })
         
         return {
@@ -428,16 +438,25 @@ class SetupAnalysisService:
             }
     
     def _are_gaps_consecutive(self, gaps: List[Dict]) -> bool:
-        """Check if gaps are consecutive (one after another)."""
+        """
+        Check if gaps are consecutive in a 3-candle formation.
+        In the new logic, gaps span 2 candles (start_index to end_index = start_index + 2)
+        Two gaps are consecutive if the second gap starts right after the first one ends.
+        """
         if len(gaps) < 2:
             return False
         
         # Sort gaps by start index
         sorted_gaps = sorted(gaps, key=lambda x: x["start_index"])
         
-        # Check if each gap's end_index + 1 equals next gap's start_index
+        # Check if gaps are consecutive
+        # Gap 1: candles [i, i+1, i+2], Gap 2: candles [i+1, i+2, i+3] or [i+2, i+3, i+4]
         for i in range(len(sorted_gaps) - 1):
-            if sorted_gaps[i]["end_index"] != sorted_gaps[i+1]["start_index"]:
+            gap1_end = sorted_gaps[i]["end_index"]  # i + 2
+            gap2_start = sorted_gaps[i+1]["start_index"]
+            
+            # Consecutive if gap2 starts right after gap1 ends (allowing 1 candle overlap)
+            if gap2_start > gap1_end:  # Not consecutive if there's a gap
                 return False
         
         return True
