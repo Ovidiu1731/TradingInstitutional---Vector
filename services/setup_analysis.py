@@ -167,11 +167,13 @@ class SetupAnalysisService:
         if len(valid_highs) < 2 or len(valid_lows) < 1:
             return None
         
-        # Look for higher high, higher low pattern
-        for i in range(len(valid_lows)):
-            low = valid_lows[i]
-            
-            # Find if this low is broken (price goes below it)
+        # CRITICAL FIX: Find the MOST RECENT higher low in the timeframe
+        # Sort valid lows by timestamp to get the most recent ones
+        recent_lows = sorted(valid_lows, key=lambda x: x["timestamp"], reverse=True)
+        
+        # Check only the most recent valid lows (not all historical ones)
+        for low in recent_lows[:3]:  # Check only last 3 valid lows
+            # Find if this specific low is broken AFTER it was formed
             for j in range(low["index"] + 1, len(candles)):
                 if candles[j].low < low["price"]:
                     return {
@@ -180,7 +182,7 @@ class SetupAnalysisService:
                         "validity": "valid",
                         "broken_level": low["price"],
                         "break_timestamp": candles[j].date,
-                        "reason": f"Last higher low at {low['price']:.5f} broken"
+                        "reason": f"Higher low at {low['price']:.5f} broken at {candles[j].date}"
                     }
         
         return None
@@ -190,11 +192,13 @@ class SetupAnalysisService:
         if len(valid_lows) < 2 or len(valid_highs) < 1:
             return None
         
-        # Look for lower low, lower high pattern
-        for i in range(len(valid_highs)):
-            high = valid_highs[i]
-            
-            # Find if this high is broken (price goes above it)
+        # CRITICAL FIX: Find the MOST RECENT lower high in the timeframe
+        # Sort valid highs by timestamp to get the most recent ones
+        recent_highs = sorted(valid_highs, key=lambda x: x["timestamp"], reverse=True)
+        
+        # Check only the most recent valid highs (not all historical ones)
+        for high in recent_highs[:3]:  # Check only last 3 valid highs
+            # Find if this specific high is broken AFTER it was formed
             for j in range(high["index"] + 1, len(candles)):
                 if candles[j].high > high["price"]:
                     return {
@@ -203,7 +207,7 @@ class SetupAnalysisService:
                         "validity": "valid",
                         "broken_level": high["price"],
                         "break_timestamp": candles[j].date,
-                        "reason": f"Last lower high at {high['price']:.5f} broken"
+                        "reason": f"Lower high at {high['price']:.5f} broken at {candles[j].date}"
                     }
         
         return None

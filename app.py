@@ -2856,3 +2856,152 @@ def normalize_symbol(raw_symbol: str) -> str:
     # Otherwise pass through unchanged
     logger.info(f"🔄 SYMBOL UNCHANGED: {raw_symbol} → {s}")
     return s
+
+@app.post("/debug-market-analysis", response_model=Dict[str, Any])
+@limiter.limit("5/minute")
+async def debug_market_analysis(request: Request, query: TextQuery):
+    """
+    Debug endpoint that returns detailed analysis breakdown for troubleshooting.
+    Shows exactly what data the AI is seeing and how it's being processed.
+    """
+    try:
+        logger.info(f"🔍 DEBUG MODE - ANALYZING: {query.question}")
+        
+        # Step 1: Parameter extraction debug
+        extraction_result = await process_user_input_to_api_params(query.question)
+        
+        if not extraction_result["success"]:
+            return {
+                "debug_stage": "parameter_extraction",
+                "error": extraction_result["error"],
+                "user_input": query.question,
+                "extraction_failed": True
+            }
+        
+        api_params = extraction_result["params"]
+        raw_symbol = api_params["symbol"]
+        normalized_symbol = normalize_symbol(raw_symbol)
+        api_params["symbol"] = normalized_symbol
+        
+        # Step 2: Get raw candle data
+        from datetime import datetime
+        start_dt = datetime.fromisoformat(api_params["start_date"])
+        end_dt = datetime.fromisoformat(api_params["end_date"])
+        
+        market_data_service = MarketDataService()
+        candle_response = await market_data_service.get_candles(
+            symbol=normalized_symbol,
+            from_date=start_dt.date(),
+            to_date=end_dt.date(),
+            from_time=start_dt.time(),
+            to_time=end_dt.time(),
+            timeframe=api_params.get("timeframe", "1min")
+        )
+        
+        # Step 3: Setup analysis debug
+        setup_analysis_service = SetupAnalysisService()
+        setup_analysis = setup_analysis_service.analyze_setup(candle_response.candles)
+        formatted_output = setup_analysis_service.format_analysis_output(setup_analysis)
+        
+        # Step 4: Prepare comprehensive debug response
+        candle_data_sample = []
+        for i, candle in enumerate(candle_response.candles[:10]):  # First 10 candles
+            candle_data_sample.append({
+                "index": i,
+                "timestamp": candle.date.isoformat(),
+                "open": candle.open,
+                "high": candle.high,
+                "low": candle.low,
+                "close": candle.close,
+                "volume": candle.volume
+            })
+        
+        # Add last 10 candles if we have more than 10
+        if len(candle_response.candles) > 10:
+            for i, candle in enumerate(candle_response.candles[-10:], start=len(candle_response.candles)-10):
+                candle_data_sample.append({
+                    "index": i,
+                    "timestamp": candle.date.isoformat(),
+                    "open": candle.open,
+                    "high": candle.high,
+                    "low": candle.low,
+                    "close": candle.close,
+                    "volume": candle.volume
+                })
+        
+        # Step 5: LLM natural language conversion debug
+        structured_response = {
+            "setup_analysis": setup_analysis,
+            "formatted_analysis": formatted_output,
+            "candle_count": len(candle_response.candles),
+            "timeframe_analyzed": f"{start_dt.isoformat()} to {end_dt.isoformat()}",
+            "symbol": normalized_symbol
+        }
+        
+        # Fix datetime serialization
+        def fix_datetime_serialization(data):
+            if isinstance(data, dict):
+                return {k: fix_datetime_serialization(v) for k, v in data.items()}
+            elif isinstance(data, list):
+                return [fix_datetime_serialization(item) for item in data]
+            elif hasattr(data, 'isoformat'):
+                return data.isoformat()
+            else:
+                return data
+        
+        structured_response = fix_datetime_serialization(structured_response)
+        natural_response = await process_api_response_to_natural_language(structured_response, query.question)
+        
+        # Comprehensive debug output
+        debug_data = {
+            "debug_stage": "complete",
+            "user_input": query.question,
+            "step_1_parameter_extraction": {
+                "success": True,
+                "raw_symbol": raw_symbol,
+                "normalized_symbol": normalized_symbol,
+                "extracted_params": api_params,
+                "timezone_conversion": {
+                    "original_start": api_params.get("original_romanian_start"),
+                    "original_end": api_params.get("original_romanian_end"),
+                    "utc_start": api_params["start_date"],
+                    "utc_end": api_params["end_date"]
+                }
+            },
+            "step_2_data_retrieval": {
+                "api_url": f"https://financialmodelingprep.com/api/v3/historical-chart/{api_params.get('timeframe', '1min')}/{normalized_symbol}",
+                "total_candles_retrieved": len(candle_response.candles),
+                "timeframe_coverage": {
+                    "start": candle_response.candles[0].date.isoformat() if candle_response.candles else None,
+                    "end": candle_response.candles[-1].date.isoformat() if candle_response.candles else None
+                },
+                "candle_sample": candle_data_sample
+            },
+            "step_3_setup_analysis": {
+                "mss_analysis": setup_analysis.get("mss", {}),
+                "displacement_analysis": setup_analysis.get("displacement", {}),
+                "gaps_analysis": setup_analysis.get("gaps", {}),
+                "setup_classification": setup_analysis.get("setup", {}),
+                "formatted_technical_output": formatted_output
+            },
+            "step_4_llm_conversion": {
+                "structured_input_to_llm": structured_response,
+                "final_natural_response": natural_response
+            },
+            "validation_checks": {
+                "candle_count_matches": len(candle_response.candles) == structured_response["candle_count"],
+                "timeframe_correct": api_params["start_date"] in structured_response["timeframe_analyzed"],
+                "symbol_correct": normalized_symbol == structured_response["symbol"]
+            }
+        }
+        
+        return debug_data
+        
+    except Exception as e:
+        logger.error(f"Debug endpoint error: {e}")
+        return {
+            "debug_stage": "error",
+            "error": str(e),
+            "user_input": query.question,
+            "exception_type": type(e).__name__
+        }

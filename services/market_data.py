@@ -85,10 +85,16 @@ class MarketDataService:
                     if candle_time >= from_dt and candle_time <= to_dt:
                         filtered_candles.append(candle)
                 
-# Log filtering results for debugging
+                # CRITICAL FIX: Sort candles chronologically (oldest first)
+                # FMP API returns data in reverse chronological order (newest first)
+                filtered_candles.sort(key=lambda x: x.date)
+                
+                # Log filtering results for debugging
                 import logging
                 logger = logging.getLogger(__name__)
                 logger.info(f"FMP API returned {len(candles)} candles, filtered to {len(filtered_candles)} for time range {from_dt} to {to_dt}")
+                if filtered_candles:
+                    logger.info(f"Chronological order: {filtered_candles[0].date} to {filtered_candles[-1].date}")
                 
                 return CandleResponse(
                     candles=filtered_candles,
