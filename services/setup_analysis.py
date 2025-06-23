@@ -32,7 +32,7 @@ class SetupAnalysisService:
         # Analyze components
         mss_analysis = self._analyze_mss(sorted_candles)
         displacement_analysis = self._analyze_displacement(sorted_candles)
-        gap_analysis = self._analyze_gaps(sorted_candles)
+        gap_analysis = self._analyze_gaps(sorted_candles, displacement_analysis)
         setup_classification = self._classify_setup(gap_analysis, mss_analysis, displacement_analysis)
         
         return {
@@ -315,12 +315,13 @@ class SetupAnalysisService:
                 "reason": "No significant displacement detected"
             }
     
-    def _analyze_gaps(self, candles: List[CandleData]) -> Dict:
+    def _analyze_gaps(self, candles: List[CandleData], displacement_analysis: Dict = None) -> Dict:
         """
         Analyze institutional gaps using the proper 3-candle formation.
         According to Romanian methodology:
         - Gap = space between 1st and 3rd candle (ignoring middle candle)
         - No wick overlap between candle 1 and candle 3
+        - Gaps can ONLY exist within displacement movements
         """
         if len(candles) < 3:
             return {
@@ -329,49 +330,76 @@ class SetupAnalysisService:
                 "reason": "Need at least 3 candles for gap analysis"
             }
         
-        gaps = []
+        # If no displacement detected, gaps cannot exist
+        if not displacement_analysis or not displacement_analysis.get("detected", False):
+            return {
+                "detected": False,
+                "count": 0,
+                "reason": "No gaps possible without displacement (institutional rule)"
+            }
         
-        # Check 3-candle formations: candle[i], candle[i+1], candle[i+2]
-        for i in range(len(candles) - 2):
-            candle_1 = candles[i]      # First candle
-            candle_3 = candles[i + 2]  # Third candle (skip middle one)
+        gaps = []
+        displacement_movements = displacement_analysis.get("movements", [])
+        
+        # Only check for gaps within displacement areas
+        for movement in displacement_movements:
+            start_idx = movement["start_index"]
+            end_idx = movement["end_index"]
             
-            # Check for bullish gap (gap up)
-            # Candle 3's low is higher than Candle 1's high
-            if candle_3.low > candle_1.high:
-                gap_size = candle_3.low - candle_1.high
-                gaps.append({
-                    "type": "bullish_gap",
-                    "start_index": i,
-                    "end_index": i + 2,
-                    "gap_start": candle_1.high,
-                    "gap_end": candle_3.low,
-                    "gap_size": gap_size,
-                    "start_time": candle_1.date,
-                    "end_time": candle_3.date,
-                    "formation": f"3-candle gap between candle {i+1} and {i+3}"
-                })
-            
-            # Check for bearish gap (gap down)  
-            # Candle 3's high is lower than Candle 1's low
-            elif candle_3.high < candle_1.low:
-                gap_size = candle_1.low - candle_3.high
-                gaps.append({
-                    "type": "bearish_gap",
-                    "start_index": i,
-                    "end_index": i + 2,
-                    "gap_start": candle_1.low,
-                    "gap_end": candle_3.high,
-                    "gap_size": gap_size,
-                    "start_time": candle_1.date,
-                    "end_time": candle_3.date,
-                    "formation": f"3-candle gap between candle {i+1} and {i+3}"
-                })
+            # Check 3-candle formations within this displacement
+            for i in range(start_idx, min(end_idx - 1, len(candles) - 2)):
+                candle_1 = candles[i]      # First candle
+                candle_3 = candles[i + 2]  # Third candle (skip middle one)
+                
+                # Check for bullish gap (gap up) within displacement
+                if candle_3.low > candle_1.high:
+                    gap_size = candle_3.low - candle_1.high
+                    
+                    # Validate gap direction aligns with displacement
+                    # Bullish gaps should appear in bullish displacement
+                    if movement["direction"] == "bullish":
+                        gaps.append({
+                            "type": "bullish_gap",
+                            "start_index": i,
+                            "end_index": i + 2,
+                            "gap_start": candle_1.high,
+                            "gap_end": candle_3.low,
+                            "gap_size": gap_size,
+                            "start_time": candle_1.date,
+                            "end_time": candle_3.date,
+                            "formation": f"3-candle gap between candle {i+1} and {i+3}",
+                            "within_displacement": True,
+                            "displacement_direction": movement["direction"],
+                            "direction_aligned": True
+                        })
+                
+                # Check for bearish gap (gap down) within displacement
+                elif candle_3.high < candle_1.low:
+                    gap_size = candle_1.low - candle_3.high
+                    
+                    # Validate gap direction aligns with displacement
+                    # Bearish gaps should appear in bearish displacement
+                    if movement["direction"] == "bearish":
+                        gaps.append({
+                            "type": "bearish_gap",
+                            "start_index": i,
+                            "end_index": i + 2,
+                            "gap_start": candle_1.low,
+                            "gap_end": candle_3.high,
+                            "gap_size": gap_size,
+                            "start_time": candle_1.date,
+                            "end_time": candle_3.date,
+                            "formation": f"3-candle gap between candle {i+1} and {i+3}",
+                            "within_displacement": True,
+                            "displacement_direction": movement["direction"],
+                            "direction_aligned": True
+                        })
         
         return {
             "detected": len(gaps) > 0,
             "count": len(gaps),
-            "gaps": gaps
+            "gaps": gaps,
+            "displacement_restricted": True  # Flag indicating we only looked within displacement
         }
     
     def _classify_setup(self, gap_analysis: Dict, mss_analysis: Dict, displacement_analysis: Dict) -> Dict:
