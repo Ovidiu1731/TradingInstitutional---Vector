@@ -76,8 +76,22 @@ class MarketDataService:
                     )
                     candles.append(candle)
                 
+                # CRITICAL FIX: Filter candles to the requested time range
+                # FMP API ignores time parameters and returns full dataset
+                filtered_candles = []
+                for candle in candles:
+                    # Convert candle time to UTC for comparison
+                    candle_time = candle.date
+                    if candle_time >= from_dt and candle_time <= to_dt:
+                        filtered_candles.append(candle)
+                
+# Log filtering results for debugging
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.info(f"FMP API returned {len(candles)} candles, filtered to {len(filtered_candles)} for time range {from_dt} to {to_dt}")
+                
                 return CandleResponse(
-                    candles=candles,
+                    candles=filtered_candles,
                     symbol=symbol,
                     timeframe=timeframe,
                     from_date=from_dt,
