@@ -38,6 +38,7 @@ from slowapi.errors import RateLimitExceeded
 from services.config import get_settings
 from services.market_data import MarketDataService
 from services.market_analysis import MarketAnalysisService
+from services.setup_analysis import SetupAnalysisService
 
 # Import the improved retrieval function
 from improved_retrieval import retrieve_lesson_content
@@ -2398,6 +2399,9 @@ async def process_user_input_to_api_params(user_input: str) -> Dict[str, Any]:
     """
     Convert user natural language input into correct API format for FMP service.
     Uses LLM to extract symbol, start_date, end_date, and timeframe.
+    
+    IMPORTANT: All user input times are treated as Romanian time (Europe/Bucharest)
+    and converted to UTC for the FMP API.
     """
     # Log the original user input (TASK 3)
     logger.info(f"🔵 USER INPUT: {user_input}")
@@ -2412,6 +2416,10 @@ IMPORTANT: Convert dates to the format YYYY-MM-DDTHH:MM:SS
 - Convert month names to numbers and ensure DD-MM-YYYY format is converted to YYYY-MM-DD
 - For time ranges like "10:15 pana la 10:30", use the start time for start_date and end time for end_date
 - If "azi" (today) is mentioned, use today's date
+
+TIMEZONE CONTEXT: The user is from Romania (Trading Instituțional community)
+- All times should be interpreted as Romanian time (Europe/Bucharest timezone)
+- Romanian trading sessions: London (10:00-19:00), New York (15:00-00:00)
 
 Examples of date conversions:
 - "June 21" → "2024-06-21T00:00:00" and "2024-06-21T23:59:59"
@@ -2440,7 +2448,7 @@ Examples:
             completion = await client.chat.completions.create(
                 model=TEXT_MODEL,
                 messages=[
-                    {"role": "system", "content": "You are a trading parameter extraction expert. Return only valid JSON. Pay special attention to date and time conversion."},
+                    {"role": "system", "content": "You are a trading parameter extraction expert for the Romanian Trading Instituțional community. Return only valid JSON. Pay special attention to date and time conversion. All times should be treated as Romanian time (Europe/Bucharest)."},
                     {"role": "user", "content": extraction_prompt}
                 ],
                 temperature=0.1,
@@ -2454,34 +2462,57 @@ Examples:
         json_match = re.search(r'\{[^{}]*\}', response_text)
         if json_match:
             import json
+            from datetime import datetime
+            from zoneinfo import ZoneInfo
+            
             extracted_params = json.loads(json_match.group())
             
             # Log extracted parameters (TASK 3)
-            logger.info(f"🟢 EXTRACTED PARAMETERS: {extracted_params}")
+            logger.info(f"🟢 EXTRACTED PARAMETERS (Romanian time): {extracted_params}")
             
             # Validate required fields
             required_fields = ['symbol', 'start_date', 'end_date']
             if all(field in extracted_params for field in required_fields):
-                # Validate date formats (TASK 4 - Fix Date Formatting Bug)
+                # Parse and convert Romanian times to UTC for FMP API
                 try:
-                    from datetime import datetime
-                    start_dt = datetime.fromisoformat(extracted_params['start_date'])
-                    end_dt = datetime.fromisoformat(extracted_params['end_date'])
+                    # Define Romanian timezone
+                    romanian_tz = ZoneInfo("Europe/Bucharest")
+                    utc_tz = ZoneInfo("UTC")
                     
-                    # Log the parsed dates for verification (TASK 3)
-                    logger.info(f"🟢 PARSED DATES - Start: {start_dt}, End: {end_dt}")
+                    # Parse the datetime strings as Romanian time
+                    start_dt_romanian = datetime.fromisoformat(extracted_params['start_date']).replace(tzinfo=romanian_tz)
+                    end_dt_romanian = datetime.fromisoformat(extracted_params['end_date']).replace(tzinfo=romanian_tz)
+                    
+                    # Convert to UTC for FMP API
+                    start_dt_utc = start_dt_romanian.astimezone(utc_tz)
+                    end_dt_utc = end_dt_romanian.astimezone(utc_tz)
+                    
+                    # Log the timezone conversion (TASK 3)
+                    logger.info(f"🔄 TIMEZONE CONVERSION:")
+                    logger.info(f"   Romanian time: {start_dt_romanian} to {end_dt_romanian}")
+                    logger.info(f"   UTC time: {start_dt_utc} to {end_dt_utc}")
                     
                     # Ensure end date is not before start date
-                    if end_dt < start_dt:
-                        logger.error(f"🔴 DATE VALIDATION ERROR: End date {end_dt} is before start date {start_dt}")
+                    if end_dt_utc < start_dt_utc:
+                        logger.error(f"🔴 DATE VALIDATION ERROR: End date {end_dt_utc} is before start date {start_dt_utc}")
                         return {
                             "success": False,
                             "error": "End date cannot be before start date"
                         }
                     
+                    # Update the parameters with UTC times for the API
+                    extracted_params['start_date'] = start_dt_utc.strftime('%Y-%m-%dT%H:%M:%S')
+                    extracted_params['end_date'] = end_dt_utc.strftime('%Y-%m-%dT%H:%M:%S')
+                    
                     # Set default timeframe if not provided
                     if 'timeframe' not in extracted_params:
                         extracted_params['timeframe'] = '1min'
+                    
+                    # Store original Romanian times for logging/reference
+                    extracted_params['original_romanian_start'] = start_dt_romanian.strftime('%Y-%m-%dT%H:%M:%S %Z')
+                    extracted_params['original_romanian_end'] = end_dt_romanian.strftime('%Y-%m-%dT%H:%M:%S %Z')
+                    
+                    logger.info(f"🟢 FINAL API PARAMETERS (UTC): {extracted_params}")
                     
                     return {
                         "success": True,
@@ -2525,38 +2556,44 @@ async def process_api_response_to_natural_language(structured_data: Dict[str, An
     logger.info(f"🔵 STRUCTURED DATA INPUT: {structured_data}")
     
     # LLM prompt template for natural language conversion
-    conversion_prompt = f"""Convert this structured trading analysis data into a natural, conversational summary:
+    conversion_prompt = f"""Convert this trading setup analysis into a natural, conversational summary based on Romanian institutional trading methodology:
 
 Original user request: "{user_input}"
 
-Structured analysis data:
+Setup analysis data:
 {json.dumps(structured_data, indent=2, ensure_ascii=False)}
+
+Focus on explaining the SETUP ANALYSIS specifically:
+1. MSS (Market Structure Shift) - whether it's valid or aggressive, and what type
+2. Displacement - whether rapid directional movement was detected
+3. Gaps - how many institutional gaps were found
+4. Setup Classification - OSG, TG, TCG, SLG, etc.
 
 Requirements for a NATURAL and HUMAN response:
 - Write in Romanian (the user always asks in Romanian)
-- Sound like a friendly, experienced trading colleague explaining the analysis
+- Sound like a friendly, experienced trading colleague explaining the setup analysis
 - Use conversational, natural language - avoid technical jargon and robotic phrases
-- NEVER mention percentage scores, validity scores, or confidence levels
-- NEVER use phrases like "încrederea în direcția pieței este scăzută" or "scorul de validitate este X%"
-- Instead of technical terms, use natural expressions like:
-  * "Nu am identificat o direcție clară" instead of "confidence is low"
-  * "Setup-ul pare solid" instead of "validity score is high"
-  * "Nu am găsit semnale clare" instead of "no clear indicators"
-  * "Piața pare să se miște..." instead of technical direction analysis
-- Include specific details about MSS, FVG, and liquidity zones if present, but explain them naturally
-- Mention the time period analyzed
-- If no clear trade setup is found, say it naturally without mentioning scores
+- Focus ONLY on the setup elements (MSS, displacement, gaps, setup type)
+- Explain what each component means for the trade potential
+- If MSS is "aggressive", explain that it means the 2-candle validation rule wasn't fully met
+- For setup types, briefly explain what they mean:
+  * OSG = One Simple Gap (basic setup)
+  * TCG = Two Consecutive Gaps (highest win rate)
+  * TG = Two Gaps (non-consecutive)
+  * SLG = Second Leg Setup (most common)
+  * 3G/3CG = Three Gaps (less reliable)
+  * MG = Multiple Gaps (not recommended)
+- Mention the timeframe analyzed naturally
 - Use a warm, helpful tone like you're talking to a friend who's learning trading
 
-Examples of natural phrasing:
-- Good: "Am analizat intervalul solicitat și am observat că..."
-- Bad: "Analiza indică un nivel de încredere scăzut..."
-- Good: "Nu am identificat un setup clar în acest interval"
-- Bad: "Scorul de validitate este 0%, ceea ce înseamnă..."
-- Good: "Piața pare să se miște lateral fără o direcție clară"
-- Bad: "Încrederea în direcția pieței este destul de scăzută"
+Examples of natural explanations:
+- "Am găsit un MSS valid care arată o schimbare de la trend ascendent la descendent"
+- "Displacement-ul este clar - o mișcare rapidă în direcția bearish"
+- "Am identificat două gap-uri consecutive, ceea ce înseamnă un TCG setup cu șanse mari de succes"
+- "MSS-ul pare agresiv pentru că nu am găsit cele 2 candele necesare pentru validare"
+- "Setup-ul SLG arată că avem un al doilea picior - cel mai frecvent setup"
 
-Write as if you're having a friendly conversation with someone who trusts your trading experience.
+Be specific about what was found and what it means for trading potential.
 """
 
     try:
@@ -2608,6 +2645,13 @@ async def handle_market_analysis_request(user_input: str) -> Dict[str, Any]:
         
         api_params = extraction_result["params"]
         
+        # SYMBOL NORMALIZATION: Handle indices (add ^) and forex pairs before API call
+        raw_symbol = api_params["symbol"]
+        normalized_symbol = normalize_symbol(raw_symbol)
+        api_params["symbol"] = normalized_symbol
+        
+        logger.info(f"🔄 SYMBOL PROCESSING: '{raw_symbol}' → '{normalized_symbol}'")
+        
         # Step 2: Build API URL and log it (TASK 3)
         symbol = api_params["symbol"]
         start_date_str = api_params["start_date"]
@@ -2631,7 +2675,7 @@ async def handle_market_analysis_request(user_input: str) -> Dict[str, Any]:
         try:
             # Use the existing market data service
             market_data_service = MarketDataService()
-            market_analysis_service = MarketAnalysisService()
+            setup_analysis_service = SetupAnalysisService()
             
             # Get candles using existing service
             candle_response = await market_data_service.get_candles(
@@ -2643,13 +2687,20 @@ async def handle_market_analysis_request(user_input: str) -> Dict[str, Any]:
                 timeframe=timeframe
             )
             
-            # Analyze market structure
-            market_structure = market_analysis_service.analyze_market_structure(candle_response.candles)
+            # Analyze trading setup using the new focused approach
+            setup_analysis = setup_analysis_service.analyze_setup(candle_response.candles)
             
-            # Convert to assistant format
-            from models.assistant_contract import AssistantContract
-            assistant_contract = AssistantContract.from_market_structure(market_structure)
-            structured_response = assistant_contract.model_dump()
+            # Format the analysis output
+            formatted_output = setup_analysis_service.format_analysis_output(setup_analysis)
+            
+            # Prepare structured response
+            structured_response = {
+                "setup_analysis": setup_analysis,
+                "formatted_analysis": formatted_output,
+                "candle_count": len(candle_response.candles),
+                "timeframe_analyzed": f"{start_dt.isoformat()} to {end_dt.isoformat()}",
+                "symbol": symbol
+            }
             
             # Fix datetime serialization issues (convert datetime objects to strings)
             def serialize_datetime(obj):
@@ -2733,3 +2784,67 @@ async def analyze_market_endpoint(request: Request, query: TextQuery):
             "error": str(e),
             "sources": []
         }
+
+# Add symbol normalization function before the bridge functions
+
+def normalize_symbol(raw_symbol: str) -> str:
+    """
+    Normalize trading symbols for the FMP API.
+    
+    Rules:
+    1. Add ^ prefix to index symbols that need it
+    2. Normalize forex pairs (remove slashes)
+    3. Handle common aliases for indices
+    4. Preserve existing ^ prefix
+    """
+    INDEX_MAP = {
+        "GDAXI": "^GDAXI",
+        "IXIC":  "^IXIC", 
+        "DJI":   "^DJI",
+        "FTSE":  "^FTSE",
+        "GER30": "^GDAXI",
+        "DAX":   "^GDAXI",
+        "NASDAQ": "^IXIC",
+        "NASDAQ COMPOSITE": "^IXIC",
+        "US30":  "^DJI",
+        "DOW":   "^DJI",
+        "UK100": "^FTSE",
+        "FTSE 100": "^FTSE",
+    }
+
+    FOREX_NORMAL = {
+        "GBP/USD": "GBPUSD",
+        "EUR/USD": "EURUSD",
+        "USD/JPY": "USDJPY",
+        "USD/CHF": "USDCHF",
+        "AUD/USD": "AUDUSD",
+        "NZD/USD": "NZDUSD",
+        "EUR/GBP": "EURGBP",
+        "EUR/JPY": "EURJPY",
+        "USD/CAD": "USDCAD",
+        "GBP-USD": "GBPUSD",
+        "EUR-USD": "EURUSD",
+        # Add more forex pairs as needed
+    }
+    
+    s = raw_symbol.strip().upper()
+    
+    # Handle forex aliases first
+    if s in FOREX_NORMAL:
+        logger.info(f"🔄 FOREX NORMALIZATION: {raw_symbol} → {FOREX_NORMAL[s]}")
+        return FOREX_NORMAL[s]
+    
+    # Preserve existing caret
+    if s.startswith("^"):
+        logger.info(f"🔄 CARET PRESERVED: {raw_symbol} → {s}")
+        return s
+    
+    # Add caret for recognised indices
+    if s in INDEX_MAP:
+        normalized = INDEX_MAP[s]
+        logger.info(f"🔄 INDEX NORMALIZATION: {raw_symbol} → {normalized}")
+        return normalized
+    
+    # Otherwise pass through unchanged
+    logger.info(f"🔄 SYMBOL UNCHANGED: {raw_symbol} → {s}")
+    return s
