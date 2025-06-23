@@ -42,6 +42,10 @@ from services.market_analysis import MarketAnalysisService
 # Import the improved retrieval function
 from improved_retrieval import retrieve_lesson_content
 
+# Add imports at the top for the new functionality
+import re
+from typing import Tuple
+
 settings = get_settings()
 
 # Configure logging
@@ -2213,7 +2217,10 @@ Exemplu pentru întrebări despre ore de tranzacționare:
             async with openai_call_limiter:
                 completion = await client.chat.completions.create(
                     model=COMPLETION_MODEL,
-                    messages=messages,
+                    messages=[
+                        {"role": "system", "content": "You are a friendly, experienced trading colleague from Romania. Speak naturally and conversationally like you're explaining analysis to a trusted friend. NEVER use technical scores, percentages, or robotic phrases. Be warm, helpful, and human in your explanations."},
+                        {"role": "user", "content": conversion_prompt}
+                    ],
                     temperature=0.3,
                     max_tokens=1000
                 )
@@ -2385,3 +2392,344 @@ async def health_check():
     return Response(content=json.dumps(status, ensure_ascii=False),
                 media_type="application/json",
                 status_code=http_status_code)
+
+# --- LLM-Based Input Processing Bridge (TASK 1) ---
+async def process_user_input_to_api_params(user_input: str) -> Dict[str, Any]:
+    """
+    Convert user natural language input into correct API format for FMP service.
+    Uses LLM to extract symbol, start_date, end_date, and timeframe.
+    """
+    # Log the original user input (TASK 3)
+    logger.info(f"🔵 USER INPUT: {user_input}")
+    
+    # LLM prompt template for parameter extraction
+    extraction_prompt = f"""Extract the trading parameters from this user input: "{user_input}"
+
+IMPORTANT: Convert dates to the format YYYY-MM-DDTHH:MM:SS
+- If only date is provided, use T00:00:00 for start time and T23:59:59 for end time
+- If specific times are provided, use those times
+- If year is not provided, assume current year (2024)
+- Convert month names to numbers and ensure DD-MM-YYYY format is converted to YYYY-MM-DD
+- For time ranges like "10:15 pana la 10:30", use the start time for start_date and end time for end_date
+- If "azi" (today) is mentioned, use today's date
+
+Examples of date conversions:
+- "June 21" → "2024-06-21T00:00:00" and "2024-06-21T23:59:59"
+- "16-03-2024" → "2024-03-16T00:00:00" 
+- "16-03-2024 de la 10:15 pana la 10:30" → start: "2024-03-16T10:15:00", end: "2024-03-16T10:30:00"
+- "azi" or "today" → use current date
+
+Return only a JSON object with these exact keys:
+{{
+  "symbol": "EURUSD",
+  "start_date": "2024-06-21T00:00:00",
+  "end_date": "2024-06-22T23:59:59",
+  "timeframe": "1min"
+}}
+
+Examples:
+- "analyze EURUSD from June 21 to June 22" → {{"symbol": "EURUSD", "start_date": "2024-06-21T00:00:00", "end_date": "2024-06-22T23:59:59", "timeframe": "1min"}}
+- "analizeaza EUR/USD pentru 16-03-2024 de la 10:15 pana la 10:30" → {{"symbol": "EURUSD", "start_date": "2024-03-16T10:15:00", "end_date": "2024-03-16T10:30:00", "timeframe": "1min"}}
+"""
+
+    try:
+        # Ensure we have a valid client
+        client = await ensure_valid_client()
+        
+        async with openai_call_limiter:
+            completion = await client.chat.completions.create(
+                model=TEXT_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a trading parameter extraction expert. Return only valid JSON. Pay special attention to date and time conversion."},
+                    {"role": "user", "content": extraction_prompt}
+                ],
+                temperature=0.1,
+                max_tokens=300
+            )
+        
+        response_text = completion.choices[0].message.content.strip()
+        logger.info(f"🔵 LLM EXTRACTION RESPONSE: {response_text}")
+        
+        # Extract JSON from response
+        json_match = re.search(r'\{[^{}]*\}', response_text)
+        if json_match:
+            import json
+            extracted_params = json.loads(json_match.group())
+            
+            # Log extracted parameters (TASK 3)
+            logger.info(f"🟢 EXTRACTED PARAMETERS: {extracted_params}")
+            
+            # Validate required fields
+            required_fields = ['symbol', 'start_date', 'end_date']
+            if all(field in extracted_params for field in required_fields):
+                # Validate date formats (TASK 4 - Fix Date Formatting Bug)
+                try:
+                    from datetime import datetime
+                    start_dt = datetime.fromisoformat(extracted_params['start_date'])
+                    end_dt = datetime.fromisoformat(extracted_params['end_date'])
+                    
+                    # Log the parsed dates for verification (TASK 3)
+                    logger.info(f"🟢 PARSED DATES - Start: {start_dt}, End: {end_dt}")
+                    
+                    # Ensure end date is not before start date
+                    if end_dt < start_dt:
+                        logger.error(f"🔴 DATE VALIDATION ERROR: End date {end_dt} is before start date {start_dt}")
+                        return {
+                            "success": False,
+                            "error": "End date cannot be before start date"
+                        }
+                    
+                    # Set default timeframe if not provided
+                    if 'timeframe' not in extracted_params:
+                        extracted_params['timeframe'] = '1min'
+                    
+                    return {
+                        "success": True,
+                        "params": extracted_params
+                    }
+                    
+                except ValueError as date_error:
+                    logger.error(f"🔴 DATE PARSING ERROR: {date_error}")
+                    logger.error(f"🔴 PROBLEMATIC DATES: start='{extracted_params['start_date']}', end='{extracted_params['end_date']}'")
+                    return {
+                        "success": False,
+                        "error": f"Invalid date format: {str(date_error)}"
+                    }
+            else:
+                missing_fields = [field for field in required_fields if field not in extracted_params]
+                logger.error(f"🔴 MISSING REQUIRED FIELDS: {missing_fields}")
+                return {
+                    "success": False,
+                    "error": f"Missing required fields: {missing_fields}"
+                }
+        else:
+            logger.error(f"🔴 NO JSON FOUND IN LLM RESPONSE: {response_text}")
+            return {
+                "success": False,
+                "error": "Could not extract JSON from LLM response"
+            }
+            
+    except Exception as e:
+        logger.error(f"🔴 INPUT PROCESSING ERROR: {e}")
+        return {
+            "success": False,
+            "error": f"Input processing failed: {str(e)}"
+        }
+
+# --- LLM-Based Output Processing Bridge (TASK 2) ---
+async def process_api_response_to_natural_language(structured_data: Dict[str, Any], user_input: str) -> str:
+    """
+    Convert structured JSON response from FMP service into natural language.
+    """
+    logger.info(f"🔵 PROCESSING API RESPONSE TO NATURAL LANGUAGE")
+    logger.info(f"🔵 STRUCTURED DATA INPUT: {structured_data}")
+    
+    # LLM prompt template for natural language conversion
+    conversion_prompt = f"""Convert this structured trading analysis data into a natural, conversational summary:
+
+Original user request: "{user_input}"
+
+Structured analysis data:
+{json.dumps(structured_data, indent=2, ensure_ascii=False)}
+
+Requirements for a NATURAL and HUMAN response:
+- Write in Romanian (the user always asks in Romanian)
+- Sound like a friendly, experienced trading colleague explaining the analysis
+- Use conversational, natural language - avoid technical jargon and robotic phrases
+- NEVER mention percentage scores, validity scores, or confidence levels
+- NEVER use phrases like "încrederea în direcția pieței este scăzută" or "scorul de validitate este X%"
+- Instead of technical terms, use natural expressions like:
+  * "Nu am identificat o direcție clară" instead of "confidence is low"
+  * "Setup-ul pare solid" instead of "validity score is high"
+  * "Nu am găsit semnale clare" instead of "no clear indicators"
+  * "Piața pare să se miște..." instead of technical direction analysis
+- Include specific details about MSS, FVG, and liquidity zones if present, but explain them naturally
+- Mention the time period analyzed
+- If no clear trade setup is found, say it naturally without mentioning scores
+- Use a warm, helpful tone like you're talking to a friend who's learning trading
+
+Examples of natural phrasing:
+- Good: "Am analizat intervalul solicitat și am observat că..."
+- Bad: "Analiza indică un nivel de încredere scăzut..."
+- Good: "Nu am identificat un setup clar în acest interval"
+- Bad: "Scorul de validitate este 0%, ceea ce înseamnă..."
+- Good: "Piața pare să se miște lateral fără o direcție clară"
+- Bad: "Încrederea în direcția pieței este destul de scăzută"
+
+Write as if you're having a friendly conversation with someone who trusts your trading experience.
+"""
+
+    try:
+        # Ensure we have a valid client
+        client = await ensure_valid_client()
+        
+        async with openai_call_limiter:
+            completion = await client.chat.completions.create(
+                model=COMPLETION_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a friendly, experienced trading colleague from Romania. Speak naturally and conversationally like you're explaining analysis to a trusted friend. NEVER use technical scores, percentages, or robotic phrases. Be warm, helpful, and human in your explanations."},
+                    {"role": "user", "content": conversion_prompt}
+                ],
+                temperature=0.3,
+                max_tokens=1000
+            )
+        
+        natural_language_response = completion.choices[0].message.content.strip()
+        
+        # Log the final output (TASK 3)
+        logger.info(f"🟢 FINAL NATURAL LANGUAGE OUTPUT: {natural_language_response}")
+        
+        return natural_language_response
+        
+    except Exception as e:
+        logger.error(f"🔴 OUTPUT PROCESSING ERROR: {e}")
+        return f"Am primit datele de analiză, dar am întâmpinat o problemă la formatarea răspunsului: {str(e)}"
+
+# --- Main Bridge Function (TASK 5) ---
+async def handle_market_analysis_request(user_input: str) -> Dict[str, Any]:
+    """
+    Main bridge function that handles the complete flow:
+    User Input → LLM Processing → FMP Service → LLM Formatting → User Output
+    """
+    logger.info(f"🔵 STARTING MARKET ANALYSIS REQUEST PROCESSING")
+    logger.info(f"🔵 ORIGINAL USER INPUT: {user_input}")
+    
+    try:
+        # Step 1: Process user input to API parameters
+        extraction_result = await process_user_input_to_api_params(user_input)
+        
+        if not extraction_result["success"]:
+            logger.error(f"🔴 PARAMETER EXTRACTION FAILED: {extraction_result['error']}")
+            return {
+                "success": False,
+                "error": extraction_result["error"],
+                "natural_response": f"Nu am putut procesa cererea ta: {extraction_result['error']}"
+            }
+        
+        api_params = extraction_result["params"]
+        
+        # Step 2: Build API URL and log it (TASK 3)
+        symbol = api_params["symbol"]
+        start_date_str = api_params["start_date"]
+        end_date_str = api_params["end_date"]
+        timeframe = api_params.get("timeframe", "1min")
+        
+        # Parse dates for API call
+        from datetime import datetime
+        start_dt = datetime.fromisoformat(start_date_str)
+        end_dt = datetime.fromisoformat(end_date_str)
+        
+        # Build the complete API URL (for logging)
+        base_url = "https://financialmodelingprep.com/api/v3"
+        api_url = f"{base_url}/historical-chart/{timeframe}/{symbol}"
+        full_api_url = f"{api_url}?apikey=[HIDDEN]&from={start_dt.strftime('%Y-%m-%d %H:%M:%S')}&to={end_dt.strftime('%Y-%m-%d %H:%M:%S')}"
+        
+        # Log the complete API URL (TASK 3)
+        logger.info(f"🟡 COMPLETE API URL: {full_api_url}")
+        
+        # Step 3: Call the FMP service through our existing endpoints
+        try:
+            # Use the existing market data service
+            market_data_service = MarketDataService()
+            market_analysis_service = MarketAnalysisService()
+            
+            # Get candles using existing service
+            candle_response = await market_data_service.get_candles(
+                symbol=symbol,
+                from_date=start_dt.date(),
+                to_date=end_dt.date(),
+                from_time=start_dt.time(),
+                to_time=end_dt.time(),
+                timeframe=timeframe
+            )
+            
+            # Analyze market structure
+            market_structure = market_analysis_service.analyze_market_structure(candle_response.candles)
+            
+            # Convert to assistant format
+            from models.assistant_contract import AssistantContract
+            assistant_contract = AssistantContract.from_market_structure(market_structure)
+            structured_response = assistant_contract.model_dump()
+            
+            # Fix datetime serialization issues (convert datetime objects to strings)
+            def serialize_datetime(obj):
+                if hasattr(obj, 'isoformat'):
+                    return obj.isoformat()
+                return obj
+            
+            def fix_datetime_serialization(data):
+                if isinstance(data, dict):
+                    return {k: fix_datetime_serialization(v) for k, v in data.items()}
+                elif isinstance(data, list):
+                    return [fix_datetime_serialization(item) for item in data]
+                elif hasattr(data, 'isoformat'):  # datetime object
+                    return data.isoformat()
+                else:
+                    return data
+            
+            structured_response = fix_datetime_serialization(structured_response)
+            
+            # Log the service response (TASK 3)
+            logger.info(f"🟡 SERVICE RESPONSE: {structured_response}")
+            
+            # Step 4: Convert to natural language
+            natural_response = await process_api_response_to_natural_language(structured_response, user_input)
+            
+            # Final success response
+            return {
+                "success": True,
+                "natural_response": natural_response,
+                "structured_data": structured_response,
+                "api_params": api_params
+            }
+            
+        except Exception as api_error:
+            logger.error(f"🔴 FMP API CALL ERROR: {api_error}")
+            return {
+                "success": False,
+                "error": f"API call failed: {str(api_error)}",
+                "natural_response": f"Nu am putut obține datele de la serviciul de analiză: {str(api_error)}"
+            }
+            
+    except Exception as e:
+        logger.error(f"🔴 BRIDGE FUNCTION ERROR: {e}")
+        return {
+            "success": False,
+            "error": f"Bridge function failed: {str(e)}",
+            "natural_response": f"Am întâmpinat o problemă la procesarea cererii: {str(e)}"
+        }
+
+# Add new endpoint right after the existing endpoints, before the health check
+
+@app.post("/analyze-market", response_model=Dict[str, Any])
+@limiter.limit("10/minute")
+async def analyze_market_endpoint(request: Request, query: TextQuery):
+    """
+    New endpoint for market analysis requests using LLM bridging.
+    Handles: User Input → LLM Processing → FMP Service → LLM Formatting → User Output
+    """
+    try:
+        # Use the bridge function to handle the complete flow
+        result = await handle_market_analysis_request(query.question)
+        
+        if result["success"]:
+            return {
+                "answer": result["natural_response"],
+                "structured_data": result.get("structured_data", {}),
+                "api_params": result.get("api_params", {}),
+                "sources": [{"note": "Generated from FMP market data analysis"}]
+            }
+        else:
+            return {
+                "answer": result["natural_response"],
+                "error": result.get("error", "Unknown error"),
+                "sources": []
+            }
+            
+    except Exception as e:
+        logger.error(f"Market analysis endpoint error: {e}")
+        return {
+            "answer": f"Am întâmpinat o problemă la procesarea cererii de analiză: {str(e)}",
+            "error": str(e),
+            "sources": []
+        }

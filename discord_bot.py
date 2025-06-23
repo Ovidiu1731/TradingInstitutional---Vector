@@ -136,185 +136,145 @@ async def cache_training_examples():
         print(f"Error in cache_training_examples: {e}")
 
 def is_market_analysis_request(question: str) -> tuple[bool, dict]:
-    """Detect if the question is a market analysis request using flexible NLP approach"""
+    """
+    Detect Romanian market analysis requests using the specific template:
+    "analizeaza X de la Y pana la Z"
+    
+    This function is now simplified and focused on Romanian usage only.
+    """
     import re
     from datetime import datetime, timedelta
     
     # Clean and normalize the question
     question_lower = question.lower().strip()
     
-    # Key indicators that this is a market analysis request
-    analysis_indicators = [
-        'analizeaza', 'analiza', 'analyze', 'chart', 'grafic', 'analiza-mi', 'analizami'
-    ]
-    
-    # Check if it contains analysis indicators
-    has_analysis_indicator = any(indicator in question_lower for indicator in analysis_indicators)
-    if not has_analysis_indicator:
+    # Check for the specific Romanian pattern "analizeaza"
+    if not question_lower.startswith('analizeaza'):
         return False, {}
     
-    # Extract currency pair/instrument using flexible patterns
-    # Handle the most traded instruments in the community
+    print(f"🔍 DETECTED: Market analysis request pattern: {question}")
+    
+    # Instrument mappings for the Trading Institutional community
     instrument_mappings = {
-        # Forex pairs
-        'EURUSD': 'EURUSD',
-        'EUR/USD': 'EURUSD', 
-        'EUR-USD': 'EURUSD',
-        'GBPUSD': 'GBPUSD',
-        'GBP/USD': 'GBPUSD',
-        'GBP-USD': 'GBPUSD',
-        'GBPU/USD': 'GBPUSD',  # User's specific example
-        'GBPU-USD': 'GBPUSD',
+        # Forex pairs - most common in your community
+        'eurusd': 'EURUSD',
+        'eur/usd': 'EURUSD', 
+        'eur-usd': 'EURUSD',
+        'gbpusd': 'GBPUSD',
+        'gbp/usd': 'GBPUSD',
+        'gbp-usd': 'GBPUSD',
+        'usdjpy': 'USDJPY',
+        'usd/jpy': 'USDJPY',
+        'usdchf': 'USDCHF',
+        'usd/chf': 'USDCHF',
+        'audusd': 'AUDUSD',
+        'aud/usd': 'AUDUSD',
+        'nzdusd': 'NZDUSD',
+        'nzd/usd': 'NZDUSD',
+        'eurgbp': 'EURGBP',
+        'eur/gbp': 'EURGBP',
+        'eurjpy': 'EURJPY',
+        'eur/jpy': 'EURJPY',
+        'usdcad': 'USDCAD',
+        'usd/cad': 'USDCAD',
         
-        # Indices - map to FMP format
-        'GER30': 'GER30',
-        'GERMAN': 'GER30',
-        'DAX': 'GER30',
-        'GER': 'GER30',
-        'DE30': 'GER30',
-        'NASDAQ': 'NASDAQ',
-        'NAS100': 'NASDAQ',
-        'NAS': 'NASDAQ',
-        'US30': 'US30',
-        'DJI': 'US30',
-        'DOW': 'US30',
-        'DOWJONES': 'US30',
-        'UK100': 'UK100',
-        'FTSE': 'UK100',
-        'FTSE100': 'UK100',
-        'UKX': 'UK100',
-        'BRITISH': 'UK100',
+        # Indices - popular in your community
+        'dax': 'GER30',
+        'ger30': 'GER30',
+        'de30': 'GER30',
+        'german30': 'GER30',
+        'nasdaq': 'NASDAQ',
+        'nas100': 'NASDAQ',
+        'us30': 'US30',
+        'dow': 'US30',
+        'dowjones': 'US30',
+        'sp500': 'SPX',
+        's&p500': 'SPX',
+        'uk100': 'UK100',
+        'ftse': 'UK100',
+        'ftse100': 'UK100'
     }
     
-    # More flexible patterns to catch variations
-    currency_patterns = [
-        r'([A-Z]{3}/?[A-Z]{3})',      # GBPUSD or GBP/USD
-        r'([A-Z]{6})',                # GBPUSD
-        r'([a-z]{3}/?[a-z]{3})',      # gbpusd or gbp/usd  
-        r'([a-z]{6})',                # gbpusd
-        r'([A-Z]{2,6})',              # GER30, US30, etc.
-        r'([a-z]{2,6})',              # ger30, nasdaq, etc.
-        r'(GBPU/?USD)',               # Special case for GBPU/USD
-        r'(gbpu/?usd)',               # lowercase version
-    ]
+    # Extract instrument name from the pattern "analizeaza X de la..."
+    # Look for instrument after "analizeaza" and before "de la" or "pentru"
+    instrument_pattern = r'analizeaza\s+([a-zA-Z0-9/\-]+)(?:\s+(?:de\s+la|pentru))'
+    match = re.search(instrument_pattern, question_lower)
     
-    symbol = None
-    for pattern in currency_patterns:
-        matches = re.findall(pattern, question)
-        for match in matches:
-            candidate = match.upper().replace('-', '').replace('/', '')
-            
-            # First check direct mappings
-            if candidate in instrument_mappings:
-                symbol = instrument_mappings[candidate]
+    if not match:
+        # Fallback: look for any known instrument in the text
+        symbol = None
+        for key, value in instrument_mappings.items():
+            if key in question_lower:
+                symbol = value
                 break
-                
-            # Then check partial matches for indices
-            for key, value in instrument_mappings.items():
-                if candidate in key or key in candidate:
-                    symbol = value
-                    break
-            
-            if symbol:
-                break
-        if symbol:
-            break
+        if not symbol:
+            print(f"❌ NO INSTRUMENT FOUND in: {question}")
+            return False, {}
+    else:
+        instrument_text = match.group(1).replace('/', '').replace('-', '')
+        symbol = instrument_mappings.get(instrument_text)
+        
+        if not symbol:
+            print(f"❌ UNKNOWN INSTRUMENT: {instrument_text}")
+            return False, {}
     
-    if not symbol:
-        return False, {}  # No valid currency pair found
+    print(f"✅ EXTRACTED INSTRUMENT: {symbol}")
     
-    # Extract time ranges - be very flexible with formats
-    time_patterns = [
-        r'(\d{1,2}):(\d{2})',  # Any time format like 10:15, 9:30, etc.
-        r'(\d{1,2})\.(\d{2})',  # 10.15 format
-        r'(\d{1,2}):(\d{1,2})', # 10:5 format
-    ]
+    # Extract date and time using Romanian patterns
+    # Pattern: "de la 10:15 pana la 10:30" or "pentru 16-03-2024 de la 10:15 pana la 10:30"
     
-    times = []
-    for pattern in time_patterns:
-        matches = re.findall(pattern, question)
-        for match in matches:
-            hour, minute = match
-            # Normalize minutes to 2 digits
-            minute = minute.zfill(2)
-            times.append(f"{hour}:{minute}")
-    
-    # Extract dates - flexible date detection
-    date_patterns = [
-        r'(\d{1,2})[.-](\d{1,2})[.-](\d{4})',     # DD-MM-YYYY or DD.MM.YYYY
-        r'(\d{1,2})/(\d{1,2})/(\d{4})',           # MM/DD/YYYY or DD/MM/YYYY
-        r'(\d{4})[.-](\d{1,2})[.-](\d{1,2})',     # YYYY-MM-DD
-        r'(\d{2})[.-](\d{2})[.-](\d{4})',         # DD-MM-YYYY
-    ]
+    # First extract the date (DD-MM-YYYY format)
+    date_pattern = r'(\d{1,2})[.-](\d{1,2})[.-](\d{4})'
+    date_match = re.search(date_pattern, question)
     
     extracted_date = None
-    date_keywords = ['data', 'date', 'pentru', 'pe', 'in', 'la']
-    
-    for pattern in date_patterns:
-        match = re.search(pattern, question)
-        if match:
-            try:
-                parts = match.groups()
-                if len(parts[0]) == 4:  # YYYY format first
-                    year, month, day = parts
-                else:
-                    # Try both DD-MM-YYYY and MM-DD-YYYY
-                    day_or_month, month_or_day, year = parts
-                    
-                    # Smart date detection based on context
-                    if int(day_or_month) > 12:  # Must be day first
-                        day, month = day_or_month, month_or_day
-                    elif int(month_or_day) > 12:  # Must be month first
-                        month, day = day_or_month, month_or_day
-                    else:
-                        # Default to European format (DD-MM-YYYY) for Romanian users
-                        day, month = day_or_month, month_or_day
-                
-                extracted_date = datetime(int(year), int(month), int(day)).date()
-                break
-            except ValueError:
-                continue
-    
-    # If no date found, check for relative date keywords
-    if not extracted_date:
-        today_keywords = ['azi', 'astazi', 'today', 'vandaag']
-        yesterday_keywords = ['ieri', 'yesterday'] 
-        tomorrow_keywords = ['maine', 'mâine', 'tomorrow']
-        
-        romanian_tz = ZoneInfo("Europe/Bucharest")
-        today = datetime.now(romanian_tz).date()
-        
-        if any(keyword in question_lower for keyword in today_keywords):
-            extracted_date = today
-        elif any(keyword in question_lower for keyword in yesterday_keywords):
-            extracted_date = today - timedelta(days=1)
-        elif any(keyword in question_lower for keyword in tomorrow_keywords):
-            extracted_date = today + timedelta(days=1)
+    if date_match:
+        try:
+            day, month, year = date_match.groups()
+            extracted_date = datetime(int(year), int(month), int(day)).date()
+            print(f"✅ EXTRACTED DATE: {extracted_date}")
+        except ValueError as e:
+            print(f"❌ DATE PARSING ERROR: {e}")
+            return False, {}
+    else:
+        # If no specific date, check for "azi" (today)
+        if 'azi' in question_lower or 'astazi' in question_lower:
+            extracted_date = datetime.now().date()
+            print(f"✅ USING TODAY'S DATE: {extracted_date}")
         else:
-            # Default to today if no date specified
-            extracted_date = today
+            print(f"❌ NO DATE FOUND in: {question}")
+            return False, {}
+    
+    # Extract time range: "de la HH:MM pana la HH:MM"
+    time_pattern = r'de\s+la\s+(\d{1,2}):(\d{2})\s+pana\s+la\s+(\d{1,2}):(\d{2})'
+    time_match = re.search(time_pattern, question_lower)
+    
+    from_time = None
+    to_time = None
+    
+    if time_match:
+        start_hour, start_min, end_hour, end_min = time_match.groups()
+        from_time = f"{start_hour.zfill(2)}:{start_min}"
+        to_time = f"{end_hour.zfill(2)}:{end_min}"
+        print(f"✅ EXTRACTED TIME RANGE: {from_time} - {to_time}")
+    else:
+        print(f"❌ NO TIME RANGE FOUND in: {question}")
+        return False, {}
     
     # Build the result
     result = {
         "symbol": symbol,
         "from_date": extracted_date.strftime("%Y-%m-%d"),
-        "to_date": extracted_date.strftime("%Y-%m-%d"),
+        "to_date": extracted_date.strftime("%Y-%m-%d"),  # Same day analysis
+        "from_time": from_time,
+        "to_time": to_time,
         "timeframe": "1min"
     }
     
-    # Add times if found
-    if len(times) >= 2:
-        result["from_time"] = times[0]
-        result["to_time"] = times[1]
-    elif len(times) == 1:
-        # If only one time, assume it's the start time and add 15 minutes
-        try:
-            start_time = datetime.strptime(times[0], "%H:%M")
-            end_time = start_time + timedelta(minutes=15)
-            result["from_time"] = times[0]
-            result["to_time"] = end_time.strftime("%H:%M")
-        except:
-            pass
+    print(f"✅ MARKET ANALYSIS REQUEST DETECTED:")
+    print(f"   Symbol: {symbol}")
+    print(f"   Date: {extracted_date}")
+    print(f"   Time: {from_time} - {to_time}")
     
     return True, result
 
@@ -370,18 +330,16 @@ async def on_message(message):
                     # Check if it's a market analysis request first
                     if is_market_analysis:
                         print(f"📊 MARKET ANALYSIS REQUEST detected: {market_params}")
-                        endpoint = f"{API_BASE_URL.rstrip('/')}/candles/{market_params['symbol']}/analysis/assistant"
+                        # Use the new analyze-market endpoint with LLM bridging
+                        endpoint = f"{API_BASE_URL.rstrip('/')}/analyze-market"
                         payload = {
-                            "from_date": market_params["from_date"],
-                            "to_date": market_params["to_date"],
-                            "timeframe": market_params["timeframe"]
+                            "question": question,
+                            "session_id": f"discord-bot-{BOT_SESSION_ID}-{message.author.id}"
                         }
-                        if "from_time" in market_params and "to_time" in market_params:
-                            payload["from_time"] = market_params["from_time"]
-                            payload["to_time"] = market_params["to_time"]
                         is_image_query = False
                         image_url_for_feedback = None
-                        print(f"📊 Routing to {endpoint} with payload: {payload}")
+                        print(f"📊 NEW: Routing to LLM-based market analysis endpoint: {endpoint}")
+                        print(f"📊 Payload: {payload}")
                     # Check for image
                     elif message.attachments:
                         image_url = message.attachments[0].url
@@ -406,7 +364,8 @@ async def on_message(message):
                     
                     # Process the request and get the answer - SINGLE CALL
                     if is_market_analysis:
-                        answer = await process_request(endpoint, payload, is_image_query, "GET")
+                        # Use POST method for the new endpoint
+                        answer = await process_request(endpoint, payload, is_image_query, "POST")
                     else:
                         answer = await process_request(endpoint, payload, is_image_query)
                     
@@ -417,18 +376,16 @@ async def on_message(message):
                 # Check if it's a market analysis request first
                 if is_market_analysis:
                     print(f"📊 MARKET ANALYSIS REQUEST detected: {market_params}")
-                    endpoint = f"{API_BASE_URL.rstrip('/')}/candles/{market_params['symbol']}/analysis/assistant"
+                    # Use the new analyze-market endpoint with LLM bridging
+                    endpoint = f"{API_BASE_URL.rstrip('/')}/analyze-market"
                     payload = {
-                        "from_date": market_params["from_date"],
-                        "to_date": market_params["to_date"],
-                        "timeframe": market_params["timeframe"]
+                        "question": question,
+                        "session_id": f"discord-bot-{BOT_SESSION_ID}-{message.author.id}"
                     }
-                    if "from_time" in market_params and "to_time" in market_params:
-                        payload["from_time"] = market_params["from_time"]
-                        payload["to_time"] = market_params["to_time"]
                     is_image_query = False
                     image_url_for_feedback = None
-                    print(f"📊 Routing to {endpoint} with payload: {payload}")
+                    print(f"📊 NEW: Routing to LLM-based market analysis endpoint: {endpoint}")
+                    print(f"📊 Payload: {payload}")
                 # Check for image
                 elif message.attachments:
                     image_url = message.attachments[0].url
@@ -453,7 +410,8 @@ async def on_message(message):
                 
                 # Process the request and get the answer - SINGLE CALL
                 if is_market_analysis:
-                    answer = await process_request(endpoint, payload, is_image_query, "GET")
+                    # Use POST method for the new endpoint
+                    answer = await process_request(endpoint, payload, is_image_query, "POST")
                 else:
                     answer = await process_request(endpoint, payload, is_image_query)
 
