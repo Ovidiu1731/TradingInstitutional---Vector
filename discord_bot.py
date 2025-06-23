@@ -221,23 +221,89 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
     print(f"✅ EXTRACTED INSTRUMENT: {symbol}")
     
     # Extract date and time using Romanian patterns
-    # Pattern: "de la 10:15 pana la 10:30" or "pentru 16-03-2024 de la 10:15 pana la 10:30"
+    # Support multiple flexible formats:
+    # 1. "pentru 16-03-2024 de la 10:15 pana la 10:30" 
+    # 2. "de la 10:30 la 11:00 pentru 23 Iunie 2025"
+    # 3. "de la 10:00 la 10:15 23/06/2025"
+    # 4. "de la 10:00 la 10:15 data 23/06/2025"
+    # 5. "23/06/2025 de la 10:00 la 10:15"
+    # 6. And many other variations...
     
-    # First extract the date (DD-MM-YYYY format)
-    date_pattern = r'(\d{1,2})[.-](\d{1,2})[.-](\d{4})'
-    date_match = re.search(date_pattern, question)
+    # Romanian month names mapping
+    romanian_months = {
+        'ianuarie': 1, 'jan': 1,
+        'februarie': 2, 'feb': 2,
+        'martie': 3, 'mar': 3,
+        'aprilie': 4, 'apr': 4,
+        'mai': 5,
+        'iunie': 6, 'iun': 6,
+        'iulie': 7, 'iul': 7,
+        'august': 8, 'aug': 8,
+        'septembrie': 9, 'sep': 9,
+        'octombrie': 10, 'oct': 10,
+        'noiembrie': 11, 'nov': 11,
+        'decembrie': 12, 'dec': 12
+    }
     
+    # First extract the date - support ALL possible formats
     extracted_date = None
-    if date_match:
-        try:
-            day, month, year = date_match.groups()
-            extracted_date = datetime(int(year), int(month), int(day)).date()
-            print(f"✅ EXTRACTED DATE: {extracted_date}")
-        except ValueError as e:
-            print(f"❌ DATE PARSING ERROR: {e}")
-            return False, {}
-    else:
-        # If no specific date, check for "azi" (today)
+    
+    # Format 1: DD-MM-YYYY or DD.MM.YYYY (16-03-2024, 16.03.2024)
+    date_pattern_dmy_dash = r'(\d{1,2})[.-](\d{1,2})[.-](\d{4})'
+    
+    # Format 2: DD/MM/YYYY (23/06/2025)
+    date_pattern_dmy_slash = r'(\d{1,2})/(\d{1,2})/(\d{4})'
+    
+    # Format 3: DD Month YYYY (23 Iunie 2025)
+    date_pattern_romanian = r'(\d{1,2})\s+([a-zA-Z]+)\s+(\d{4})'
+    
+    # Format 4: YYYY-MM-DD (2025-06-23)
+    date_pattern_ymd = r'(\d{4})[.-](\d{1,2})[.-](\d{1,2})'
+    
+    # Try all date patterns
+    date_patterns = [
+        (date_pattern_dmy_dash, 'dmy_dash'),
+        (date_pattern_dmy_slash, 'dmy_slash'),
+        (date_pattern_ymd, 'ymd'),
+        (date_pattern_romanian, 'romanian')
+    ]
+    
+    for pattern, pattern_type in date_patterns:
+        match = re.search(pattern, question)
+        if match:
+            try:
+                if pattern_type == 'dmy_dash' or pattern_type == 'dmy_slash':
+                    # DD-MM-YYYY or DD/MM/YYYY
+                    day, month, year = match.groups()
+                    extracted_date = datetime(int(year), int(month), int(day)).date()
+                    print(f"✅ EXTRACTED DATE ({pattern_type}): {extracted_date}")
+                    break
+                elif pattern_type == 'ymd':
+                    # YYYY-MM-DD
+                    year, month, day = match.groups()
+                    extracted_date = datetime(int(year), int(month), int(day)).date()
+                    print(f"✅ EXTRACTED DATE (ISO): {extracted_date}")
+                    break
+                elif pattern_type == 'romanian':
+                    # DD Month YYYY
+                    day, month_name, year = match.groups()
+                    month_name_lower = month_name.lower()
+                    
+                    if month_name_lower in romanian_months:
+                        month_num = romanian_months[month_name_lower]
+                        extracted_date = datetime(int(year), month_num, int(day)).date()
+                        print(f"✅ EXTRACTED DATE (Romanian): {extracted_date}")
+                        break
+                    else:
+                        print(f"❌ UNKNOWN ROMANIAN MONTH: {month_name}")
+                        continue
+                        
+            except ValueError as e:
+                print(f"❌ DATE PARSING ERROR ({pattern_type}): {e}")
+                continue
+    
+    # If no date found, check for relative keywords
+    if not extracted_date:
         if 'azi' in question_lower or 'astazi' in question_lower:
             extracted_date = datetime.now().date()
             print(f"✅ USING TODAY'S DATE: {extracted_date}")
@@ -245,19 +311,31 @@ def is_market_analysis_request(question: str) -> tuple[bool, dict]:
             print(f"❌ NO DATE FOUND in: {question}")
             return False, {}
     
-    # Extract time range: "de la HH:MM pana la HH:MM"
-    time_pattern = r'de\s+la\s+(\d{1,2}):(\d{2})\s+pana\s+la\s+(\d{1,2}):(\d{2})'
-    time_match = re.search(time_pattern, question_lower)
+    # Extract time range - support multiple flexible formats:
+    # 1. "de la HH:MM pana la HH:MM" 
+    # 2. "de la HH:MM la HH:MM" (without "pana")
+    # 3. "HH:MM la HH:MM" (without "de la")
+    # 4. "de la HH:MM-HH:MM" (with dash)
+    time_patterns = [
+        (r'de\s+la\s+(\d{1,2}):(\d{2})\s+pana\s+la\s+(\d{1,2}):(\d{2})', 'full_pana'),
+        (r'de\s+la\s+(\d{1,2}):(\d{2})\s+la\s+(\d{1,2}):(\d{2})', 'short_la'),
+        (r'(\d{1,2}):(\d{2})\s+la\s+(\d{1,2}):(\d{2})', 'minimal'),
+        (r'de\s+la\s+(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})', 'dash_format')
+    ]
     
     from_time = None
     to_time = None
     
-    if time_match:
-        start_hour, start_min, end_hour, end_min = time_match.groups()
-        from_time = f"{start_hour.zfill(2)}:{start_min}"
-        to_time = f"{end_hour.zfill(2)}:{end_min}"
-        print(f"✅ EXTRACTED TIME RANGE: {from_time} - {to_time}")
-    else:
+    for time_pattern, time_type in time_patterns:
+        time_match = re.search(time_pattern, question_lower)
+        if time_match:
+            start_hour, start_min, end_hour, end_min = time_match.groups()
+            from_time = f"{start_hour.zfill(2)}:{start_min}"
+            to_time = f"{end_hour.zfill(2)}:{end_min}"
+            print(f"✅ EXTRACTED TIME RANGE ({time_type}): {from_time} - {to_time}")
+            break
+    
+    if not from_time or not to_time:
         print(f"❌ NO TIME RANGE FOUND in: {question}")
         return False, {}
     
