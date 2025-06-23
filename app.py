@@ -138,8 +138,8 @@ TOP_K = int(os.getenv("PINECONE_TOP_K", "7"))
 # --- Model selection ---
 EMBEDDING_MODEL = "text-embedding-ada-002"  # FIXED: Match the vector database
 VISION_MODEL = "gpt-4o"
-COMPLETION_MODEL = "gpt-4o"
-TEXT_MODEL = "gpt-3.5-turbo"
+COMPLETION_MODEL = "gpt-4o-mini"  # Switch to mini for better rate limits
+TEXT_MODEL = "gpt-4o-mini"  # For text extraction and parameter processing
 
 # --- Cache for Vision Model results ---
 vision_results_cache = cachetools.TTLCache(maxsize=500, ttl=3600)  # 1-hour TTL, store up to 500 results
@@ -2555,13 +2555,22 @@ async def process_api_response_to_natural_language(structured_data: Dict[str, An
     logger.info(f"🔵 PROCESSING API RESPONSE TO NATURAL LANGUAGE")
     logger.info(f"🔵 STRUCTURED DATA INPUT: {structured_data}")
     
+    # Extract only the essential analysis data (no raw candles)
+    analysis_summary = {
+        "setup_analysis": structured_data.get("setup_analysis", {}),
+        "formatted_analysis": structured_data.get("formatted_analysis", ""),
+        "candle_count": structured_data.get("candle_count", 0),
+        "timeframe_analyzed": structured_data.get("timeframe_analyzed", ""),
+        "symbol": structured_data.get("symbol", "")
+    }
+    
     # LLM prompt template for natural language conversion
     conversion_prompt = f"""Convert this trading setup analysis into a natural, conversational summary based on Romanian institutional trading methodology:
 
 Original user request: "{user_input}"
 
 Setup analysis data:
-{json.dumps(structured_data, indent=2, ensure_ascii=False)}
+{json.dumps(analysis_summary, indent=2, ensure_ascii=False)}
 
 Focus on explaining the SETUP ANALYSIS specifically:
 1. MSS (Market Structure Shift) - whether it's valid or aggressive, and what type
