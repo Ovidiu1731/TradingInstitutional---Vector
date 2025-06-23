@@ -2806,9 +2806,13 @@ def normalize_symbol(raw_symbol: str) -> str:
         "DAX":   "^GDAXI",
         "NASDAQ": "^IXIC",
         "NASDAQ COMPOSITE": "^IXIC",
+        "NQ": "^IXIC",
+        "NAS100": "^IXIC",
+        "NQ100": "^IXIC",
         "US30":  "^DJI",
         "DOW":   "^DJI",
         "UK100": "^FTSE",
+        "UK": "^FTSE",
         "FTSE 100": "^FTSE",
     }
 
