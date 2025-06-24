@@ -2174,8 +2174,10 @@ async def ask_question(query: TextQuery):
             
             # Generate answer using OpenAI - Create context-aware system prompt
             is_liquidity_question = any(term in question.lower() for term in ['lichiditate', 'liquidity', 'hod', 'lod', 'major', 'local', 'minor'])
+            is_sessions_question = any(term in question.lower() for term in ['sesiuni', 'session', 'londra', 'london', 'new york', 'ny', 'tokyo', 'sydney', 'tranzactionare', 'trading hours', 'ore'])
             
-            base_system_prompt = SYSTEM_PROMPT_CORE + """
+            # Clean base system prompt without hardcoded information
+            base_system_prompt = """You are a professional AI assistant helping students from the Trading Instituțional community. You answer only in Romanian. Your responses must be clear, short, and direct, based strictly on the official course materials taught by Rareș. Do not add general trading theory, made-up examples, or content outside the course materials.
 
 Instrucțiuni pentru răspunsuri:
 1. Răspunde în română, fii concis dar complet
@@ -2185,9 +2187,10 @@ Instrucțiuni pentru răspunsuri:
 5. Folosește un ton natural, ca al unui coleg de trading cu experiență
 6. Nu adăuga informații care nu sunt prezente în contextul furnizat
 7. Concentrează-te pe întrebarea specifică și răspunde doar pe baza materialului disponibil
+8. Nu folosi informații din afara contextului furnizat, chiar dacă le cunoști din alte surse
 """
 
-            # Only add liquidity-specific guidance if the question is about liquidity
+            # Add specific guidance only when relevant
             if is_liquidity_question:
                 liquidity_guidance = """
 
@@ -2196,22 +2199,42 @@ Ghid pentru tipurile de lichiditate (DOAR dacă sunt menționate în context):
 - Lichiditatea Majoră: Cea mai profitabilă, marcată pe TF 15m în zonele extreme, mai rar întâlnită
 - Lichiditatea Locală: Marcată pe TF 1m-5m, nu la fel de puternică ca cea majoră
 - Lichiditatea Minoră: Susține trendul, necesită experiență pentru identificare
-
-IMPORTANT - Ore de tranzacționare (DOAR pentru întrebări despre ore):
-- 10:15-12:00 (Londra): Pentru execuția HOD/LOD
-- După 12:00: Trecerea la lichidități (la fel de valid și profitabil)
-- 16:45-19:00 (NY): Pentru execuția HOD/LOD
-- ORE VALIDE: Întreaga zi (inclusiv 12:00-16:15), doar evită calibrările
-- INTERVALE DE EVITAT: 09:45-10:15 și 16:15-16:45 (calibrare algoritmi)
-- LUNCH HOUR: 19:00-20:00 (recomandat să eviți, dar nu obligatoriu)
 """
                 system_prompt = base_system_prompt + liquidity_guidance
+            elif is_sessions_question:
+                sessions_guidance = """
+
+Ghid pentru sesiunile de tranzacționare (DOAR pe baza informațiilor din context):
+- Prezintă doar sesiunile care sunt efectiv recomandate pentru tranzacționare în program
+- Menționează clar care sesiuni NU sunt folosite și de ce
+- OBLIGATORIU: Dacă contextul menționează 12:00-16:15, TREBUIE să incluzi această informație
+- OBLIGATORIU: Dacă contextul menționează 16:45-22:00, TREBUIE să incluzi această informație  
+- Explică TOATE intervalele orare menționate în context, nu doar primul găsit
+- Dacă găsești "intervalele recomandate" cu 3-4 perioade, menționează-le pe toate
+- Nu te limita doar la 10:15-12:00 dacă există mai multe intervale în context
+- Caută în context termeni precum "intervalele recomandate", "patru intervale", "lichidități"
+"""
+                system_prompt = base_system_prompt + sessions_guidance
             else:
                 system_prompt = base_system_prompt
             
             # Create context-aware user message
             if is_liquidity_question:
                 user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să incluzi toate tipurile de lichiditate menționate în context, inclusiv HOD/LOD dacă este prezent. Prezintă informațiile într-un mod natural, fără formule robotice."
+            elif is_sessions_question:
+                # Pre-extract intervals to force AI to include them
+                intervals_found = []
+                context_lower = context_text.lower()
+                if "12:00" in context_text and "16:15" in context_text:
+                    intervals_found.append("12:00-16:15 (pentru lichidități)")
+                if "16:45" in context_text and "22:00" in context_text:
+                    intervals_found.append("16:45-22:00 (pentru lichidități)")
+                
+                intervals_reminder = ""
+                if intervals_found:
+                    intervals_reminder = f"\n\nATENȚIE: Am identificat în context următoarele intervale care TREBUIE incluse în răspuns: {', '.join(intervals_found)}"
+                
+                user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să răspunzi pe baza strict a informațiilor din context. Prezintă TOATE intervalele de tranzacționare menționate în context, nu doar primul găsit. IMPORTANT: Nu folosi expresii precum 'cea mai importantă sesiune' sau 'most important session' - prezintă neutral informațiile despre fiecare sesiune fără să faci comparații de importanță.{intervals_reminder}"
             else:
                 user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să răspunzi pe baza informațiilor din context, într-un mod natural și concis."
             

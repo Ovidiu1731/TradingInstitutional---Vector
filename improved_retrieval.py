@@ -210,6 +210,16 @@ def expand_query_terms(query):
             "zone", "levels", "sweep"
         ])
     
+    # Sessions expansions - CRITICAL for comprehensive session information
+    if any(term in query_lower for term in ["sesiuni", "session", "tranzactionare", "trading hours", "ore"]):
+        expansions.extend([
+            "sesiuni tranzactionare", "londra", "new york", "tokyo", "sydney",
+            "program zilnic", "structurarea programului", "intervale orare",
+            "10:15", "12:00", "16:15", "16:45", "19:00", "22:00",
+            "intervalele recomandate", "toate intervalele", "program trading",
+            "organizarea zilei", "structurarea zilei", "cum tranzactionez"
+        ])
+    
     return " ".join(expansions)
 
 def test_retrieval():
