@@ -2234,7 +2234,7 @@ Ghid pentru sesiunile de tranzacționare (DOAR pe baza informațiilor din contex
                 if intervals_found:
                     intervals_reminder = f"\n\nATENȚIE: Am identificat în context următoarele intervale care TREBUIE incluse în răspuns: {', '.join(intervals_found)}"
                 
-                user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să răspunzi pe baza strict a informațiilor din context. Prezintă TOATE intervalele de tranzacționare menționate în context, nu doar primul găsit. IMPORTANT: Nu folosi expresii precum 'cea mai importantă sesiune' sau 'most important session' - prezintă neutral informațiile despre fiecare sesiune fără să faci comparații de importanță.{intervals_reminder}"
+                user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să răspunzi pe baza strict a informațiilor din context. Prezintă TOATE intervalele de tranzacționare menționate în context, nu doar primul găsit. IMPORTANT: Nu folosi expresii precum 'cea mai importantă sesiune' sau 'most important session' - prezintă neutral informațiile despre fiecare sesiune fără să faci comparații de importanță.\n\nPentru intervalele orare, folosește EXACT următoarele descrieri:\n- 10:00-12:00 sau 10:15-12:00: 'pentru strategii HOD/LOD (High of the Day / Low of the Day)'\n- 12:00-16:15: 'pentru lichidități'\n- 16:45-22:00: 'pentru lichidități'\n- 19:00-20:00: 'Lunch Hour - se recomandă (dar nu este obligatoriu) să se evite tranzacționarea'\n\nNU folosi formulări precum 'nu este recomandat pentru majoritatea traderilor' pentru 19:00-20:00.{intervals_reminder}"
             else:
                 user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să răspunzi pe baza informațiilor din context, într-un mod natural și concis."
             
@@ -2255,6 +2255,28 @@ Ghid pentru sesiunile de tranzacționare (DOAR pe baza informațiilor din contex
                 )
             
             answer = completion.choices[0].message.content.strip()
+            
+            # Post-process sessions answers to fix specific issues
+            if is_sessions_question:
+                # Fix HOD/LOD description
+                if "10:00 – 12:00" in answer and "Strategii de tip" in answer:
+                    answer = answer.replace("Strategii de tip *High of the Day / Low of the Day*", "pentru strategii HOD/LOD (High of the Day / Low of the Day)")
+                if "10:15 – 12:00" in answer and not "HOD/LOD" in answer:
+                    answer = answer.replace("10:15 – 12:00", "10:15 – 12:00 pentru strategii HOD/LOD (High of the Day / Low of the Day)")
+                
+                # Fix lunch hour description - handle multiple variations
+                if "19:00 – 20:00" in answer:
+                    # Pattern 1: Full detailed version
+                    answer = answer.replace("**(19:00 – 20:00) – opțional** - Ora lansării ordinului, nu este recomandat pentru majoritatea traderilor", "**(19:00 – 20:00) – Lunch Hour** - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea")
+                    # Pattern 2: Shorter version
+                    answer = answer.replace("(19:00 – 20:00) – opțional, nu este recomandat pentru majoritatea traderilor", "(19:00 – 20:00) – Lunch Hour - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea")
+                    # Pattern 3: Current test output pattern
+                    answer = answer.replace("**(19:00 – 20:00)** – opțional, nu este recomandat pentru majoritatea traderilor din cauza execuțiilor mai proaste", "**(19:00 – 20:00) – Lunch Hour** - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea")
+                    # Pattern 4: Generic fallback
+                    if "nu este recomandat pentru majoritatea traderilor" in answer and "19:00 – 20:00" in answer:
+                        import re
+                        pattern = r'\*?\*?\(19:00 – 20:00\)\*?\*?.*?nu este recomandat pentru majoritatea traderilor[^.]*\.?'
+                        answer = re.sub(pattern, "**(19:00 – 20:00) – Lunch Hour** - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea.", answer)
             
             # Format the response
             response = {

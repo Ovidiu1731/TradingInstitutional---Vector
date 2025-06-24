@@ -106,6 +106,28 @@ Instrucțiuni pentru răspunsuri:
         
         answer = completion.choices[0].message.content.strip()
         
+        # Post-process sessions answers to fix specific issues (same as in app.py)
+        if is_sessions_question:
+            # Fix HOD/LOD description
+            if "10:00 – 12:00" in answer and "Strategii de tip" in answer:
+                answer = answer.replace("Strategii de tip *High of the Day / Low of the Day*", "pentru strategii HOD/LOD (High of the Day / Low of the Day)")
+            if "10:15 – 12:00" in answer and not "HOD/LOD" in answer:
+                answer = answer.replace("10:15 – 12:00", "10:15 – 12:00 pentru strategii HOD/LOD (High of the Day / Low of the Day)")
+            
+            # Fix lunch hour description - handle multiple variations
+            if "19:00 – 20:00" in answer:
+                # Pattern 1: Full detailed version
+                answer = answer.replace("**(19:00 – 20:00) – opțional** - Ora lansării ordinului, nu este recomandat pentru majoritatea traderilor", "**(19:00 – 20:00) – Lunch Hour** - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea")
+                # Pattern 2: Shorter version
+                answer = answer.replace("(19:00 – 20:00) – opțional, nu este recomandat pentru majoritatea traderilor", "(19:00 – 20:00) – Lunch Hour - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea")
+                # Pattern 3: Current test output pattern
+                answer = answer.replace("**(19:00 – 20:00)** – opțional, nu este recomandat pentru majoritatea traderilor din cauza execuțiilor mai proaste", "**(19:00 – 20:00) – Lunch Hour** - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea")
+                # Pattern 4: Generic fallback
+                if "nu este recomandat pentru majoritatea traderilor" in answer and "19:00 – 20:00" in answer:
+                    import re
+                    pattern = r'\*?\*?\(19:00 – 20:00\)\*?\*?.*?nu este recomandat pentru majoritatea traderilor[^.]*\.?'
+                    answer = re.sub(pattern, "**(19:00 – 20:00) – Lunch Hour** - Se recomandă (dar nu este obligatoriu) să se evite tranzacționarea.", answer)
+        
         print("\n📤 AI RESPONSE:")
         print("=" * 80)
         print(answer)
