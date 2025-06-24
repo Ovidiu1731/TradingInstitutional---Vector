@@ -2172,44 +2172,52 @@ async def ask_question(query: TextQuery):
             context_text = "\n\n".join([r["text"] for r in results])
             logging.info(f"Combined context length: {len(context_text)} characters")
             
-            # Generate answer using OpenAI
-            system_prompt = SYSTEM_PROMPT_CORE + """
+            # Generate answer using OpenAI - Create context-aware system prompt
+            is_liquidity_question = any(term in question.lower() for term in ['lichiditate', 'liquidity', 'hod', 'lod', 'major', 'local', 'minor'])
+            
+            base_system_prompt = SYSTEM_PROMPT_CORE + """
 
 Instrucțiuni pentru răspunsuri:
 1. Răspunde în română, fii concis dar complet
-2. Bazează-te strict pe informațiile furnizate
+2. Bazează-te strict pe informațiile furnizate în context
 3. IMPORTANT: Asigură-te că incluzi TOATE tipurile sau categoriile menționate în context, nu omite nimic
 4. Evită formulările robotice repetitive precum "este important să..." la sfârșitul fiecărei propoziții
 5. Folosește un ton natural, ca al unui coleg de trading cu experiență
-6. Pentru lichiditatea majoră, subliniază că este cea mai profitabilă și că se marchează pe timeframe-ul de 15m în zonele extreme
-7. Nu spune că toate tipurile de lichiditate sunt "asociate cu mișcări instituționale" - aceasta este o caracteristică comună tuturor
+6. Nu adăuga informații care nu sunt prezente în contextul furnizat
+7. Concentrează-te pe întrebarea specifică și răspunde doar pe baza materialului disponibil
+"""
 
-Ghid pentru tipurile de lichiditate:
+            # Only add liquidity-specific guidance if the question is about liquidity
+            if is_liquidity_question:
+                liquidity_guidance = """
+
+Ghid pentru tipurile de lichiditate (DOAR dacă sunt menționate în context):
 - HOD/LOD: Maximele și minimele zilei curente
 - Lichiditatea Majoră: Cea mai profitabilă, marcată pe TF 15m în zonele extreme, mai rar întâlnită
 - Lichiditatea Locală: Marcată pe TF 1m-5m, nu la fel de puternică ca cea majoră
 - Lichiditatea Minoră: Susține trendul, necesită experiență pentru identificare
 
-IMPORTANT - Ore de tranzacționare:
+IMPORTANT - Ore de tranzacționare (DOAR pentru întrebări despre ore):
 - 10:15-12:00 (Londra): Pentru execuția HOD/LOD
 - După 12:00: Trecerea la lichidități (la fel de valid și profitabil)
 - 16:45-19:00 (NY): Pentru execuția HOD/LOD
 - ORE VALIDE: Întreaga zi (inclusiv 12:00-16:15), doar evită calibrările
 - INTERVALE DE EVITAT: 09:45-10:15 și 16:15-16:45 (calibrare algoritmi)
 - LUNCH HOUR: 19:00-20:00 (recomandat să eviți, dar nu obligatoriu)
-- CRITICAL: Nu există ore "mai profitabile" - sunt doar strategii diferite pentru perioade diferite
-
-Exemple de formulări naturale:
-- În loc de: "Este important să înțelegem..."
-- Folosește: "Aceste tipuri ne ajută să...", "Fiecare tip are...", "Lichiditatea majoră oferă..."
-
-Exemplu pentru întrebări despre ore de tranzacționare:
-"Poți tranzacționa pe întreaga durată a zilei, inclusiv intervalul 12:00-16:15. În sesiunea Londra (10:15-12:00) execuți HOD/LOD, apoi după 12:00 treci la lichidități. Similar, în sesiunea NY (16:45-19:00) execuți HOD/LOD. Toate aceste perioade sunt la fel de valide și profitabile - doar că folosești strategii diferite. Evită doar intervalele de calibrare: 09:45-10:15 și 16:15-16:45."
 """
+                system_prompt = base_system_prompt + liquidity_guidance
+            else:
+                system_prompt = base_system_prompt
+            
+            # Create context-aware user message
+            if is_liquidity_question:
+                user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să incluzi toate tipurile de lichiditate menționate în context, inclusiv HOD/LOD dacă este prezent. Prezintă informațiile într-un mod natural, fără formule robotice."
+            else:
+                user_content = f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să răspunzi pe baza informațiilor din context, într-un mod natural și concis."
             
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Întrebare: {question}\n\nContext din material:\n{context_text}\n\nTe rog să incluzi toate tipurile de lichiditate menționate în context, inclusiv HOD/LOD dacă este prezent. Prezintă informațiile într-un mod natural, fără formule robotice."}
+                {"role": "user", "content": user_content}
             ]
             
             # Ensure we have a valid client
