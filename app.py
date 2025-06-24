@@ -2218,10 +2218,7 @@ Exemplu pentru întrebări despre ore de tranzacționare:
             async with openai_call_limiter:
                 completion = await client.chat.completions.create(
                     model=COMPLETION_MODEL,
-                    messages=[
-                        {"role": "system", "content": "You are a close trading buddy from Romania. Be concise and specific - talk about what you actually found in THIS analysis, not general trading theory. Avoid robotic phrases, timestamps, win rates, or generic advice. Sound natural and friendly, like you're quickly explaining what you discovered to a friend."},
-                        {"role": "user", "content": conversion_prompt}
-                    ],
+                    messages=messages,
                     temperature=0.3,
                     max_tokens=1000
                 )
