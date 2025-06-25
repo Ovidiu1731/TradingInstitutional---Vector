@@ -1,4 +1,4 @@
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timezone, timedelta
 from typing import List
 import httpx
 from fastapi import HTTPException
@@ -47,9 +47,19 @@ class MarketDataService:
         timeframe: str = "1min"
     ) -> CandleResponse:
         """Fetch candlestick data for a given symbol and date/time range."""
-        # Convert dates to timestamps
-        from_dt = datetime.combine(from_date, from_time or time.min)
-        to_dt = datetime.combine(to_date, to_time or time.max)
+        # Convert dates to timestamps (input is in UTC)
+        from_dt_utc = datetime.combine(from_date, from_time or time.min).replace(tzinfo=timezone.utc)
+        to_dt_utc = datetime.combine(to_date, to_time or time.max).replace(tzinfo=timezone.utc)
+        
+        # CRITICAL FIX: Convert UTC to ET time for FMP API
+        # FMP API expects ET time, not UTC
+        et_timezone = timezone(timedelta(hours=-5))  # EDT (UTC-5) - adjust for EST/EDT as needed
+        from_dt_et = from_dt_utc.astimezone(et_timezone)
+        to_dt_et = to_dt_utc.astimezone(et_timezone)
+        
+        # Use ET times for API call but keep UTC for filtering
+        from_dt = from_dt_utc.replace(tzinfo=None)  # Remove timezone for filtering
+        to_dt = to_dt_utc.replace(tzinfo=None)
         
         async with httpx.AsyncClient() as client:
             try:
@@ -57,8 +67,8 @@ class MarketDataService:
                     f"{self.base_url}/historical-chart/{timeframe}/{symbol}",
                     params={
                         "apikey": self.api_key,
-                        "from": from_dt.strftime("%Y-%m-%d %H:%M:%S"),
-                        "to": to_dt.strftime("%Y-%m-%d %H:%M:%S")
+                        "from": from_dt_et.strftime("%Y-%m-%d %H:%M:%S"),
+                        "to": to_dt_et.strftime("%Y-%m-%d %H:%M:%S")
                     }
                 )
                 response.raise_for_status()
@@ -66,8 +76,14 @@ class MarketDataService:
                 
                 candles = []
                 for item in data:
+                    # Parse FMP timestamp (ET time) and convert to UTC for consistency
+                    fmp_timestamp = datetime.fromisoformat(item["date"])
+                    # FMP returns ET time, convert to UTC
+                    fmp_et = fmp_timestamp.replace(tzinfo=et_timezone)
+                    fmp_utc = fmp_et.astimezone(timezone.utc).replace(tzinfo=None)
+                    
                     candle = CandleData(
-                        date=datetime.fromisoformat(item["date"].replace("Z", "+00:00")),
+                        date=fmp_utc,
                         open=float(item["open"]),
                         high=float(item["high"]),
                         low=float(item["low"]),
@@ -92,6 +108,7 @@ class MarketDataService:
                 # Log filtering results for debugging
                 import logging
                 logger = logging.getLogger(__name__)
+                logger.info(f"🕐 TIMEZONE CONVERSION: UTC {from_dt} to {to_dt} → ET {from_dt_et.strftime('%Y-%m-%d %H:%M:%S')} to {to_dt_et.strftime('%Y-%m-%d %H:%M:%S')}")
                 logger.info(f"FMP API returned {len(candles)} candles, filtered to {len(filtered_candles)} for time range {from_dt} to {to_dt}")
                 if filtered_candles:
                     logger.info(f"Chronological order: {filtered_candles[0].date} to {filtered_candles[-1].date}")
