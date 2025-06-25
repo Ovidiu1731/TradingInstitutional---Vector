@@ -53,7 +53,8 @@ class MarketDataService:
         
         # CRITICAL FIX: Convert UTC to ET time for FMP API
         # FMP API expects ET time, not UTC
-        et_timezone = timezone(timedelta(hours=-5))  # EDT (UTC-5) - adjust for EST/EDT as needed
+        # June = EDT (UTC-4), not EST (UTC-5)
+        et_timezone = timezone(timedelta(hours=-4))  # EDT (UTC-4) for summer months
         from_dt_et = from_dt_utc.astimezone(et_timezone)
         to_dt_et = to_dt_utc.astimezone(et_timezone)
         
@@ -78,7 +79,7 @@ class MarketDataService:
                 for item in data:
                     # Parse FMP timestamp (ET time) and convert to UTC for consistency
                     fmp_timestamp = datetime.fromisoformat(item["date"])
-                    # FMP returns ET time, convert to UTC
+                    # FMP returns EDT time (UTC-4), convert to UTC
                     fmp_et = fmp_timestamp.replace(tzinfo=et_timezone)
                     fmp_utc = fmp_et.astimezone(timezone.utc).replace(tzinfo=None)
                     
