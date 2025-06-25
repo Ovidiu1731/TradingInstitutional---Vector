@@ -30,6 +30,8 @@ from pydantic import BaseModel
 from openai import AsyncOpenAI, OpenAI, RateLimitError, APIError
 import pinecone
 from datetime import datetime
+from datetime import date
+from datetime import time as datetime_time
 from routers import candles
 from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -3054,4 +3056,231 @@ async def debug_market_analysis(request: Request, query: TextQuery):
             "error": str(e),
             "user_input": query.question,
             "exception_type": type(e).__name__
+        }
+
+@app.post("/debug-detailed-analysis", response_model=Dict[str, Any])
+@limiter.limit("5/minute")
+async def debug_detailed_analysis(request: Request, query: TextQuery):
+    """
+    Comprehensive debugging endpoint that shows exactly what the model is analyzing.
+    This provides step-by-step visibility into MSS, displacement, and gap analysis.
+    """
+    try:
+        user_input = query.question
+        
+        # Step 1: Parse input and show what was extracted
+        api_params = await process_user_input_to_api_params(user_input)
+        
+        debug_response = {
+            "debug_timestamp": datetime.now().isoformat(),
+            "user_input": user_input,
+            "parsed_parameters": api_params,
+            "data_retrieval": {},
+            "raw_candles": [],
+            "mss_analysis_debug": {},
+            "displacement_analysis_debug": {},
+            "gap_analysis_debug": {},
+            "final_analysis": {},
+            "ai_input_data": {},
+            "processing_steps": []
+        }
+        
+        # Step 2: Data retrieval with debugging
+        debug_response["processing_steps"].append("Starting data retrieval...")
+        
+        # Extract parameters from the correct structure
+        if not api_params.get("success", False):
+            return {"error": "Failed to parse parameters", "debug_response": debug_response}
+        
+        params = api_params["params"]
+        
+        # Normalize symbol for API
+        normalized_symbol = normalize_symbol(params.get("symbol", "GBPUSD"))
+        
+        # Parse date and time from the UTC converted parameters
+        start_dt = datetime.fromisoformat(params.get("start_date", "2025-06-24T07:00:00"))
+        end_dt = datetime.fromisoformat(params.get("end_date", "2025-06-24T08:00:00"))
+        
+        # Fetch candle data
+        candle_response = await request.app.state.market_data_service.get_candles(
+            symbol=normalized_symbol,
+            from_date=start_dt.date(),
+            to_date=end_dt.date(),
+            from_time=start_dt.time(),
+            to_time=end_dt.time(),
+            timeframe=params.get("timeframe", "1min")
+        )
+        
+        debug_response["data_retrieval"] = {
+            "symbol_requested": params.get("symbol", "GBPUSD"),
+            "symbol_normalized": normalized_symbol,
+            "time_range": f"{start_dt.isoformat()} to {end_dt.isoformat()}",
+            "candles_retrieved": len(candle_response.candles),
+            "api_url": f"https://financialmodelingprep.com/api/v3/historical-chart/{params.get('timeframe', '1min')}/{normalized_symbol}",
+            "first_candle": candle_response.candles[0].model_dump() if candle_response.candles else None,
+            "last_candle": candle_response.candles[-1].model_dump() if candle_response.candles else None,
+            "price_range": {
+                "lowest": min(c.low for c in candle_response.candles) if candle_response.candles else None,
+                "highest": max(c.high for c in candle_response.candles) if candle_response.candles else None
+            }
+        }
+        
+        debug_response["processing_steps"].append(f"Retrieved {len(candle_response.candles)} candles")
+        
+        # Step 3: Raw candle data (limited to first/last 10 for readability)
+        candles = candle_response.candles
+        if candles:
+            debug_response["raw_candles"] = {
+                "total_count": len(candles),
+                "first_10": [c.model_dump() for c in candles[:10]],
+                "last_10": [c.model_dump() for c in candles[-10:]] if len(candles) > 10 else [],
+                "sample_analysis": {
+                    "bullish_candles": sum(1 for c in candles if c.close > c.open),
+                    "bearish_candles": sum(1 for c in candles if c.close < c.open),
+                    "doji_candles": sum(1 for c in candles if c.close == c.open),
+                    "average_body_size": sum(abs(c.close - c.open) for c in candles) / len(candles),
+                    "largest_wick_up": max(c.high - max(c.open, c.close) for c in candles),
+                    "largest_wick_down": max(min(c.open, c.close) - c.low for c in candles)
+                }
+            }
+        
+        # Step 4: Setup analysis with detailed debugging
+        debug_response["processing_steps"].append("Starting setup analysis...")
+        
+        setup_analysis_service = SetupAnalysisService()
+        
+        # MSS Analysis Debug
+        debug_response["processing_steps"].append("Analyzing MSS (Market Structure Shift)...")
+        valid_highs = setup_analysis_service._find_valid_highs(candles)
+        valid_lows = setup_analysis_service._find_valid_lows(candles)
+        mss_result = setup_analysis_service._analyze_mss(candles)
+        
+        debug_response["mss_analysis_debug"] = {
+            "valid_highs_found": len(valid_highs),
+            "valid_highs_details": [
+                {
+                    "price": h["price"],
+                    "timestamp": h["timestamp"].isoformat(),
+                    "index": h["index"],
+                    "green_before": h["green_before"],
+                    "red_after": h["red_after"]
+                } for h in valid_highs
+            ],
+            "valid_lows_found": len(valid_lows),
+            "valid_lows_details": [
+                {
+                    "price": l["price"],
+                    "timestamp": l["timestamp"].isoformat(),
+                    "index": l["index"],
+                    "red_before": l["red_before"],
+                    "green_after": l["green_after"]
+                } for l in valid_lows
+            ],
+            "mss_result": mss_result
+        }
+        
+        # Displacement Analysis Debug
+        debug_response["processing_steps"].append("Analyzing displacement movements...")
+        displacement_result = setup_analysis_service._analyze_displacement(candles)
+        
+        # Find all consecutive sequences for debugging
+        consecutive_sequences = []
+        for i in range(len(candles) - 2):
+            sequence = candles[i:i+3]
+            bullish_count = sum(1 for c in sequence if c.close > c.open)
+            bearish_count = sum(1 for c in sequence if c.close < c.open)
+            
+            if bullish_count == 3 or bearish_count == 3:
+                movement_percent = ((sequence[-1].close - sequence[0].open) / sequence[0].open) * 100
+                consecutive_sequences.append({
+                    "start_index": i,
+                    "type": "bullish" if bullish_count == 3 else "bearish",
+                    "movement_percent": movement_percent,
+                    "significant": abs(movement_percent) > 0.1,
+                    "start_time": sequence[0].date.isoformat(),
+                    "end_time": sequence[-1].date.isoformat()
+                })
+        
+        debug_response["displacement_analysis_debug"] = {
+            "consecutive_sequences_found": len(consecutive_sequences),
+            "consecutive_sequences_details": consecutive_sequences,
+            "displacement_result": displacement_result
+        }
+        
+        # Gap Analysis Debug
+        debug_response["processing_steps"].append("Analyzing gaps...")
+        gap_result = setup_analysis_service._analyze_gaps(candles, displacement_result, mss_result)
+        
+        # Find all potential gaps for debugging
+        potential_gaps = []
+        for i in range(len(candles) - 2):
+            candle_1 = candles[i]
+            candle_3 = candles[i + 2]
+            
+            if candle_3.low > candle_1.high:  # Bullish gap
+                potential_gaps.append({
+                    "start_index": i,
+                    "type": "bullish_gap",
+                    "gap_size": candle_3.low - candle_1.high,
+                    "candle_1_high": candle_1.high,
+                    "candle_3_low": candle_3.low,
+                    "start_time": candle_1.date.isoformat(),
+                    "end_time": candle_3.date.isoformat()
+                })
+            elif candle_3.high < candle_1.low:  # Bearish gap
+                potential_gaps.append({
+                    "start_index": i,
+                    "type": "bearish_gap",
+                    "gap_size": candle_1.low - candle_3.high,
+                    "candle_1_low": candle_1.low,
+                    "candle_3_high": candle_3.high,
+                    "start_time": candle_1.date.isoformat(),
+                    "end_time": candle_3.date.isoformat()
+                })
+        
+        debug_response["gap_analysis_debug"] = {
+            "total_3_candle_formations": len(candles) - 2,
+            "potential_gaps_found": len(potential_gaps),
+            "potential_gaps_details": potential_gaps,
+            "gap_result": gap_result
+        }
+        
+        # Step 5: Complete analysis
+        debug_response["processing_steps"].append("Generating final analysis...")
+        full_analysis = setup_analysis_service.analyze_setup(candles)
+        formatted_output = setup_analysis_service.format_analysis_output(full_analysis)
+        
+        debug_response["final_analysis"] = {
+            "formatted_summary": formatted_output,
+            "raw_analysis": full_analysis
+        }
+        
+        # Step 6: What gets sent to AI
+        debug_response["processing_steps"].append("Preparing data for AI analysis...")
+        
+        # This is what the AI model would see
+        ai_input_data = {
+            "user_question": user_input,
+            "candle_count": len(candles),
+            "time_range": f"{candles[0].date.isoformat()} to {candles[-1].date.isoformat()}",
+            "analysis_summary": formatted_output,
+            "mss_detected": mss_result.get("detected", False),
+            "mss_type": mss_result.get("type", None),
+            "displacement_detected": displacement_result.get("detected", False),
+            "gaps_detected": gap_result.get("detected", False),
+            "gaps_count": gap_result.get("count", 0),
+            "setup_type": full_analysis.get("setup", {}).get("type", "unknown")
+        }
+        
+        debug_response["ai_input_data"] = ai_input_data
+        debug_response["processing_steps"].append("Debug analysis complete")
+        
+        return debug_response
+        
+    except Exception as e:
+        logger.error(f"Debug analysis error: {e}", exc_info=True)
+        return {
+            "error": str(e),
+            "debug_timestamp": datetime.now().isoformat(),
+            "user_input": query.question if query else "Unknown"
         }
