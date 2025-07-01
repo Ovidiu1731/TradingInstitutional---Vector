@@ -46,7 +46,7 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(candles.router)
+# candles.router removed - market analysis functionality no longer supported
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
