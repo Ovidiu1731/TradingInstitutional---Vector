@@ -494,6 +494,18 @@ def identify_query_type(question: str) -> Dict[str, Any]:
     """Identify the type of query to optimize processing."""
     question_lower = question.lower()
     
+    # Friendly/casual greetings and help questions
+    casual_greetings = [
+        "ce faci", "ce mai faci", "salut", "hello", "bună", "buna", "hey",
+        "cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face",
+        "cine esti", "cine ești", "ce esti", "ce ești", "ajutor", "help",
+        "despre ce", "ce stii", "ce știi", "ce fac aici", "cum functionezi",
+        "cum funcționezi", "la ce esti bun", "la ce ești bun", "ce servicii oferă"
+    ]
+    
+    if any(term in question_lower for term in casual_greetings):
+        return {"type": "friendly_casual", "requires_detailed_answer": False}
+    
     # Text-based educational queries
     if any(term in question_lower for term in ["ce este", "cum", "de ce", "explica", "defineste"]):
         return {"type": "educational_definition", "requires_detailed_answer": True}
@@ -533,6 +545,75 @@ def extract_json_from_text(text: str) -> Optional[str]:
 def generate_session_id() -> str:
     """Generate a unique session ID."""
     return f"session_{int(time.time())}_{hash(str(time.time())) % 10000}"
+
+def generate_friendly_response(question: str) -> str:
+    """Generate a friendly response for casual greetings and help questions."""
+    question_lower = question.lower()
+    
+    # Different friendly responses based on the type of casual question
+    if any(term in question_lower for term in ["ce faci", "ce mai faci", "salut", "hello", "bună", "buna", "hey"]):
+        return """Salut! 👋 
+
+Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut să înțelegi mai bine conceptele din cursul lui Rareș.
+
+Îți pot răspunde la întrebări despre:
+• Concepte de trading (FVG, displacement, lichiditate, etc.)
+• Sesiuni de tranzacționare și timeframe-uri
+• Strategii și setup-uri din curs
+• Termeni și definiții din trading
+
+Întreabă-mă orice despre materialul cursului! 📚"""
+
+    elif any(term in question_lower for term in ["cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face", "ajutor", "help"]):
+        return """Te pot ajuta cu următoarele:
+
+🎯 **Concepte de Trading:**
+• Explicații despre FVG, displacement, lichiditate majoră/locală
+• Înțelegerea setup-urilor (OG, TG, TCG, 3G, SLG)
+• Analiza tehnică și identificarea zonelor cheie
+
+📊 **Sesiuni și Timeframe-uri:**
+• Când și cum să tranzacționezi (Londra, New York)
+• Ce timeframe-uri să folosești pentru diferite strategii
+• Reguli despre HOD/LOD și sesiuni
+
+📚 **Materialul Cursului:**
+• Clarificări despre lecțiile din cele 11 capitole
+• Definiții și termeni din programul Trading Instituțional
+• Exemple și explicații bazate pe învățăturile lui Rareș
+
+Întreabă-mă orice! Sunt aici să te ajut să înțelegi mai bine trading-ul instituțional. 😊"""
+
+    elif any(term in question_lower for term in ["cine esti", "cine ești", "ce esti", "ce ești", "despre ce"]):
+        return """Sunt asistentul AI oficial al comunității **Trading Instituțional**! 🤖
+
+**Cine sunt:**
+• Un asistent specializat în materialul cursului lui Rareș
+• Sunt programat să răspund doar pe baza informațiilor din cele 11 capitole
+• Nu ofer sfaturi de trading sau predicții - doar educație
+
+**Ce fac:**
+• Explic conceptele din curs într-un mod clar și prietenos
+• Te ajut să înțelegi terminologia și strategiile învățate
+• Mențin conversații naturale cu memorie contextului anterior
+• Răspund doar în română, ca un coleg cu experiență
+
+**Ce NU fac:**
+• Nu dau sfaturi de investiții sau predicții
+• Nu sugerez intrări/ieșiri din poziții
+• Nu creez conținut în afara materialului oficial
+
+Sunt aici să te sprijin în parcursul tău de învățare! 📈"""
+
+    else:
+        # Generic friendly response for other casual questions
+        return """Salut! 😊
+
+Sunt asistentul AI al comunității Trading Instituțional și sunt aici să te ajut să înțelegi mai bine conceptele din cursul lui Rareș.
+
+Îmi poți pune întrebări despre orice din materialul cursului - de la concepte de bază până la strategii avansate. Mențin conversația naturală și îmi amintesc ce am discutat anterior.
+
+Cu ce te pot ajuta astăzi? 🚀"""
 
 def expand_query(query: str) -> str:
     """Expand query with trading-specific terms."""
@@ -658,7 +739,9 @@ def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
             base_prompt = f.read()
         
         # Add specific instructions based on query type
-        if query_type == "educational_definition":
+        if query_type == "friendly_casual":
+            base_prompt += "\n\nAceasta este o întrebare prietenoasă/cauzală. Răspunde într-un mod cald și prietenos, explicând cine ești și cum poți ajuta."
+        elif query_type == "educational_definition":
             base_prompt += "\n\nFocusează-te pe definițiile clare și explicațiile precise din materialul cursului."
         elif query_type == "comparison":
             base_prompt += "\n\nCompară conceptele folosind informațiile din curs și evidențiază diferențele cheie."
@@ -688,7 +771,33 @@ async def ask_question(query: TextQuery):
         query_analysis = identify_query_type(question)
         query_type = query_analysis["type"]
         
-        # Retrieve relevant content from Pinecone
+        # Handle friendly/casual queries directly without searching knowledge base
+        if query_type == "friendly_casual":
+            friendly_answer = generate_friendly_response(question)
+            
+            # Get conversation history for context
+            current_history = conversation_history.get(session_id, [])
+            if query.conversation_history:
+                current_history.extend(query.conversation_history)
+            
+            # Update conversation history
+            current_history.append({"question": question, "answer": friendly_answer})
+            conversation_history[session_id] = current_history
+            
+            return {
+                "answer": friendly_answer,
+                "session_id": session_id,
+                "query_type": query_type,
+                "sources": [],  # No sources for friendly responses
+                "context_info": {
+                    "has_conversation_context": len(current_history) > 1,
+                    "is_follow_up_question": False,
+                    "previous_topics_count": 0,
+                    "conversation_length": len(current_history)
+                }
+            }
+        
+        # Retrieve relevant content from Pinecone for educational queries
         try:
             # Expand query for better search
             expanded_query = expand_query(question)
