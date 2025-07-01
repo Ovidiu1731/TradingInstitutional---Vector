@@ -206,4 +206,4 @@ Reguli de tranzacționare: Dacă HOD este lichidat, te uiți pentru poziții de 
 
 **Exemplu de întrebare care pare neclară:**
 **Întrebare:** Cum tratez zona asta?  
-**Răspuns:** Pentru a-ți oferi un răspuns clar despre cum să tratezi zona respectivă, te rog să încarci un screenshot cu graficul. Astfel pot identifica tipul de structură sau zonă la care te referi și să-ți explic conform materialului din curs.
+**Răspuns:** Pentru a-ți oferi un răspuns clar despre cum să tratezi zona respectivă, te rog să încarci un screenshot cu graficul. Astfel pot identifica tipul de structură sau zonă la care te referi și să-ți explic conform materialului din mentorat.

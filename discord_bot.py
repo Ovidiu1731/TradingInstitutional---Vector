@@ -182,7 +182,7 @@ async def on_message(message):
 
             # Check for image attachments - inform user images are not supported
             if message.attachments:
-                await message.channel.send("Îmi pare rău, analizarea imaginilor nu mai este disponibilă. Te rog să îmi pui întrebarea în format text despre conceptele din cursul Trading Instituțional.")
+                await message.channel.send("Îmi pare rău, analizarea imaginilor nu mai este disponibilă. Te rog să îmi pui întrebarea în format text despre conceptele din mentoratul Trading Instituțional.")
                 return
             
             # Simple text-only processing

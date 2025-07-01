@@ -42,7 +42,7 @@ DOMAIN_SYNONYMS = {
     "ltf": "lower time frame",
     "tf": "time frame interval timp",
 
-    "program": ["trading institutional", "curs", "mentorat", "training", "lectii"],
+    "program": ["trading institutional", "mentorat", "training", "lectii"],
     "carti": ["recomandari carti", "literatura", "lectura", "referinte", "books", "trading in the zone", "market wizards"],
 }
 

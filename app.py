@@ -321,7 +321,7 @@ def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
     Extract and combine relevant content from Pinecone search results.
     """
     if not pinecone_results:
-        return "Nu am găsit informații relevante în materialul cursului."
+        return "Nu am găsit informații relevante în materialul mentoratului."
     
     # Combine the top results
     relevant_texts = []
@@ -346,7 +346,7 @@ def retrieve_relevant_content(question: str, pinecone_results: list) -> str:
                 relevant_texts.append(f"{context_prefix}{text_content}")
     
     if not relevant_texts:
-        return "Nu am găsit informații relevante în materialul cursului."
+        return "Nu am găsit informații relevante în materialul mentoratului."
     
     # Combine all relevant content
     combined_content = "\n\n---\n\n".join(relevant_texts)
@@ -554,15 +554,15 @@ def generate_friendly_response(question: str) -> str:
     if any(term in question_lower for term in ["ce faci", "ce mai faci", "salut", "hello", "bună", "buna", "hey"]):
         return """Salut! 👋 
 
-Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut să înțelegi mai bine conceptele din cursul lui Rareș.
+Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut să înțelegi mai bine conceptele din mentoratul lui Rareș.
 
 Îți pot răspunde la întrebări despre:
 • Concepte de trading (FVG, displacement, lichiditate, etc.)
 • Sesiuni de tranzacționare și timeframe-uri
-• Strategii și setup-uri din curs
+• Strategii și setup-uri din mentorat
 • Termeni și definiții din trading
 
-Întreabă-mă orice despre materialul cursului! 📚"""
+Întreabă-mă orice despre materialul mentoratului! 📚"""
 
     elif any(term in question_lower for term in ["cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face", "ajutor", "help"]):
         return """Te pot ajuta cu următoarele:
@@ -577,7 +577,7 @@ Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut s�
 • Ce timeframe-uri să folosești pentru diferite strategii
 • Reguli despre HOD/LOD și sesiuni
 
-📚 **Materialul Cursului:**
+📚 **Materialul Mentoratului:**
 • Clarificări despre lecțiile din cele 11 capitole
 • Definiții și termeni din programul Trading Instituțional
 • Exemple și explicații bazate pe învățăturile lui Rareș
@@ -588,12 +588,12 @@ Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut s�
         return """Sunt asistentul AI oficial al comunității **Trading Instituțional**! 🤖
 
 **Cine sunt:**
-• Un asistent specializat în materialul cursului lui Rareș
+• Un asistent specializat în materialul mentoratului lui Rareș
 • Sunt programat să răspund doar pe baza informațiilor din cele 11 capitole
 • Nu ofer sfaturi de trading sau predicții - doar educație
 
 **Ce fac:**
-• Explic conceptele din curs într-un mod clar și prietenos
+• Explic conceptele din mentorat într-un mod clar și prietenos
 • Te ajut să înțelegi terminologia și strategiile învățate
 • Mențin conversații naturale cu memorie contextului anterior
 • Răspund doar în română, ca un coleg cu experiență
@@ -609,9 +609,9 @@ Sunt aici să te sprijin în parcursul tău de învățare! 📈"""
         # Generic friendly response for other casual questions
         return """Salut! 😊
 
-Sunt asistentul AI al comunității Trading Instituțional și sunt aici să te ajut să înțelegi mai bine conceptele din cursul lui Rareș.
+Sunt asistentul AI al comunității Trading Instituțional și sunt aici să te ajut să înțelegi mai bine conceptele din mentoratul lui Rareș.
 
-Îmi poți pune întrebări despre orice din materialul cursului - de la concepte de bază până la strategii avansate. Mențin conversația naturală și îmi amintesc ce am discutat anterior.
+Îmi poți pune întrebări despre orice din materialul mentoratului - de la concepte de bază până la strategii avansate. Mențin conversația naturală și îmi amintesc ce am discutat anterior.
 
 Cu ce te pot ajuta astăzi? 🚀"""
 
@@ -701,7 +701,7 @@ def build_context_aware_prompt(query: str, context_info: Dict[str, Any], relevan
     """Build a context-aware prompt that includes conversation history."""
     base_prompt = f"""Întrebare: {query}
 
-Context relevant din cursul Trading Instituțional:
+Context relevant din mentoratul Trading Instituțional:
 {relevant_content}"""
     
     # Add conversation context if available
@@ -742,13 +742,13 @@ def _build_system_prompt(query_type: str, requires_full_analysis: bool) -> str:
         if query_type == "friendly_casual":
             base_prompt += "\n\nAceasta este o întrebare prietenoasă/cauzală. Răspunde într-un mod cald și prietenos, explicând cine ești și cum poți ajuta."
         elif query_type == "educational_definition":
-            base_prompt += "\n\nFocusează-te pe definițiile clare și explicațiile precise din materialul cursului."
+            base_prompt += "\n\nFocusează-te pe definițiile clare și explicațiile precise din materialul mentoratului."
         elif query_type == "comparison":
-            base_prompt += "\n\nCompară conceptele folosind informațiile din curs și evidențiază diferențele cheie."
+            base_prompt += "\n\nCompară conceptele folosind informațiile din mentorat și evidențiază diferențele cheie."
         elif query_type == "example_request":
-            base_prompt += "\n\nFornizează exemple concrete din materialul cursului dacă sunt disponibile."
+            base_prompt += "\n\nFornizează exemple concrete din materialul mentoratului dacă sunt disponibile."
         elif query_type == "timing_question":
-            base_prompt += "\n\nRăspunde concis la întrebarea despre timp/programare bazându-te pe informațiile din curs."
+            base_prompt += "\n\nRăspunde concis la întrebarea despre timp/programare bazându-te pe informațiile din mentorat."
         
         return base_prompt
     except Exception as e:
@@ -813,7 +813,7 @@ async def ask_question(query: TextQuery):
             
             if not pinecone_results:
                 return {
-                    "answer": "Nu am găsit informații relevante în materialul cursului pentru această întrebare. Te rog să verifici cu unul dintre mentori sau să întrebi un membru cu mai multă experiență.",
+                    "answer": "Nu am găsit informații relevante în materialul mentoratului pentru această întrebare. Te rog să verifici cu unul dintre mentori sau să întrebi un membru cu mai multă experiență.",
                     "session_id": session_id,
                     "query_type": query_type,
                     "sources": []
@@ -834,7 +834,7 @@ async def ask_question(query: TextQuery):
             
             if not relevant_content.strip():
                 return {
-                    "answer": "Nu am găsit informații relevante în materialul cursului pentru această întrebare.",
+                    "answer": "Nu am găsit informații relevante în materialul mentoratului pentru această întrebare.",
                     "session_id": session_id,
                     "query_type": query_type,
                     "sources": []
