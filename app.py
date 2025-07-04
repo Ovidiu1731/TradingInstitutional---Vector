@@ -495,7 +495,29 @@ def identify_query_type(question: str) -> Dict[str, Any]:
     import re
     question_lower = question.lower()
     
-    # Friendly/casual greetings and help questions - use word boundaries to avoid false positives
+    # FIRST: Check if this is a trading-related question even if it starts with casual words
+    # "Ce faci cu..." or "Ce faci cand..." are educational questions about trading strategy
+    trading_context_patterns = [
+        r'\bce faci cu\b', r'\bce faci cand\b', r'\bce faci când\b', r'\bce faci daca\b', r'\bce faci dacă\b',
+        r'\bce faci în\b', r'\bce faci in\b', r'\bce faci pentru\b', r'\bce faci după\b', r'\bce faci dupa\b'
+    ]
+    
+    # Check for trading-specific terms in the question
+    trading_terms = [
+        "trade", "sl", "stop loss", "tp", "take profit", "setup", "fvg", "gap", "lichiditate",
+        "displacement", "mss", "market structure", "og", "tg", "tcg", "3g", "slg", "sesiune",
+        "londra", "new york", "tranzacție", "tranzactie", "poziție", "pozitie", "entry", "exit",
+        "pauza de masa", "hod", "lod", "be", "break even", "risk management", "strategie"
+    ]
+    
+    # If question contains trading context patterns AND trading terms, it's educational
+    has_trading_context = any(re.search(pattern, question_lower) for pattern in trading_context_patterns)
+    has_trading_terms = any(term in question_lower for term in trading_terms)
+    
+    if has_trading_context and has_trading_terms:
+        return {"type": "educational_definition", "requires_detailed_answer": True}
+    
+    # SECOND: Check for pure casual greetings (short, no trading context)
     casual_greetings = [
         "ce faci", "ce mai faci", "salut", "hello", "bună ziua", "bună seara", "hey",
         "cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face",
@@ -504,8 +526,8 @@ def identify_query_type(question: str) -> Dict[str, Any]:
         "cum funcționezi", "la ce esti bun", "la ce ești bun", "ce servicii oferă"
     ]
     
-    # Use word boundaries to avoid false positives like "care este" matching "ce esti"
-    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in casual_greetings):
+    # Only treat as casual if it's a short question without trading context
+    if len(question.split()) <= 5 and any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in casual_greetings):
         return {"type": "friendly_casual", "requires_detailed_answer": False}
     
     # Text-based educational queries - use word boundaries for precise matching
