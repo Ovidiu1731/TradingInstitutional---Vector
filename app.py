@@ -492,31 +492,33 @@ async def get_system_health_metrics(request: Request, api_key: str = None):
 
 def identify_query_type(question: str) -> Dict[str, Any]:
     """Identify the type of query to optimize processing."""
+    import re
     question_lower = question.lower()
     
-    # Friendly/casual greetings and help questions
+    # Friendly/casual greetings and help questions - use word boundaries to avoid false positives
     casual_greetings = [
-        "ce faci", "ce mai faci", "salut", "hello", "bună", "buna", "hey",
+        "ce faci", "ce mai faci", "salut", "hello", "bună ziua", "bună seara", "hey",
         "cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face",
         "cine esti", "cine ești", "ce esti", "ce ești", "ajutor", "help",
         "despre ce", "ce stii", "ce știi", "ce fac aici", "cum functionezi",
         "cum funcționezi", "la ce esti bun", "la ce ești bun", "ce servicii oferă"
     ]
     
-    if any(term in question_lower for term in casual_greetings):
+    # Use word boundaries to avoid false positives like "care este" matching "ce esti"
+    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in casual_greetings):
         return {"type": "friendly_casual", "requires_detailed_answer": False}
     
-    # Text-based educational queries
-    if any(term in question_lower for term in ["ce este", "cum", "de ce", "explica", "defineste"]):
+    # Text-based educational queries - use word boundaries for precise matching
+    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["ce este", "care este", "cum", "de ce", "explica", "defineste"]):
         return {"type": "educational_definition", "requires_detailed_answer": True}
     
-    if any(term in question_lower for term in ["diferenta", "compara", "versus", "vs"]):
+    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["diferenta", "compara", "versus", "vs"]):
         return {"type": "comparison", "requires_detailed_answer": True}
     
-    if any(term in question_lower for term in ["exemplu", "exemple", "de exemplu"]):
+    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["exemplu", "exemple", "de exemplu"]):
         return {"type": "example_request", "requires_detailed_answer": True}
     
-    if any(term in question_lower for term in ["cand", "quando", "timpul", "ora", "sesiune"]):
+    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["cand", "quando", "timpul", "ora", "sesiune"]):
         return {"type": "timing_question", "requires_detailed_answer": False}
     
     # Default to general educational query
@@ -548,10 +550,11 @@ def generate_session_id() -> str:
 
 def generate_friendly_response(question: str) -> str:
     """Generate a friendly response for casual greetings and help questions."""
+    import re
     question_lower = question.lower()
     
-    # Different friendly responses based on the type of casual question
-    if any(term in question_lower for term in ["ce faci", "ce mai faci", "salut", "hello", "bună", "buna", "hey"]):
+    # Different friendly responses based on the type of casual question - use word boundaries
+    if any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["ce faci", "ce mai faci", "salut", "hello", "bună ziua", "bună seara", "hey"]):
         return """Salut! 👋 
 
 Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut să înțelegi mai bine conceptele din mentoratul lui Rareș.
@@ -564,7 +567,7 @@ Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut s�
 
 Întreabă-mă orice despre materialul mentoratului! 📚"""
 
-    elif any(term in question_lower for term in ["cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face", "ajutor", "help"]):
+    elif any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["cu ce ma poti ajuta", "cu ce mă poți ajuta", "ce poti face", "ce poți face", "ajutor", "help"]):
         return """Te pot ajuta cu următoarele:
 
 🎯 **Concepte de Trading:**
@@ -584,7 +587,7 @@ Sunt asistentul AI al comunității Trading Instituțional, creat să te ajut s�
 
 Întreabă-mă orice! Sunt aici să te ajut să înțelegi mai bine trading-ul instituțional. 😊"""
 
-    elif any(term in question_lower for term in ["cine esti", "cine ești", "ce esti", "ce ești", "despre ce"]):
+    elif any(re.search(r'\b' + re.escape(term) + r'\b', question_lower) for term in ["cine esti", "cine ești", "ce esti", "ce ești", "despre ce"]):
         return """Sunt asistentul AI oficial al comunității **Trading Instituțional**! 🤖
 
 **Cine sunt:**
