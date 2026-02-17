@@ -14,14 +14,11 @@ import uuid
 import sys
 import logging
 
-# Configure logging
+# Configure logging - stdout only (no file logging for Railway compatibility)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('discord_bot.log'),
-        logging.StreamHandler(sys.stdout)
-    ]
+    stream=sys.stdout
 )
 logger = logging.getLogger(__name__)
 
