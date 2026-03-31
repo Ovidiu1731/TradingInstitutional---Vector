@@ -140,19 +140,8 @@ def retrieve_lesson_content(query, chapter=None, lesson=None, top_k=5):
         return []
 
 def get_dynamic_threshold(query):
-    """Get dynamic threshold based on query type and complexity."""
-    query_lower = query.lower()
-    
-    # FIXED: Much lower thresholds based on diagnostic data
-    # With ada-002, we get scores 0.80-0.95 for good matches
-    if any(term in query_lower for term in ["mss", "market structure", "structura"]):
-        return 0.75  # MSS queries - expect high scores with ada-002
-    elif any(term in query_lower for term in ["liq", "lichidit", "lichiditate"]):
-        return 0.80  # Liquidity queries - should get very high scores
-    elif any(term in query_lower for term in ["setup", "fvg", "gap"]):
-        return 0.75  # Technical setups
-    else:
-        return 0.70  # Default threshold - much higher with ada-002
+    """Get dynamic threshold from environment settings."""
+    return float(os.getenv("PINECONE_MIN_SCORE", "0.50"))
 
 def calculate_content_quality(text):
     """Calculate content quality score to prioritize complete explanations."""
