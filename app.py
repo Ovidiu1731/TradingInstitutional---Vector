@@ -122,7 +122,7 @@ MIN_SCORE = float(os.getenv("PINECONE_MIN_SCORE", "0.70"))
 TOP_K = int(os.getenv("PINECONE_TOP_K", "7"))
 
 # --- Model selection ---
-EMBEDDING_MODEL = "text-embedding-ada-002"  # FIXED: Match the vector database
+EMBEDDING_MODEL = "text-embedding-3-small"  # FIXED: Match the vector database
 COMPLETION_MODEL = "gpt-4o-mini"  # Switch to mini for better rate limits
 TEXT_MODEL = "gpt-4o-mini"  # For text processing
 
